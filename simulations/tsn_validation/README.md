@@ -14,17 +14,15 @@ simulations/
 │   └── mc03_time_aware_shaper/
 │   └── mc04_clock_drift_gptp_tas/
 │   └── mc05_asynchronous_traffic_shaper/
+│   └── mc06_per_stream_filtering_policing/
 └── results/
     └── MC01/
     └── MC02/
     └── MC03/
     └── MC04/
     └── MC05/
+    └── MC06/
 ```
-
-- The NED files and scenario configuration are located in [`./mc01_pcp_strict_priority`](./mc01_pcp_strict_priority).
-- Configurations are selected through `simulations/omnetpp.ini`.
-- Generated results are stored in `../results/MC01`.
 
 ## MC01 — VLAN/PCP and Strict Priority
 
@@ -174,4 +172,30 @@ The base and high-CIR configurations produced approximately 10.5 and 20.67 Mbit/
 With `maxResidenceTime = 2 ms`, the aggressive filter received 240 packets, forwarded 63, and discarded 177 (`73.75%`). The reference stream still delivered all 96 packets without drops and maintained a mean lifetime between 114.264 and 133.744 µs across the ATS configurations, demonstrating per-stream isolation even though both streams shared TC1.
 
 The aggressive offered load intentionally exceeds its configured CIR and the queues are unlimited, so backlog and latency growth without a residence-time limit are expected. Lifetime statistics include only packets received before the 50 ms simulation ended. Multihop ATS, admission control, analytical worst-case bounds, and interactions with TAS, CBS, or frame preemption are outside the scope of this scenario.
+
+## MC06 — Per-Stream Filtering and Policing (PSFP)
+
+MC06 validates IEEE 802.1Qci per-stream filtering and policing by correlating stream identification, token-meter state, green/red classification, ingress drops, shared-queue behavior, and the end-to-end latency of the protected stream.
+
+The scenario files are located in `./mc06_per_stream_filtering_policing`, and the generated results are stored in `../results/MC06`.
+
+Two streams share TC1 and the same 100 Mbit/s switch output link. UDP destination ports identify the streams at the sources, PCP values encode them on Ethernet, and the switch decodes their stream names before classification. Each stream then follows an independent `gate → SingleRateTwoColorMeter → LabelFilter` path. The meter assigns green or red labels according to CIR and CBS, while the filter discards red packets.
+
+Three configurations are compared:
+
+* `MC06NoPsfp`: the monitored source overruns the shared link without ingress policing.
+* `MC06PsfpHealthy`: both streams remain within their contracts with PSFP enabled.
+* `MC06PsfpFaulty`: the monitored source offers approximately 133.33 Mbit/s against a 40 Mbit/s CIR, simulating a babbling-idiot source.
+
+### Results
+
+When both sources were conformant, the healthy stream forwarded `120/120` packets and the monitored stream forwarded `229/229`, with no filter drops.
+
+During the source-overrun experiment, the monitored-stream filter discarded `562` of approximately `800` packets (`70.25%`) and forwarded approximately `238`. The resulting payload throughput was about `39.67 Mbit/s`, closely matching its configured `40 Mbit/s` CIR. The healthy-stream filter discarded no packets.
+
+Without PSFP, only `75/120` healthy packets reached the receiver by the end of the 50 ms simulation, and their mean packet lifetime increased to `9.5124 ms`. With PSFP enabled during the same failure, all `120/120` healthy packets arrived and their mean lifetime fell to `107.524 µs`, nearly identical to the conformant PSFP case (`107.82 µs`). This represents a `98.87%` reduction relative to the unprotected case.
+
+The shared queue confirmed the isolation effect: without PSFP, it had already accumulated approximately `23` packets after 4 ms and exceeded `1.1 ms` of queueing time. With PSFP, it remained near `0–1` packet after the initial transient.
+
+The scenario validates that INET 4.7.0 can identify, meter, mark, and discard traffic independently per stream before it reaches a shared egress queue. Its scope is limited to one switch, always-open stream gates, an unbounded egress queue, and two-color policing. Timed stream gates, three-color marking, maximum-SDU filtering, multihop PSFP, and dynamic reconfiguration are outside the scenario.
 
