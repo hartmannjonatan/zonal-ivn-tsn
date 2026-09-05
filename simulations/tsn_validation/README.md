@@ -13,11 +13,13 @@ simulations/
 │   └── mc02_credit_based_shaper/
 │   └── mc03_time_aware_shaper/
 │   └── mc04_clock_drift_gptp_tas/
+│   └── mc05_asynchronous_traffic_shaper/
 └── results/
     └── MC01/
     └── MC02/
     └── MC03/
     └── MC04/
+    └── MC05/
 ```
 
 - The NED files and scenario configuration are located in [`./mc01_pcp_strict_priority`](./mc01_pcp_strict_priority).
@@ -138,4 +140,38 @@ The TC1 queueing delay at `switch2` began increasing at approximately 0.95 secon
 With gPTP, the residual clock error remained within a few nanoseconds, the gates at both switches remained aligned, the TC1 queueing delay was zero, and the packet lifetime returned to `61.75 µs` with zero variation. Synchronization intervals of 250 µs, 1 ms, and 5 ms produced the same deterministic traffic behavior for the drift and GCL used in this scenario.
 
 The scenario confirms that unsynchronized clock drift can move packets outside downstream TAS windows, forcing them to wait for later cycles. It also validates gPTP as the required time base for deterministic multi-hop TAS in the project. The gPTP tree is configured manually because the INET model does not implement BMCA and supports only two-step synchronization; therefore, the experiment does not represent dynamic grandmaster selection or all hardware timestamping uncertainties.
+
+## MC05 — Asynchronous Traffic Shaping (ATS)
+
+MC05 validates IEEE 802.1Qcr asynchronous traffic shaping by correlating per-stream token state, eligibility time, egress release, queue growth, packet lifetime, and residence-time drops.
+
+The scenario files are located in `./mc05_asynchronous_traffic_shaper`, and the generated results are stored in `../results/MC05`.
+
+Two bursty streams share the same TC1 output queue. Each stream has an independent ingress `EligibilityTimeMeter` and `EligibilityTimeFilter`, while the egress uses a shared `EligibilityTimeQueue` and `EligibilityTimeGate`.
+
+Five configurations are compared:
+
+* `MC05NoAts`: eligibility-time metering and gating are disabled.
+* `MC05AtsBase`: ATS with an aggressive-stream CIR of 10.46 Mbit/s.
+* `MC05AtsHighCir`: the aggressive-stream CIR is increased to 20.92 Mbit/s.
+* `MC05AtsLargeBurst`: the committed burst size is increased.
+* `MC05AtsResidence2ms`: packets exceeding a 2 ms residence-time limit are discarded.
+
+### Results
+
+The independent token traces confirmed per-stream metering. In the base configuration, the remaining eligibility time reached approximately 800 µs, matching the expected spacing for a frame of about 1 kB at 10.46 Mbit/s. The queue and gate released packets only when their eligibility time was reached.
+
+| Configuration         | Aggressive packets received | Mean packet lifetime |
+| --------------------- | --------------------------: | -------------------: |
+| `MC05NoAts`           |                         240 |           304.736 µs |
+| `MC05AtsBase`         |                          63 |           18.2239 ms |
+| `MC05AtsHighCir`      |                         124 |           12.3175 ms |
+| `MC05AtsLargeBurst`   |                          69 |           15.6158 ms |
+| `MC05AtsResidence2ms` |                          63 |           1.62392 ms |
+
+The base and high-CIR configurations produced approximately 10.5 and 20.67 Mbit/s, respectively. Increasing the CIR reduced the final TC1 backlog from approximately 178 to 118 packets. Increasing the committed burst size released six additional packets without changing the long-term rate, confirming that CIR controls sustained traffic while burst size controls the initial allowance.
+
+With `maxResidenceTime = 2 ms`, the aggressive filter received 240 packets, forwarded 63, and discarded 177 (`73.75%`). The reference stream still delivered all 96 packets without drops and maintained a mean lifetime between 114.264 and 133.744 µs across the ATS configurations, demonstrating per-stream isolation even though both streams shared TC1.
+
+The aggressive offered load intentionally exceeds its configured CIR and the queues are unlimited, so backlog and latency growth without a residence-time limit are expected. Lifetime statistics include only packets received before the 50 ms simulation ended. Multihop ATS, admission control, analytical worst-case bounds, and interactions with TAS, CBS, or frame preemption are outside the scope of this scenario.
 
