@@ -16,6 +16,7 @@ simulations/
 │   └── mc05_asynchronous_traffic_shaper/
 │   └── mc06_per_stream_filtering_policing/
 │   └── mc07_frame_preemption/
+│   └── mc08_automatic_gate_scheduling/
 └── results/
     └── MC01/
     └── MC02/
@@ -24,6 +25,7 @@ simulations/
     └── MC05/
     └── MC06/
     └── MC07/
+    └── MC08/
 ```
 
 ## MC01 — VLAN/PCP and Strict Priority
@@ -229,4 +231,45 @@ The PCAP trace showed the initial preemptable fragment marked with `SMD-S0`, fol
 The scenario validates `EthernetPreemptingMacLayer`, its express `EthernetStreamingMacLayer`, the preemptable `EthernetFragmentingMacLayer`, and `EthernetPreemptingPhyLayer`. PCP classification directs each stream to the appropriate MAC category.
 
 The experiment uses one switch, one packet per stream, and no continuous competing traffic. It validates INET’s frame fragmentation and reassembly model but does not reproduce complete hardware MAC Merge negotiation and verification. Combining preemption with TAS or CBS requires the corresponding queues, gates, and shapers to be placed inside the express or preemptable sub-MACs; enabling preemption flags alone is not sufficient.
+
+## MC08 — Automatic Gate Scheduling
+
+MC08 validates how INET 4.7.0 converts periodic stream requirements and network topology into coordinated IEEE 802.1Qbv gate control lists before the simulation starts.
+
+The scenario is located in `simulations/tsn_validation/mc08_automatic_gate_scheduling`, with results stored in `simulations/results/MC08`.
+
+Two periodic streams traverse two 100 Mbit/s switches:
+
+| Stream     | PCP / Traffic class | Payload | Period | Maximum latency |
+| ---------- | ------------------- | ------: | -----: | --------------: |
+| Critical   | PCP 4 / TC1         |   500 B |   1 ms |          400 µs |
+| Background | PCP 0 / TC0         |  1000 B |   1 ms |          800 µs |
+
+The configurator receives the source, destination, application, PCP/gate index, complete frame length, period, maximum latency, and maximum jitter. It then calculates the source production offsets and configures the `PeriodicGate` instances along the selected route.
+
+Four feasible configurations were compared:
+
+* `MC08AlwaysOpen`: keeps all gates permanently open. It is a Strict Priority baseline and does not represent scheduled TAS.
+* `MC08Manual`: uses manually defined GCLs as a reproducible reference.
+* `MC08Eager`: uses a fast greedy heuristic. It is appropriate for simple schedules but may fail to find a solution even when one exists.
+* `MC08Z3`: solves the scheduling constraints jointly and may optimize the resulting schedule. It is better suited to tight or complex cases but requires the optional Z3 support and has a higher initialization cost.
+
+### Results
+
+Eager and Z3 generated the same schedule. The critical and background windows were respectively `44.64 µs` and `84.64 µs`, exactly matching the transmission times of the declared 558 B and 1058 B frames at 100 Mbit/s.
+
+At `switch1.eth[2]`, the critical and background gates opened at `4.514–49.154 µs` and `50.114–134.754 µs`. At `switch2.eth[1]`, they opened at `49.204–93.844 µs` and `134.804–219.444 µs`. The downstream windows start 50 ns after the corresponding upstream transmission, matching the configured propagation delay. The generated source offsets were `0 µs` for the critical stream and `41.6 µs` for the background stream.
+
+| Configuration | Critical lifetime | Background lifetime |
+| ------------- | ----------------: | ------------------: |
+| AlwaysOpen    |         93.894 µs |          219.494 µs |
+| Manual        |        104.690 µs |          284.690 µs |
+| Eager         |         93.894 µs |          177.894 µs |
+| Z3            |         93.894 µs |          177.894 µs |
+
+Eager and Z3 delivered 20 packets per sink without loss, and the observed jitter was zero. Both streams remained below their declared latency limits. AlwaysOpen also met the deadlines because this micro-scenario has deterministic and relatively light traffic; therefore, it is used only as a baseline rather than evidence of TAS scheduling.
+
+The infeasible configuration reduces both periods to `100 µs`, producing a declared aggregate load of `129.28 Mbit/s` over a `100 Mbit/s` link. Eager generates an invalid `−70.24 µs` duration, which is rejected by `PeriodicGate` during initialization. The utilization calculation independently confirms that no valid schedule exists for this configuration.
+
+This scenario validates route-aware automatic GCL generation, coordinated multi-hop windows, source-offset calculation, latency compliance, conflict avoidance, and infeasible-load detection. Eager and Z3 are INET scheduling tools rather than algorithms prescribed by IEEE 802.1Qbv. Scheduling is static and performed before simulation; runtime reconfiguration, clock drift, aperiodic traffic, and larger topologies are outside the scope of this micro-scenario.
 
