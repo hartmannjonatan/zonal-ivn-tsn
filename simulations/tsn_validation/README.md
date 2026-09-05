@@ -15,6 +15,7 @@ simulations/
 │   └── mc04_clock_drift_gptp_tas/
 │   └── mc05_asynchronous_traffic_shaper/
 │   └── mc06_per_stream_filtering_policing/
+│   └── mc07_frame_preemption/
 └── results/
     └── MC01/
     └── MC02/
@@ -22,6 +23,7 @@ simulations/
     └── MC04/
     └── MC05/
     └── MC06/
+    └── MC07/
 ```
 
 ## MC01 — VLAN/PCP and Strict Priority
@@ -198,4 +200,33 @@ Without PSFP, only `75/120` healthy packets reached the receiver by the end of t
 The shared queue confirmed the isolation effect: without PSFP, it had already accumulated approximately `23` packets after 4 ms and exceeded `1.1 ms` of queueing time. With PSFP, it remained near `0–1` packet after the initial transient.
 
 The scenario validates that INET 4.7.0 can identify, meter, mark, and discard traffic independently per stream before it reaches a shared egress queue. Its scope is limited to one switch, always-open stream gates, an unbounded egress queue, and two-color policing. Timed stream gates, three-color marking, maximum-SDU filtering, multihop PSFP, and dynamic reconfiguration are outside the scenario.
+
+## MC07 — Frame Preemption
+
+MC07 validates IEEE 802.1Qbu/802.3br frame preemption by measuring the blocking experienced when an express packet arrives during the transmission of a long preemptable packet.
+
+The scenario files are located in `./mc07_frame_preemption`, and the generated results are stored in `../results/MC07`.
+
+Two streams share the switch output link:
+
+| Traffic     | VLAN | PCP | Payload | MAC category |
+| ----------- | ---: | --: | ------: | ------------ |
+| Preemptable |    1 |   0 |  1472 B | Preemptable  |
+| Express     |    1 |   4 |    64 B | Express      |
+
+Strict Priority and frame preemption are compared with the express packet generated 20 µs, 60 µs, or 100 µs after the preemptable packet.
+
+### Results
+
+Without preemption, the express queueing time was `114.624 µs`, `74.624 µs`, and `34.624 µs` for the 20 µs, 60 µs, and 100 µs offsets. The sum of the offset and queueing time remained constant at `134.624 µs`, confirming that Strict Priority cannot interrupt a frame already being transmitted.
+
+With frame preemption, the express queueing time remained at `1.984 µs` for all three offsets. This removed `112.640 µs`, `72.640 µs`, and `32.640 µs` of blocking, corresponding to reductions of `98.27%`, `97.34%`, and `94.27%`.
+
+The express packet lifetime consequently fell from `125.460 µs`, `85.460 µs`, and `45.460 µs` to a constant `12.820 µs`. The packet counters confirmed that one express and one preemptable packet were received in every execution, with no drops or duplicate application deliveries.
+
+The PCAP trace showed the initial preemptable fragment marked with `SMD-S0`, followed by the inserted express frame and the continuation and reassembly of the interrupted frame. This confirms the complete fragmentation, insertion, and reconstruction path implemented by INET.
+
+The scenario validates `EthernetPreemptingMacLayer`, its express `EthernetStreamingMacLayer`, the preemptable `EthernetFragmentingMacLayer`, and `EthernetPreemptingPhyLayer`. PCP classification directs each stream to the appropriate MAC category.
+
+The experiment uses one switch, one packet per stream, and no continuous competing traffic. It validates INET’s frame fragmentation and reassembly model but does not reproduce complete hardware MAC Merge negotiation and verification. Combining preemption with TAS or CBS requires the corresponding queues, gates, and shapers to be placed inside the express or preemptable sub-MACs; enabling preemption flags alone is not sufficient.
 
