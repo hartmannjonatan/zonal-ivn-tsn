@@ -6,12 +6,16 @@ This directory contains minimal scenarios used to validate individual TSN mechan
 
 ```text
 simulations/
-├── omnetpp.ini
+├── ...
 ├── tsn_validation/
 │   ├── README.md
 │   └── mc01_pcp_strict_priority/
+│   └── mc02_credit_based_shaper/
+│   └── mc03_time_aware_shaper/
 └── results/
     └── MC01/
+    └── MC02/
+    └── MC03/
 ```
 
 - The NED files and scenario configuration are located in [`./mc01_pcp_strict_priority`](./mc01_pcp_strict_priority).
@@ -68,4 +72,35 @@ The credit traces showed the expected positive and negative ramps. For the 100 M
 The steady TC1 output rates were approximately 19.6, 39, and 58.8 Mbit/s for `idleSlope` values of 20, 40, and 60 Mbit/s. Without CBS, TC1 reached approximately 83.3 Mbit/s. Lower `idleSlope` values increased the TC1 backlog while releasing more output capacity to TC0.
 
 The scenario confirms that CBS controls TC1 eligibility, while Strict Priority applies whenever TC1 is eligible. The total offered load intentionally exceeds the output-link capacity and the queues are unlimited, so backlog growth is expected. TAS guard bands and frame preemption are outside the scope of this scenario.
+
+## MC03 — Manual Time-Aware Shaper (TAS)
+
+MC03 validates manual IEEE 802.1Qbv time-aware shaping by correlating gate states, queue release times, queueing delay, and end-to-end packet lifetime.
+
+The scenario files are located in `./mc03_time_aware_shaper`, and the generated results are stored in `../results/MC03`.
+
+Two sources compete for the same 100 Mbit/s switch output link:
+
+| Traffic                       | VLAN | PCP | Traffic class |
+| ----------------------------- | ---: | --: | ------------- |
+| Best effort (`sourceBe`)      |    1 |   0 | TC0           |
+| Scheduled (`sourceScheduled`) |    1 |   5 | TC1           |
+
+Seven configurations are compared:
+
+* `MC03OpenGates`: both gates remain open, resulting in Strict Priority.
+* `MC03TasManual`: 1 ms cycle with TC1 open for 100 µs and TC0 for 900 µs.
+* `MC03TasWideWindow`: the TC1 window is increased to 200 µs.
+* `MC03TasOffset250`: the schedule is shifted by 250 µs.
+* `MC03TasCycle2ms`: a 2 ms cycle with a 200 µs TC1 window.
+* `MC03TasLateArrival`: TC1 packets arrive immediately after their window closes.
+* `MC03TasNoGuardBand`: the implicit TC0 guard band is disabled.
+
+### Results
+
+The gate-state and queue-release traces confirmed that each class transmitted only during its configured windows. With aligned manual TAS, the average TC1 packet lifetime decreased from `52.8737 µs` with open gates to `17.48 µs`, a reduction of `66.94%`, while its standard deviation fell from `34.4676 µs` to zero.
+
+The offset and late-arrival configurations produced deterministic lifetimes of `765.78 µs` and `905.78 µs`, confirming that packets arriving outside their window wait for the next gate opening. Disabling the guard band restored the latency variation observed with open gates, demonstrating that a non-preemptive BE frame can extend into the TC1 window.
+
+The scenario validates manual GCL configuration through `initiallyOpen`, `durations`, and `offset`, as well as INET’s implicit guard-band behavior. It uses one switch and a perfect simulation clock; multi-switch synchronization, clock drift, gPTP, automatic GCL scheduling, and frame preemption are outside its scope.
 
