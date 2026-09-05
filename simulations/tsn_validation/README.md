@@ -12,10 +12,12 @@ simulations/
 │   └── mc01_pcp_strict_priority/
 │   └── mc02_credit_based_shaper/
 │   └── mc03_time_aware_shaper/
+│   └── mc04_clock_drift_gptp_tas/
 └── results/
     └── MC01/
     └── MC02/
     └── MC03/
+    └── MC04/
 ```
 
 - The NED files and scenario configuration are located in [`./mc01_pcp_strict_priority`](./mc01_pcp_strict_priority).
@@ -103,4 +105,37 @@ The gate-state and queue-release traces confirmed that each class transmitted on
 The offset and late-arrival configurations produced deterministic lifetimes of `765.78 µs` and `905.78 µs`, confirming that packets arriving outside their window wait for the next gate opening. Disabling the guard band restored the latency variation observed with open gates, demonstrating that a non-preemptive BE frame can extend into the TC1 window.
 
 The scenario validates manual GCL configuration through `initiallyOpen`, `durations`, and `offset`, as well as INET’s implicit guard-band behavior. It uses one switch and a perfect simulation clock; multi-switch synchronization, clock drift, gPTP, automatic GCL scheduling, and frame preemption are outside its scope.
+
+## MC04 — Clock Drift, gPTP, and TAS
+
+MC04 validates the dependency of multi-hop IEEE 802.1Qbv time-aware shaping on a common time base by correlating local-clock drift, gPTP synchronization, gate alignment, queueing delay, and end-to-end packet lifetime.
+
+The scenario files are located in `./mc04_clock_drift_gptp_tas`, and the generated results are stored in `../results/MC04`.
+
+A scheduled TC1 stream traverses two TAS-enabled switches. Both switches use a 1 ms cycle with a 200 µs TC1 window.
+
+| Node       | gPTP role   | Nominal oscillator drift |
+| ---------- | ----------- | -----------------------: |
+| `source`   | Grandmaster |                  +20 ppm |
+| `switch1`  | Bridge      |                  +80 ppm |
+| `switch2`  | Bridge      |                  −80 ppm |
+| `receiver` | Slave       |                  +40 ppm |
+
+Five configurations are compared:
+
+* `MC04IdealClocks`: all clocks are ideal and no synchronization is required.
+* `MC04DriftNoGptp`: independent clock drift without synchronization.
+* `MC04DriftGptp250us`: drift corrected by gPTP every 250 µs.
+* `MC04DriftGptp1ms`: drift corrected by gPTP every 1 ms.
+* `MC04DriftGptp5ms`: drift corrected by gPTP every 5 ms.
+
+### Results
+
+Without gPTP, the clock differences relative to the source reached approximately `+130 µs` at `switch1`, `−195 µs` at `switch2`, and `+42 µs` at the receiver after 2 seconds. The resulting separation between the switch clocks reached approximately `325 µs`, exceeding the 200 µs TC1 window and removing the overlap between their TAS gates.
+
+The TC1 queueing delay at `switch2` began increasing at approximately 0.95 seconds and reached about `304 µs`. The average packet lifetime increased from `61.75 µs` with ideal clocks to `246.649 µs` without gPTP, an increase of `299.4%`, with a standard deviation of `392.016 µs`.
+
+With gPTP, the residual clock error remained within a few nanoseconds, the gates at both switches remained aligned, the TC1 queueing delay was zero, and the packet lifetime returned to `61.75 µs` with zero variation. Synchronization intervals of 250 µs, 1 ms, and 5 ms produced the same deterministic traffic behavior for the drift and GCL used in this scenario.
+
+The scenario confirms that unsynchronized clock drift can move packets outside downstream TAS windows, forcing them to wait for later cycles. It also validates gPTP as the required time base for deterministic multi-hop TAS in the project. The gPTP tree is configured manually because the INET model does not implement BMCA and supports only two-step synchronization; therefore, the experiment does not represent dynamic grandmaster selection or all hardware timestamping uncertainties.
 
