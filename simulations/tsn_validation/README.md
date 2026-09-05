@@ -39,3 +39,33 @@ Two configurations are compared:
 The IEEE 802.1Q headers were verified directly in the frames. With Strict Priority, the HP queue remained between 0 and 1 packet even while the BE backlog increased. The average HP packet lifetime decreased from `1.68187 ms` with FIFO to `84.7764 µs`, a reduction of `94.96%`.
 
 The scenario confirms correct traffic classification and effective preference for HP traffic. Scheduling is non-preemptive: an HP frame must still wait for a BE frame that is already being transmitted.
+
+## MC02 — Credit-Based Shaper (CBS)
+
+MC02 validates IEEE 802.1Qav credit-based shaping and relates credit evolution, `idleSlope`/`sendSlope`, output rate, queue growth, and interference from competing best-effort traffic.
+
+The scenario files are located in `./mc02_credit_based_shaper`, and the generated results are stored in `../results/MC02`.
+
+Two sources compete for the same 100 Mbit/s switch output link:
+
+| Traffic                  | VLAN | PCP | Traffic class | Offered payload |
+| ------------------------ | ---: | --: | ------------- | --------------: |
+| Best effort (`sourceBe`) |    1 |   0 | TC0           |      100 Mbit/s |
+| Shaped (`sourceShaped`)  |    1 |   5 | TC1           |       80 Mbit/s |
+
+Five configurations are compared:
+
+* `MC02NoCbs`: TC1 uses Strict Priority without rate shaping.
+* `MC02Cbs20`: CBS with `idleSlope = 20 Mbit/s`.
+* `MC02Cbs40`: CBS with `idleSlope = 40 Mbit/s`.
+* `MC02Cbs60`: CBS with `idleSlope = 60 Mbit/s`.
+* `MC02Cbs40Sparse`: the offered shaped load is below `idleSlope`, allowing the queue to empty between packets.
+
+### Results
+
+The credit traces showed the expected positive and negative ramps. For the 100 Mbit/s output link, INET automatically calculated `sendSlope` as −80, −60, and −40 Mbit/s for the three CBS configurations. Negative credit temporarily blocked TC1, while the sparse case returned the credit to zero whenever its queue became empty.
+
+The steady TC1 output rates were approximately 19.6, 39, and 58.8 Mbit/s for `idleSlope` values of 20, 40, and 60 Mbit/s. Without CBS, TC1 reached approximately 83.3 Mbit/s. Lower `idleSlope` values increased the TC1 backlog while releasing more output capacity to TC0.
+
+The scenario confirms that CBS controls TC1 eligibility, while Strict Priority applies whenever TC1 is eligible. The total offered load intentionally exceeds the output-link capacity and the queues are unlimited, so backlog growth is expected. TAS guard bands and frame preemption are outside the scope of this scenario.
+
