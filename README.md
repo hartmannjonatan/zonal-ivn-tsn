@@ -1,140 +1,96 @@
-# Zonal IVN TSN Simulation
+# Zonal IVN TSN
 
-OMNeT++/INET simulation project for evaluating Quality of Service (QoS),
-Audio Video Bridging (AVB), and Time-Sensitive Networking (TSN) mechanisms
-in a zonal automotive in-vehicle network.
+Estrutura para implementar gradualmente o P1 atualizado: benchmark Ethernet de
+três zonas, 22 fluxos e comparação de Strict Priority, pre-shaping, CBS e TAS.
 
-The project models a zonal Ethernet-based automotive architecture with
-heterogeneous traffic, including control, sensor, audio/video, diagnostic,
-and best-effort flows. The simulations will compare different traffic
-management configurations under multiple network load conditions.
+## Estado atual
 
-## Project objectives
+Os oito microcenários INET em `simulations/tsn_validation/` estão preservados,
+com suas configurações e documentação de validação. A rede zonal ainda está
+vazia. `SmokeTest` verifica somente a estrutura; não implementa C0 nem valida P1.
+Os fragmentos novos são preparatórios e o catálogo CSV contém apenas o cabeçalho.
+Não há executor de campanha nem scripts de análise implementados.
 
-The main objectives are:
-
-- model a realistic zonal automotive network architecture;
-- define a traceable automotive traffic catalog;
-- establish a conventional Ethernet baseline;
-- evaluate IEEE 802.1Q strict priority;
-- evaluate AVB Credit-Based Shaping with standard classes;
-- evaluate custom AVB classes and idle slopes;
-- evaluate an additional TSN mechanism supported by INET;
-- analyze latency, jitter, deadline misses, link utilization, queueing,
-  throughput, and packet loss;
-- provide reproducible simulation campaigns and analysis scripts.
-
-The experimental methodology is inspired by the progression used by Navet,
-Villanueva, and Migge in their evaluation of AVB and TSN for automotive
-applications. The goal is to reproduce the methodology and qualitative
-questions in an INET-based zonal architecture, rather than reproduce their
-numerical results exactly.
-
-## Software environment
-
-The project uses the following software versions:
-
-- OMNeT++ 6.4.0
-- INET Framework 4.7.0
-
-The INET project must be imported and successfully built in the same
-OMNeT++ workspace before building this project.
-
-Qtenv is intended for model development, debugging, and visualization.
-Cmdenv will be used for automated simulation campaigns.
-
-## Repository structure
+## Estrutura
 
 ```text
-src/
-    Project-specific reusable NED and C++ modules.
-
+src/                           Componentes reutilizáveis futuros
+  applications/                Geração de tráfego, caso exija extensões
+  common/                      Identificadores, unidades e instrumentação
+  nodes/                       Futuro ZonalController (switch + CPU)
+  queueing/                    Extensões de filas, somente se necessárias
 simulations/
-    Main zonal IVN model and OMNeT++ configuration files.
-
-simulations/zonal/configs/
-    Reusable configuration fragments for topology, traffic, TSN
-    mechanisms, and result recording.
-
-simulations/zonal/traffic/
-    Input files describing traffic profiles and streams.
-
-tests/validation/
-    Minimal simulation scenarios used to validate topology, traffic
-    generation, classification, queues, and shaping mechanisms.
-
-scripts/run/
-    Scripts for executing simulation campaigns.
-
-scripts/analysis/
-    Scripts for extracting, aggregating, and plotting simulation results.
-
-docs/design/
-    Architecture, model specification, and experimental design.
-
-docs/decisions/
-    Technical decision records.
-
-docs/traffic-catalog/
-    Traffic definitions, sources, and offered-load calculations.
-
-docs/report/
-    Project report sources.
-
-docs/figures/
-    Selected figures used in the report and presentation.
-
-results/
-    Generated simulation results. This directory is not versioned.
+  omnetpp.ini                  Entrada do SmokeTest estrutural
+  run                          Launcher legado do executável local
+  tsn_validation/              MC01–MC08 preservados
+  zonal/
+    networks/                  ZonalIVN.ned (placeholder vazio)
+    configs/                   Base, recording e contratos de configuração
+      mechanisms/              Contratos C0–C4, ainda não executáveis
+    traffic/                   Esquema do catálogo e futuras entradas
+experiments/                   design.json: fatores e protocolo planejado
+tests/validation/             Reservas de testes incrementais do benchmark
+  topology/                    Conectividade, rotas e multicast
+  traffic/                     Catálogo, taxas, fases e eventos
+  classification/              VLAN/PCP→TC, SP e buffers
+  source_preshaping/            C1
+  cbs/                         C2/C3 e reservas
+  tas/                         C4 e sincronização
+  integration/                 Piloto integrado
+scripts/run/                   Futuro executor e triagem
+scripts/analysis/              Futura extração e análise
+docs/
+  design/                      Plano incremental baseado no P1
+  decisions/                   Decisões de estrutura e compatibilidade
+  traffic-catalog/             Contrato e proveniência dos fluxos
+  figures/                     Figuras selecionadas
+  report/                      Fontes futuras do relatório
 ```
 
-## Initial simulation configurations
+`results/raw/`, `results/processed/` e `results/manifests/` serão criados pelas
+execuções futuras e são ignorados pelo Git. Os microcenários mantêm seus caminhos
+de saída existentes, conforme seus próprios INIs.
 
-The planned configuration progression is:
+## Experimento planejado
 
-- `E0`: conventional Ethernet baseline;
-- `E1`: IEEE 802.1Q strict priority;
-- `E2`: AVB/CBS with standard traffic classes;
-- `E3`: AVB/CBS with custom classes and idle slopes;
-- `E4`: an additional TSN mechanism selected after evaluating INET support.
+| Configuração | Tratamento |
+|---|---|
+| C0 | Strict Priority |
+| C1 | C0 + pre-shaping nas câmeras F02–F05 |
+| C2 | CBS nominal em TC6 e TC4 |
+| C3 | CBS calibrado em L2/A1, razões congeladas e teto de 75% por porta |
+| C4 | CBS de C3 + TAS em sete egressos e gPTP |
 
-Each configuration will be evaluated under multiple load levels, ranging
-from low load to controlled overload.
+L0/L1/L2/L3 usam fatores 0,5/1/2,5/4 somente nos fluxos escaláveis.
+A0 distribui as rajadas; A1 as alinha. A matriz tem 40 células lógicas;
+C3/C4 em L3, para A0 e A1, são inviáveis por reserva. Restam até 36 células
+candidatas e 1.080 execuções, sujeitas à triagem adicional de gates em C4.
+Cada execução final terá 1 s de warm-up e 30 s de medição, com seeds 1001–1030
+pareadas. Calibração e piloto usam seeds separadas, ainda a definir.
 
-## Building the project
+ATS, PSFP, preempção e síntese automática de GCL ficam fora do benchmark P1,
+mas seus microcenários continuam disponíveis como referência INET.
 
-1. Install and configure OMNeT++ 6.4.0.
-2. Import INET Framework 4.7.0 into the OMNeT++ workspace.
-3. Build the INET project.
-4. Import this repository as an OMNeT++ project.
-5. Add `inet` as a project reference.
-6. Build this project.
+## Ambiente e execução
 
-The main simulation configuration will be available at:
+Ambiente documentado anteriormente: OMNeT++ 6.4.0 e INET 4.7.0.
+A IDE referencia `inet-4.7.0`; importar e compilar essa dependência antes do
+projeto. As raízes NED são `simulations`, `src` e `tests`, conforme `.nedfolders`.
+O P1 cita INET 4.6 em CBS+TAS; a compatibilidade de crédito/gates deve ser
+verificada antes de implementar C4 (ver a decisão 0001).
 
-```text
-simulations/omnetpp.ini
-```
+Na IDE OMNeT++, importar este projeto, conferir a referência INET e compilar.
+Abrir `simulations/omnetpp.ini` e selecionar `SmokeTest` para a rede vazia.
+Para os microcenários, abrir o respectivo `mcXX.ini` e selecionar sua configuração;
+consultar [a documentação preservada](simulations/tsn_validation/README.md).
+O comando `make` da raiz delega ao Makefile gerado em `src`; requer o ambiente
+OMNeT++ configurado. `simulations/run` é um launcher legado, não uma campanha P1.
 
-## Results and reproducibility
+## Próximas etapas e rastreabilidade
 
-Raw OMNeT++ result files such as `.sca`, `.vec`, and `.vci` are not stored
-in Git.
-
-Simulation campaigns must record at least:
-
-- source-code revision;
-- simulation configuration;
-- load level;
-- random seed;
-- replication number;
-- simulation duration;
-- relevant model parameters.
-
-Final plots must be reproducible from the analysis scripts and the
-corresponding simulation results.
-
-## Project status
-
-The project is currently in the detailed design and initial model
-construction phase.
+Seguir [o plano incremental](docs/design/p1-implementation.md), os critérios em
+[tests/validation](tests/validation/README.md) e o
+[plano experimental](experiments/README.md). A organização e a diferença de
+versões estão registradas em [0001](docs/decisions/0001-p1-structure.md).
+Registrar versões, revisão, C/L/A/seed, durações, parâmetros resolvidos e status
+de admissibilidade por execução; separar dados brutos, processados e metadados.

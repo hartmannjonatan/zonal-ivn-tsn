@@ -1,0 +1,1 @@
+flow_id,family,source,destinations,path,app_bytes,ip_bytes,mac_bytes,wire_bytes,packets_per_cycle,period_us,offset_rule,deadline_us,criticality,pcp,traffic_class,vlan,scalable,wire_rate_mbps,provenance,status
