@@ -1,11 +1,13 @@
 # Validação incremental do benchmark P1
 
-Estas pastas são reservas estruturais e ainda não contêm testes executáveis.
+`topology/` contém a validação executável da topologia P1: configuração de
+sondas ICMP, verificador dos resultados e guia de inspeção Qtenv. As demais
+pastas continuam reservadas às próximas etapas.
 Os microcenários INET existentes permanecem em `simulations/tsn_validation/`.
 
 | Etapa/pasta | Critério de aceitação |
 |---|---|
-| topology | Links LC/LB/LP/LA, caminhos estáticos, CPU fora do trânsito e multicast F14 |
+| topology — concluída | Links LC/LB/LP/LA, caminhos estáticos e CPU fora do trânsito; ramificação física para F14 pronta |
 | traffic | F01–F22, tamanhos/camadas, taxas, offsets, L0–L3 e A0/A1 |
 | classification | VLAN/PCP→TC, SP, buffers finitos e drops |
 | source_preshaping | C1 muda apenas a liberação de F02–F05 |

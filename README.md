@@ -6,31 +6,41 @@ três zonas, 22 fluxos e comparação de Strict Priority, pre-shaping, CBS e TAS
 ## Estado atual
 
 Os oito microcenários INET em `simulations/tsn_validation/` estão preservados,
-com suas configurações e documentação de validação. A rede zonal ainda está
-vazia. `SmokeTest` verifica somente a estrutura; não implementa C0 nem valida P1.
-Os fragmentos novos são preparatórios e o catálogo CSV contém apenas o cabeçalho.
-Não há executor de campanha nem scripts de análise implementados.
+com suas configurações e documentação de validação. A topologia P1 está implementada:
+29 nós Ethernet, 28 enlaces full-duplex e três controladores com switch e CPU.
+`TopologyValidation` permite inspecioná-la sem tráfego; `TopologyConnectivity`
+verifica conectividade com sondas ICMP isoladas do catálogo. `SmokeTest` é um alias
+para `TopologyValidation`. A disposição visual usa o fundo `background/car` do INET em 1280×720:
+frente à direita, Z1 na dianteira esquerda (acima), Z2 na dianteira direita
+(abaixo) e Z3 na traseira. Câmeras, LiDAR e radares usam ícones distintos; abrir
+Z1/Z2/Z3 revela o switch e a CPU. As cores dos enlaces indicam suas classes;
+a legenda informa as velocidades e os tooltips dos acessos mantêm seus detalhes.
+
+Os fluxos F01–F22 e os tratamentos C0–C4 continuam pendentes; o CSV contém apenas
+o cabeçalho. Não há executor de campanha nem scripts de análise implementados.
+A validação da topologia não equivale à validação do benchmark completo.
 
 ## Estrutura
 
 ```text
-src/                           Componentes reutilizáveis futuros
+src/                           Componentes reutilizáveis
   applications/                Geração de tráfego, caso exija extensões
-  common/                      Identificadores, unidades e instrumentação
-  nodes/                       Futuro ZonalController (switch + CPU)
+  common/                      Canal Ethernet do P1 (ZonalEthernetLink)
+  nodes/                       ZonalController implementado (switch + CPU)
   queueing/                    Extensões de filas, somente se necessárias
 simulations/
-  omnetpp.ini                  Entrada do SmokeTest estrutural
+  omnetpp.ini                  TopologyValidation / TopologyConnectivity
   run                          Launcher legado do executável local
   tsn_validation/              MC01–MC08 preservados
   zonal/
-    networks/                  ZonalIVN.ned (placeholder vazio)
+    networks/                  ZonalIVN.ned (topologia completa)
     configs/                   Base, recording e contratos de configuração
       mechanisms/              Contratos C0–C4, ainda não executáveis
     traffic/                   Esquema do catálogo e futuras entradas
+images/                        Fundo do veículo e ícone de câmera do INET
 experiments/                   design.json: fatores e protocolo planejado
-tests/validation/             Reservas de testes incrementais do benchmark
-  topology/                    Conectividade, rotas e multicast
+tests/validation/              Validação incremental do benchmark
+  topology/                    Sondas ICMP, verificador e guia Qtenv
   traffic/                     Catálogo, taxas, fases e eventos
   classification/              VLAN/PCP→TC, SP e buffers
   source_preshaping/            C1
@@ -73,14 +83,22 @@ mas seus microcenários continuam disponíveis como referência INET.
 
 ## Ambiente e execução
 
-Ambiente documentado anteriormente: OMNeT++ 6.4.0 e INET 4.7.0.
+Topologia executada e verificada em OMNeT++ 6.4.0 e INET 4.7.0.
 A IDE referencia `inet-4.7.0`; importar e compilar essa dependência antes do
 projeto. As raízes NED são `simulations`, `src` e `tests`, conforme `.nedfolders`.
 O P1 cita INET 4.6 em CBS+TAS; a compatibilidade de crédito/gates deve ser
 verificada antes de implementar C4 (ver a decisão 0001).
 
 Na IDE OMNeT++, importar este projeto, conferir a referência INET e compilar.
-Abrir `simulations/omnetpp.ini` e selecionar `SmokeTest` para a rede vazia.
+Abrir `simulations/omnetpp.ini`, executar com Qtenv e selecionar
+`TopologyValidation`. A rede não gera tráfego de aplicação nessa configuração;
+é normal terminar sem animação de pacotes. Selecionar `TopologyConnectivity`
+para observar sondas ICMP entre os nós.
+
+O [guia de validação da topologia](tests/validation/topology/README.md) traz
+mapa de portas, critérios de inspeção e comandos Cmdenv. Os testes verificaram
+as 56 interfaces, os 28 enlaces com 100 ns, os caminhos L2 estáticos e 54/54
+respostas ICMP sem perdas.
 Para os microcenários, abrir o respectivo `mcXX.ini` e selecionar sua configuração;
 consultar [a documentação preservada](simulations/tsn_validation/README.md).
 O comando `make` da raiz delega ao Makefile gerado em `src`; requer o ambiente
