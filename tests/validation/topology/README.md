@@ -118,6 +118,8 @@ checks automatizados foram realizados em Cmdenv.
 
 Todos os destinos e os caminhos P1–P4 estão disponíveis. Os nomes e as portas
 acima são o contrato para aplicações, VLAN/PCP, instrumentação e shaping.
-A árvore oferece a ramificação de F14 no CSW para DISPLAY1/DISPLAY2; configurar
-a inscrição multicast, a VLAN e a aplicação será parte da etapa de tráfego.
-Ainda não há carga F01–F22, buffers por classe, CBS, TAS ou gPTP configurados.
+A árvore oferece a ramificação de F14 no CSW para DISPLAY1/DISPLAY2.
+A inscrição multicast, a VLAN e a aplicação estão implementadas na etapa de tráfego.
+As configurações Traffic/Validate implementam F01–F22 e filas por classe nos
+switches. TopologyValidation permanece sem tráfego de aplicação. CBS, TAS e
+gPTP ainda são etapas posteriores.

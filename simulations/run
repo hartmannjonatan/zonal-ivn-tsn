@@ -1,4 +1,5 @@
-#!/bin/sh
-cd `dirname $0`
-../src/zonal-ivn-tsn -n .:../src $*
-# for shared lib, use: opp_run -l ../src/zonal-ivn-tsn -n .:../src $*
+#!/usr/bin/env bash
+set -euo pipefail
+: "${INET_ROOT:?Set INET_ROOT to the INET 4.7.0 directory}"
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+exec ../src/zonal-ivn-tsn -n ".:../src:../tests:$INET_ROOT/src" -f omnetpp.ini "$@"

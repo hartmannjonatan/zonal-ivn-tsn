@@ -16,38 +16,59 @@ frente à direita, Z1 na dianteira esquerda (acima), Z2 na dianteira direita
 Z1/Z2/Z3 revela o switch e a CPU. As cores dos enlaces indicam suas classes;
 a legenda informa as velocidades e os tooltips dos acessos mantêm seus detalhes.
 
-Os fluxos F01–F22 e os tratamentos C0–C4 continuam pendentes; o CSV contém apenas
-o cabeçalho. Não há executor de campanha nem scripts de análise implementados.
-A validação da topologia não equivale à validação do benchmark completo.
+Os 22 fluxos estão implementados, incluindo multicast F14, transientes F21/F22,
+VLAN/PCP, deadlines, cargas L0–L3 e agregações A0/A1. As oito combinações e os
+testes de assinaturas/seed passam no verificador. O catálogo é executado sobre
+um suporte com SP nos switches; as configurações completas C0–C4 e a campanha
+experimental continuam como etapas posteriores.
+
+Para compilar e validar (com o ambiente OMNeT++ carregado):
+
+```bash
+export INET_ROOT=/caminho/para/inet-4.7.0
+bash scripts/run/build.sh
+python3 scripts/run/validate_traffic.py --jobs 2
+```
+
+Para inspecionar uma célula no Qtenv:
+
+```bash
+bash simulations/run -u Qtenv -c Validate_L1_A0
+```
+
+`Validate_Lx_Ay` usa dois segundos medidos; `Traffic_Lx_Ay` usa trinta.
+Consulte o [guia do catálogo e validação](tests/validation/traffic/README.md)
+e o [resumo dos resultados](tests/validation/traffic/results-summary.md).
 
 ## Estrutura
 
 ```text
 src/                           Componentes reutilizáveis
-  applications/                Geração de tráfego, caso exija extensões
-  common/                      Canal Ethernet do P1 (ZonalEthernetLink)
+  applications/                CatalogUdpApp: emissão e recepção UDP
+  common/                      Canal Ethernet, TrafficPlan e TrafficAudit
   nodes/                       ZonalController implementado (switch + CPU)
   queueing/                    Extensões de filas, somente se necessárias
 simulations/
-  omnetpp.ini                  TopologyValidation / TopologyConnectivity
-  run                          Launcher legado do executável local
+  omnetpp.ini                  Topology / Traffic_Lx_Ay / Validate_Lx_Ay
+  run                          Launcher com caminhos NED e INET
   tsn_validation/              MC01–MC08 preservados
   zonal/
     networks/                  ZonalIVN.ned (topologia completa)
     configs/                   Base, recording e contratos de configuração
       mechanisms/              Contratos C0–C4, ainda não executáveis
-    traffic/                   Esquema do catálogo e futuras entradas
+    traffic/                   Catálogo CSV, assinaturas e XML gerado
 images/                        Fundo do veículo e ícone de câmera do INET
 experiments/                   design.json: fatores e protocolo planejado
 tests/validation/              Validação incremental do benchmark
   topology/                    Sondas ICMP, verificador e guia Qtenv
-  traffic/                     Catálogo, taxas, fases e eventos
+  traffic/                     Verificador, guia e evidências consolidadas
   classification/              VLAN/PCP→TC, SP e buffers
   source_preshaping/            C1
   cbs/                         C2/C3 e reservas
   tas/                         C4 e sincronização
   integration/                 Piloto integrado
-scripts/run/                   Futuro executor e triagem
+scripts/catalog/               Geração de XML/INI a partir dos CSVs
+scripts/run/                   Build e validação da matriz de tráfego
 scripts/analysis/              Futura extração e análise
 docs/
   design/                      Plano incremental baseado no P1
@@ -102,7 +123,8 @@ respostas ICMP sem perdas.
 Para os microcenários, abrir o respectivo `mcXX.ini` e selecionar sua configuração;
 consultar [a documentação preservada](simulations/tsn_validation/README.md).
 O comando `make` da raiz delega ao Makefile gerado em `src`; requer o ambiente
-OMNeT++ configurado. `simulations/run` é um launcher legado, não uma campanha P1.
+OMNeT++ configurado. `simulations/run` configura os caminhos para o executável e INET. A campanha
+C0–C4 final ainda não está implementada.
 
 ## Próximas etapas e rastreabilidade
 

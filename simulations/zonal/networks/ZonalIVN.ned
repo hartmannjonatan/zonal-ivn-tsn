@@ -6,11 +6,14 @@ import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 import inet.linklayer.configurator.common.MacForwardingTableConfigurator;
 import zonal_ivn_tsn.nodes.ZonalController;
 import zonal_ivn_tsn.common.ZonalEthernetLink;
+import zonal_ivn_tsn.common.TrafficPlan;
+import zonal_ivn_tsn.common.TrafficAudit;
 
 // Complete physical P1 topology. Traffic catalog and C0-C4 are configured separately.
 network ZonalIVN
 {
     parameters:
+        bool hasTraffic = default(false);
         // Same 1280x720 top view as INET's InVehicleNetworkShowcase.
         // Vehicle front is RIGHT; vehicle left is UP (driver's perspective).
         // Positions are illustrative mounting locations, not cable-length inputs.
@@ -20,13 +23,38 @@ network ZonalIVN
         @figure[Z1label](type=text; pos=810,140; text="Z1 | FRONT LEFT"; font=Arial,14,bold; color=#2563eb);
         @figure[Z2label](type=text; pos=810,575; text="Z2 | FRONT RIGHT"; font=Arial,14,bold; color=#15803d);
         @figure[Z3label](type=text; pos=285,140; text="Z3 | REAR"; font=Arial,14,bold; color=#c2410c);
+        @figure[pcpTitle](type=text; pos=240,620; text="PACKET PCP"; font=Arial,11,bold; color=#0f172a);
+        @figure[pcp0swatch](type=oval; pos=340,622; size=12,12; fillColor=#E69F00; lineColor=#E69F00);
+        @figure[pcp0label](type=text; pos=357,620; text="PCP 0"; font=Arial,10; color=#0f172a);
+        @figure[pcp1swatch](type=oval; pos=415,622; size=12,12; fillColor=#56B4E9; lineColor=#56B4E9);
+        @figure[pcp1label](type=text; pos=432,620; text="PCP 1"; font=Arial,10; color=#0f172a);
+        @figure[pcp2swatch](type=oval; pos=490,622; size=12,12; fillColor=#009E73; lineColor=#009E73);
+        @figure[pcp2label](type=text; pos=507,620; text="PCP 2"; font=Arial,10; color=#0f172a);
+        @figure[pcp3swatch](type=oval; pos=565,622; size=12,12; fillColor=#F0E442; lineColor=#F0E442);
+        @figure[pcp3label](type=text; pos=582,620; text="PCP 3"; font=Arial,10; color=#0f172a);
+        @figure[pcp4swatch](type=oval; pos=640,622; size=12,12; fillColor=#0072B2; lineColor=#0072B2);
+        @figure[pcp4label](type=text; pos=657,620; text="PCP 4"; font=Arial,10; color=#0f172a);
+        @figure[pcp5swatch](type=oval; pos=715,622; size=12,12; fillColor=#D55E00; lineColor=#D55E00);
+        @figure[pcp5label](type=text; pos=732,620; text="PCP 5"; font=Arial,10; color=#0f172a);
+        @figure[pcp6swatch](type=oval; pos=790,622; size=12,12; fillColor=#CC79A7; lineColor=#CC79A7);
+        @figure[pcp6label](type=text; pos=807,620; text="PCP 6"; font=Arial,10; color=#0f172a);
+        @figure[pcp7swatch](type=oval; pos=865,622; size=12,12; fillColor=#000000; lineColor=#000000);
+        @figure[pcp7label](type=text; pos=882,620; text="PCP 7"; font=Arial,10; color=#0f172a);
+        @figure[pcpOtherSwatch](type=oval; pos=940,622; size=12,12; fillColor=#666666; lineColor=#666666);
+        @figure[pcpOtherLabel](type=text; pos=957,620; text="Outro (sem PCP)"; font=Arial,10; color=#0f172a);
         @figure[legend](type=text; pos=245,650; text="Blue: LC/LB 1 Gbit/s  |  Teal: LA-H 1 Gbit/s  |  Gray: LA-L 100 Mbit/s"; font=Arial,12; color=#334155);
         @figure[hint](type=text; pos=245,680; text="Open Z1 / Z2 / Z3: switch + CPU + LP (1 Gbit/s). All physical links: 100 ns."; font=Arial,11; color=#475569);
     submodules:
+        trafficPlan: TrafficPlan if hasTraffic {
+            @display("p=90,580");
+        }
+        trafficAudit: TrafficAudit if hasTraffic {
+            @display("p=90,650");
+        }
         configurator: Ipv4NetworkConfigurator {
             @display("p=85,120;is=s;t=IPv4 setup");
         }
-        macForwardingTableConfigurator: MacForwardingTableConfigurator {
+        macForwardingTableConfigurator: MacForwardingTableConfigurator if !hasTraffic {
             @display("p=85,215;is=s;t=Static L2 setup");
         }
         HPC: TsnDevice {
