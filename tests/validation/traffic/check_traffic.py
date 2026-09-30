@@ -165,8 +165,12 @@ def check_run(directory):
             require(tuple_counts(rx) == current, f'{fid} sink {destination}: missing/extra packets')
             require(int(rx['duplicates_or_reorder']) == 0, f'{fid}: duplicate/reordered packets')
             close(rx['deadline_s'], float(f['deadline_us'] or 0) / 1e6, f'{fid} deadline')
-            info['receivers'][destination] = {'packets': int(rx['packets']), 'deadline_misses': int(rx['deadline_misses']),
-                                              'max_latency_s': float(rx['max_latency'])}
+            info['receivers'][destination] = {
+                'packets': int(rx['packets']),
+                'measured_packets': int(rx['measured_packets']),
+                'measured_app_bytes': int(rx['measured_app_bytes']),
+                'deadline_misses': int(rx['deadline_misses']),
+                'max_latency_s': float(rx['max_latency'])}
         summary['flows'][fid] = info
     require(set(wires) == expected_wire_keys, f'Unexpected/missing egresses: {set(wires) ^ expected_wire_keys}')
     if not only_transients:

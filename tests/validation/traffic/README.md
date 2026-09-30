@@ -16,6 +16,11 @@ Ele executa oito células `Validate_L0_A0` até `Validate_L3_A1`, `ValidateResee
 cada uma das dez assinaturas em F21 e F22, deterministicamente, em dez segundos;
 esse modo diagnóstico não substitui o sorteio nas configurações normais.
 
+O verificador comprova geração e encaminhamento do catálogo no suporte usado
+antes dos tratamentos C0–C4. O baseline C0, com filas finitas em todos os
+talkers e switches, tem validação própria em
+`tests/validation/classification/README.md`.
+
 ## Execução individual e Qtenv
 
 ```bash

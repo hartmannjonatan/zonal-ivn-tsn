@@ -3,8 +3,11 @@
 Referência de projeto: P1.pdf fornecido pelo usuário, seções 2–6. O documento
 fixa o benchmark, mas não prescreve a organização interna de diretórios (6.1).
 Topologia e catálogo de tráfego estão implementados e validados em Cmdenv.
-VLAN/PCP e encaminhamento multicast estão ativos. Os tratamentos completos
-C0–C4 e a campanha experimental ainda não estão concluídos.
+VLAN/PCP e encaminhamento multicast estão ativos. C0 foi implementado e
+auditado integralmente nas oito células P1: a estrutura e as filas estão
+corretas, mas nenhuma célula atende os critérios de viabilidade devido às perdas
+nas filas de origem das câmeras F02–F05. C1–C4 e a campanha experimental final
+ainda não estão concluídos.
 
 ## Etapas e entregas
 
@@ -23,11 +26,28 @@ C0–C4 e a campanha experimental ainda não estão concluídos.
    quadros reais. A matriz e as dez assinaturas foram verificadas. Ver
    `tests/validation/traffic/README.md`. A interpretação dos volumes transientes
    como payload foi confirmada pelo usuário e corrige o fator wire do P1.
-3. **C0:** VLAN/PCP, PCP=TC, SP e buffers finitos já suportam a validação nos
-   switches. Falta fechar a política de filas nas origens e a configuração C0
-   completa; o catálogo usa FIFO de origem sem limite para staging das imagens.
-4. **C1:** pre-shaping só de F02–F05; espaçamento ADAS min(324 µs,C/30),
-   vision min(500 µs,C/30). Preservar ciclo, volume e deadlines.
+3. **C0 — implementado:** `simulations/zonal/configs/mechanisms/C0_strict_priority.ini`
+   ativa filas por PCP também nos talkers e CPUs zonais, com PCP n → TCn, FIFO
+   drop-tail finita por classe e prioridade TC7→TC0. Todos os gates ficam abertos;
+   não há CBS, TAS com janelas fechadas nem pre-shaping. Buffers são 128 KiB/TC
+   nos egressos G1–G4 e 32 KiB/TC nos demais. `Validate_C0_Lx_Ay` executa as oito
+   células com 1 s de warm-up e 30 s medidos, confere as filas por classe em todos
+   os egressos e aplica por célula os critérios de miss, BE goodput/perda e
+   estabilidade após o warm-up. A auditoria seed 41 concluiu 8/8 células: todas
+   validaram PCP→TC, ordem SP, gates, capacidades e atividade das 336 filas;
+   nenhuma fila apresentou crescimento sustentado, mas 0/8 células foram viáveis.
+   F02–F05 perdem 30% dos quadros antes do CSW, na fila de 32 KiB de cada câmera.
+   Por decisão de análise, F01 e F06/F07 também são tratados como `high-hard`,
+   sem alterar o rótulo original `high` do catálogo. F01 falha em L0/A1 e L1–L3;
+   F06/F07 falham em L2/A1 e L3. O resultado
+   detalhado está em `tests/validation/classification/c0-p1-results.md`; os dados
+   completos gerados ficam sob `simulations/results/C0/p1-validation/`. As 30
+   repetições finais seguem reservadas à campanha com seeds 1001–1030.
+4. **C1 — próxima etapa:** aplicar somente às fontes F02–F05 o pre-shaping P1:
+   espaçamento ADAS min(324 µs,C/30) e vision min(500 µs,C/30). Preservar ciclo,
+   volume, tamanho e deadlines. Repetir as oito células sob a mesma regra que
+   classifica F01/F06/F07 como hard-critical; confirmar remoção das perdas nas
+   filas de origem e medir o efeito sobre misses hard.
 5. **C2/C3:** CBS TC6/TC4, reservas nominais por porta excluindo transientes;
    calibrar C3 em L2/A1, congelar razões e aplicar limite de 75% por porta.
 6. **C4:** CBS congelado + TAS nos sete egressos HPC→CSW,
@@ -62,8 +82,10 @@ ilustrativas; não alteram os enlaces ou seus parâmetros físicos.
 
 ## Aceitação
 
-A validação incremental fica em `tests/validation/`. Os MC01–MC08 são evidência
-isolada de mecanismos INET, não comprovação do benchmark completo.
+A validação incremental fica em `tests/validation/`. C0 tem cenário e auditoria
+integral próprios; sua saída é um baseline não viável, com falha localizada nas
+filas de origem das câmeras. Os MC01–MC08 continuam sendo
+evidência isolada de mecanismos INET, não comprovação dos tratamentos completos.
 C4 precisa verificar o orçamento aberto de 77%, o serviço efetivo de TC6/TC4,
 filas estáveis, taxas entregues e sincronização durante o warm-up de 1 s.
 A viabilidade exige ausência de misses hard-critical, até 1% em soft-deadline,

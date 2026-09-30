@@ -31,10 +31,11 @@ segmentos finais, com MTU IPv4 de 1500 B e overhead IP/UDP contabilizado.
 
 Aprovação do catálogo não significa cumprimento de todos os deadlines:
 por exemplo, L3/A1 apresentou misses em F01, F06 e F07. As estatísticas
-consideram a coorte gerada na janela medida. O suporte atual usa prioridade
-estrita e buffers por classe nos switches; as origens mantêm staging FIFO.
-Isso não constitui validação dos tratamentos completos C0–C4 nem substitui
-a campanha de 30 s, repetições estatísticas ou inspeção visual no Qtenv.
+consideram a coorte gerada na janela medida. Estes resultados pertencem a
+`TrafficCatalog`: prioridade e buffers por classe nos switches, sem filas por
+classe nos talkers. Eles não validam os tratamentos C0–C4 nem substituem a
+campanha de 30 s, repetições estatísticas ou inspeção visual no Qtenv. A
+validação dedicada do C0 está em `tests/validation/classification/`.
 
 Os CSVs, logs e validation.json completos permanecem em
 `simulations/results/traffic/` (ignorados pelo Git). Para reproduzir ou

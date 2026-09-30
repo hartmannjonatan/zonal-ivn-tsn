@@ -17,10 +17,18 @@ Z1/Z2/Z3 revela o switch e a CPU. As cores dos enlaces indicam suas classes;
 a legenda informa as velocidades e os tooltips dos acessos mantêm seus detalhes.
 
 Os 22 fluxos estão implementados, incluindo multicast F14, transientes F21/F22,
-VLAN/PCP, deadlines, cargas L0–L3 e agregações A0/A1. As oito combinações e os
-testes de assinaturas/seed passam no verificador. O catálogo é executado sobre
-um suporte com SP nos switches; as configurações completas C0–C4 e a campanha
-experimental continuam como etapas posteriores.
+VLAN/PCP, deadlines, cargas L0–L3 e agregações A0/A1. C0 também está
+implementado como baseline de prioridade estrita: filas classificadas por PCP em
+talkers e switches, gates sempre abertos e buffers drop-tail finitos por classe.
+Sua validação cobre as oito combinações L/A na duração P1 de 30 s, com p99,
+misses, goodput, perdas e análise de estabilidade das filas. A auditoria integral
+de seed 41 concluiu que a configuração estrutural está correta e que não há filas
+com crescimento sustentado; 0/8 células atende à viabilidade por 30% de perda
+dos fluxos F02–F05 nas filas de origem CAM1–CAM4 e misses hard-deadline. A
+análise trata F01/F06/F07 como hard-critical, conforme decisão registrada, sem
+alterar o catálogo; eles também falham em células de maior contenção. C1 é a próxima
+etapa: pre-shaping apenas das quatro câmeras, seguido da mesma matriz de
+validação. C2–C4 e as 30 repetições finais continuam como etapas posteriores.
 
 Para compilar e validar (com o ambiente OMNeT++ carregado):
 
@@ -28,6 +36,7 @@ Para compilar e validar (com o ambiente OMNeT++ carregado):
 export INET_ROOT=/caminho/para/inet-4.7.0
 bash scripts/run/build.sh
 python3 scripts/run/validate_traffic.py --jobs 2
+python3 scripts/run/validate_c0.py --jobs 2
 ```
 
 Para inspecionar uma célula no Qtenv:
@@ -36,9 +45,12 @@ Para inspecionar uma célula no Qtenv:
 bash simulations/run -u Qtenv -c Validate_L1_A0
 ```
 
-`Validate_Lx_Ay` usa dois segundos medidos; `Traffic_Lx_Ay` usa trinta.
-Consulte o [guia do catálogo e validação](tests/validation/traffic/README.md)
-e o [resumo dos resultados](tests/validation/traffic/results-summary.md).
+`Validate_Lx_Ay` verifica o catálogo; `Validate_C0_Lx_Ay` audita C0 com
+1 s de warm-up, 30 s de medição e 50 ms de drenagem. `C0_Lx_Ay` usa a mesma
+duração para as execuções do baseline.
+Consulte os guias de [catálogo](tests/validation/traffic/README.md),
+[C0 e seus resultados](tests/validation/classification/README.md) e
+[validação incremental](tests/validation/README.md).
 
 ## Estrutura
 
@@ -49,20 +61,20 @@ src/                           Componentes reutilizáveis
   nodes/                       ZonalController implementado (switch + CPU)
   queueing/                    Extensões de filas, somente se necessárias
 simulations/
-  omnetpp.ini                  Topology / Traffic_Lx_Ay / Validate_Lx_Ay
+  omnetpp.ini                  Topology / Traffic / C0 / Validate_C0
   run                          Launcher com caminhos NED e INET
   tsn_validation/              MC01–MC08 preservados
   zonal/
     networks/                  ZonalIVN.ned (topologia completa)
     configs/                   Base, recording e contratos de configuração
-      mechanisms/              Contratos C0–C4, ainda não executáveis
+      mechanisms/              C0 executável; C1–C4 documentados
     traffic/                   Catálogo CSV, assinaturas e XML gerado
 images/                        Fundo do veículo e ícone de câmera do INET
 experiments/                   design.json: fatores e protocolo planejado
 tests/validation/              Validação incremental do benchmark
   topology/                    Sondas ICMP, verificador e guia Qtenv
   traffic/                     Verificador, guia e evidências consolidadas
-  classification/              VLAN/PCP→TC, SP e buffers
+  classification/              Validação benchmark C0
   source_preshaping/            C1
   cbs/                         C2/C3 e reservas
   tas/                         C4 e sincronização
@@ -123,8 +135,10 @@ respostas ICMP sem perdas.
 Para os microcenários, abrir o respectivo `mcXX.ini` e selecionar sua configuração;
 consultar [a documentação preservada](simulations/tsn_validation/README.md).
 O comando `make` da raiz delega ao Makefile gerado em `src`; requer o ambiente
-OMNeT++ configurado. `simulations/run` configura os caminhos para o executável e INET. A campanha
-C0–C4 final ainda não está implementada.
+OMNeT++ configurado. `simulations/run` configura os caminhos para o executável e INET.
+`TrafficCatalog` é a validação funcional do catálogo; para medir o baseline P1,
+usar `C0_Lx_Ay`. C0 está auditado; C1–C4 e a campanha final ainda não estão
+implementados.
 
 ## Próximas etapas e rastreabilidade
 

@@ -49,9 +49,11 @@ armazenam a imagem liberada, serializada pelo enlace a 1 Gbit/s. Os switches
 usam PCP n → TCn explícito, SP, drop-tail por classe e capacidades 128 KiB nas
 saídas de backbone/LP e 32 KiB nos demais acessos. Os talkers ainda conservam
 FIFO sem limite de capacidade: isso é uma condição do suporte de validação do
-catálogo, não uma declaração de que a política de filas de C0–C4 está concluída.
-Antes da campanha, a configuração das origens deve ser fechada conjuntamente
-com os mecanismos, preservando as rajadas e os parâmetros do catálogo.
+catálogo, não representa a configuração C0. Em C0, os talkers também têm filas
+por PCP e capacidades drop-tail finitas conforme
+`tests/validation/classification/README.md`; as liberações de câmera continuam
+em rajada e não são pré-escalonadas. Assim, a verificação do catálogo permanece
+separada da comparação de tratamentos.
 
 ## Transientes e correção de interpretação
 
