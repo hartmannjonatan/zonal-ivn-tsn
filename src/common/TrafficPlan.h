@@ -23,12 +23,14 @@ class TrafficPlan : public omnetpp::cSimpleModule {
     std::array<CatalogFlow,23> flows;
     std::array<std::vector<TrafficEvent>,2> events;
     double factor, warmup, measurement, end;
-    bool aligned, trace, transientsOnly, exhaustive;
+    bool aligned, trace, transientsOnly, exhaustive, sourcePreShaping;
+    double adasSpacingLimit, visionSpacingLimit;
     std::string directory;
     std::ofstream releases;
     const CatalogFlow& flow(int id) const { return flows.at(id); }
     double period(const CatalogFlow& f) const { return f.period / (f.scalable ? factor : 1); }
     double offset(const CatalogFlow& f) const;
+    double cameraSpacing(const CatalogFlow& f) const;
   protected:
     void initialize() override;
     void handleMessage(omnetpp::cMessage *) override;

@@ -39,12 +39,12 @@ flooding quando aplicadas a este catálogo marcado.
 - L0/L1/L2/L3: k = 0,5/1/2,5/4, com T' = T/k apenas para
   F01–F07, F11–F13 e F18–F20. Tamanho, prioridade, VLAN e deadline não mudam.
 - F08–F10, F14–F17 são fixos; F21/F22 não são multiplicados por k.
-- Câmeras: 30 mensagens liberadas juntas por imagem. A0 usa fases
+- Câmeras no catálogo/C0: 30 mensagens liberadas juntas por imagem. A0 usa fases
   0/C/4/C/2/3C/4; A1 usa fase zero para todas. C é o ciclo já escalado.
 - BE: fases 0/T'/3/2T'/3 em ambas as agregações.
 - Os offsets absolutos em µs dos demais fluxos permanecem fixos.
 
-Não há pre-shaping de câmera nesta etapa. As filas FIFO de origem do INET
+No C0 não há pre-shaping: as filas FIFO de origem do INET
 armazenam a imagem liberada, serializada pelo enlace a 1 Gbit/s. Os switches
 usam PCP n → TCn explícito, SP, drop-tail por classe e capacidades 128 KiB nas
 saídas de backbone/LP e 32 KiB nos demais acessos. Os talkers ainda conservam
@@ -89,3 +89,6 @@ a simulação permite mais 50 ms para drenagem. São diagnósticos de conservaç
 não estimadores finais de throughput por instante de recepção para P3/P4.
 Aprovar o catálogo não implica cumprir todos os deadlines sob carga, nem
 aprovar CBS/TAS ou concluir a campanha experimental.
+
+
+O C1 é definido em `simulations/zonal/configs/mechanisms/C1_source_preshaping.ini`: para F02/F03, δ=min(324 µs,C/30); para F04/F05, δ=min(500 µs,C/30). Cada quadro mantém os 30 pacotes, seus tamanhos, período e primeira emissão, mas não os libera como rajada. A auditoria das liberações está em `tests/validation/traffic/check_traffic.py` e a validação P1 completa em `tests/validation/source_preshaping/README.md`.

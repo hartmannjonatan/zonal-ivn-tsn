@@ -20,15 +20,27 @@ Os 22 fluxos estão implementados, incluindo multicast F14, transientes F21/F22,
 VLAN/PCP, deadlines, cargas L0–L3 e agregações A0/A1. C0 também está
 implementado como baseline de prioridade estrita: filas classificadas por PCP em
 talkers e switches, gates sempre abertos e buffers drop-tail finitos por classe.
-Sua validação cobre as oito combinações L/A na duração P1 de 30 s, com p99,
-misses, goodput, perdas e análise de estabilidade das filas. A auditoria integral
-de seed 41 concluiu que a configuração estrutural está correta e que não há filas
-com crescimento sustentado; 0/8 células atende à viabilidade por 30% de perda
-dos fluxos F02–F05 nas filas de origem CAM1–CAM4 e misses hard-deadline. A
-análise trata F01/F06/F07 como hard-critical, conforme decisão registrada, sem
-alterar o catálogo; eles também falham em células de maior contenção. C1 é a próxima
-etapa: pre-shaping apenas das quatro câmeras, seguido da mesma matriz de
-validação. C2–C4 e as 30 repetições finais continuam como etapas posteriores.
+As filas por classe seguem o P1 corrigido: 64 KiB nos talkers CAM1–CAM4,
+128 KiB nos gargalos G1–G4 e 32 KiB nos demais egressos. O burst de câmera
+completo ocupa 44.880 B no MAC. As matrizes C0 e C1 foram executadas com seed 41
+pareada em L0–L3 × A0/A1. As câmeras geraram bursts completos idênticos nos dois
+tratamentos; não houve overflow na origem nem drops em qualquer fila da rede.
+C0 teve 1/8 células viáveis após classificar F01/F06/F07 como `high-hard`; as
+demais falharam por deadline misses, enquanto C1 teve 8/8 viáveis. O relatório
+pareado com p99, misses, goodput, perdas, ocupação e contrastes H1/H2 está em
+`simulations/results/C1/p1-validation-64KiB/C0_C1_analysis.md` e
+`C0_C1_comparison.json`. Resultados antigos com filas de câmera de 32 KiB
+permanecem preservados como histórico. C2–C4 e as 30 repetições finais seguem
+como etapas posteriores; H1/H2 aqui são evidência descritiva de uma seed, não
+um teste estatístico completo.
+
+Na auditoria posterior dos percentis, foi corrigido o cálculo streaming do p99:
+o heap anterior crescia durante a leitura temporal e podia reter latências
+antigas pequenas, subestimando o percentil apesar de misses e máximos corretos.
+O cálculo usa agora uma cauda de tamanho fixo e seleciona a janela pelo instante
+de origem da amostra. Para câmeras, o gate usa também a conclusão da imagem
+desde sua disponibilidade até a recepção do último frame, incluindo o pacing
+de C1. A comparação regenerada documenta o efeito dessa correção.
 
 Para compilar e validar (com o ambiente OMNeT++ carregado):
 
@@ -37,6 +49,7 @@ export INET_ROOT=/caminho/para/inet-4.7.0
 bash scripts/run/build.sh
 python3 scripts/run/validate_traffic.py --jobs 2
 python3 scripts/run/validate_c0.py --jobs 2
+python3 scripts/run/validate_c1.py --jobs 4
 ```
 
 Para inspecionar uma célula no Qtenv:
@@ -67,7 +80,7 @@ simulations/
   zonal/
     networks/                  ZonalIVN.ned (topologia completa)
     configs/                   Base, recording e contratos de configuração
-      mechanisms/              C0 executável; C1–C4 documentados
+      mechanisms/              C0 e C1 executáveis; C2–C4 documentados
     traffic/                   Catálogo CSV, assinaturas e XML gerado
 images/                        Fundo do veículo e ícone de câmera do INET
 experiments/                   design.json: fatores e protocolo planejado
@@ -137,8 +150,8 @@ consultar [a documentação preservada](simulations/tsn_validation/README.md).
 O comando `make` da raiz delega ao Makefile gerado em `src`; requer o ambiente
 OMNeT++ configurado. `simulations/run` configura os caminhos para o executável e INET.
 `TrafficCatalog` é a validação funcional do catálogo; para medir o baseline P1,
-usar `C0_Lx_Ay`. C0 está auditado; C1–C4 e a campanha final ainda não estão
-implementados.
+usar `C0_Lx_Ay`. C0 está auditado; C1 foi implementado e validado nas oito células.
+C2–C4 e a campanha final ainda são etapas posteriores.
 
 ## Próximas etapas e rastreabilidade
 

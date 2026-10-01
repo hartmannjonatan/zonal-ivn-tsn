@@ -12,6 +12,10 @@ simple TrafficPlan
         // Diagnostic-only: production configurations keep both false.
         bool transientsOnly = default(false);
         bool exhaustiveSignatures = default(false);
+        // C1 spaces only camera image packets; C0 and later treatments default off.
+        bool sourcePreShaping = default(false);
+        double adasSpacingLimit @unit(s) = default(324us);
+        double visionSpacingLimit @unit(s) = default(500us);
         string outputDirectory;
         bool traceReleases = default(false);
         @display("i=block/table;t=F01-F22 / L / A");

@@ -21,6 +21,7 @@ void CatalogUdpApp::initialize(int stage)
     plan=check_and_cast<TrafficPlan *>(getSimulation()->getSystemModule()->getSubmodule("trafficPlan"));
     flow=&plan->flow(par("flowId"));source=par("source");
     sentSignal=registerSignal("packetSent");receivedSignal=registerSignal("packetReceived");latencySignal=registerSignal("latency");
+    imageCompletionLatencySignal=registerSignal("imageCompletionLatency");
     socket.setOutputGate(gate("socketOut"));socket.setCallback(this);
     socket.bind(source?-1:5000+flow->id);
     socket.setMulticastLoop(false);
@@ -40,6 +41,7 @@ void CatalogUdpApp::initialize(int stage)
 void CatalogUdpApp::scheduleNext()
 {
     simtime_t next;
+    bool withinEmissionWindow;
     if(flow->family=="transient") {
         auto& events=plan->events.at(flow->id-21);
         if(eventIndex>=int(events.size()))return;
@@ -50,8 +52,20 @@ void CatalogUdpApp::scheduleNext()
         if(eventPacket>=total){eventIndex++;eventPacket=0;scheduleNext();return;}
         next=SimTime(e.start)+SimTime(e.duration*double(eventPacket)/double(total));
     }
-    else next=SimTime(plan->offset(*flow))+SimTime(plan->period(*flow))*cycle;
-    if(next<SimTime(plan->end))scheduleAt(next,timer);
+    else {
+        simtime_t cycleStart=SimTime(plan->offset(*flow))+SimTime(plan->period(*flow))*cycle;
+        next=cycleStart;
+        withinEmissionWindow=next<SimTime(plan->end);
+        if(flow->family=="camera" && plan->sourcePreShaping) {
+            next+=SimTime(plan->cameraSpacing(*flow))*cameraPacket;
+            // Once a camera image starts before the measurement boundary, emit
+            // all 30 frames. The last paced frames may fall in the drain window;
+            // counting only those before plan->end would truncate the image.
+            withinEmissionWindow=cycleStart<SimTime(plan->end);
+        }
+    }
+    if(flow->family=="transient")withinEmissionWindow=next<SimTime(plan->end);
+    if(withinEmissionWindow)scheduleAt(next,timer);
 }
 void CatalogUdpApp::handleMessage(cMessage *msg)
 {
@@ -63,6 +77,14 @@ void CatalogUdpApp::handleMessage(cMessage *msg)
         long remaining=e.volume-eventPacket*segment;
         size=std::min(segment,remaining);
         eventPacket++;
+    }
+    if(flow->family=="camera" && plan->sourcePreShaping) {
+        if(plan->trace) plan->releases<<flow->name<<','<<simTime()<<",1,"<<size<<",-1\n";
+        emitPacket(size);
+        cameraPacket++;
+        if(cameraPacket>=flow->burst) { cameraPacket=0; cycle++; }
+        scheduleNext();
+        return;
     }
     int burst=flow->family=="camera"?flow->burst:1;
     if(plan->trace)plan->releases<<flow->name<<','<<simTime()<<','<<burst<<','<<size<<','<<block<<'\n';
@@ -88,12 +110,31 @@ void CatalogUdpApp::countPacket(int size,long seq,simtime_t created)
     last=simTime();
     if(created>=SimTime(plan->warmup) && created<SimTime(plan->end)) {
         measuredPackets++;measuredBytes+=size;
+        if(flow->family=="camera" && seq%flow->burst==0)measuredImages++;
         if(!source) {
             simtime_t latency=simTime()-created;maxLatency=std::max(maxLatency,latency);
             emit(latencySignal,latency);
             if(flow->deadline>0 && latency>SimTime(flow->deadline))misses++;
         }
     }
+}
+void CatalogUdpApp::countCameraImageCompletion(long seq)
+{
+    if(flow->family!="camera" || source)return;
+    const long image=seq/flow->burst;
+    auto& reception=imageReceptions[image];
+    reception.sequences.insert(seq);
+    reception.lastArrival=std::max(reception.lastArrival,simTime());
+    if(long(reception.sequences.size())!=flow->burst)return;
+
+    const simtime_t available=SimTime(plan->offset(*flow))+SimTime(plan->period(*flow))*image;
+    if(available>=SimTime(plan->warmup) && available<SimTime(plan->end)) {
+        const simtime_t completionLatency=reception.lastArrival-available;
+        completedImages++;
+        emit(imageCompletionLatencySignal,completionLatency);
+        if(flow->deadline>0 && completionLatency>SimTime(flow->deadline))imageDeadlineMisses++;
+    }
+    imageReceptions.erase(image);
 }
 void CatalogUdpApp::socketDataArrived(UdpSocket *,Packet *packet)
 {
@@ -102,6 +143,7 @@ void CatalogUdpApp::socketDataArrived(UdpSocket *,Packet *packet)
     long seq=payload->getSequenceNumber();
     if(seq<=lastSequence)duplicates++;lastSequence=seq;
     countPacket(B(packet->getDataLength()).get(),seq,payload->getTag<CreationTimeTag>()->getCreationTime());
+    countCameraImageCompletion(seq);
     emit(receivedSignal,packet);delete packet;
 }
 void CatalogUdpApp::socketErrorArrived(UdpSocket *,Indication *indication)
@@ -113,8 +155,12 @@ void CatalogUdpApp::finish()
     if(!plan)return;
     std::string node=getContainingNode(this)->getFullPath();node=node.substr(node.find('.')+1);
     std::ofstream out(plan->directory+"/"+flow->name+"-"+node+(source?"-tx.csv":"-rx.csv"));
-    out<<"flow,node,role,packets,app_bytes,measured_packets,measured_app_bytes,first,last,min_gap,max_gap,min_size,max_size,sequence_sum,duplicates_or_reorder,deadline_s,deadline_misses,max_latency\n"<<std::setprecision(15);
-    out<<flow->name<<','<<node<<','<<(source?"tx":"rx")<<','<<packets<<','<<appBytes<<','<<measuredPackets<<','<<measuredBytes<<','<<first<<','<<last<<','<<minGap<<','<<maxGap<<','<<minSize<<','<<maxSize<<','<<sequenceSum<<','<<duplicates<<','<<flow->deadline<<','<<misses<<','<<maxLatency<<'\n';
+    out<<"flow,node,role,packets,app_bytes,measured_packets,measured_app_bytes,first,last,min_gap,max_gap,min_size,max_size,sequence_sum,duplicates_or_reorder,deadline_s,deadline_misses,max_latency,measured_images,completed_images,image_deadline_misses\n"<<std::setprecision(15);
+    // Count camera cohorts by their first frame's creation time. Under C1 the
+    // final frames of an in-window image may be released during the drain, so
+    // measuredPackets / burst would undercount that offered image.
+    const long imageCount=measuredImages;
+    out<<flow->name<<','<<node<<','<<(source?"tx":"rx")<<','<<packets<<','<<appBytes<<','<<measuredPackets<<','<<measuredBytes<<','<<first<<','<<last<<','<<minGap<<','<<maxGap<<','<<minSize<<','<<maxSize<<','<<sequenceSum<<','<<duplicates<<','<<flow->deadline<<','<<misses<<','<<maxLatency<<','<<imageCount<<','<<completedImages<<','<<imageDeadlineMisses<<'\n';
     recordScalar("catalogPackets",packets);recordScalar("catalogAppBytes",appBytes);
     recordScalar("deadlineMisses",misses);recordScalar("maxLatency",maxLatency);
 }

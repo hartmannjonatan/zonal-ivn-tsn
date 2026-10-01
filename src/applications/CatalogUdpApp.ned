@@ -13,6 +13,8 @@ simple CatalogUdpApp like IApp
         @signal[packetReceived](type=inet::Packet);
         @signal[latency](type=simtime_t);
         @statistic[latency](unit=s; record=histogram; interpolationmode=none);
+        @signal[imageCompletionLatency](type=simtime_t);
+        @statistic[imageCompletionLatency](unit=s; record=vector,histogram; interpolationmode=none);
     gates:
         input socketIn;
         output socketOut;

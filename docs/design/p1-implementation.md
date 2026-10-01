@@ -3,10 +3,11 @@
 Referência de projeto: P1.pdf fornecido pelo usuário, seções 2–6. O documento
 fixa o benchmark, mas não prescreve a organização interna de diretórios (6.1).
 Topologia e catálogo de tráfego estão implementados e validados em Cmdenv.
-VLAN/PCP e encaminhamento multicast estão ativos. C0 foi implementado e
-auditado integralmente nas oito células P1: a estrutura e as filas estão
-corretas, mas nenhuma célula atende os critérios de viabilidade devido às perdas
-nas filas de origem das câmeras F02–F05. C1–C4 e a campanha experimental final
+VLAN/PCP e encaminhamento multicast estão ativos. C0/C1 já têm implementação e
+validação anteriores; esta rodada atualiza ambos para as capacidades do P1
+corrigido: 64 KiB/TC em CAM1–CAM4, 128 KiB/TC em G1–G4 e 32 KiB/TC nos demais
+egressos. Os resultados antigos são preservados em suas pastas originais e não
+representam a configuração corrigida. C2–C4 e a campanha experimental final
 ainda não estão concluídos.
 
 ## Etapas e entregas
@@ -30,24 +31,34 @@ ainda não estão concluídos.
    ativa filas por PCP também nos talkers e CPUs zonais, com PCP n → TCn, FIFO
    drop-tail finita por classe e prioridade TC7→TC0. Todos os gates ficam abertos;
    não há CBS, TAS com janelas fechadas nem pre-shaping. Buffers são 128 KiB/TC
-   nos egressos G1–G4 e 32 KiB/TC nos demais. `Validate_C0_Lx_Ay` executa as oito
+   nos egressos G1–G4, 64 KiB/TC nos talkers CAM1–CAM4 e 32 KiB/TC nos demais.
+   A fila de câmera acomoda os 30 frames do burst (44.880 B). `Validate_C0_Lx_Ay` executa as oito
    células com 1 s de warm-up e 30 s medidos, confere as filas por classe em todos
    os egressos e aplica por célula os critérios de miss, BE goodput/perda e
-   estabilidade após o warm-up. A auditoria seed 41 concluiu 8/8 células: todas
-   validaram PCP→TC, ordem SP, gates, capacidades e atividade das 336 filas;
-   nenhuma fila apresentou crescimento sustentado, mas 0/8 células foram viáveis.
-   F02–F05 perdem 30% dos quadros antes do CSW, na fila de 32 KiB de cada câmera.
-   Por decisão de análise, F01 e F06/F07 também são tratados como `high-hard`,
-   sem alterar o rótulo original `high` do catálogo. F01 falha em L0/A1 e L1–L3;
-   F06/F07 falham em L2/A1 e L3. O resultado
-   detalhado está em `tests/validation/classification/c0-p1-results.md`; os dados
-   completos gerados ficam sob `simulations/results/C0/p1-validation/`. As 30
+   estabilidade após o warm-up. A matriz corrigida seed 41 foi executada nas
+   oito células em `simulations/results/C0/p1-validation-64KiB/`, com verificação
+   de PCP→TC, ordem SP, gates, capacidades e atividade das 336 filas. Todas
+   tiveram zero drops e filas estáveis; 1/8 passou a viabilidade após F01/F06/F07
+   serem tratados como `high-hard`. A inviabilidade restante decorre de misses
+   de deadline, não de perda.
+   O catálogo foi atualizado para rotular F01 e F06/F07 como `high-hard`,
+   conforme decisão do usuário. F01 tem misses em L0/A1 e L1–L3;
+   F06/F07 têm misses em L2 (A0/A1) e L3 (A0/A1). O resultado
+   detalhado da matriz anterior está em `tests/validation/classification/c0-p1-results.md`;
+   os resultados corrigidos estão sob `simulations/results/C0/p1-validation-64KiB/`. As 30
    repetições finais seguem reservadas à campanha com seeds 1001–1030.
-4. **C1 — próxima etapa:** aplicar somente às fontes F02–F05 o pre-shaping P1:
-   espaçamento ADAS min(324 µs,C/30) e vision min(500 µs,C/30). Preservar ciclo,
-   volume, tamanho e deadlines. Repetir as oito células sob a mesma regra que
-   classifica F01/F06/F07 como hard-critical; confirmar remoção das perdas nas
-   filas de origem e medir o efeito sobre misses hard.
+4. **C1 — implementado e validado:** aplicar somente às fontes F02–F05 o
+   pre-shaping P1: espaçamento ADAS min(324 µs,C/30) e vision min(500 µs,C/30).
+   Preservar ciclo, todos os 30 frames, payload e deadlines; quando uma imagem
+   começa antes do fim da janela, completar sua cauda durante a drenagem para não
+   reduzir o offered load na comparação. A matriz seed 41 está em
+   `simulations/results/C1/p1-validation-64KiB/`, pareada ao C0: 8/8 células
+   viáveis, zero drops, goodput de payload de 100% e geração de frames igual em
+   cada fluxo/célula. A fila de câmera atingiu 43,83 KiB em C0 e 1,46 KiB em C1;
+   nenhum egress teve crescimento sustentado. A comparação e a leitura de H1/H2
+   estão em `C0_C1_comparison.json` e `C0_C1_analysis.md` nesse diretório.
+   `tests/validation/source_preshaping/README.md` documenta o procedimento. As
+   30 repetições finais pertencem à campanha experimental.
 5. **C2/C3:** CBS TC6/TC4, reservas nominais por porta excluindo transientes;
    calibrar C3 em L2/A1, congelar razões e aplicar limite de 75% por porta.
 6. **C4:** CBS congelado + TAS nos sete egressos HPC→CSW,

@@ -1,11 +1,11 @@
 <catalog>
-  <flow id="1" name="F01" source="LiDAR1" destinations="HPC" family="lidar" app_bytes="1472" burst="1" pcp="6" vlan="1" scalable="1" period="0.0001" offset="0.0" phase="0.0" deadline="0.0001" criticality="high" />
+  <flow id="1" name="F01" source="LiDAR1" destinations="HPC" family="lidar" app_bytes="1472" burst="1" pcp="6" vlan="1" scalable="1" period="0.0001" offset="0.0" phase="0.0" deadline="0.0001" criticality="high-hard" />
   <flow id="2" name="F02" source="CAM1" destinations="HPC" family="camera" app_bytes="1446" burst="30" pcp="6" vlan="2" scalable="1" period="0.016" offset="0.0" phase="0.0" deadline="0.01" criticality="high-hard" />
   <flow id="3" name="F03" source="CAM2" destinations="HPC" family="camera" app_bytes="1446" burst="30" pcp="6" vlan="7" scalable="1" period="0.016" offset="0.0" phase="0.25" deadline="0.01" criticality="high-hard" />
   <flow id="4" name="F04" source="CAM3" destinations="HPC" family="camera" app_bytes="1446" burst="30" pcp="4" vlan="13" scalable="1" period="0.016" offset="0.0" phase="0.5" deadline="0.03" criticality="medium-soft" />
   <flow id="5" name="F05" source="CAM4" destinations="HPC" family="camera" app_bytes="1446" burst="30" pcp="4" vlan="14" scalable="1" period="0.016" offset="0.0" phase="0.75" deadline="0.03" criticality="medium-soft" />
-  <flow id="6" name="F06" source="RADAR1" destinations="HPC" family="radar" app_bytes="14" burst="1" pcp="6" vlan="6" scalable="1" period="0.001" offset="2e-05" phase="0.0" deadline="0.0001" criticality="high" />
-  <flow id="7" name="F07" source="RADAR2" destinations="HPC" family="radar" app_bytes="14" burst="1" pcp="6" vlan="12" scalable="1" period="0.001" offset="2.5e-05" phase="0.0" deadline="0.0001" criticality="high" />
+  <flow id="6" name="F06" source="RADAR1" destinations="HPC" family="radar" app_bytes="14" burst="1" pcp="6" vlan="6" scalable="1" period="0.001" offset="2e-05" phase="0.0" deadline="0.0001" criticality="high-hard" />
+  <flow id="7" name="F07" source="RADAR2" destinations="HPC" family="radar" app_bytes="14" burst="1" pcp="6" vlan="12" scalable="1" period="0.001" offset="2.5e-05" phase="0.0" deadline="0.0001" criticality="high-hard" />
   <flow id="8" name="F08" source="HPC" destinations="BRAKE1" family="brake" app_bytes="14" burst="1" pcp="7" vlan="3" scalable="0" period="0.0001" offset="0.0" phase="0.0" deadline="0.0001" criticality="high-hard" />
   <flow id="9" name="F09" source="HPC" destinations="BRAKE2" family="brake" app_bytes="14" burst="1" pcp="7" vlan="8" scalable="0" period="0.0001" offset="2e-06" phase="0.0" deadline="0.0001" criticality="high-hard" />
   <flow id="10" name="F10" source="HPC" destinations="BRAKE3" family="brake" app_bytes="14" burst="1" pcp="7" vlan="15" scalable="0" period="0.0001" offset="4e-06" phase="0.0" deadline="0.0001" criticality="high-hard" />

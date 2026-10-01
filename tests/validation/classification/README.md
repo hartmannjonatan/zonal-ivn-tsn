@@ -8,10 +8,11 @@ imagem em A1, permanecem inalteradas.
 
 As filas por classe estão habilitadas nos egressos de switches e de talkers,
 incluindo HPC e CPUs zonais. Os limites por fila são 128 KiB nos egressos G1–G4
-(uplinks zonais, CSW→HPC, CSW→zonas e caminhos LP/backbone dos transientes) e
-32 KiB nos demais. O limite é por classe e em bytes. Descarta-se na cauda da
-fila; qualquer perda resultante é evidência do baseline, não um motivo para
-alterar o catálogo.
+(uplinks zonais, CSW→HPC, CSW→zonas e caminhos LP/backbone dos transientes),
+64 KiB nos talkers CAM1–CAM4 e 32 KiB nos demais egressos. Assim, a fila da
+câmera admite os 30 quadros do burst (44.880 B no MAC) sem truncar a carga na
+origem. O limite é por classe e em bytes; os drops restantes são localizados
+nas filas de rede pela auditoria de saltos.
 
 ## Executar a validação P1
 
@@ -37,23 +38,24 @@ de cada fila é integrada em seis janelas de 5 s; crescimento sustentado é marc
 quando as médias das três últimas janelas sobem continuamente e aumentam mais
 que 5% da capacidade. Histogramas de tempo de fila e utilização também são
 exigidos. F21/F22 precisam manter as mesmas escolhas transientes entre L/A.
-Resultados detalhados por célula ficam em `simulations/results/C0/p1-validation/`
+Resultados detalhados por célula ficam em `simulations/results/C0/p1-validation-64KiB/`
 e o consolidado em `C0_acceptance.json`.
 
 O comando termina quando a evidência técnica está completa. Cada célula é
 classificada separadamente como viável ou não viável pelos critérios do P1; uma
-célula não viável continua sendo um resultado válido do baseline C0. A auditoria
-integral com seed 41 foi concluída: as oito células passaram a validação estrutural,
-nenhuma fila teve crescimento sustentado e 0/8 células atenderam a todos os
-limites de viabilidade. F02–F05 perderam 30% dos quadros na fila da própria
-câmera. A análise de aceitação também trata F01 e F06/F07 como hard-critical
-conforme decisão do usuário, sem modificar o catálogo; sob essa regra, há
-misses adicionais desses fluxos em L0/A1 e nas cargas L1–L3. Os resultados e o diagnóstico estão em
+célula não viável continua sendo um resultado válido do baseline C0. A matriz
+seed 41 com 64 KiB nas câmeras foi executada: 1/8 células atende à viabilidade,
+embora todas tenham zero drops, zero overflow nas filas CAM e filas estáveis.
+Os resultados antigos de 32 KiB foram preservados em `p1-validation/` e são supersedidos para a
+configuração corrigida. A análise de aceitação usa F01 e F06/F07 como
+hard-critical conforme os rótulos `high-hard` do catálogo. O diagnóstico
+detalhado da rodada corrigida está no relatório comparativo C0/C1. Os resultados
+antigos estão documentados em
 [`c0-p1-results.md`](c0-p1-results.md); relatórios completos por fluxo permanecem
 na pasta de resultados ignorada pelo Git.
 
-Para reaplicar essa regra e atualizar a classificação sobre resultados já
-coletados, sem executar de novo as simulações:
+Para reclassificar os resultados já coletados de acordo com o catálogo atualizado,
+sem executar de novo as simulações:
 
 ```bash
 python3 scripts/run/validate_c0.py --reassess-existing
@@ -74,16 +76,14 @@ piloto usam seeds próprias, separadas de 1001–1030.
 
 - Os pacotes atingem a fila TC indicada pelo PCP em talkers e switches.
 - Fila selecionada segue a ordem decrescente de TC e os gates permanecem abertos.
-- Capacidade efetiva por classe é 128 KiB em G1–G4 e 32 KiB nos demais egressos.
+- Capacidade efetiva por classe é 128 KiB em G1–G4, 64 KiB nos talkers CAM1–CAM4
+  e 32 KiB nos demais egressos.
 - `queues.csv` e `drops.csv` conservam os pacotes em cada salto; não há flooding
   nem caminhos fora do catálogo.
 - `C0_acceptance.json` reporta p99/máximo, misses, goodput, perdas, ocupação por
   classe e a classificação de estabilidade para cada carga/agregação.
 
-C0 constitui a referência para C1–C4. Esta validação usa a duração de medição
-P1 em uma seed de auditoria; as 30 seeds 1001–1030 continuam reservadas à
-campanha final, após o piloto e o congelamento do protocolo. A próxima etapa é
-C1: pre-shaping de origem somente para F02–F05, preservando os atributos do
-catálogo e repetindo a matriz com F01/F06/F07 incluídos no gate hard-critical,
-para confirmar se as perdas nas filas das câmeras desaparecem e se reduzem os
-misses dos fluxos hard.
+C0 constitui a referência para C1–C4. Esta validação usa a duração P1 em uma
+seed de auditoria; as 30 seeds 1001–1030 continuam reservadas à campanha final.
+C1 aplica pre-shaping somente a F02–F05 e repete a matriz com as categorias de
+criticalidade canônicas. Consulte `../source_preshaping/README.md`.

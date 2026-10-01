@@ -1,11 +1,11 @@
 flow_id,family,source,destinations,path,app_bytes,ip_bytes,mac_bytes,wire_bytes,packets_per_cycle,period_us,offset_us,phase_numerator,phase_denominator,deadline_us,criticality,pcp,traffic_class,vlan,scalable,wire_rate_mbps,provenance,status
-F01,lidar,LiDAR1,HPC,P1-Z1,1472,1500,1522,1542,1,100,0,0,1,100,high,6,6,1,1,123.36,L6/L8;derived,P1
+F01,lidar,LiDAR1,HPC,P1-Z1,1472,1500,1522,1542,1,100,0,0,1,100,high-hard,6,6,1,1,123.36,L6/L8;derived,P1
 F02,camera,CAM1,HPC,P1-Z1,1446,1474,1496,1516,30,16000,0,0,4,10000,high-hard,6,6,2,1,22.74,M18-T1;L6;assumed/derived,P1
 F03,camera,CAM2,HPC,P1-Z2,1446,1474,1496,1516,30,16000,0,1,4,10000,high-hard,6,6,7,1,22.74,M18-T1;L6;assumed/derived,P1
 F04,camera,CAM3,HPC,P1-Z3,1446,1474,1496,1516,30,16000,0,2,4,30000,medium-soft,4,4,13,1,22.74,M18-T1;L6;assumed/derived,P1
 F05,camera,CAM4,HPC,P1-Z3,1446,1474,1496,1516,30,16000,0,3,4,30000,medium-soft,4,4,14,1,22.74,M18-T1;L6;assumed/derived,P1
-F06,radar,RADAR1,HPC,P1-Z2,14,42,64,84,1,1000,20,0,1,100,high,6,6,6,1,0.672,L6/L8;derived,P1
-F07,radar,RADAR2,HPC,P1-Z3,14,42,64,84,1,1000,25,0,1,100,high,6,6,12,1,0.672,L6/L8;derived,P1
+F06,radar,RADAR1,HPC,P1-Z2,14,42,64,84,1,1000,20,0,1,100,high-hard,6,6,6,1,0.672,L6/L8;derived,P1
+F07,radar,RADAR2,HPC,P1-Z3,14,42,64,84,1,1000,25,0,1,100,high-hard,6,6,12,1,0.672,L6/L8;derived,P1
 F08,brake,HPC,BRAKE1,P2-Z1,14,42,64,84,1,100,0,0,1,100,high-hard,7,7,3,0,6.72,L6/L8;derived,P1
 F09,brake,HPC,BRAKE2,P2-Z2,14,42,64,84,1,100,2,0,1,100,high-hard,7,7,8,0,6.72,L6/L8;derived,P1
 F10,brake,HPC,BRAKE3,P2-Z3,14,42,64,84,1,100,4,0,1,100,high-hard,7,7,15,0,6.72,L6/L8;derived,P1

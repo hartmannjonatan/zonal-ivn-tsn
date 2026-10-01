@@ -17,6 +17,10 @@ DATA = ROOT / 'simulations/zonal/traffic'
 
 
 def read(path):
+    # Traffic release schedules can be very large single CSV fields (one
+    # serialized field per release row); Python's default 128 KiB cap is too
+    # small for the P1 high-load matrices.
+    csv.field_size_limit(sys.maxsize)
     with path.open() as file:
         return list(csv.DictReader(file))
 
@@ -78,6 +82,7 @@ def check_run(directory):
     require(run['volume_layer'] == 'app', 'Transient volume must be application bytes')
     end = warmup + duration
     only_transients = run['transients_only'] == '1'
+    source_pre_shaping = run.get('source_pre_shaping', '0') == '1'
     events = read(directory / 'events.csv')
     by_event = {(r['flow'], int(r['block'])): r for r in events}
     require(len(by_event) == len(events) == 2 * int(duration), 'Missing or duplicate events')
@@ -126,7 +131,26 @@ def check_run(directory):
             if f['family'] == 'best_effort':
                 offset = phase * period
             n = math.ceil(round((end - offset) / period, 9))
-            expected = [(offset + j * period, int(f['packets_per_cycle']), int(f['app_bytes']), -1) for j in range(n)]
+            if f['family'] == 'camera' and source_pre_shaping:
+                limit = 324e-6 if fid in ('F02', 'F03') else 500e-6
+                spacing = min(limit, period / 30)
+                # Match the C++ operations exactly: each double parameter is
+                # converted to SimTime ticks first, then the integral period
+                # and spacing are multiplied by cycle/packet. Quantizing only
+                # the final timestamp differs by one packet at some boundaries
+                # (e.g. C/30=213333.333... ps).
+                ticks_per_second = 10**12  # OMNeT++ default simtime-resolution: 1 ps
+                offset_ticks = round(offset * ticks_per_second)
+                period_ticks = round(period * ticks_per_second)
+                spacing_ticks = round(spacing * ticks_per_second)
+                end_ticks = round(end * ticks_per_second)
+                cycle_count = (end_ticks - offset_ticks + period_ticks - 1) // period_ticks
+                expected = [((offset_ticks + cycle * period_ticks + packet * spacing_ticks) /
+                             ticks_per_second, 1, int(f['app_bytes']), -1)
+                            for cycle in range(cycle_count) for packet in range(30)]
+            else:
+                expected = [(offset + j * period, int(f['packets_per_cycle']), int(f['app_bytes']), -1)
+                            for j in range(n)]
         actual = releases[fid]
         require(len(actual) == len(expected), f'{fid} releases: {len(actual)} != {len(expected)}')
         for row, (t, count, size, block) in zip(actual, expected):
@@ -134,7 +158,7 @@ def check_run(directory):
             require((int(row['count']), int(row['app_bytes']), int(row['block'])) == (count, size, block), f'{fid} packetization')
         n = sum(e[1] for e in expected)
         byte_count = sum(e[1] * e[2] for e in expected)
-        measured = [e for e in expected if e[0] >= warmup - 1e-12]
+        measured = [e for e in expected if e[0] >= warmup - 1e-12 and e[0] < end]
         tx = applications[fid, f['source'], 'tx']
         expected_counts = (n, n * (n - 1) // 2, byte_count)
         require(tuple_counts(tx) == expected_counts, f'{fid} generated counts/bytes/sequence mismatch')

@@ -1,4 +1,5 @@
 #include "TrafficPlan.h"
+#include <algorithm>
 #include <filesystem>
 #include <iomanip>
 #include <cmath>
@@ -20,6 +21,9 @@ void TrafficPlan::initialize()
     directory=par("outputDirectory").stdstringValue();
     std::filesystem::create_directories(directory);
     trace=par("traceReleases");
+    sourcePreShaping=par("sourcePreShaping");
+    adasSpacingLimit=par("adasSpacingLimit");
+    visionSpacingLimit=par("visionSpacingLimit");
     transientsOnly=par("transientsOnly");exhaustive=par("exhaustiveSignatures");
     if(exhaustive && !transientsOnly)throw cRuntimeError("Signature sweep is only for isolated diagnostics");
     if(trace) {
@@ -59,12 +63,20 @@ void TrafficPlan::initialize()
         }
     }
     std::ofstream manifest(directory+"/run.csv");
-    manifest<<"load,aggregation,factor,warmup,measurement,volume_layer,transients_only,exhaustive\n"<<level<<','<<aggregation<<','<<factor<<','<<warmup<<','<<measurement<<','<<volumeLayer<<','<<transientsOnly<<','<<exhaustive<<'\n';
+    manifest<<"load,aggregation,factor,warmup,measurement,volume_layer,transients_only,exhaustive,source_pre_shaping,adas_spacing_limit,vision_spacing_limit\n"
+            <<level<<','<<aggregation<<','<<factor<<','<<warmup<<','<<measurement<<','<<volumeLayer<<','<<transientsOnly<<','<<exhaustive<<','
+            <<sourcePreShaping<<','<<adasSpacingLimit<<','<<visionSpacingLimit<<'\n';
 }
 double TrafficPlan::offset(const CatalogFlow& f) const
 {
     if(f.family=="camera")return aligned?0:period(f)*f.phase;
     if(f.family=="best_effort")return period(f)*f.phase;
     return f.offset;
+}
+double TrafficPlan::cameraSpacing(const CatalogFlow& f) const
+{
+    if(!sourcePreShaping || f.family!="camera") return 0;
+    const double limit = f.id <= 3 ? adasSpacingLimit : visionSpacingLimit;
+    return std::min(limit, period(f) / 30.0);
 }
 void TrafficPlan::handleMessage(cMessage *) { throw cRuntimeError("TrafficPlan has no runtime messages"); }
