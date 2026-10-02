@@ -8,6 +8,7 @@ are needed to recheck the exported evidence.
 import csv
 import json
 import math
+import re
 from collections import defaultdict
 from pathlib import Path
 import sys
@@ -110,7 +111,9 @@ def check_run(directory):
     queues = {(r['interface'], r['flow']): r for r in read(directory / 'queues.csv')}
     drops = {(r['interface'], r['flow']): r for r in read(directory / 'drops.csv')}
     expected_wire_keys = set()
-    summary = {'run': run, 'source_packets': 0, 'drops': sum(int(r['packets']) for r in drops.values()), 'flows': {}}
+    summary = {'run': run, 'source_packets': 0, 'drops': sum(int(r['packets']) for r in drops.values()),
+               'pending_at_simulation_end': [], 'flows': {}}
+    pending_by_queue = defaultdict(dict)
 
     for fid, f in flows.items():
         expected = []  # time, count, app bytes per packet, event block
@@ -182,8 +185,19 @@ def check_run(directory):
                 if queued is not None:
                     require(tuple_counts(queued, 50) == current, f'{key} queue arrival mismatch')
                 transmitted = tuple_counts(wires.get(key), 70)
-                require(tuple(x + y for x, y in zip(transmitted, lost)) == current,
-                        f'{key} conservation: transmitted {transmitted} + dropped {lost} != incoming {current}')
+                residual = tuple(c - t - d for c, t, d in zip(current, transmitted, lost))
+                require(all(value >= 0 for value in residual),
+                        f'{key} conservation has negative residual: incoming {current}, '
+                        f'transmitted {transmitted}, dropped {lost}')
+                if any(residual):
+                    # CBS may legitimately leave packets in a class queue at the
+                    # fixed P1 simulation stop. Do not call them drops: require
+                    # the residual to be present in the corresponding final
+                    # queue occupancy recorded by OMNeT++.
+                    tc = int(f['traffic_class'])
+                    previous = pending_by_queue[key[0], tc].get(fid)
+                    if previous is None or residual[0] > previous[0]:
+                        pending_by_queue[key[0], tc][fid] = residual
                 current = transmitted
             rx = applications[fid, destination, 'rx']
             require(tuple_counts(rx) == current, f'{fid} sink {destination}: missing/extra packets')
@@ -196,6 +210,33 @@ def check_run(directory):
                 'deadline_misses': int(rx['deadline_misses']),
                 'max_latency_s': float(rx['max_latency'])}
         summary['flows'][fid] = info
+    if pending_by_queue:
+        sca = next(iter(directory.parent.glob(f'{directory.name.replace("-0", "")}-#*.sca')), None)
+        require(sca is not None, 'Pending packets found but scalar file is unavailable for queue reconciliation')
+        queue_last = {}
+        for line in sca.open(errors='replace'):
+            if not line.startswith('scalar ') or ' queueLength:last ' not in line:
+                continue
+            fields = line.split()
+            match = re.search(r'^(.*\.macLayer\.queue\.queue\[(\d+)\])$', fields[1])
+            if match:
+                queue_last[match.group(1), int(match.group(2))] = int(float(fields[-1]))
+        for (interface, tc), by_flow in pending_by_queue.items():
+            module = f'{interface}.macLayer.queue.queue[{tc}]'
+            residual_packets = sum(residual[0] for residual in by_flow.values())
+            observed = queue_last.get((module, tc))
+            require(observed is not None and residual_packets <= observed,
+                    f'{interface} TC{tc}: {residual_packets} untransmitted packets are not '
+                    f'accounted for by final queue occupancy ({observed})')
+            summary['pending_at_simulation_end'].extend(
+                {'interface': interface, 'flow': flow, 'traffic_class': tc,
+                 'packets': residual[0], 'sequence_sum': residual[1],
+                 'application_bytes': residual[2]}
+                for flow, residual in by_flow.items())
+        summary['pending_packet_count_at_simulation_end'] = sum(
+            entry['packets'] for entry in summary['pending_at_simulation_end'])
+    else:
+        summary['pending_packet_count_at_simulation_end'] = 0
     require(set(wires) == expected_wire_keys, f'Unexpected/missing egresses: {set(wires) ^ expected_wire_keys}')
     if not only_transients:
         require(len(applications) == 45, 'Expected 22 senders and 23 receivers')
@@ -221,4 +262,6 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         sys.exit(__doc__)
     result = check_run(Path(sys.argv[1]))
-    print(f'PASS: schedules, sizes, VLAN/PCP audit, routes, multicast and conservation; {result["drops"]} recorded drops.')
+    print(f'PASS: schedules, sizes, VLAN/PCP audit, routes, multicast and packet accounting; '
+          f'{result["drops"]} recorded drops, '
+          f'{result["pending_packet_count_at_simulation_end"]} packets pending at simulation end.')

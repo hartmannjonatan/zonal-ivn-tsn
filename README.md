@@ -30,9 +30,15 @@ demais falharam por deadline misses, enquanto C1 teve 8/8 viáveis. O relatório
 pareado com p99, misses, goodput, perdas, ocupação e contrastes H1/H2 está em
 `simulations/results/C1/p1-validation-64KiB/C0_C1_analysis.md` e
 `C0_C1_comparison.json`. Resultados antigos com filas de câmera de 32 KiB
-permanecem preservados como histórico. C2–C4 e as 30 repetições finais seguem
-como etapas posteriores; H1/H2 aqui são evidência descritiva de uma seed, não
-um teste estatístico completo.
+permanecem preservados como histórico. C2 adiciona CBS nominal a TC6/SR-A e
+TC4/SR-B, com reservas por egress calculadas do `R_wire` permanente do catálogo
+e do nível L, sem pre-shaping. C2 foi validado nas oito células L0–L3 × A0/A1
+com seed 41. Nenhuma célula passou o gate de viabilidade (0/8), frente a 1/8
+em C0 e 8/8 em C1; o relatório registra drops, misses, goodput e latências por
+fluxo. O JSON e a análise pareada ficam em
+`simulations/results/C2/p1-validation-64KiB-final/`. H1/H2 continuam como
+evidência descritiva de uma seed, não como teste estatístico completo. C3 e as
+30 repetições finais seguem como etapas posteriores.
 
 Na auditoria posterior dos percentis, foi corrigido o cálculo streaming do p99:
 o heap anterior crescia durante a leitura temporal e podia reter latências
@@ -80,7 +86,7 @@ simulations/
   zonal/
     networks/                  ZonalIVN.ned (topologia completa)
     configs/                   Base, recording e contratos de configuração
-      mechanisms/              C0 e C1 executáveis; C2–C4 documentados
+      mechanisms/              C0–C2 executáveis; C3–C4 documentados
     traffic/                   Catálogo CSV, assinaturas e XML gerado
 images/                        Fundo do veículo e ícone de câmera do INET
 experiments/                   design.json: fatores e protocolo planejado
@@ -92,8 +98,8 @@ tests/validation/              Validação incremental do benchmark
   cbs/                         C2/C3 e reservas
   tas/                         C4 e sincronização
   integration/                 Piloto integrado
-scripts/catalog/               Geração de XML/INI a partir dos CSVs
-scripts/run/                   Build e validação da matriz de tráfego
+scripts/catalog/               Geração de XML/INI e reservas CBS a partir dos CSVs
+scripts/run/                   Build e validação da matriz de tráfego/C0–C2
 scripts/analysis/              Futura extração e análise
 docs/
   design/                      Plano incremental baseado no P1
@@ -113,7 +119,7 @@ de saída existentes, conforme seus próprios INIs.
 |---|---|
 | C0 | Strict Priority |
 | C1 | C0 + pre-shaping nas câmeras F02–F05 |
-| C2 | CBS nominal em TC6 e TC4 |
+| C2 | CBS nominal por egress em TC6 (SR-A) e TC4 (SR-B), sem pre-shaping |
 | C3 | CBS calibrado em L2/A1, razões congeladas e teto de 75% por porta |
 | C4 | CBS de C3 + TAS em sete egressos e gPTP |
 
@@ -151,7 +157,8 @@ O comando `make` da raiz delega ao Makefile gerado em `src`; requer o ambiente
 OMNeT++ configurado. `simulations/run` configura os caminhos para o executável e INET.
 `TrafficCatalog` é a validação funcional do catálogo; para medir o baseline P1,
 usar `C0_Lx_Ay`. C0 está auditado; C1 foi implementado e validado nas oito células.
-C2–C4 e a campanha final ainda são etapas posteriores.
+C2 está implementado e validado na matriz seed 41 (0/8 células viáveis).
+C3/C4 e a campanha final ainda são etapas posteriores.
 
 ## Próximas etapas e rastreabilidade
 

@@ -59,8 +59,22 @@ ainda não estão concluídos.
    estão em `C0_C1_comparison.json` e `C0_C1_analysis.md` nesse diretório.
    `tests/validation/source_preshaping/README.md` documenta o procedimento. As
    30 repetições finais pertencem à campanha experimental.
-5. **C2/C3:** CBS TC6/TC4, reservas nominais por porta excluindo transientes;
-   calibrar C3 em L2/A1, congelar razões e aplicar limite de 75% por porta.
+5. **C2 — implementado e validado (seed 41):** estender C0 com CBS nominal
+   INET em TC6/SR-A e TC4/SR-B nos egressos com reserva permanente positiva.
+   Cada `idleSlope` é a soma do `R_wire` permanente roteado pelo egress e classe;
+   escaláveis seguem L0–L3 e F21/F22 ficam fora da reserva, embora usem TC6
+   quando ativos. Não há pre-shaping nem teto de 75% em C2. A matriz completa
+   pareada com C0/C1 está em `simulations/results/C2/p1-validation-64KiB-final/`:
+   C0 teve 1/8 células viáveis, C1 8/8 e C2 0/8. C2 apresentou drops e misses
+   de deadline em todas as células, apesar de não haver fila com crescimento
+   sustentado; isso é um resultado válido do mecanismo nominal, não motivo para
+   ajustar retrospectivamente suas reservas. Os pacotes ainda enfileirados ao
+   fim da drenagem são contabilizados como pendentes, conferidos contra a
+   ocupação final das filas, e não classificados como `droppedPacketsQueueOverflow`.
+   O JSON comparativo discrimina as séries de crédito CBS disponíveis; crédito
+   é explicativo no P1 e sua ausência em duas células não bloqueia os gates
+   primários, que foram avaliados nas oito. Próxima etapa: calibrar C3 em L2/A1,
+   congelar razões e aplicar o limite de 75% por porta.
 6. **C4:** CBS congelado + TAS nos sete egressos HPC→CSW,
    CSW→ZSW_i e ZSW_i→BRAKE_i. Ciclo de 100 µs: TC7 por 10 µs,
    TC0–TC6 por 77 µs, todos fechados por 13 µs. Sem preempção.

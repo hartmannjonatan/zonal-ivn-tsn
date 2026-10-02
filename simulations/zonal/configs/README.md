@@ -12,7 +12,9 @@ A entrada é `simulations/omnetpp.ini`.
 | traffic.ini | Carga, RNG, resultados e validação do catálogo |
 | mechanisms/C0_strict_priority.ini | Tratamento C0 executável e validação de aceitação L0–L3/A0–A1 |
 | mechanisms/C1_source_preshaping.ini | C1 executável; espaçamento de origem F02–F05 |
-| mechanisms/C2–C4 | Contratos das próximas configurações |
+| mechanisms/C2_nominal_cbs.ini | C2 executável; matriz seed 41 e instrumentação de crédito CBS |
+| mechanisms/C2_nominal_rates.ini | Gerado: reservas nominais por egress/classe/carga |
+| mechanisms/C3–C4 / synchronization.ini | Contratos das próximas configurações |
 | synchronization.ini | Contrato gPTP para a etapa C4 |
 
 `TopologyValidation` é a rede sem aplicações; `TopologyConnectivity` usa ICMP;
@@ -62,3 +64,49 @@ interrompida e reutilizar relatórios e resultados
 brutos completos, use `python3 scripts/run/validate_c1.py --jobs 4 --resume`.
 
 Depois de editar o CSV, executar `python3 scripts/catalog/generate.py` na raiz.
+
+## C2 — CBS nominal
+
+`C2_nominal_cbs.ini` estende C0. Portanto, conserva a classificação PCP→TC,
+SP nas classes sem CBS, os buffers drop-tail e os bursts originais de câmera;
+não aplica pre-shaping. O único tratamento acrescentado são os algoritmos
+INET `Ieee8021qCreditBasedShaper` nas classes TC6/SR-A e TC4/SR-B dos egressos
+que carregam tráfego permanente dessas classes.
+
+`scripts/catalog/generate_cbs.py` deriva `idleSlope` pela soma das taxas wire
+permanentes (`R_wire`) do catálogo em cada par egress/classe. Os fluxos
+escaláveis são multiplicados pelos fatores L0–L3 (0,5/1/2,5/4); F21/F22 usam
+TC6 quando ativos, mas são transientes e ficam fora da reserva. No multicast
+F14, cada porta comum é contada uma vez e os egressos de ramificação recebem a
+taxa encaminhada por eles. O P1 não aplica ao C2 o teto de admissão de 75% usado
+na calibração de C3/C4. Portas sem tráfego permanente de uma classe não recebem
+CBS com `idleSlope=0`; assim não se inventa reserva para fluxos exclusivamente
+transientes.
+
+Gere e confira os artefatos com:
+
+```bash
+python3 scripts/catalog/generate_cbs.py
+python3 scripts/catalog/generate_cbs.py --check
+```
+
+As oito configurações `Validate_C2_Lx_Ay` usam seed 41 e as mesmas janelas,
+buffers e métricas de C0/C1. `scripts/run/validate_c2.py` compara os resultados
+pareados e audita a instância e o `idleSlope` de cada CBS, vetores e resumos
+min/max/time-average de crédito, eventos transientes, latência, misses, perdas,
+goodput e filas. O P1 §5.4 trata crédito CBS como métrica explicativa, quando
+necessária, e não como gate primário de viabilidade. O validador reativa via
+linha de comando o vetor `numCredits`, que a configuração-base desativa; as
+séries disponíveis são anexadas ao JSON, sem invalidar uma célula que contenha
+as métricas primárias completas. Um smoke curto confirmou 25 vetores e resumos
+numéricos em L0/A0. A matriz completa foi executada e auditada: C0/C1/C2 tiveram
+1/8, 8/8 e 0/8 células viáveis, respectivamente. Todas as células C2 foram
+reprovadas pelo gate por misses e/ou perdas; nenhuma fila apresentou
+crescimento sustentado. Nas células L0/L1, ainda havia 459/450/274/267 pacotes
+enfileirados no término, separados de drops e reconciliados com `queueLength:last`
+no SCA. Isso explica por que o relatório mantém contagens de drops distintas
+das entregas pendentes. O comparativo final está em
+`simulations/results/C2/p1-validation-64KiB-final/`, nos arquivos
+`C0_C1_C2_comparison.json` e `C0_C1_C2_analysis.md`. A pasta anterior
+`p1-validation-64KiB/` contém a execução interrompida/concorrente e não é a
+fonte do comparativo final.

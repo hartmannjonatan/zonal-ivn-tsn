@@ -523,7 +523,8 @@ def assess_qos(summary, latencies, image_latencies):
     return metrics
 
 
-def run_cell(config, output, env=None, inet=None, execute=True):
+def run_cell(config, output, env=None, inet=None, execute=True, result_dir_override=None,
+             extra_args=()):
     if execute:
         command = [str(ROOT / "src/zonal-ivn-tsn"), "-u", "Cmdenv",
                    "-n", f".:{ROOT / 'src'}:{ROOT / 'tests'}:{inet / 'src'}",
@@ -536,6 +537,9 @@ def run_cell(config, output, env=None, inet=None, execute=True):
                    "--**.droppedPacketLengthsQueueOverflow.result-recording-modes=+vector",
                    "--**.queueingTime.result-recording-modes=+histogram",
                    "--**.utilization.result-recording-modes=+histogram"]
+        if result_dir_override is not None:
+            command.append(f"--result-dir={result_dir_override}")
+        command.extend(extra_args)
         log = output / f"{config}.log"
         with log.open("w") as stream:
             result = subprocess.run(command, cwd=SIM, env=env, stdout=stream, stderr=subprocess.STDOUT)
@@ -608,6 +612,8 @@ def run_cell(config, output, env=None, inet=None, execute=True):
     report = {"config": config, "treatment": treatment,
               "load": expected_load, "aggregation": expected_aggregation,
               "offered_packets": summary["source_packets"], "recorded_drops": summary["drops"],
+              "pending_packet_count_at_simulation_end": summary.get("pending_packet_count_at_simulation_end", 0),
+              "pending_packets_at_simulation_end": summary.get("pending_at_simulation_end", []),
               "camera_source_queue_drops": camera_source_queue_drops,
               "egress_interfaces_checked": len(interfaces), "class_queues_checked": len(queues),
               "qos": qos, "queue_stability": stability,
