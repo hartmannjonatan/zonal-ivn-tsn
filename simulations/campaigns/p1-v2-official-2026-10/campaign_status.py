@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import gzip
 import os
@@ -72,19 +73,36 @@ def log_progress(path: Path):
 
 def campaign_executor_alive(checkpoint):
     pid = checkpoint.get("executor_pid") if checkpoint else None
-    if not pid:
-        return False
+    if pid:
+        try:
+            pid = int(pid)
+            os.kill(pid, 0)
+            executable = Path(f"/proc/{pid}/exe").resolve().name
+            argv = [arg for arg in Path(f"/proc/{pid}/cmdline").read_bytes().split(b"\0") if arg]
+            # A stale PID can be recycled by an unrelated shell whose command text
+            # happens to contain `run_campaign.py`. Require a Python executable and
+            # a distinct argv token naming the actual runner script.
+            if executable.startswith("python") and any(
+                    Path(arg.decode(errors="replace")).name == "run_campaign.py" for arg in argv[1:]):
+                return True
+        except (OSError, ValueError):
+            pass
+
+    # The runner's PID may be in a separate PID namespace from an SSH dashboard.
+    # Its exclusive flock is shared across namespaces and is released on exit.
+    lock_path = RESULTS / ".campaign.lock"
     try:
-        pid = int(pid)
-        os.kill(pid, 0)
-        executable = Path(f"/proc/{pid}/exe").resolve().name
-        argv = [arg for arg in Path(f"/proc/{pid}/cmdline").read_bytes().split(b"\0") if arg]
-        # A stale PID can be recycled by an unrelated shell whose command text
-        # happens to contain `run_campaign.py`. Require a Python executable and
-        # a distinct argv token naming the actual runner script.
-        return (executable.startswith("python") and any(
-            Path(arg.decode(errors="replace")).name == "run_campaign.py" for arg in argv[1:]))
-    except (OSError, ValueError):
+        fd = os.open(lock_path, os.O_RDONLY)
+        try:
+            fcntl.flock(fd, fcntl.LOCK_SH | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return True
+        else:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+            return False
+        finally:
+            os.close(fd)
+    except OSError:
         return False
 
 
@@ -200,6 +218,24 @@ def render_once():
             except (ValueError, IndexError):
                 pass
 
+    # Raw-run recovery and validation can be active without a fresh OMNeT log.
+    # Include checkpoint IDs so the relevant cell shows in-flight work instead
+    # of looking idle at 0% until a validated ledger row is appended.
+    completed_ids = {r.get("execution_id") for r in final_rows}
+    checkpoint_ids = list(checkpoint.get("active_execution_ids", []))
+    checkpoint_id = checkpoint.get("active_execution_id")
+    if checkpoint_id and checkpoint_id not in checkpoint_ids:
+        checkpoint_ids.append(checkpoint_id)
+    if executor_alive:
+        for execution_id in checkpoint_ids:
+            match = re.fullmatch(r"(C[0-3])_(L[0-3])_(A[01])_seed\d+", str(execution_id))
+            if not match or execution_id in completed_ids:
+                continue
+            key = (match.group(1), match.group(2), match.group(3))
+            if not any(item.get("id") == execution_id for item in active_by_cell[key]):
+                active_by_cell[key].append({"id": execution_id, "percent": None,
+                                            "postprocessing": True, "path": None})
+
     lines = []
     lines.append("CAMPANHA OFICIAL P1 v2 — acompanhamento ao vivo (somente leitura)")
     lines.append(f"Atualizado: {now}     Atualização automática: a cada intervalo configurado")
@@ -248,7 +284,7 @@ def render_once():
     lines.append("")
     lines.append("CAMPANHA FINAL — percentual por célula (30 seeds por célula)")
     lines.append(f"  Condição C3: {'perfil aceito' if accepted else 'aguarda calibração/verificação'}")
-    lines.append("  Cada valor é (seeds concluídas + fração das execuções ativas) / 30.")
+    lines.append("  Seeds em recuperação/validação aparecem como ativas, mas só contam após gate e ledger.")
     treatments = ("C0", "C1", "C2", "C3")
     loads = ("L0", "L1", "L2", "L3")
     for treatment in treatments:
@@ -270,7 +306,12 @@ def render_once():
                 pct = min(100.0, (done + partial) / SEEDS_PER_CELL * 100)
                 state = f"{pct:5.1f}% ({done:02d}/30"
                 if runs:
-                    state += f" + {len(runs)} ativo"
+                    simulating = sum(x.get("percent") is not None for x in runs)
+                    processing = len(runs) - simulating
+                    if simulating:
+                        state += f" + {simulating} simulando"
+                    if processing:
+                        state += f" + {processing} validando"
                 state += ")"
                 cells.append(state)
             lines.append(f"    {load}:  {cells[0]:<23}  {cells[1]}")

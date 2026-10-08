@@ -125,8 +125,23 @@ def summarize_sca_metrics(params):
                 "transmitter": module,
                 "interface": module.removesuffix(".phyLayer.transmitter"),
                 "samples": int(scalar_field(params, module, name, "count") or 0),
-                "mean_percent": scalar_field(params, module, name, "mean"),
-                "max_percent": scalar_field(params, module, name, "max"),
+                # These are arithmetic statistics over UtilizationFilter output
+                # samples, not a time-weighted mean/max over the measurement
+                # window. The SCA scalar does not retain timestamps or interval
+                # durations, so it cannot be converted after the run.
+                "mean_percent": None,
+                "max_percent": None,
+                "diagnostic_histogram_sample_mean_percent": scalar_field(
+                    params, module, name, "mean"),
+                "diagnostic_histogram_sample_max_percent": scalar_field(
+                    params, module, name, "max"),
+                "metric_status": "unavailable_time_weighted_utilization",
+                "unavailable_reason": (
+                    "Only whole-simulation histogram summary fields were retained; "
+                    "sample timestamps and interval durations are unavailable, "
+                    "and audited rows contain zero utilization despite nonzero "
+                    "transmitter throughput."
+                ),
             })
     return sorted(queueing_time, key=lambda row: (row["queue"], row["tc"])), sorted(
         utilization, key=lambda row: row["transmitter"])
@@ -817,7 +832,8 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
                   "queue_occupancy_and_stability_s": [WARMUP, WARMUP + MEASUREMENT],
                   "measurement_drop_vector_s": [WARMUP, WARMUP + MEASUREMENT],
                   "SCA_overflow_counters": "post-warm-up (automatic warm-up filter) through drain; timestamped vector also split by measurement/drain",
-                  "SCA_queueingTime_and_link_utilization_histograms": "entire simulation; not measurement-window filtered",
+                  "SCA_queueingTime_histograms": "entire simulation; not measurement-window filtered",
+                  "link_utilization": "unavailable as a time-weighted measurement metric; retained SCA histogram scalars are diagnostic only",
                   "pending_queue_snapshot_s": WARMUP + MEASUREMENT + DRAIN,
               },
               "offered_packets": summary["source_packets"], "recorded_drops": summary["drops"],
