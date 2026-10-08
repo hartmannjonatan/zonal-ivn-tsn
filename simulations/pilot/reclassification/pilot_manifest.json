@@ -1,0 +1,17 @@
+{
+  "commands": {
+    "analysis": "python3 simulations/pilot/reclassification/build_analysis.py",
+    "calibration": "source /home/jonatan/omnetpp-env.sh; export INET_ROOT=/home/jonatan/omnetpp/samples/inet-4.7.0; python3 simulations/pilot/reclassification/calibrate_pilot.py",
+    "controls": "source /home/jonatan/omnetpp-env.sh; export INET_ROOT=/home/jonatan/omnetpp/samples/inet-4.7.0; python3 simulations/pilot/reclassification/run_pilot.py --controls-only",
+    "per_run": "See simulation_command in each compact run report; commands use Cmdenv, config-specific isolated pilot INI, selected latency/image/queue/drop vectors, queueingTime/utilization histograms, and absolute --result-dir under simulations/pilot/reclassification/results.",
+    "reductions": "source /home/jonatan/omnetpp-env.sh; python3 simulations/pilot/reclassification/run_reductions.py (only when saved calibration_search.json has a feasible profile but no reduction results)"
+  },
+  "commit": "d501bc2369b46b8eabd52e2274f667ee25e64f98",
+  "exploratory": true,
+  "git_worktree_dirty_before_pilot": true,
+  "inet_root": "/home/jonatan/omnetpp/samples/inet-4.7.0",
+  "inet_version": "inet-4.7.0-dfe270b21f",
+  "official_profile_frozen": false,
+  "official_profiles_modified_by_pilot": false,
+  "omnetpp": "OMNeT++ Discrete Event Simulation  (C) 1992-2025 Andras Varga, OpenSim Ltd.\nVersion: 6.4.0, build: 260506-2cf25223fe, edition: Academic Public License -- NOT FOR COMMERCIAL USE\nSee the license for distribution terms and warranty disclaimer\n\nSetting up Qtenv...\n\nBuild: omnetpp-6.4.0 260506-2cf25223fe\nCompiler: CLANG 21.1.8 (6ubuntu1)\nOptions: 64-bit ARCH_X86_64 RELEASE WITH_NETBUILDER WITH_PYTHON WITH_QTENV WITH_OSG\n\nEnd."
+}

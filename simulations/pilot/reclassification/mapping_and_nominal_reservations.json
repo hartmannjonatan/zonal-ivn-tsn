@@ -1,0 +1,975 @@
+{
+  "exploratory": true,
+  "official_profile_frozen": false,
+  "calibration_found_feasible_candidate": null,
+  "source_catalog": "simulations/zonal/traffic/flows.csv",
+  "pilot_catalogs": {
+    "original": "catalog/catalog_original.xml",
+    "variant": "catalog/catalog_variant.xml"
+  },
+  "changed_flow_ids": [
+    "F02",
+    "F03",
+    "F11",
+    "F12",
+    "F13",
+    "F21",
+    "F22"
+  ],
+  "mapping": [
+    {
+      "flow_id": "F01",
+      "source": "LiDAR1",
+      "destinations": "HPC",
+      "vlan": 1,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_pcp": 6,
+      "variant_tc": 6,
+      "variant_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F02",
+      "source": "CAM1",
+      "destinations": "HPC",
+      "vlan": 2,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP+camera pre-shaping; C2=TC6 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP+camera pre-shaping; C2=TC4 CBS",
+      "variant_changed": true
+    },
+    {
+      "flow_id": "F03",
+      "source": "CAM2",
+      "destinations": "HPC",
+      "vlan": 7,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP+camera pre-shaping; C2=TC6 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP+camera pre-shaping; C2=TC4 CBS",
+      "variant_changed": true
+    },
+    {
+      "flow_id": "F04",
+      "source": "CAM3",
+      "destinations": "HPC",
+      "vlan": 13,
+      "original_pcp": 4,
+      "original_tc": 4,
+      "original_mechanism": "C0=SP; C1=SP+camera pre-shaping; C2=TC4 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP+camera pre-shaping; C2=TC4 CBS",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F05",
+      "source": "CAM4",
+      "destinations": "HPC",
+      "vlan": 14,
+      "original_pcp": 4,
+      "original_tc": 4,
+      "original_mechanism": "C0=SP; C1=SP+camera pre-shaping; C2=TC4 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP+camera pre-shaping; C2=TC4 CBS",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F06",
+      "source": "RADAR1",
+      "destinations": "HPC",
+      "vlan": 6,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_pcp": 6,
+      "variant_tc": 6,
+      "variant_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F07",
+      "source": "RADAR2",
+      "destinations": "HPC",
+      "vlan": 12,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_pcp": 6,
+      "variant_tc": 6,
+      "variant_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F08",
+      "source": "HPC",
+      "destinations": "BRAKE1",
+      "vlan": 3,
+      "original_pcp": 7,
+      "original_tc": 7,
+      "original_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_pcp": 7,
+      "variant_tc": 7,
+      "variant_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F09",
+      "source": "HPC",
+      "destinations": "BRAKE2",
+      "vlan": 8,
+      "original_pcp": 7,
+      "original_tc": 7,
+      "original_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_pcp": 7,
+      "variant_tc": 7,
+      "variant_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F10",
+      "source": "HPC",
+      "destinations": "BRAKE3",
+      "vlan": 15,
+      "original_pcp": 7,
+      "original_tc": 7,
+      "original_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_pcp": 7,
+      "variant_tc": 7,
+      "variant_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F11",
+      "source": "HPC",
+      "destinations": "AUDIO1",
+      "vlan": 4,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP; C2=TC4 CBS",
+      "variant_changed": true
+    },
+    {
+      "flow_id": "F12",
+      "source": "HPC",
+      "destinations": "AUDIO2",
+      "vlan": 9,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP; C2=TC4 CBS",
+      "variant_changed": true
+    },
+    {
+      "flow_id": "F13",
+      "source": "HPC",
+      "destinations": "AUDIO3",
+      "vlan": 16,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP; C2=TC4 CBS",
+      "variant_changed": true
+    },
+    {
+      "flow_id": "F14",
+      "source": "HPC",
+      "destinations": "DISPLAY1;DISPLAY2",
+      "vlan": 10,
+      "original_pcp": 4,
+      "original_tc": 4,
+      "original_mechanism": "C0=SP; C1=SP; C2=TC4 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP; C2=TC4 CBS",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F15",
+      "source": "HPC",
+      "destinations": "WINDOW1",
+      "vlan": 5,
+      "original_pcp": 3,
+      "original_tc": 3,
+      "original_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_pcp": 3,
+      "variant_tc": 3,
+      "variant_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F16",
+      "source": "HPC",
+      "destinations": "WINDOW2",
+      "vlan": 11,
+      "original_pcp": 3,
+      "original_tc": 3,
+      "original_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_pcp": 3,
+      "variant_tc": 3,
+      "variant_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F17",
+      "source": "HPC",
+      "destinations": "WINDOW3",
+      "vlan": 17,
+      "original_pcp": 3,
+      "original_tc": 3,
+      "original_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_pcp": 3,
+      "variant_tc": 3,
+      "variant_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F18",
+      "source": "HPC",
+      "destinations": "BE1",
+      "vlan": 18,
+      "original_pcp": 0,
+      "original_tc": 0,
+      "original_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_pcp": 0,
+      "variant_tc": 0,
+      "variant_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F19",
+      "source": "HPC",
+      "destinations": "BE2",
+      "vlan": 19,
+      "original_pcp": 0,
+      "original_tc": 0,
+      "original_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_pcp": 0,
+      "variant_tc": 0,
+      "variant_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F20",
+      "source": "HPC",
+      "destinations": "BE3",
+      "vlan": 20,
+      "original_pcp": 0,
+      "original_tc": 0,
+      "original_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_pcp": 0,
+      "variant_tc": 0,
+      "variant_mechanism": "C0=SP; C1=SP; C2=SP",
+      "variant_changed": false
+    },
+    {
+      "flow_id": "F21",
+      "source": "Z1.ZCPU",
+      "destinations": "Z3.ZCPU",
+      "vlan": 21,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP; C2=TC4 CBS",
+      "variant_changed": true
+    },
+    {
+      "flow_id": "F22",
+      "source": "Z2.ZCPU",
+      "destinations": "Z3.ZCPU",
+      "vlan": 22,
+      "original_pcp": 6,
+      "original_tc": 6,
+      "original_mechanism": "C0=SP; C1=SP; C2=TC6 CBS",
+      "variant_pcp": 4,
+      "variant_tc": 4,
+      "variant_mechanism": "C0=SP; C1=SP; C2=TC4 CBS",
+      "variant_changed": true
+    }
+  ],
+  "nominal_reservations_l2": {
+    "original": [
+      {
+        "egress": "CAM1.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F02"
+        ],
+        "total_port_reservation_bps": 56850000,
+        "cap_fraction": 0.05685,
+        "headroom_to_75pct_bps": 693150000
+      },
+      {
+        "egress": "CAM2.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F03"
+        ],
+        "total_port_reservation_bps": 56850000,
+        "cap_fraction": 0.05685,
+        "headroom_to_75pct_bps": 693150000
+      },
+      {
+        "egress": "CAM3.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F04"
+        ],
+        "total_port_reservation_bps": 56850000,
+        "cap_fraction": 0.05685,
+        "headroom_to_75pct_bps": 693150000
+      },
+      {
+        "egress": "CAM4.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F05"
+        ],
+        "total_port_reservation_bps": 56850000,
+        "cap_fraction": 0.05685,
+        "headroom_to_75pct_bps": 693150000
+      },
+      {
+        "egress": "CSW.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 113700000,
+        "idle_slope_mbps": 113.7,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F04",
+          "F05"
+        ],
+        "total_port_reservation_bps": 539160000,
+        "cap_fraction": 0.53916,
+        "headroom_to_75pct_bps": 210840000
+      },
+      {
+        "egress": "CSW.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 425460000,
+        "idle_slope_mbps": 425.46,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F01",
+          "F02",
+          "F03",
+          "F06",
+          "F07"
+        ],
+        "total_port_reservation_bps": 539160000,
+        "cap_fraction": 0.53916,
+        "headroom_to_75pct_bps": 210840000
+      },
+      {
+        "egress": "CSW.eth[1]",
+        "tc": 4,
+        "idle_slope_bps": 61680000,
+        "idle_slope_mbps": 61.68,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F14"
+        ],
+        "total_port_reservation_bps": 89280000,
+        "cap_fraction": 0.08928,
+        "headroom_to_75pct_bps": 660720000
+      },
+      {
+        "egress": "CSW.eth[1]",
+        "tc": 6,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F11"
+        ],
+        "total_port_reservation_bps": 89280000,
+        "cap_fraction": 0.08928,
+        "headroom_to_75pct_bps": 660720000
+      },
+      {
+        "egress": "CSW.eth[2]",
+        "tc": 4,
+        "idle_slope_bps": 61680000,
+        "idle_slope_mbps": 61.68,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F14"
+        ],
+        "total_port_reservation_bps": 89280000,
+        "cap_fraction": 0.08928,
+        "headroom_to_75pct_bps": 660720000
+      },
+      {
+        "egress": "CSW.eth[2]",
+        "tc": 6,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F12"
+        ],
+        "total_port_reservation_bps": 89280000,
+        "cap_fraction": 0.08928,
+        "headroom_to_75pct_bps": 660720000
+      },
+      {
+        "egress": "CSW.eth[3]",
+        "tc": 6,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F13"
+        ],
+        "total_port_reservation_bps": 27600000,
+        "cap_fraction": 0.0276,
+        "headroom_to_75pct_bps": 722400000
+      },
+      {
+        "egress": "HPC.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 61680000,
+        "idle_slope_mbps": 61.68,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F14"
+        ],
+        "total_port_reservation_bps": 144480000,
+        "cap_fraction": 0.14448,
+        "headroom_to_75pct_bps": 605520000
+      },
+      {
+        "egress": "HPC.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 82800000,
+        "idle_slope_mbps": 82.8,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F11",
+          "F12",
+          "F13"
+        ],
+        "total_port_reservation_bps": 144480000,
+        "cap_fraction": 0.14448,
+        "headroom_to_75pct_bps": 605520000
+      },
+      {
+        "egress": "LiDAR1.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 308400000,
+        "idle_slope_mbps": 308.4,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F01"
+        ],
+        "total_port_reservation_bps": 308400000,
+        "cap_fraction": 0.3084,
+        "headroom_to_75pct_bps": 441600000
+      },
+      {
+        "egress": "RADAR1.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 1680000,
+        "idle_slope_mbps": 1.68,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F06"
+        ],
+        "total_port_reservation_bps": 1680000,
+        "cap_fraction": 0.0168,
+        "headroom_to_75pct_bps": 73320000
+      },
+      {
+        "egress": "RADAR2.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 1680000,
+        "idle_slope_mbps": 1.68,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F07"
+        ],
+        "total_port_reservation_bps": 1680000,
+        "cap_fraction": 0.0168,
+        "headroom_to_75pct_bps": 73320000
+      },
+      {
+        "egress": "Z1.ZSW.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 365250000,
+        "idle_slope_mbps": 365.25,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F01",
+          "F02"
+        ],
+        "total_port_reservation_bps": 365250000,
+        "cap_fraction": 0.36525,
+        "headroom_to_75pct_bps": 384750000
+      },
+      {
+        "egress": "Z1.ZSW.eth[6]",
+        "tc": 6,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F11"
+        ],
+        "total_port_reservation_bps": 27600000,
+        "cap_fraction": 0.276,
+        "headroom_to_75pct_bps": 47400000
+      },
+      {
+        "egress": "Z1.ZSW.eth[7]",
+        "tc": 4,
+        "idle_slope_bps": 61680000,
+        "idle_slope_mbps": 61.68,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F14"
+        ],
+        "total_port_reservation_bps": 61680000,
+        "cap_fraction": 0.6168,
+        "headroom_to_75pct_bps": 13320000
+      },
+      {
+        "egress": "Z2.ZSW.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 58530000,
+        "idle_slope_mbps": 58.53,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F03",
+          "F06"
+        ],
+        "total_port_reservation_bps": 58530000,
+        "cap_fraction": 0.05853,
+        "headroom_to_75pct_bps": 691470000
+      },
+      {
+        "egress": "Z2.ZSW.eth[6]",
+        "tc": 6,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F12"
+        ],
+        "total_port_reservation_bps": 27600000,
+        "cap_fraction": 0.276,
+        "headroom_to_75pct_bps": 47400000
+      },
+      {
+        "egress": "Z2.ZSW.eth[7]",
+        "tc": 4,
+        "idle_slope_bps": 61680000,
+        "idle_slope_mbps": 61.68,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F14"
+        ],
+        "total_port_reservation_bps": 61680000,
+        "cap_fraction": 0.6168,
+        "headroom_to_75pct_bps": 13320000
+      },
+      {
+        "egress": "Z3.ZSW.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 113700000,
+        "idle_slope_mbps": 113.7,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F04",
+          "F05"
+        ],
+        "total_port_reservation_bps": 115380000,
+        "cap_fraction": 0.11538,
+        "headroom_to_75pct_bps": 634620000
+      },
+      {
+        "egress": "Z3.ZSW.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 1680000,
+        "idle_slope_mbps": 1.68,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F07"
+        ],
+        "total_port_reservation_bps": 115380000,
+        "cap_fraction": 0.11538,
+        "headroom_to_75pct_bps": 634620000
+      },
+      {
+        "egress": "Z3.ZSW.eth[7]",
+        "tc": 6,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F13"
+        ],
+        "total_port_reservation_bps": 27600000,
+        "cap_fraction": 0.276,
+        "headroom_to_75pct_bps": 47400000
+      }
+    ],
+    "variant": [
+      {
+        "egress": "CAM1.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F02"
+        ],
+        "total_port_reservation_bps": 56850000,
+        "cap_fraction": 0.05685,
+        "headroom_to_75pct_bps": 693150000
+      },
+      {
+        "egress": "CAM2.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F03"
+        ],
+        "total_port_reservation_bps": 56850000,
+        "cap_fraction": 0.05685,
+        "headroom_to_75pct_bps": 693150000
+      },
+      {
+        "egress": "CAM3.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F04"
+        ],
+        "total_port_reservation_bps": 56850000,
+        "cap_fraction": 0.05685,
+        "headroom_to_75pct_bps": 693150000
+      },
+      {
+        "egress": "CAM4.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F05"
+        ],
+        "total_port_reservation_bps": 56850000,
+        "cap_fraction": 0.05685,
+        "headroom_to_75pct_bps": 693150000
+      },
+      {
+        "egress": "CSW.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 227400000,
+        "idle_slope_mbps": 227.4,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F02",
+          "F03",
+          "F04",
+          "F05"
+        ],
+        "total_port_reservation_bps": 539160000,
+        "cap_fraction": 0.53916,
+        "headroom_to_75pct_bps": 210840000
+      },
+      {
+        "egress": "CSW.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 311760000,
+        "idle_slope_mbps": 311.76,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F01",
+          "F06",
+          "F07"
+        ],
+        "total_port_reservation_bps": 539160000,
+        "cap_fraction": 0.53916,
+        "headroom_to_75pct_bps": 210840000
+      },
+      {
+        "egress": "CSW.eth[1]",
+        "tc": 4,
+        "idle_slope_bps": 89280000,
+        "idle_slope_mbps": 89.28,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F11",
+          "F14"
+        ],
+        "total_port_reservation_bps": 89280000,
+        "cap_fraction": 0.08928,
+        "headroom_to_75pct_bps": 660720000
+      },
+      {
+        "egress": "CSW.eth[2]",
+        "tc": 4,
+        "idle_slope_bps": 89280000,
+        "idle_slope_mbps": 89.28,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F12",
+          "F14"
+        ],
+        "total_port_reservation_bps": 89280000,
+        "cap_fraction": 0.08928,
+        "headroom_to_75pct_bps": 660720000
+      },
+      {
+        "egress": "CSW.eth[3]",
+        "tc": 4,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F13"
+        ],
+        "total_port_reservation_bps": 27600000,
+        "cap_fraction": 0.0276,
+        "headroom_to_75pct_bps": 722400000
+      },
+      {
+        "egress": "HPC.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 144480000,
+        "idle_slope_mbps": 144.48,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F11",
+          "F12",
+          "F13",
+          "F14"
+        ],
+        "total_port_reservation_bps": 144480000,
+        "cap_fraction": 0.14448,
+        "headroom_to_75pct_bps": 605520000
+      },
+      {
+        "egress": "LiDAR1.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 308400000,
+        "idle_slope_mbps": 308.4,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F01"
+        ],
+        "total_port_reservation_bps": 308400000,
+        "cap_fraction": 0.3084,
+        "headroom_to_75pct_bps": 441600000
+      },
+      {
+        "egress": "RADAR1.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 1680000,
+        "idle_slope_mbps": 1.68,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F06"
+        ],
+        "total_port_reservation_bps": 1680000,
+        "cap_fraction": 0.0168,
+        "headroom_to_75pct_bps": 73320000
+      },
+      {
+        "egress": "RADAR2.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 1680000,
+        "idle_slope_mbps": 1.68,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F07"
+        ],
+        "total_port_reservation_bps": 1680000,
+        "cap_fraction": 0.0168,
+        "headroom_to_75pct_bps": 73320000
+      },
+      {
+        "egress": "Z1.ZSW.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F02"
+        ],
+        "total_port_reservation_bps": 365250000,
+        "cap_fraction": 0.36525,
+        "headroom_to_75pct_bps": 384750000
+      },
+      {
+        "egress": "Z1.ZSW.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 308400000,
+        "idle_slope_mbps": 308.4,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F01"
+        ],
+        "total_port_reservation_bps": 365250000,
+        "cap_fraction": 0.36525,
+        "headroom_to_75pct_bps": 384750000
+      },
+      {
+        "egress": "Z1.ZSW.eth[6]",
+        "tc": 4,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F11"
+        ],
+        "total_port_reservation_bps": 27600000,
+        "cap_fraction": 0.276,
+        "headroom_to_75pct_bps": 47400000
+      },
+      {
+        "egress": "Z1.ZSW.eth[7]",
+        "tc": 4,
+        "idle_slope_bps": 61680000,
+        "idle_slope_mbps": 61.68,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F14"
+        ],
+        "total_port_reservation_bps": 61680000,
+        "cap_fraction": 0.6168,
+        "headroom_to_75pct_bps": 13320000
+      },
+      {
+        "egress": "Z2.ZSW.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 56850000,
+        "idle_slope_mbps": 56.85,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F03"
+        ],
+        "total_port_reservation_bps": 58530000,
+        "cap_fraction": 0.05853,
+        "headroom_to_75pct_bps": 691470000
+      },
+      {
+        "egress": "Z2.ZSW.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 1680000,
+        "idle_slope_mbps": 1.68,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F06"
+        ],
+        "total_port_reservation_bps": 58530000,
+        "cap_fraction": 0.05853,
+        "headroom_to_75pct_bps": 691470000
+      },
+      {
+        "egress": "Z2.ZSW.eth[6]",
+        "tc": 4,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F12"
+        ],
+        "total_port_reservation_bps": 27600000,
+        "cap_fraction": 0.276,
+        "headroom_to_75pct_bps": 47400000
+      },
+      {
+        "egress": "Z2.ZSW.eth[7]",
+        "tc": 4,
+        "idle_slope_bps": 61680000,
+        "idle_slope_mbps": 61.68,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F14"
+        ],
+        "total_port_reservation_bps": 61680000,
+        "cap_fraction": 0.6168,
+        "headroom_to_75pct_bps": 13320000
+      },
+      {
+        "egress": "Z3.ZSW.eth[0]",
+        "tc": 4,
+        "idle_slope_bps": 113700000,
+        "idle_slope_mbps": 113.7,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F04",
+          "F05"
+        ],
+        "total_port_reservation_bps": 115380000,
+        "cap_fraction": 0.11538,
+        "headroom_to_75pct_bps": 634620000
+      },
+      {
+        "egress": "Z3.ZSW.eth[0]",
+        "tc": 6,
+        "idle_slope_bps": 1680000,
+        "idle_slope_mbps": 1.68,
+        "port_rate_bps": 1000000000,
+        "permanent_flows": [
+          "F07"
+        ],
+        "total_port_reservation_bps": 115380000,
+        "cap_fraction": 0.11538,
+        "headroom_to_75pct_bps": 634620000
+      },
+      {
+        "egress": "Z3.ZSW.eth[7]",
+        "tc": 4,
+        "idle_slope_bps": 27600000,
+        "idle_slope_mbps": 27.6,
+        "port_rate_bps": 100000000,
+        "permanent_flows": [
+          "F13"
+        ],
+        "total_port_reservation_bps": 27600000,
+        "cap_fraction": 0.276,
+        "headroom_to_75pct_bps": 47400000
+      }
+    ]
+  },
+  "cap_fraction": 0.75,
+  "calendar_method": "TrafficPlan precomputes F21/F22 events during module initialization using dedicated RNG streams 0 and 1; event order in the network cannot affect the calendar. Every pilot run will be checked against the saved first-run events.csv SHA-256.",
+  "commit": "d501bc2369b46b8eabd52e2274f667ee25e64f98",
+  "working_tree_dirty_before_pilot": true
+}

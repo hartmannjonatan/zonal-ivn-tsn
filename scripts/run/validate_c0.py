@@ -2,6 +2,7 @@
 """Run full-duration C0/C1 cells and assess them against P1 acceptance rules."""
 import argparse
 import csv
+import gzip
 import heapq
 import json
 import math
@@ -26,6 +27,36 @@ STABILITY_FRACTION = 0.05
 def require(ok, message):
     if not ok:
         raise RuntimeError(message)
+
+
+def reconcile_queue_overflow_scopes(config, per_queue, whole_run_drop_total):
+    """Compare SCA and timestamped drops in the same post-warm-up window.
+
+    TrafficAudit aggregates from t=0, while SCA counters use OMNeT++'s
+    automatic warm-up filter. The timestamped packet-length vector supplies
+    the matching SCA population and separates measurement from drain.
+    """
+    for item in per_queue:
+        sca_count = int(item["sca_post_warmup"])
+        vector_count = int(item["vector_post_warmup"])
+        require(sca_count == vector_count,
+                f"{config}: {item['queue']} SCA post-warm-up overflow count {sca_count} "
+                f"differs from timestamped post-warm-up samples {vector_count}")
+
+    post_warmup_total = sum(int(item["sca_post_warmup"]) for item in per_queue)
+    whole_run_drop_total = int(whole_run_drop_total)
+    require(post_warmup_total <= whole_run_drop_total,
+            f"{config}: post-warm-up SCA overflow total {post_warmup_total} "
+            f"exceeds whole-run TrafficAudit drops {whole_run_drop_total}")
+    return {
+        "traffic_audit_drops_entire_simulation": whole_run_drop_total,
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain": post_warmup_total,
+        "whole_run_minus_post_warmup_scope_delta": whole_run_drop_total - post_warmup_total,
+        "whole_run_scope": "TrafficAudit queue packetDropped callbacks from t=0 through simulation end",
+        "sca_scope": "droppedPacketsQueueOverflow count with OMNeT++ automatic warm-up filtering; t>=warmup through drain",
+        "timestamped_scope": "droppedPacketLengthsQueueOverflow vector, independently split into measurement and drain after warm-up",
+        "limitation": "drops.csv stores whole-run aggregates and first/last timestamps, not a warm-up-binned count; the scope delta is not silently called a measurement loss",
+    }
 
 
 def offered_camera_images(flow, run):
@@ -99,6 +130,77 @@ def summarize_sca_metrics(params):
             })
     return sorted(queueing_time, key=lambda row: (row["queue"], row["tc"])), sorted(
         utilization, key=lambda row: row["transmitter"])
+
+
+def recompute_queue_occupancy_trace(trace_path):
+    """Independently reconstruct measurement occupancy metrics from retained event changes."""
+    trace_path = Path(trace_path)
+    with gzip.open(str(trace_path) + ".meta.json.gz", "rt", encoding="utf-8") as stream:
+        meta = json.load(stream)
+    require(meta.get("format") == "p1-queue-occupancy-events-v1",
+            f"{trace_path}: unsupported queue trace format")
+    start, stop = meta["measurement_window_s"]
+    observation_stop = meta["observation_window_s"][1]
+    width = float(meta["bin_width_s"])
+    threshold_fraction = float(meta["near_capacity_threshold"])
+    states = {}
+    for q in meta["queues"]:
+        qi = int(q["queue_index"])
+        states[qi] = {"module": q["module"], "tc": int(q["tc"]),
+                      "capacity_bits": int(q["capacity_bits"]),
+                      "previous_time": 0.0, "previous_value": 0.0,
+                      "bins_area": [0.0] * 6, "near_capacity_s": 0.0,
+                      "max_occupancy_bits": 0.0}
+
+    def integrate(state, left, right, value):
+        left, right = max(left, start), min(right, stop)
+        while left < right:
+            index = min(5, int((left - start) // width))
+            boundary = start + (index + 1) * width
+            end = min(right, boundary)
+            state["bins_area"][index] += value * (end - left)
+            if value >= threshold_fraction * state["capacity_bits"]:
+                state["near_capacity_s"] += end - left
+            left = end
+
+    with gzip.open(trace_path, "rt", encoding="utf-8", newline="") as stream:
+        reader = csv.DictReader(stream)
+        require(reader.fieldnames == ["queue_index", "timestamp_s", "occupancy_bits"],
+                f"{trace_path}: unexpected queue trace columns")
+        for row in reader:
+            qi = int(row["queue_index"])
+            require(qi in states, f"{trace_path}: unknown queue index {qi}")
+            timestamp = float(row["timestamp_s"])
+            value = float(row["occupancy_bits"])
+            state = states[qi]
+            previous_time, previous_value = state["previous_time"], state["previous_value"]
+            if timestamp >= previous_time:
+                integrate(state, previous_time, timestamp, previous_value)
+                if timestamp > start and previous_time < stop:
+                    state["max_occupancy_bits"] = max(state["max_occupancy_bits"], previous_value)
+                state["previous_time"], state["previous_value"] = timestamp, value
+                if start <= timestamp < stop:
+                    state["max_occupancy_bits"] = max(state["max_occupancy_bits"], value)
+    result = []
+    for qi, state in sorted(states.items()):
+        integrate(state, state["previous_time"], stop, state["previous_value"])
+        means = [area / width for area in state["bins_area"]]
+        tail = means[-3:]
+        growth_threshold = state["capacity_bits"] * STABILITY_FRACTION
+        sustained_growth = tail[0] < tail[1] < tail[2] and tail[2] - tail[0] > growth_threshold
+        result.append({
+            "queue": state["module"], "tc": state["tc"],
+            "mean_occupancy_bits_5s": means,
+            "mean_occupancy_bits_measurement": sum(state["bins_area"]) / (stop - start),
+            "fraction_measurement_at_least_90pct_capacity": state["near_capacity_s"] / (stop - start),
+            "max_occupancy_bits": state["max_occupancy_bits"],
+            "capacity_bits": state["capacity_bits"],
+            "sustained_growth": sustained_growth,
+        })
+    require(len(result) == len(meta["queues"]), f"{trace_path}: queue trace population incomplete")
+    require(all(state["previous_time"] <= observation_stop for state in states.values()),
+            f"{trace_path}: trace exceeds declared observation window")
+    return result
 
 
 def verify_configuration(params, config, run_dir):
@@ -248,12 +350,14 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
                     queue_info[vector_id] = {"module": queue, "tc": int(match.group(2)),
                                              "capacity_bits": int(capacity.removesuffix("b")),
                                              "previous": (0.0, 0.0), "bins": [0.0] * 6,
-                                             "max_occupancy_bits": 0.0}
+                                             "max_occupancy_bits": 0.0, "near_capacity_seconds": 0.0}
         elif metric == "droppedPacketLengthsQueueOverflow:vector":
             match = re.fullmatch(r"(ZonalIVN\..*\.eth\[\d+\]\.macLayer\.queue\.queue\[(\d+)\])", module)
             if match:
                 drop_vector_info[vector_id] = {"module": match.group(1), "tc": int(match.group(2)),
-                                               "packets": 0, "bytes": 0}
+                                               "packets_post_warmup": 0, "bytes_post_warmup": 0,
+                                               "packets_measurement": 0, "bytes_measurement": 0,
+                                               "packets_drain": 0, "bytes_drain": 0}
 
     # Legacy C0 vectors contain every burst frame at the common image-release
     # time, so image completion can be reconstructed exactly without rerunning.
@@ -272,6 +376,8 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
         right = min(stop, WARMUP + MEASUREMENT)
         if right <= left:
             return
+        if value >= 0.90 * info["capacity_bits"]:
+            info["near_capacity_seconds"] += right - left
         while left < right:
             index = min(5, int((left - WARMUP) // BIN_SECONDS))
             boundary = WARMUP + (index + 1) * BIN_SECONDS
@@ -279,6 +385,31 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
             info["bins"][index] += value * (end - left)
             left = end
 
+    queue_trace_path = Path(run_summary["directory"]) / "queue_occupancy_events.csv.gz"
+    queue_index = {module: i for i, module in enumerate(sorted(
+        info["module"] for info in queue_info.values()))}
+    queue_by_module = {info["module"]: info for info in queue_info.values()}
+    trace_metadata = {
+        "format": "p1-queue-occupancy-events-v1",
+        "time_semantics": "right-continuous piecewise-constant queue occupancy; each row replaces state at timestamp_s",
+        "occupancy_unit": "bits",
+        "initial_state": "all queues are 0 bits at t=0 s; recorded explicitly in CSV",
+        "measurement_window_s": [WARMUP, WARMUP + MEASUREMENT],
+        "observation_window_s": [0.0, WARMUP + MEASUREMENT + DRAIN],
+        "measurement_window_convention": "half-open [start,end); integrate through the end boundary",
+        "bin_width_s": BIN_SECONDS,
+        "bin_edges_s": [WARMUP + i * BIN_SECONDS for i in range(7)],
+        "near_capacity_threshold": 0.90,
+        "queues": [{"queue_index": queue_index[module], "module": module,
+                    "tc": queue_by_module[module]["tc"],
+                    "capacity_bits": queue_by_module[module]["capacity_bits"]}
+                   for module in sorted(queue_index, key=queue_index.get)],
+    }
+    queue_trace_stream = gzip.open(queue_trace_path, "wt", encoding="utf-8", newline="", compresslevel=6)
+    queue_trace_writer = csv.writer(queue_trace_stream)
+    queue_trace_writer.writerow(["queue_index", "timestamp_s", "occupancy_bits"])
+    for module in sorted(queue_index, key=queue_index.get):
+        queue_trace_writer.writerow([queue_index[module], "0", "0"])
     with vec_path.open(errors="replace") as stream:
         for line in stream:
             parts = line.split()
@@ -354,10 +485,26 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
                     info["previous"] = (time, value)
                     if WARMUP <= time < WARMUP + MEASUREMENT:
                         info["max_occupancy_bits"] = max(info["max_occupancy_bits"], value)
+                if 0 <= time <= WARMUP + MEASUREMENT + DRAIN:
+                    queue_trace_writer.writerow([queue_index[info["module"]], format(time, ".17g"), format(value, ".17g")])
             dropped = drop_vector_info.get(vector_id)
-            if dropped is not None and WARMUP <= time < WARMUP + MEASUREMENT:
-                dropped["packets"] += 1
-                dropped["bytes"] += int(value)
+            if dropped is not None and time >= WARMUP:
+                packet_bytes = int(round(value / 8))  # packetLength result is in bits.
+                dropped["packets_post_warmup"] += 1
+                dropped["bytes_post_warmup"] += packet_bytes
+                if time < WARMUP + MEASUREMENT:
+                    dropped["packets_measurement"] += 1
+                    dropped["bytes_measurement"] += packet_bytes
+                else:
+                    dropped["packets_drain"] += 1
+                    dropped["bytes_drain"] += packet_bytes
+
+    for module in sorted(queue_index, key=queue_index.get):
+        _, value = queue_by_module[module]["previous"]
+        queue_trace_writer.writerow([queue_index[module], format(WARMUP + MEASUREMENT + DRAIN, ".17g"), format(value, ".17g")])
+    queue_trace_stream.close()
+    with gzip.open(str(queue_trace_path) + ".meta.json.gz", "wt", encoding="utf-8", compresslevel=6) as meta_stream:
+        json.dump(trace_metadata, meta_stream, separators=(",", ":"))
 
     latencies = {}
     for vector_id, (flow, node, count, misses, deadline) in latency_count.items():
@@ -415,6 +562,8 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
         grows = tail[0] < tail[1] < tail[2] and tail[2] - tail[0] > threshold
         stability.append({"queue": info["module"], "tc": info["tc"],
                           "mean_occupancy_bits_5s": means,
+                          "mean_occupancy_bits_measurement": sum(info["bins"]) / MEASUREMENT,
+                          "fraction_measurement_at_least_90pct_capacity": info["near_capacity_seconds"] / MEASUREMENT,
                           "max_occupancy_bits": info["max_occupancy_bits"],
                           "capacity_bits": info["capacity_bits"],
                           "sustained_growth": grows})
@@ -443,9 +592,33 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
     drop_by_queue = {(item["module"], item["tc"]): item for item in drop_vector_info.values()}
     measurement_drops = [{
         "queue": info["module"], "tc": info["tc"],
-        "packets": drop_by_queue.get((info["module"], info["tc"]), {}).get("packets", 0),
-        "bytes": drop_by_queue.get((info["module"], info["tc"]), {}).get("bytes", 0),
+        "packets": drop_by_queue.get((info["module"], info["tc"]), {}).get("packets_measurement", 0),
+        "bytes": drop_by_queue.get((info["module"], info["tc"]), {}).get("bytes_measurement", 0),
+        "packets_post_warmup_including_drain": drop_by_queue.get((info["module"], info["tc"]), {}).get("packets_post_warmup", 0),
+        "bytes_post_warmup_including_drain": drop_by_queue.get((info["module"], info["tc"]), {}).get("bytes_post_warmup", 0),
+        "drain_packets": drop_by_queue.get((info["module"], info["tc"]), {}).get("packets_drain", 0),
+        "drain_bytes": drop_by_queue.get((info["module"], info["tc"]), {}).get("bytes_drain", 0),
     } for info in queue_info.values()]
+    # Preserve a compressed exact upper tail for the P1 nearest-rank p99 and
+    # maximum. The full vectors can then be removed after all run audits pass.
+    compact = {"format": "p1-upper-tail-samples-v1", "quantile": "nearest-rank-p99",
+               "packet": {}, "image": {}}
+    for vector_id, (flow, node, count, misses, deadline) in latency_count.items():
+        compact["packet"][f"{flow}/{node}"] = {"sample_count": count, "deadline_misses": misses,
+            "deadline_s": deadline, "upper_tail_s": sorted(latency_tail[vector_id]["values"])}
+    for vector_id, (flow, node, count, misses, deadline) in image_latency_count.items():
+        compact["image"][f"{flow}/{node}"] = {"sample_count": count, "deadline_misses": misses,
+            "deadline_s": deadline, "upper_tail_s": sorted(image_latency_tail[vector_id]["values"])}
+    for (flow, node), group in fallback_groups.items():
+        if (flow, node) in image_vector_receivers:
+            continue
+        values = sorted(group["values"]); count = len(values); keep = max(1, math.floor(.01*count)+1)
+        compact["image"][f"{flow}/{node}"] = {"sample_count":count,"deadline_misses":group["misses"],
+            "deadline_s":float(flow_catalog[flow]["deadline_us"])/1e6,
+            "upper_tail_s":values[-keep:],"reconstructed_from_packet_vectors":True}
+    with gzip.open(Path(run_summary["directory"])/"latency_upper_tails.json.gz", "wt",
+                   encoding="utf-8", compresslevel=6) as stream:
+        json.dump(compact,stream,separators=(",",":"))
     return latencies, image_latencies, stability, measurement_drops, bool(drop_vector_info)
 
 
@@ -569,14 +742,16 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
     params = parse_sca(sca_path)
     interfaces, queues = verify_configuration(params, config, run_dir)
     camera_source_queue_drops = {}
-    for camera, tc in (("CAM1", 6), ("CAM2", 6), ("CAM3", 4), ("CAM4", 4)):
+    flow_classes = {r["flow_id"]: int(r["traffic_class"])
+                    for r in csv.DictReader((SIM / "zonal/traffic/flows.csv").open())}
+    for camera, flow in (("CAM1", "F02"), ("CAM2", "F03"), ("CAM3", "F04"), ("CAM4", "F05")):
+        tc = flow_classes[flow]
         queue = f"ZonalIVN.{camera}.eth[0].macLayer.queue.queue[{tc}]"
         dropped = params.get((queue, "droppedPacketsQueueOverflow:count"))
         require(dropped is not None, f"{config}: missing drop counter for {queue}")
         camera_source_queue_drops[camera] = int(float(dropped))
         require(camera_source_queue_drops[camera] == 0,
                 f"{config}: camera source queue overflow at {queue}: {dropped}")
-        flow = f"F{int(camera[-1]) + 1:02d}" if camera in ("CAM1", "CAM2") else f"F{int(camera[-1]) + 1:02d}"
         generated = summary["flows"][flow]["generated_packets"]
         require(generated % 30 == 0,
                 f"{config}: {flow} generated {generated} frames, not complete 30-frame images")
@@ -590,7 +765,7 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
                 f"{config}: missing utilization histogram at {phy}")
     latencies, image_latencies, stability, measurement_drops, drop_vectors_available = read_vectors(
         vec_path, params, summary, len(queues))
-    if treatment == "C1" and summary["drops"] > 0:
+    if summary["drops"] > 0:
         require(drop_vectors_available and len(measurement_drops) == len(queues),
                 f"{config}: drops occurred but timestamped per-queue samples are missing")
     qos = assess_qos(summary, latencies, image_latencies)
@@ -603,6 +778,29 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
     require(len(link_utilization) == 56,
             f"{config}: missing utilization histogram summaries ({len(link_utilization)}/56 transmitters)")
     nonstable = [q for q in stability if q["sustained_growth"]]
+    queue_drops = []
+    drop_reconciliation_inputs = []
+    vector_drops_by_queue = {(x["queue"], x["tc"]): x for x in measurement_drops}
+    for interface in interfaces:
+        for tc in range(8):
+            module = interface + f".queue[{tc}]"
+            raw = params.get((module, "droppedPacketsQueueOverflow:count"), 0)
+            vector = vector_drops_by_queue.get((module, tc), {})
+            sca_count = int(float(raw))
+            vector_count = int(vector.get("packets_post_warmup_including_drain", 0))
+            drop_reconciliation_inputs.append({"queue": module,
+                "sca_post_warmup": sca_count, "vector_post_warmup": vector_count})
+            queue_drops.append({"queue": module, "tc": tc,
+                "capacity_bits": int(str(params[(module, "dataCapacity")]).removesuffix("b")),
+                "overflow_drops_post_warmup_including_drain": sca_count,
+                "overflow_drops_measurement_window": int(vector.get("packets", 0)),
+                "overflow_drops_drain": int(vector.get("drain_packets", 0)),
+                "overflow_drop_bytes_post_warmup_including_drain": int(vector.get("bytes_post_warmup_including_drain", 0)),
+                "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies"})
+    drop_reconciliation = reconcile_queue_overflow_scopes(
+        config, drop_reconciliation_inputs, summary["drops"])
+    queue_drop_total_post_warmup = drop_reconciliation[
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain"]
     for flow, metric in qos.items():
         for receiver, values in metric["receivers"].items():
             if values["viable"] is False:
@@ -611,12 +809,31 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
                                         for m in qos.values() for v in m["receivers"].values()))
     report = {"config": config, "treatment": treatment,
               "load": expected_load, "aggregation": expected_aggregation,
+              "metric_windows": {
+                  "simulation_observation_s": [0.0, WARMUP + MEASUREMENT + DRAIN],
+                  "packet_creation_cohort_s": [WARMUP, WARMUP + MEASUREMENT],
+                  "packet_delivery_observation_end_s": WARMUP + MEASUREMENT + DRAIN,
+                  "image_availability_cohort_s": [WARMUP, WARMUP + MEASUREMENT],
+                  "queue_occupancy_and_stability_s": [WARMUP, WARMUP + MEASUREMENT],
+                  "measurement_drop_vector_s": [WARMUP, WARMUP + MEASUREMENT],
+                  "SCA_overflow_counters": "post-warm-up (automatic warm-up filter) through drain; timestamped vector also split by measurement/drain",
+                  "SCA_queueingTime_and_link_utilization_histograms": "entire simulation; not measurement-window filtered",
+                  "pending_queue_snapshot_s": WARMUP + MEASUREMENT + DRAIN,
+              },
               "offered_packets": summary["source_packets"], "recorded_drops": summary["drops"],
+              "flow_populations": {fid:{"generated_packets_entire_simulation":info["generated_packets"],
+                  "measured_offered_packets":next(csv.DictReader((summary["directory"]/f"{fid}-{next(r['source'] for r in csv.DictReader((SIM/'zonal/traffic/flows.csv').open()) if r['flow_id']==fid)}-tx.csv").open()))['measured_packets']}
+                  for fid,info in summary['flows'].items()},
               "pending_packet_count_at_simulation_end": summary.get("pending_packet_count_at_simulation_end", 0),
               "pending_packets_at_simulation_end": summary.get("pending_at_simulation_end", []),
               "camera_source_queue_drops": camera_source_queue_drops,
+              "queue_overflow_drops_by_queue": queue_drops,
+              "queue_overflow_drop_total_post_warmup_including_drain": queue_drop_total_post_warmup,
+              "drop_reconciliation": drop_reconciliation,
               "egress_interfaces_checked": len(interfaces), "class_queues_checked": len(queues),
               "qos": qos, "queue_stability": stability,
+              "queueing_time_scope":"whole simulation; includes warm-up and drain",
+              "queue_stability_scope":"measurement window [1,31) s; time-integrated 5-second bins",
               "queueing_time": queueing_time, "link_utilization": link_utilization,
               "measurement_drops_by_queue": (measurement_drops
                                                if drop_vectors_available or summary["drops"] == 0
@@ -671,13 +888,15 @@ def main():
     parser.add_argument("--inet-root", default=os.environ.get("INET_ROOT"))
     parser.add_argument("--omnetpp-root", default=os.environ.get("OMNETPP_ROOT"))
     parser.add_argument("--jobs", type=int, default=1)
+    parser.add_argument("--output-dir", type=Path, default=SIM / "results/C0/p1-validation-64KiB")
     parser.add_argument("--reassess-existing", action="store_true",
                         help="reapply P1 acceptance categories to completed result reports without rerunning simulations")
     parser.add_argument("--resume", action="store_true",
                         help="reuse complete raw cells with the required metric vectors and run missing cells")
     args = parser.parse_args()
     require(args.jobs > 0, "--jobs must be positive")
-    output = SIM / "results/C0/p1-validation-64KiB"
+    output = args.output_dir if args.output_dir.is_absolute() else ROOT / args.output_dir
+    output = output.resolve()
     configs = [f"Validate_C0_L{level}_A{aggregation}"
                for level in range(4) for aggregation in range(2)]
     if args.reassess_existing:
@@ -715,7 +934,8 @@ def main():
     subprocess.run([sys.executable, str(ROOT / "scripts/catalog/generate.py"), "--check"], check=True)
     def assess_cell(config):
         execute = not (args.resume and has_complete_raw_result(config, output))
-        return run_cell(config, output, env, inet, execute=execute)
+        return run_cell(config, output, env, inet, execute=execute,
+                        result_dir_override=str(output.relative_to(SIM)))
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:
         reports = list(pool.map(assess_cell, configs))
 

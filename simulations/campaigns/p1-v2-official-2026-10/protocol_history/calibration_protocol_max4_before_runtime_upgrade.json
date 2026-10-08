@@ -1,0 +1,23 @@
+{
+  "candidate_budget": {
+    "maximum_new_candidate_executions": 24,
+    "rejected_before_execution_do_not_consume_execution_budget": true
+  },
+  "destination_egress_exclusion": "Only route-helper egresses are eligible; no CBS is applied to a receiver-only/destination egress.",
+  "final_campaign_concurrency": {
+    "basis": "four simultaneous jobs stay within available disk with a 45 GB stop floor",
+    "max_parallel_runs": 4
+  },
+  "increase_step": "10% of physical port line rate for one eligible egress/class per candidate; cap aggregate CBS reservation at 75% per port; reject pre-execution if the cap would be crossed.",
+  "order": "Rank eligible egress/classes by maximum measured queueingTime, then mean queueingTime, route order, egress, TC, and flow ID. After every run, recompute failures and waits.",
+  "other_loads": "Apply frozen candidate/nominal ratios to each load and pre-screen each port against 75%; never clip or retune a cell.",
+  "p1_section": "4.4",
+  "profile_acceptance": "The profile after reductions is checked unchanged at seeds 41, 43, and 47, with C2 nominal controls at seeds 43 and 47. Freeze ratios only if all three profile runs pass all P1 gates and calendars pair within each seed.",
+  "reduction_step": "Starting with the first viable profile, reduce one above-nominal egress/class by 2% of its physical port rate, bounded below by that L2 nominal. Test at most 12 reductions; retain only passing reductions.",
+  "scope": "Exploratory calibration on seed 41 plus fixed-profile checks on 43 and 47; these seeds are distinct from final 1001\u20131030.",
+  "start": "C2 nominal at L2/A1, seed 41; the nominal run is a control and does not count as a new candidate",
+  "status": "preregistered_before_calibration_runs",
+  "stop_increases": "Stop at first candidate passing all P1 viability gates. If the 24-candidate budget is exhausted, report exactly \u201cnenhum candidato vi\u00e1vel encontrado pela busca definida\u201d and do not run C3 final cells.",
+  "targets": "Only TC4/TC6 egresses actually traversed by currently failing flows, based on generate_cbs.route; F21/F22 remain excluded from permanent nominal load.",
+  "transient_pairing": "Hash exact events.csv rows for F21/F22 by load/alignment/seed, compare across treatments; archive calendar and hash."
+}

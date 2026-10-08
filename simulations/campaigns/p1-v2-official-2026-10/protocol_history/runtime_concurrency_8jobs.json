@@ -1,0 +1,15 @@
+{
+  "created_utc": "2026-10-07T02:30:42Z",
+  "user_authorized": true,
+  "scope": "runtime resource limit only; no changes to search algorithm, workload, buffers, deadlines, treatment definitions, seeds, acceptance gates, or simulation parameters",
+  "previous_protocol": "protocol_history/calibration_protocol_max4_before_runtime_upgrade.json",
+  "previous_protocol_sha256": "306e2c5fcd8c66b2e097c5b50e90be1700b808685635828aec40b720717641cd",
+  "new_max_parallel_runs": 8,
+  "logical_cpu_plan": "eight concurrent single-threaded simulators; four logical CPUs remain available to the OS/SSH; no CPU affinity restriction",
+  "CPU_priority": "nice=0; raises priority relative to old nice=19, but negative nice requires sudo and was unavailable non-interactively",
+  "IO_priority": "best-effort class, priority 0 (old run used priority 7)",
+  "memory_guard": "monitor available RAM/swap and system responsiveness; if memory pressure becomes sustained, pause after a cell and resume with --jobs 6 or 4; never raise beyond eight in this campaign",
+  "disk_guard": "45 GB free-space floor retained",
+  "resume_behavior": "fsync ledger/checkpoint; keep all ledger-committed results; archive and rerun incomplete uncommitted attempts",
+  "protocol_sha256": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3"
+}

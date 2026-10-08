@@ -1,0 +1,160 @@
+{
+  "calendar_pairing": {
+    "event_signature_fields": [
+      "flow",
+      "block",
+      "signature",
+      "start",
+      "duration",
+      "volume_bytes"
+    ],
+    "generation": "TrafficPlan creates the complete F21/F22 event list at initialization, before the event loop, on dedicated RNG streams 0 and 1.",
+    "verification": "Save the first events.csv as the seed calendar and require byte-identical canonical event rows/SHA-256 for every treatment at that seed. Same seed without the signature check is insufficient."
+  },
+  "calibration_found_feasible_candidate": null,
+  "controls": [
+    "C2 original mapping seed41",
+    "C2 variant nominal seed41",
+    "C0 variant seed41",
+    "C1 variant seed41"
+  ],
+  "exploratory": true,
+  "fixed_workload": [
+    "same canonical flow sizes/rates/offsets",
+    "same 64 KiB camera talker queues",
+    "same 128 KiB G1-G4 queues",
+    "same 32 KiB other queues",
+    "same VLANs/destinations/static routes",
+    "no frame preemption",
+    "FIFO within each TC",
+    "TC7>TC6>TC5>TC4>TC3>TC2>TC1>TC0 strict priority"
+  ],
+  "mapping_changed_flow_ids": [
+    "F02",
+    "F03",
+    "F11",
+    "F12",
+    "F13",
+    "F21",
+    "F22"
+  ],
+  "official_profile_frozen": false,
+  "retention": {
+    "keep": [
+      "pilot configs",
+      "catalog copies",
+      "F21/F22 calendars",
+      "candidate history",
+      "compact per-flow/queue summaries",
+      "1 ms temporal association CSVs"
+    ],
+    "raw_cleanup": "Only after a successful compact and temporal extraction; retain no multi-GB raw vectors by default."
+  },
+  "scope": {
+    "additional_seeds_if_feasible": [
+      43,
+      47
+    ],
+    "aggregation": "A1",
+    "drain_s": 0.05,
+    "load": "L2",
+    "measurement_s": 30,
+    "seed": 41,
+    "warmup_s": 1
+  },
+  "search": {
+    "candidate_budget_max": 24,
+    "candidate_schedule": [
+      "Candidates 1-12: one deterministic +up-to-10%-of-port-rate coordinate step at a time, keeping prior increments and choosing from egress/TC targets on currently failing flows by the registered measured-wait order.",
+      "Candidates 13-18: coupled +up-to-10%-of-port-rate steps on all eligible TC/egress queues along one currently failing flow path, ordered by the same wait/routing rule.",
+      "Candidates 19-24: deterministic backtracking from the best prior nonviable candidate (fewest high-hard misses, then all-flow deadline misses, confirmed drops, worst queue wait, then earlier candidate index), reducing one adjusted target by 2% of its port rate while retaining the other coupled settings; never below nominal.",
+      "If any candidate is viable, stop the viability search and perform at most 12 reductions by 2% of port rate, in descending excess-over-nominal then measured-wait order; keep only candidates passing every P1 gate.",
+      "Reject before simulation and record any candidate that would exceed 75% total CBS on any egress; if no positive increment remains, do not run it."
+    ],
+    "coarse_increment_fraction_of_port_rate_max": 0.1,
+    "failure_wording": "If no candidate among the defined search is viable, report 'nenhum candidato vi\u00e1vel encontrado pela busca explorat\u00f3ria definida'; do not infer general impossibility.",
+    "fine_increment_fraction_of_port_rate": 0.02,
+    "never_below_permanent_nominal": true,
+    "nominal_first": true,
+    "per_port_total_reservation_cap_fraction": 0.75,
+    "reduction_budget_after_first_viable_max": 12,
+    "targets": {
+      "TC4_flows": {
+        "F02": [
+          "CAM1.eth[0]/4",
+          "CSW.eth[0]/4",
+          "Z1.ZSW.eth[0]/4"
+        ],
+        "F03": [
+          "CAM2.eth[0]/4",
+          "CSW.eth[0]/4",
+          "Z2.ZSW.eth[0]/4"
+        ],
+        "F04": [
+          "CAM3.eth[0]/4",
+          "CSW.eth[0]/4",
+          "Z3.ZSW.eth[0]/4"
+        ],
+        "F05": [
+          "CAM4.eth[0]/4",
+          "CSW.eth[0]/4",
+          "Z3.ZSW.eth[0]/4"
+        ],
+        "F11": [
+          "CSW.eth[1]/4",
+          "HPC.eth[0]/4",
+          "Z1.ZSW.eth[6]/4"
+        ],
+        "F12": [
+          "CSW.eth[2]/4",
+          "HPC.eth[0]/4",
+          "Z2.ZSW.eth[6]/4"
+        ],
+        "F13": [
+          "CSW.eth[3]/4",
+          "HPC.eth[0]/4",
+          "Z3.ZSW.eth[7]/4"
+        ],
+        "F14": [
+          "CSW.eth[1]/4",
+          "CSW.eth[2]/4",
+          "HPC.eth[0]/4",
+          "Z1.ZSW.eth[7]/4",
+          "Z2.ZSW.eth[7]/4"
+        ]
+      },
+      "TC6_sensor_paths": {
+        "F01": [
+          "LiDAR1.eth[0]/TC6",
+          "Z1.ZSW.eth[0]/TC6",
+          "CSW.eth[0]/TC6"
+        ],
+        "F06": [
+          "RADAR1.eth[0]/TC6",
+          "Z2.ZSW.eth[0]/TC6",
+          "CSW.eth[0]/TC6"
+        ],
+        "F07": [
+          "RADAR2.eth[0]/TC6",
+          "Z3.ZSW.eth[0]/TC6",
+          "CSW.eth[0]/TC6"
+        ]
+      },
+      "historical_note": "The pre-correction target list is preserved in results/archive/pre_correction/search_protocol_pre_correction.json; historical search_history and run profiles were not rewritten.",
+      "priority_order": "Within still-failing paths, sort by measured queueingTime.max descending, then mean descending, then fixed source-to-destination route order and egress name.",
+      "route_metadata_correction": {
+        "historical_search_unchanged": true,
+        "reason": "HPC is destination for F01/F06/F07, not a traversed egress"
+      }
+    },
+    "viability": "All P1 hard/soft deadline, packet loss, received-delivery/goodput and stable-queue criteria; no p99-only acceptance."
+  },
+  "temporal_evidence": {
+    "camera": "image release times and imageCompletionLatency; active release span marked separately",
+    "interpretation": "temporal association only; no packet-level causal attribution without per-packet route tracing",
+    "queue_traces": "1 ms occupancy summaries on HPC, CSW.eth[0], Z1/Z2/Z3 uplinks and affected talker ports",
+    "resolution_s": 0.001,
+    "sensor_latency": "per-packet receiver latency vectors; misses binned by event/creation time",
+    "transients": "F21/F22 event intervals from identical calendar"
+  }
+}

@@ -207,8 +207,9 @@ def write_comparison(cells):
                            "G1_G4_per_class_bytes": 131072,
                            "other_egresses_per_class_bytes": 32768},
         "C2_nominal_CBS": {
-            "SR_A_TC": 6, "SR_A_flows": ["F01", "F02", "F03", "F06", "F07", "F11", "F12", "F13", "F21", "F22"],
-            "SR_B_TC": 4, "SR_B_flows": ["F04", "F05", "F14"],
+            "custom_TCs": {"TC6": ["F01", "F06", "F07"],
+                            "TC4": ["F02", "F03", "F04", "F05", "F11", "F12", "F13", "F14", "F21", "F22"]},
+            "standard_SR_contracts_claimed": False,
             "reservation_rule": "per egress/class sum of permanent wire rates routed through that port; scalable rates use the selected L factor; F21/F22 are excluded",
             "P1_75_percent_cap_applied": False,
         },
@@ -224,8 +225,8 @@ def write_comparison(cells):
     (OUTPUT / "C0_C1_C2_comparison.json").write_text(json.dumps(document, indent=2) + "\n")
     lines = [
         "# C0/C1/C2 — comparação C2 nominal CBS", "",
-        "Matriz seed 41, pareada entre C0, C1 e C2. Topologia, buffers, workload, PCP/VLAN, deadlines e ciclos foram mantidos. C2 mantém os bursts originais de câmera e adiciona CBS nominal apenas em TC6/SR-A e TC4/SR-B.", "",
-        "As taxas idleSlope por egress são a soma das taxas wire permanentes do catálogo roteadas por aquela porta, escaladas pelo nível L quando o fluxo é escalável. F21/F22 permanecem em TC6 enquanto ativos, mas não entram na reserva. A triagem de 75% não se aplica ao C2 no P1; os 8 pontos da matriz são simulados.", "",
+        "Matriz seed 41, pareada entre C0, C1 e C2, referente aos resultados históricos sob a configuração indicada no JSON. C2 mantém os bursts originais de câmera e adiciona CBS nominal às classes customizadas TC6/TC4 nos egressos roteados.", "",
+        "As taxas idleSlope por egress são a soma das taxas wire permanentes do catálogo roteadas por aquela porta, escaladas pelo nível L quando o fluxo é escalável. F21/F22 usam TC4 enquanto ativos, mas não entram na reserva. TC6/TC4 são classes CBS próprias do benchmark; não se afirma reprodução de SR-A/SR-B. A nova campanha oficial tem runner e comparações isolados.", "",
         "## Resultados por célula", "",
         "| Célula | Viabilidade C0/C1/C2 | Drops C0/C1/C2 | Pendentes fim C2 | p99 crítico pacote C0/C1/C2 (ms) | p99 conclusão imagem C0/C1/C2 (ms) | Miss crítico máx. C0/C1/C2 (%) | Perda máx. (%) | Goodput mín. (%) | Filas não estáveis C2 |",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",

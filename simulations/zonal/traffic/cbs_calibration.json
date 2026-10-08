@@ -1,0 +1,36 @@
+{
+  "protocol": "P1 section 4.4; deterministic coarse increase and smaller-step reduction at L2/A1",
+  "calibration": {
+    "load": "L2",
+    "aggregation": "A1",
+    "seed": 41,
+    "warmup_s": 1,
+    "measurement_s": 30,
+    "drain_s": 0.05,
+    "coarse_step_fraction_of_port_rate": 0.1,
+    "fine_step_fraction_of_port_rate": 0.02,
+    "viability_source": "P1 section 5.4; scripts/run/validate_c0.py acceptance gates",
+    "affected_egress_classes": [
+      "CSW.eth[0]/TC6",
+      "Z1.ZSW.eth[0]/TC6",
+      "Z2.ZSW.eth[0]/TC6",
+      "CSW.eth[3]/TC6",
+      "CAM1.eth[0]/TC6",
+      "CAM2.eth[0]/TC6"
+    ],
+    "target_basis": "C2 L2/A1 saturated TC6 uplinks and CSW-to-Z3, plus CSW-to-HPC identified by measured high-hard deadline-miss regression after upstream reservation increases",
+    "freeze_ratios": false,
+    "resumed_from_trial": "coarse-019-Z2_ZSW_eth0-TC6",
+    "target_adaptation": "Deterministically retest only egress/classes on paths of flows still failing P1 viability; filter by measured failing flow IDs and fixed topology routes.",
+    "status": "calibration_infeasible_under_75_percent_cap",
+    "calibration_outcome": "L2/A1 seed 41 failed the P1 hard-deadline gate at the maximum tested admissible reservations. Ratios are retained only as a diagnostic candidate; no C3 matrix was run."
+  },
+  "ratios": {
+    "CAM1.eth[0]/TC6": 6.277044855,
+    "CAM2.eth[0]/TC6": 6.277044855,
+    "Z1.ZSW.eth[0]/TC6": 2.05338809,
+    "Z2.ZSW.eth[0]/TC6": 12.813941568,
+    "CSW.eth[0]/TC6": 1.495557749,
+    "CSW.eth[3]/TC6": 11.869565217
+  }
+}

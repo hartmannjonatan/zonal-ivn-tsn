@@ -1,0 +1,195 @@
+{
+  "binary_sha256": "682070643132e54b0fdd46093aa3a30725be5d8aea9597f64336311148ffc074",
+  "campaign_id": "p1-v2-official-2026-10",
+  "commit": "d501bc2369b46b8eabd52e2274f667ee25e64f98",
+  "inet": "4.7.0",
+  "inet_version_file_sha256": "4f1e01b6ac1a44aa42ede509bf88b57697f4c4fcfa9b83959f57944c1079230f",
+  "inet_version_token": "inet-4.7.0-dfe270b21f",
+  "local_changes": " M README.md\n M docs/design/p1-implementation.md\n M docs/traffic-catalog/README.md\n M experiments/README.md\n M experiments/design.json\n M scripts/catalog/generate_cbs.py\n M scripts/run/README.md\n M scripts/run/validate_c0.py\n M scripts/run/validate_c2.py\n M simulations/omnetpp.ini\n M simulations/zonal/configs/README.md\n M simulations/zonal/configs/catalog-bindings.ini\n M simulations/zonal/configs/mechanisms/C2_nominal_cbs.ini\n M simulations/zonal/configs/mechanisms/C2_nominal_rates.ini\n M simulations/zonal/configs/mechanisms/C3_calibrated_cbs.ini\n M simulations/zonal/traffic/README.md\n M simulations/zonal/traffic/catalog.xml\n M simulations/zonal/traffic/cbs_nominal_reservations.csv\n M simulations/zonal/traffic/flows.csv\n M tests/validation/README.md\n M tests/validation/cbs/README.md\n M tests/validation/classification/README.md\n M tests/validation/source_preshaping/README.md\n M tests/validation/traffic/README.md\n?? docs/report/partial-results-p1-v4-2026-10-05.md\n?? docs/report/partial-results/\n?? scripts/catalog/generate_c3.py\n?? scripts/run/analyze_c3_calibration.py\n?? scripts/run/validate_c3.py\n?? simulations/campaigns/\n?? simulations/pilot/\n?? simulations/zonal/configs/mechanisms/C3_calibrated_rates.ini\n?? simulations/zonal/traffic/c3_reservation_screen.json\n?? simulations/zonal/traffic/cbs_calibrated_reservations.csv\n?? simulations/zonal/traffic/cbs_calibration.json\n?? tests/validation/cbs/test_calibration_search.py\n",
+  "mapping": {
+    "PCP0_TC0": [
+      "F18",
+      "F19",
+      "F20"
+    ],
+    "PCP3_TC3": [
+      "F15",
+      "F16",
+      "F17"
+    ],
+    "PCP4_TC4": [
+      "F02",
+      "F03",
+      "F04",
+      "F05",
+      "F11",
+      "F12",
+      "F13",
+      "F14",
+      "F21",
+      "F22"
+    ],
+    "PCP6_TC6": [
+      "F01",
+      "F06",
+      "F07"
+    ],
+    "PCP7_TC7": [
+      "F08",
+      "F09",
+      "F10"
+    ]
+  },
+  "matrix": {
+    "C3_L3": "inadmissible reservation boundary; not simulated",
+    "C4": "excluded",
+    "alignments": [
+      "A0",
+      "A1"
+    ],
+    "drain_s": 0.05,
+    "loads": [
+      "L0",
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "measurement_s": 30,
+    "seeds": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010,
+      1011,
+      1012,
+      1013,
+      1014,
+      1015,
+      1016,
+      1017,
+      1018,
+      1019,
+      1020,
+      1021,
+      1022,
+      1023,
+      1024,
+      1025,
+      1026,
+      1027,
+      1028,
+      1029,
+      1030
+    ],
+    "treatments": [
+      "C0",
+      "C1",
+      "C2",
+      "C3"
+    ],
+    "warmup_s": 1
+  },
+  "omnetpp": "6.4.0",
+  "omnetpp_runtime_version": "Version: 6.4.0, build: 260506-2cf25223fe, edition: Academic Public License -- NOT FOR COMMERCIAL USE",
+  "p1_clarification": {
+    "configuration_matches_audited_runs_and_pilot": true,
+    "mechanism": "SP when permanent nominal reservation is zero; F21/F22 remain PCP4/TC4 and share CBS only on egresses with positive permanent TC4 reservation",
+    "transient_only_TC4_egresses": [
+      "Z1.ZCPU.eth[0]",
+      "Z2.ZCPU.eth[0]",
+      "Z3.ZSW.eth[1]"
+    ]
+  },
+  "p1_pdf": "/home/jonatan/Downloads/P1 (4).pdf",
+  "p1_pdf_sha256": "87809f1b5e22f72e7c58ad2f3a90aab8476e58a80e7417b82f47897af66235f5",
+  "preregistered_protocol_archive": "protocol_history/calibration_protocol_preregistered.json",
+  "preregistered_protocol_sha256": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
+  "previous_manifest_path": "protocol_history/campaign_manifest_p1-v3.json",
+  "previous_manifest_sha256": "72f77d23b430706e7346eb216c054f19468c2550eb36d3ccfb65cc6beb1076e6",
+  "previous_p1_pdf": "/home/jonatan/Downloads/P1 (3).pdf",
+  "previous_p1_pdf_sha256": "6ef53c6508847a2a895ba2bccd0add661eed5a4912527a4c119d245fbff08390",
+  "queueing": {
+    "CBS_custom_TCs": [
+      6,
+      4
+    ],
+    "CBS_enabled_only_for_positive_permanent_nominal_reservation": true,
+    "FIFO_per_TC": true,
+    "buffer_bytes_per_class": {
+      "G1_G4": 131072,
+      "camera_talker_ports": 65536,
+      "others": 32768
+    },
+    "preemption": false,
+    "standard_SR_contracts_claimed": false,
+    "strict_priority_descending": true,
+    "transient_only_TC4_uses_SP": [
+      "Z1.ZCPU.eth[0]",
+      "Z2.ZCPU.eth[0]",
+      "Z3.ZSW.eth[1]"
+    ]
+  },
+  "reproduction_commands": [
+    "source /home/jonatan/omnetpp-env.sh",
+    "export INET_ROOT=/home/jonatan/omnetpp/samples/inet-4.7.0",
+    "python3 simulations/campaigns/p1-v2-official-2026-10/run_campaign.py --phase calibration",
+    "python3 simulations/campaigns/p1-v2-official-2026-10/run_campaign.py --phase final --resume"
+  ],
+  "source_hashes": {
+    "scripts/catalog/generate.py": "079df8d6fb16f6a105ae382f3a1cdf704104a2d2437f6c92c95613839671e74e",
+    "scripts/catalog/generate_cbs.py": "fb4bfc9d37dfdc9726b1494da8c6fd8bc5854a035e3c0023891bb83450c6e5be",
+    "scripts/run/validate_c0.py": "d36f6a245e56121c08782e7f4f3ebfc65a83854f2e1a313eb29c88891a0fefc2",
+    "scripts/run/validate_c2.py": "7bb320aa3bb8033dc551787419ff41d63bcf16108e150aea92d9259fa896560f",
+    "scripts/run/validate_c3.py": "cc64e93ad144d9f6a1f0a2360ce6d360698a045316641ddd40e832e7c89cf4f6",
+    "simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
+    "simulations/campaigns/p1-v2-official-2026-10/calibration_search.py": "d9c285bdbd308c8d1e0206d326c62911c01116029ce6c5ffb3f431dad6b347b7",
+    "simulations/campaigns/p1-v2-official-2026-10/flow_mapping.csv": "725165005febef1a3b487cb8d69ae2fbbbf66da9352074e5e441109d9ceffdd8",
+    "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": "f68daf3929114099e09343dbcc1d6298193c976c68a61fa50a93da1a3f845897",
+    "simulations/omnetpp.ini": "ccb2660dc084be88e5d2fb1f156f63e5aedbb4c216f38d473cac9bcd910ee339",
+    "simulations/zonal/configs/aggregation.ini": "15090e7e99fccbcdee1dc9d24e6f842dc9581aaa611ad8d7a7019c0774463e9f",
+    "simulations/zonal/configs/base.ini": "2a29d562a899fdd075270ff9efda5097c0dd1f5084a7bc9c01a811d5d205a7e8",
+    "simulations/zonal/configs/catalog-bindings.ini": "8d5eb5aed5a8e033fefdd8a41ba981ad439c81229ff1f43d451da78d13a59408",
+    "simulations/zonal/configs/classification.ini": "dd150b02cd475a586c758e0444582f0c0d1de69f4fd67b9a9df6001285a2d976",
+    "simulations/zonal/configs/loads.ini": "5203ba7018aa9e419532662c53a0449b5b82717a2430930da00ca9471866aab5",
+    "simulations/zonal/configs/mechanisms/C0_strict_priority.ini": "494ffed5b1fa7bf7e344195a462c4d3653d4a4b42a3e4f6724cdc86c4a2be7b9",
+    "simulations/zonal/configs/mechanisms/C1_source_preshaping.ini": "8d06a7ddbe1a29dc466ddaf78297f39bc9fe32793cc0cf45bb2e83702281e513",
+    "simulations/zonal/configs/mechanisms/C2_nominal_cbs.ini": "8db64d4d81aed6f568bcab66241af218237e8dcd642389eb12775c9e5b2878d8",
+    "simulations/zonal/configs/mechanisms/C2_nominal_rates.ini": "38b29aef4df2d25becc3b274a2d6fb17f91ccc26d76de035d0d8a9b9d2aa3c4e",
+    "simulations/zonal/configs/mechanisms/C3_calibrated_cbs.ini": "ded5bf6fd8c3141fd46b8b33fbee059844fb7c268e7b50edeedebdd0d87b5f3c",
+    "simulations/zonal/configs/mechanisms/C3_calibrated_rates.ini": "0715ad2e87e604647faa993fad82d24c51479b4b13cb53c84806a59323ae438e",
+    "simulations/zonal/configs/mechanisms/C4_tas_cbs.ini": "b50e087481946f6abacf63cb6548c7c31bad82c3f4363209a6123ba52155ad36",
+    "simulations/zonal/configs/recording.ini": "f34f5106f385e3fb2ac8353e9b9e2ecc89490f306c9d85bf4298092b188dbb3a",
+    "simulations/zonal/configs/synchronization.ini": "05370b1ca742220a86caf551c11fe2d0ebf4ace658cbba59b7c2164ddda36313",
+    "simulations/zonal/configs/topology.ini": "6fdbccddc989dccad1a8e92a3ac706c4820e5b9340e7271c3828fb6941df5441",
+    "simulations/zonal/configs/traffic.ini": "0220a986121ff4310305a0cbf776006566b934d00d89ebd2366014ddc93a4b0a",
+    "simulations/zonal/traffic/catalog.xml": "74af538acd1163634b3b4a5578443953ed75b2cd8f163eab05477fb3b5315f8f",
+    "simulations/zonal/traffic/cbs_nominal_reservations.csv": "a839a8bdfde0f09a77e2413611df862f41f8fcae556f8aace6a2d026c30d1910",
+    "simulations/zonal/traffic/flows.csv": "3e3f28c70ab7e4f2b80b970edf3b13fdf6092b069a460a8ee46c21b524a5bbc1",
+    "simulations/zonal/traffic/transients.csv": "fd41ec629855db8974af0b9b54e5eaa664bc44611783dcca41520bd1b4eb0e3d",
+    "src/applications/CatalogColorPacket.h": "b202740b0ffe6a379652c1d0aadbbaaff2d84858f37772e3d9fdd015af5279a3",
+    "src/applications/CatalogUdpApp.cc": "8c570c8991f669d0fb7c478323289863b2174eaa7d78d8bd8d994d2ddd0532c8",
+    "src/applications/CatalogUdpApp.h": "7b96e045bfd4159d308c5019266733bef489023035beae10fced2db323060a66",
+    "src/applications/CatalogUdpApp.ned": "2911b5d7d3b0d403a91e76908e6ea29f418a597a8d48190d2cdcc9f0296edd4b",
+    "src/applications/package.ned": "f7a34d334a2ac3095bbc75835e39de3abfcd2e1a3ad086201396bd113ed4940e",
+    "src/common/TrafficAudit.cc": "bd7f67f06e55147e236be6670c4d1a431f0d1546c4dd300e8e3fc22bfb96ba4c",
+    "src/common/TrafficAudit.ned": "a0aa2ff6f1cc220c2ce4b81a955d2c851f831a18562c7df7b4e15a16a1aa280c",
+    "src/common/TrafficPlan.cc": "5f7cc24c1190e45898fcb89a54f03cd5aecf4419de1cd5b0ef4cfa2033861af4",
+    "src/common/TrafficPlan.h": "4eae92d33a5c4af2eb9f6edd3edce1ba4dec5c637c2b6faad3888165a97ac0d2",
+    "src/common/TrafficPlan.ned": "5a74826422eadfb4ff905fddc65cc7fff513f2eaa9b6a959f04f4e31c75cc39d",
+    "src/common/ZonalEthernetLink.ned": "ad59840d331015f909fd6048eb52b3f7baba153adbd02e7cd20f046206624eb6",
+    "src/common/package.ned": "0e509ca609f4aa279a9249d72358ac39f05e6344629bf5870a665a4d7e20e2bc",
+    "src/nodes/ZonalController.ned": "ef44058fa53066c116d8d6893df40fd4ea49a1e760a260341d8c97c94f99e1f0",
+    "src/nodes/package.ned": "88aa94b1567608aec650ce5cd255bbb5fae36d274d6d224dd017fb05de448e7d",
+    "src/package.ned": "a318f926ccd99afd0db3a68c531825763e64046aba55700e4640740f1cf3aebd",
+    "src/queueing/package.ned": "9eeb1a2928341a9d9a8b4c3c64273191d746ec4d0d288a38ccaf88917efeaa97",
+    "src/zonal-ivn-tsn": "682070643132e54b0fdd46093aa3a30725be5d8aea9597f64336311148ffc074",
+    "tests/validation/traffic/check_traffic.py": "09d0f752ddc3edccf1801189251862a60cbcc0a2a266c607e13f72aa4bd5c1de"
+  },
+  "working_tree_clean": false
+}

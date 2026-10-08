@@ -1,0 +1,11 @@
+signature_id,duration_ms,volume_bytes,provenance
+LF1,59.263,712000,LF-II measured; decimal MB
+LF2,486.459,6129000,LF-II measured; decimal MB
+LF3,424.599,5499000,LF-II measured; decimal MB
+LF4,145.553,1945000,LF-II measured; decimal MB
+LF5,131.821,1759000,LF-II measured; decimal MB
+FR1,132.532,1474000,LF-II measured; decimal MB
+FR2,186.909,2133000,LF-II measured; decimal MB
+FR3,286.14,3286000,LF-II measured; decimal MB
+FR4,244.375,2803000,LF-II measured; decimal MB
+FR5,181.053,2118000,LF-II measured; decimal MB

@@ -1,0 +1,524 @@
+{
+  "cap_fraction": 0.75,
+  "ratios_file": "simulations/zonal/traffic/cbs_calibration.json",
+  "calibration_status": "calibration_infeasible_under_75_percent_cap",
+  "ratios_frozen": false,
+  "calibration": {
+    "load": "L2",
+    "aggregation": "A1",
+    "seed": 41,
+    "warmup_s": 1,
+    "measurement_s": 30,
+    "drain_s": 0.05,
+    "coarse_step_fraction_of_port_rate": 0.1,
+    "fine_step_fraction_of_port_rate": 0.02,
+    "viability_source": "P1 section 5.4; scripts/run/validate_c0.py acceptance gates",
+    "affected_egress_classes": [
+      "CSW.eth[0]/TC6",
+      "Z1.ZSW.eth[0]/TC6",
+      "Z2.ZSW.eth[0]/TC6",
+      "CSW.eth[3]/TC6",
+      "CAM1.eth[0]/TC6",
+      "CAM2.eth[0]/TC6"
+    ],
+    "target_basis": "C2 L2/A1 saturated TC6 uplinks and CSW-to-Z3, plus CSW-to-HPC identified by measured high-hard deadline-miss regression after upstream reservation increases",
+    "freeze_ratios": false,
+    "resumed_from_trial": "coarse-019-Z2_ZSW_eth0-TC6",
+    "target_adaptation": "Deterministically retest only egress/classes on paths of flows still failing P1 viability; filter by measured failing flow IDs and fixed topology routes.",
+    "status": "calibration_infeasible_under_75_percent_cap",
+    "calibration_outcome": "L2/A1 seed 41 failed the P1 hard-deadline gate at the maximum tested admissible reservations. Ratios are retained only as a diagnostic candidate; no C3 matrix was run."
+  },
+  "screens": {
+    "L0": {
+      "CAM1.eth[0]": {
+        "total_cbs_reservation_bps": 71370000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.07137,
+        "admissible": true
+      },
+      "CAM2.eth[0]": {
+        "total_cbs_reservation_bps": 71370000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.07137,
+        "admissible": true
+      },
+      "CAM3.eth[0]": {
+        "total_cbs_reservation_bps": 11370000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.01137,
+        "admissible": true
+      },
+      "CAM4.eth[0]": {
+        "total_cbs_reservation_bps": 11370000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.01137,
+        "admissible": true
+      },
+      "CSW.eth[0]": {
+        "total_cbs_reservation_bps": 150000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.15,
+        "admissible": true
+      },
+      "CSW.eth[1]": {
+        "total_cbs_reservation_bps": 67200000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.0672,
+        "admissible": true
+      },
+      "CSW.eth[2]": {
+        "total_cbs_reservation_bps": 67200000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.0672,
+        "admissible": true
+      },
+      "CSW.eth[3]": {
+        "total_cbs_reservation_bps": 65520000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.06552,
+        "admissible": true
+      },
+      "HPC.eth[0]": {
+        "total_cbs_reservation_bps": 78240000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.07824,
+        "admissible": true
+      },
+      "LiDAR1.eth[0]": {
+        "total_cbs_reservation_bps": 61680000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.06168,
+        "admissible": true
+      },
+      "RADAR1.eth[0]": {
+        "total_cbs_reservation_bps": 336000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.00336,
+        "admissible": true
+      },
+      "RADAR2.eth[0]": {
+        "total_cbs_reservation_bps": 336000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.00336,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 150000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.15,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[6]": {
+        "total_cbs_reservation_bps": 5520000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.0552,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 61680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.6168,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 150000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.15,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[6]": {
+        "total_cbs_reservation_bps": 5520000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.0552,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 61680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.6168,
+        "admissible": true
+      },
+      "Z3.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 23076000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.023076,
+        "admissible": true
+      },
+      "Z3.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 5520000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.0552,
+        "admissible": true
+      }
+    },
+    "L1": {
+      "CAM1.eth[0]": {
+        "total_cbs_reservation_bps": 142740000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.14274,
+        "admissible": true
+      },
+      "CAM2.eth[0]": {
+        "total_cbs_reservation_bps": 142740000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.14274,
+        "admissible": true
+      },
+      "CAM3.eth[0]": {
+        "total_cbs_reservation_bps": 22740000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.02274,
+        "admissible": true
+      },
+      "CAM4.eth[0]": {
+        "total_cbs_reservation_bps": 22740000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.02274,
+        "admissible": true
+      },
+      "CSW.eth[0]": {
+        "total_cbs_reservation_bps": 300000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.3,
+        "admissible": true
+      },
+      "CSW.eth[1]": {
+        "total_cbs_reservation_bps": 72720000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.07272,
+        "admissible": true
+      },
+      "CSW.eth[2]": {
+        "total_cbs_reservation_bps": 72720000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.07272,
+        "admissible": true
+      },
+      "CSW.eth[3]": {
+        "total_cbs_reservation_bps": 131040000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.13104,
+        "admissible": true
+      },
+      "HPC.eth[0]": {
+        "total_cbs_reservation_bps": 94800000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.0948,
+        "admissible": true
+      },
+      "LiDAR1.eth[0]": {
+        "total_cbs_reservation_bps": 123360000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.12336,
+        "admissible": true
+      },
+      "RADAR1.eth[0]": {
+        "total_cbs_reservation_bps": 672000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.00672,
+        "admissible": true
+      },
+      "RADAR2.eth[0]": {
+        "total_cbs_reservation_bps": 672000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.00672,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 300000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.3,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[6]": {
+        "total_cbs_reservation_bps": 11040000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.1104,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 61680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.6168,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 300000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.3,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[6]": {
+        "total_cbs_reservation_bps": 11040000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.1104,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 61680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.6168,
+        "admissible": true
+      },
+      "Z3.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 46152000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.046152,
+        "admissible": true
+      },
+      "Z3.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 11040000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.1104,
+        "admissible": true
+      }
+    },
+    "L2": {
+      "CAM1.eth[0]": {
+        "total_cbs_reservation_bps": 356850000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.35685,
+        "admissible": true
+      },
+      "CAM2.eth[0]": {
+        "total_cbs_reservation_bps": 356850000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.35685,
+        "admissible": true
+      },
+      "CAM3.eth[0]": {
+        "total_cbs_reservation_bps": 56850000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.05685,
+        "admissible": true
+      },
+      "CAM4.eth[0]": {
+        "total_cbs_reservation_bps": 56850000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.05685,
+        "admissible": true
+      },
+      "CSW.eth[0]": {
+        "total_cbs_reservation_bps": 750000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.75,
+        "admissible": true
+      },
+      "CSW.eth[1]": {
+        "total_cbs_reservation_bps": 89280000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.08928,
+        "admissible": true
+      },
+      "CSW.eth[2]": {
+        "total_cbs_reservation_bps": 89280000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.08928,
+        "admissible": true
+      },
+      "CSW.eth[3]": {
+        "total_cbs_reservation_bps": 327600000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.3276,
+        "admissible": true
+      },
+      "HPC.eth[0]": {
+        "total_cbs_reservation_bps": 144480000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.14448,
+        "admissible": true
+      },
+      "LiDAR1.eth[0]": {
+        "total_cbs_reservation_bps": 308400000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.3084,
+        "admissible": true
+      },
+      "RADAR1.eth[0]": {
+        "total_cbs_reservation_bps": 1680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.0168,
+        "admissible": true
+      },
+      "RADAR2.eth[0]": {
+        "total_cbs_reservation_bps": 1680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.0168,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 750000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.75,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[6]": {
+        "total_cbs_reservation_bps": 27600000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.276,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 61680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.6168,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 750000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.75,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[6]": {
+        "total_cbs_reservation_bps": 27600000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.276,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 61680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.6168,
+        "admissible": true
+      },
+      "Z3.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 115380000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.11538,
+        "admissible": true
+      },
+      "Z3.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 27600000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.276,
+        "admissible": true
+      }
+    },
+    "L3": {
+      "CAM1.eth[0]": {
+        "total_cbs_reservation_bps": 570960000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.57096,
+        "admissible": true
+      },
+      "CAM2.eth[0]": {
+        "total_cbs_reservation_bps": 570960000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.57096,
+        "admissible": true
+      },
+      "CAM3.eth[0]": {
+        "total_cbs_reservation_bps": 90960000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.09096,
+        "admissible": true
+      },
+      "CAM4.eth[0]": {
+        "total_cbs_reservation_bps": 90960000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.09096,
+        "admissible": true
+      },
+      "CSW.eth[0]": {
+        "total_cbs_reservation_bps": 1200000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 1.2,
+        "admissible": false
+      },
+      "CSW.eth[1]": {
+        "total_cbs_reservation_bps": 105840000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.10584,
+        "admissible": true
+      },
+      "CSW.eth[2]": {
+        "total_cbs_reservation_bps": 105840000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.10584,
+        "admissible": true
+      },
+      "CSW.eth[3]": {
+        "total_cbs_reservation_bps": 524160000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.52416,
+        "admissible": true
+      },
+      "HPC.eth[0]": {
+        "total_cbs_reservation_bps": 194160000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.19416,
+        "admissible": true
+      },
+      "LiDAR1.eth[0]": {
+        "total_cbs_reservation_bps": 493440000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.49344,
+        "admissible": true
+      },
+      "RADAR1.eth[0]": {
+        "total_cbs_reservation_bps": 2688000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.02688,
+        "admissible": true
+      },
+      "RADAR2.eth[0]": {
+        "total_cbs_reservation_bps": 2688000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.02688,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 1200000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 1.2,
+        "admissible": false
+      },
+      "Z1.ZSW.eth[6]": {
+        "total_cbs_reservation_bps": 44160000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.4416,
+        "admissible": true
+      },
+      "Z1.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 61680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.6168,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 1200000000,
+        "port_rate_bps": 1000000000,
+        "fraction": 1.2,
+        "admissible": false
+      },
+      "Z2.ZSW.eth[6]": {
+        "total_cbs_reservation_bps": 44160000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.4416,
+        "admissible": true
+      },
+      "Z2.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 61680000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.6168,
+        "admissible": true
+      },
+      "Z3.ZSW.eth[0]": {
+        "total_cbs_reservation_bps": 184608000,
+        "port_rate_bps": 1000000000,
+        "fraction": 0.184608,
+        "admissible": true
+      },
+      "Z3.ZSW.eth[7]": {
+        "total_cbs_reservation_bps": 44160000,
+        "port_rate_bps": 100000000,
+        "fraction": 0.4416,
+        "admissible": true
+      }
+    }
+  },
+  "inadmissible_loads": [
+    "L3"
+  ]
+}

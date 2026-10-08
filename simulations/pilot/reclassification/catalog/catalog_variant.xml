@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<catalog>
+  <flow id="1" name="F01" source="LiDAR1" destinations="HPC" family="lidar" app_bytes="1472" burst="1" pcp="6" vlan="1" scalable="1" period="0.0001" offset="0.0" phase="0.0" deadline="0.0001" criticality="high-hard" />
+  <flow id="2" name="F02" source="CAM1" destinations="HPC" family="camera" app_bytes="1446" burst="30" pcp="4" vlan="2" scalable="1" period="0.016" offset="0.0" phase="0.0" deadline="0.01" criticality="high-hard" />
+  <flow id="3" name="F03" source="CAM2" destinations="HPC" family="camera" app_bytes="1446" burst="30" pcp="4" vlan="7" scalable="1" period="0.016" offset="0.0" phase="0.25" deadline="0.01" criticality="high-hard" />
+  <flow id="4" name="F04" source="CAM3" destinations="HPC" family="camera" app_bytes="1446" burst="30" pcp="4" vlan="13" scalable="1" period="0.016" offset="0.0" phase="0.5" deadline="0.03" criticality="medium-soft" />
+  <flow id="5" name="F05" source="CAM4" destinations="HPC" family="camera" app_bytes="1446" burst="30" pcp="4" vlan="14" scalable="1" period="0.016" offset="0.0" phase="0.75" deadline="0.03" criticality="medium-soft" />
+  <flow id="6" name="F06" source="RADAR1" destinations="HPC" family="radar" app_bytes="14" burst="1" pcp="6" vlan="6" scalable="1" period="0.001" offset="2e-05" phase="0.0" deadline="0.0001" criticality="high-hard" />
+  <flow id="7" name="F07" source="RADAR2" destinations="HPC" family="radar" app_bytes="14" burst="1" pcp="6" vlan="12" scalable="1" period="0.001" offset="2.5e-05" phase="0.0" deadline="0.0001" criticality="high-hard" />
+  <flow id="8" name="F08" source="HPC" destinations="BRAKE1" family="brake" app_bytes="14" burst="1" pcp="7" vlan="3" scalable="0" period="0.0001" offset="0.0" phase="0.0" deadline="0.0001" criticality="high-hard" />
+  <flow id="9" name="F09" source="HPC" destinations="BRAKE2" family="brake" app_bytes="14" burst="1" pcp="7" vlan="8" scalable="0" period="0.0001" offset="2e-06" phase="0.0" deadline="0.0001" criticality="high-hard" />
+  <flow id="10" name="F10" source="HPC" destinations="BRAKE3" family="brake" app_bytes="14" burst="1" pcp="7" vlan="15" scalable="0" period="0.0001" offset="4e-06" phase="0.0" deadline="0.0001" criticality="high-hard" />
+  <flow id="11" name="F11" source="HPC" destinations="AUDIO1" family="audio" app_bytes="206" burst="1" pcp="4" vlan="4" scalable="1" period="0.0002" offset="0.0" phase="0.0" deadline="0.01" criticality="medium-soft" />
+  <flow id="12" name="F12" source="HPC" destinations="AUDIO2" family="audio" app_bytes="206" burst="1" pcp="4" vlan="9" scalable="1" period="0.0002" offset="5e-06" phase="0.0" deadline="0.01" criticality="medium-soft" />
+  <flow id="13" name="F13" source="HPC" destinations="AUDIO3" family="audio" app_bytes="206" burst="1" pcp="4" vlan="16" scalable="1" period="0.0002" offset="1e-05" phase="0.0" deadline="0.01" criticality="medium-soft" />
+  <flow id="14" name="F14" source="HPC" destinations="DISPLAY1;DISPLAY2" family="multicast" app_bytes="1472" burst="1" pcp="4" vlan="10" scalable="0" period="0.0002" offset="0.0" phase="0.0" deadline="0.03" criticality="medium-soft" />
+  <flow id="15" name="F15" source="HPC" destinations="WINDOW1" family="window" app_bytes="14" burst="1" pcp="3" vlan="5" scalable="0" period="0.0002" offset="5e-05" phase="0.0" deadline="0.05" criticality="medium" />
+  <flow id="16" name="F16" source="HPC" destinations="WINDOW2" family="window" app_bytes="14" burst="1" pcp="3" vlan="11" scalable="0" period="0.0002" offset="5.5e-05" phase="0.0" deadline="0.05" criticality="medium" />
+  <flow id="17" name="F17" source="HPC" destinations="WINDOW3" family="window" app_bytes="14" burst="1" pcp="3" vlan="17" scalable="0" period="0.0002" offset="6e-05" phase="0.0" deadline="0.05" criticality="medium" />
+  <flow id="18" name="F18" source="HPC" destinations="BE1" family="best_effort" app_bytes="1472" burst="1" pcp="0" vlan="18" scalable="1" period="0.0006167999999999999" offset="0.0" phase="0.0" deadline="0.0" criticality="low" />
+  <flow id="19" name="F19" source="HPC" destinations="BE2" family="best_effort" app_bytes="1472" burst="1" pcp="0" vlan="19" scalable="1" period="0.0006167999999999999" offset="0.0" phase="0.3333333333333333" deadline="0.0" criticality="low" />
+  <flow id="20" name="F20" source="HPC" destinations="BE3" family="best_effort" app_bytes="1472" burst="1" pcp="0" vlan="20" scalable="1" period="0.0006167999999999999" offset="0.0" phase="0.6666666666666666" deadline="0.0" criticality="low" />
+  <flow id="21" name="F21" source="Z1.ZCPU" destinations="Z3.ZCPU" family="transient" app_bytes="1472" burst="1" pcp="4" vlan="21" scalable="0" period="0.0" offset="0.0" phase="0.0" deadline="0.01" criticality="high-soft-assumed" />
+  <flow id="22" name="F22" source="Z2.ZCPU" destinations="Z3.ZCPU" family="transient" app_bytes="1472" burst="1" pcp="4" vlan="22" scalable="0" period="0.0" offset="0.0" phase="0.0" deadline="0.01" criticality="high-soft-assumed" />
+  <signature name="LF1" duration="0.059262999999999996" volume="712000" />
+  <signature name="LF2" duration="0.48645900000000003" volume="6129000" />
+  <signature name="LF3" duration="0.424599" volume="5499000" />
+  <signature name="LF4" duration="0.145553" volume="1945000" />
+  <signature name="LF5" duration="0.131821" volume="1759000" />
+  <signature name="FR1" duration="0.132532" volume="1474000" />
+  <signature name="FR2" duration="0.186909" volume="2133000" />
+  <signature name="FR3" duration="0.28614" volume="3286000" />
+  <signature name="FR4" duration="0.244375" volume="2803000" />
+  <signature name="FR5" duration="0.181053" volume="2118000" />
+</catalog>

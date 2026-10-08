@@ -1,0 +1,35 @@
+{
+  "created_utc": "2026-10-07T02:24:44Z",
+  "campaign_id": "p1-v2-official-2026-10",
+  "user_authorized_resume": true,
+  "previous_launch_constraints": {
+    "taskset_cpus": "4-11",
+    "nice": 19,
+    "ionice_class": 2,
+    "ionice_level": 7
+  },
+  "resume_execution_profile": {
+    "max_parallel_simulations": 4,
+    "cpu_affinity": "unrestricted; all scheduler-available CPUs",
+    "nice": 0,
+    "ionice": "default scheduler",
+    "bounded_submission": "one cell; at most four futures in flight"
+  },
+  "registered_concurrency_limit_preserved": 4,
+  "reason": "Use normal scheduler placement and priority to stop forcing four CPU-bound jobs onto CPUs 4-11 at low priority. Retain the preregistered four-job limit because the observed per-run peak RSS could make higher concurrency unsafe on this 14 GiB host.",
+  "recovery": {
+    "ledger_append_fsync": true,
+    "checkpoint_atomic_fsync": true,
+    "ledger_valid_lines_preserved": true,
+    "malformed_bytes_quarantined_on_resume": true,
+    "incomplete_run_dirs_archived_then_retried": true,
+    "exclusive_runner_lock": true,
+    "clean_cell_pause_option": "--stop-after-cell T_L_A"
+  },
+  "max_parallel_runs_not_increased": true,
+  "source_sha256": {
+    "run_campaign.py": "123234280a83bcf393098ab2011c934f12d250f4ec3e9f8230ac5f6c03b9b00e",
+    "campaign_status.py": "3c14dcee36472400e94e9b574291998d1468f985b026e2712741e76cff9aabd4",
+    "README.md": "041c2c570e86054aba68a1104a93e18d655c81fceffd9c0e3f3fb77d7b1e3542"
+  }
+}

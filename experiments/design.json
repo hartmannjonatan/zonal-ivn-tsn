@@ -1,6 +1,6 @@
 {
-  "status": "planned_not_executable",
-  "source": "P1 atualizado, seções 4–6",
+  "status": "partial_validation_c3_calibration_infeasible",
+  "source": "P1 atualizado, se\u00e7\u00f5es 4\u20136",
   "configurations": [
     "C0",
     "C1",
@@ -55,13 +55,18 @@
   "calibration": {
     "load": "L2",
     "aggregation": "A1",
-    "seeds": null,
-    "freeze_ratios": true
+    "seeds": [
+      41
+    ],
+    "freeze_ratios": true,
+    "status": "infeasible_under_75_percent_cap",
+    "outcome": "23 candidates measured at L2/A1; high-hard deadline misses F01/F06/F07 persisted at maximum admissible reservations. No ratios frozen and no C3 matrix executed."
   },
   "pilot": {
     "load": "L2",
     "aggregation": "A1",
-    "seeds": null
+    "seeds": null,
+    "status": "pending_until_C3_profile_passes_calibration"
   },
   "reservation_cap_fraction": 0.75,
   "preclassified_reservation_infeasible": [

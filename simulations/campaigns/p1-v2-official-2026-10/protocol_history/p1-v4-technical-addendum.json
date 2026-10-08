@@ -1,0 +1,18 @@
+{
+  "clarification": "CBS TC4/TC6 only where permanent nominal reservation is positive. Transit-only TC4 egresses remain SP; F21/F22 retain PCP4/TC4 and share CBS only on egresses with positive permanent TC4 load.",
+  "created_utc": "2026-10-07T16:09:01Z",
+  "p1_pdf": "/home/jonatan/Downloads/P1 (4).pdf",
+  "p1_pdf_sha256": "87809f1b5e22f72e7c58ad2f3a90aab8476e58a80e7417b82f47897af66235f5",
+  "preregistered_protocol_sha256": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
+  "previous_p1_pdf": "/home/jonatan/Downloads/P1 (3).pdf",
+  "previous_p1_pdf_sha256": "6ef53c6508847a2a895ba2bccd0add661eed5a4912527a4c119d245fbff08390",
+  "search_method_changed": false,
+  "status": "P1 v4 clarification and technical execution addendum; preregistered search rules unchanged",
+  "technical_fixes": [
+    "full 10% line-rate increments with pre-execution 75% rejection",
+    "deterministic full-vector signatures and duplicate proposal rejection",
+    "no permanent ban on previously changed queues",
+    "explicit candidate/reduction IDs and termination when no admissible novel proposal remains",
+    "exact queue occupancy change-point trace independently verified before raw vector deletion"
+  ]
+}

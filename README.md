@@ -1,170 +1,33 @@
-# Zonal IVN TSN
+# Zonal IVN TSN benchmark
 
-Estrutura para implementar gradualmente o P1 atualizado: benchmark Ethernet de
-três zonas, 22 fluxos e comparação de Strict Priority, pre-shaping, CBS e TAS.
+This repository contains an OMNeT++/INET model of a zonal in-vehicle Ethernet network and the traffic, shaping, and validation code for the P1 study.
 
-## Estado atual
+The current specification is [P1 v4](docs/design/P1-v4.pdf). Project-specific design history and the exploratory mapping pilot are summarized in [docs/design/README.md](docs/design/README.md).
 
-Os oito microcenários INET em `simulations/tsn_validation/` estão preservados,
-com suas configurações e documentação de validação. A topologia P1 está implementada:
-29 nós Ethernet, 28 enlaces full-duplex e três controladores com switch e CPU.
-`TopologyValidation` permite inspecioná-la sem tráfego; `TopologyConnectivity`
-verifica conectividade com sondas ICMP isoladas do catálogo. `SmokeTest` é um alias
-para `TopologyValidation`. A disposição visual usa o fundo `background/car` do INET em 1280×720:
-frente à direita, Z1 na dianteira esquerda (acima), Z2 na dianteira direita
-(abaixo) e Z3 na traseira. Câmeras, LiDAR e radares usam ícones distintos; abrir
-Z1/Z2/Z3 revela o switch e a CPU. As cores dos enlaces indicam suas classes;
-a legenda informa as velocidades e os tooltips dos acessos mantêm seus detalhes.
+## Repository layout
 
-Os 22 fluxos estão implementados, incluindo multicast F14, transientes F21/F22,
-VLAN/PCP, deadlines, cargas L0–L3 e agregações A0/A1. C0 também está
-implementado como baseline de prioridade estrita: filas classificadas por PCP em
-talkers e switches, gates sempre abertos e buffers drop-tail finitos por classe.
-As filas por classe seguem o P1 corrigido: 64 KiB nos talkers CAM1–CAM4,
-128 KiB nos gargalos G1–G4 e 32 KiB nos demais egressos. O burst de câmera
-completo ocupa 44.880 B no MAC. As matrizes C0 e C1 foram executadas com seed 41
-pareada em L0–L3 × A0/A1. As câmeras geraram bursts completos idênticos nos dois
-tratamentos; não houve overflow na origem nem drops em qualquer fila da rede.
-C0 teve 1/8 células viáveis após classificar F01/F06/F07 como `high-hard`; as
-demais falharam por deadline misses, enquanto C1 teve 8/8 viáveis. O relatório
-pareado com p99, misses, goodput, perdas, ocupação e contrastes H1/H2 está em
-`simulations/results/C1/p1-validation-64KiB/C0_C1_analysis.md` e
-`C0_C1_comparison.json`. Resultados antigos com filas de câmera de 32 KiB
-permanecem preservados como histórico. C2 adiciona CBS nominal a TC6/SR-A e
-TC4/SR-B, com reservas por egress calculadas do `R_wire` permanente do catálogo
-e do nível L, sem pre-shaping. C2 foi validado nas oito células L0–L3 × A0/A1
-com seed 41. Nenhuma célula passou o gate de viabilidade (0/8), frente a 1/8
-em C0 e 8/8 em C1; o relatório registra drops, misses, goodput e latências por
-fluxo. O JSON e a análise pareada ficam em
-`simulations/results/C2/p1-validation-64KiB-final/`. H1/H2 continuam como
-evidência descritiva de uma seed, não como teste estatístico completo. C3 e as
-30 repetições finais seguem como etapas posteriores.
+- `simulations/zonal/` — network NED, layered INI configuration, and canonical traffic inputs.
+- `simulations/campaigns/` — the isolated official campaign runner, manifests, checkpoints, and results.
+- `simulations/pilot/` — exploratory reclassification pilot and its preserved evidence.
+- `simulations/tsn_validation/` — small INET mechanism scenarios retained as reference cases.
+- `src/` — reusable application, traffic-planning, audit, and link modules.
+- `scripts/` — catalog generation, build, and validation tools.
+- `tests/validation/` — P1 acceptance checks and focused regression tests.
+- `docs/` — design notes, catalog notes, and research reports.
 
-Na auditoria posterior dos percentis, foi corrigido o cálculo streaming do p99:
-o heap anterior crescia durante a leitura temporal e podia reter latências
-antigas pequenas, subestimando o percentil apesar de misses e máximos corretos.
-O cálculo usa agora uma cauda de tamanho fixo e seleciona a janela pelo instante
-de origem da amostra. Para câmeras, o gate usa também a conclusão da imagem
-desde sua disponibilidade até a recepção do último frame, incluindo o pacing
-de C1. A comparação regenerada documenta o efeito dessa correção.
+## Dependencies
 
-Para compilar e validar (com o ambiente OMNeT++ carregado):
+Use OMNeT++ 6.4.0, INET 4.7.0, a C++ toolchain supported by OMNeT++, GNU Make, and Python 3. Load the OMNeT++ environment and set `INET_ROOT` to the INET 4.7.0 checkout before building.
+
+## Build and run
 
 ```bash
-export INET_ROOT=/caminho/para/inet-4.7.0
+source /path/to/omnetpp/setenv
+export INET_ROOT=/path/to/inet-4.7.0
 bash scripts/run/build.sh
-python3 scripts/run/validate_traffic.py --jobs 2
-python3 scripts/run/validate_c0.py --jobs 2
-python3 scripts/run/validate_c1.py --jobs 4
+python3 simulations/campaigns/p1-v2-official-2026-10/run_campaign.py --phase final --resume --jobs 4
 ```
 
-Para inspecionar uma célula no Qtenv:
+The runner supports checkpoints and `--stop-after-cell`; see its `--help` output before starting or resuming a campaign. The current operational worker limit is four.
 
-```bash
-bash simulations/run -u Qtenv -c Validate_L1_A0
-```
-
-`Validate_Lx_Ay` verifica o catálogo; `Validate_C0_Lx_Ay` audita C0 com
-1 s de warm-up, 30 s de medição e 50 ms de drenagem. `C0_Lx_Ay` usa a mesma
-duração para as execuções do baseline.
-Consulte os guias de [catálogo](tests/validation/traffic/README.md),
-[C0 e seus resultados](tests/validation/classification/README.md) e
-[validação incremental](tests/validation/README.md).
-
-## Estrutura
-
-```text
-src/                           Componentes reutilizáveis
-  applications/                CatalogUdpApp: emissão e recepção UDP
-  common/                      Canal Ethernet, TrafficPlan e TrafficAudit
-  nodes/                       ZonalController implementado (switch + CPU)
-  queueing/                    Extensões de filas, somente se necessárias
-simulations/
-  omnetpp.ini                  Topology / Traffic / C0 / Validate_C0
-  run                          Launcher com caminhos NED e INET
-  tsn_validation/              MC01–MC08 preservados
-  zonal/
-    networks/                  ZonalIVN.ned (topologia completa)
-    configs/                   Base, recording e contratos de configuração
-      mechanisms/              C0–C2 executáveis; C3–C4 documentados
-    traffic/                   Catálogo CSV, assinaturas e XML gerado
-images/                        Fundo do veículo e ícone de câmera do INET
-experiments/                   design.json: fatores e protocolo planejado
-tests/validation/              Validação incremental do benchmark
-  topology/                    Sondas ICMP, verificador e guia Qtenv
-  traffic/                     Verificador, guia e evidências consolidadas
-  classification/              Validação benchmark C0
-  source_preshaping/            C1
-  cbs/                         C2/C3 e reservas
-  tas/                         C4 e sincronização
-  integration/                 Piloto integrado
-scripts/catalog/               Geração de XML/INI e reservas CBS a partir dos CSVs
-scripts/run/                   Build e validação da matriz de tráfego/C0–C2
-scripts/analysis/              Futura extração e análise
-docs/
-  design/                      Plano incremental baseado no P1
-  decisions/                   Decisões de estrutura e compatibilidade
-  traffic-catalog/             Contrato e proveniência dos fluxos
-  figures/                     Figuras selecionadas
-  report/                      Fontes futuras do relatório
-```
-
-`results/raw/`, `results/processed/` e `results/manifests/` serão criados pelas
-execuções futuras e são ignorados pelo Git. Os microcenários mantêm seus caminhos
-de saída existentes, conforme seus próprios INIs.
-
-## Experimento planejado
-
-| Configuração | Tratamento |
-|---|---|
-| C0 | Strict Priority |
-| C1 | C0 + pre-shaping nas câmeras F02–F05 |
-| C2 | CBS nominal por egress em TC6 (SR-A) e TC4 (SR-B), sem pre-shaping |
-| C3 | CBS calibrado em L2/A1, razões congeladas e teto de 75% por porta |
-| C4 | CBS de C3 + TAS em sete egressos e gPTP |
-
-L0/L1/L2/L3 usam fatores 0,5/1/2,5/4 somente nos fluxos escaláveis.
-A0 distribui as rajadas; A1 as alinha. A matriz tem 40 células lógicas;
-C3/C4 em L3, para A0 e A1, são inviáveis por reserva. Restam até 36 células
-candidatas e 1.080 execuções, sujeitas à triagem adicional de gates em C4.
-Cada execução final terá 1 s de warm-up e 30 s de medição, com seeds 1001–1030
-pareadas. Calibração e piloto usam seeds separadas, ainda a definir.
-
-ATS, PSFP, preempção e síntese automática de GCL ficam fora do benchmark P1,
-mas seus microcenários continuam disponíveis como referência INET.
-
-## Ambiente e execução
-
-Topologia executada e verificada em OMNeT++ 6.4.0 e INET 4.7.0.
-A IDE referencia `inet-4.7.0`; importar e compilar essa dependência antes do
-projeto. As raízes NED são `simulations`, `src` e `tests`, conforme `.nedfolders`.
-O P1 cita INET 4.6 em CBS+TAS; a compatibilidade de crédito/gates deve ser
-verificada antes de implementar C4 (ver a decisão 0001).
-
-Na IDE OMNeT++, importar este projeto, conferir a referência INET e compilar.
-Abrir `simulations/omnetpp.ini`, executar com Qtenv e selecionar
-`TopologyValidation`. A rede não gera tráfego de aplicação nessa configuração;
-é normal terminar sem animação de pacotes. Selecionar `TopologyConnectivity`
-para observar sondas ICMP entre os nós.
-
-O [guia de validação da topologia](tests/validation/topology/README.md) traz
-mapa de portas, critérios de inspeção e comandos Cmdenv. Os testes verificaram
-as 56 interfaces, os 28 enlaces com 100 ns, os caminhos L2 estáticos e 54/54
-respostas ICMP sem perdas.
-Para os microcenários, abrir o respectivo `mcXX.ini` e selecionar sua configuração;
-consultar [a documentação preservada](simulations/tsn_validation/README.md).
-O comando `make` da raiz delega ao Makefile gerado em `src`; requer o ambiente
-OMNeT++ configurado. `simulations/run` configura os caminhos para o executável e INET.
-`TrafficCatalog` é a validação funcional do catálogo; para medir o baseline P1,
-usar `C0_Lx_Ay`. C0 está auditado; C1 foi implementado e validado nas oito células.
-C2 está implementado e validado na matriz seed 41 (0/8 células viáveis).
-C3/C4 e a campanha final ainda são etapas posteriores.
-
-## Próximas etapas e rastreabilidade
-
-Seguir [o plano incremental](docs/design/p1-implementation.md), os critérios em
-[tests/validation](tests/validation/README.md) e o
-[plano experimental](experiments/README.md). A organização e a diferença de
-versões estão registradas em [0001](docs/decisions/0001-p1-structure.md).
-Registrar versões, revisão, C/L/A/seed, durações, parâmetros resolvidos e status
-de admissibilidade por execução; separar dados brutos, processados e metadados.
+For the traffic sources and generated files, see [docs/traffic-catalog/README.md](docs/traffic-catalog/README.md). For validation scope, see [tests/validation/README.md](tests/validation/README.md).

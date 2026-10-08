@@ -39,7 +39,7 @@ validação dedicada do C0 está em `tests/validation/classification/`.
 
 Os CSVs, logs e validation.json completos permanecem em
 `simulations/results/traffic/` (ignorados pelo Git). Para reproduzir ou
-reanalisar, seguir o [README da validação](README.md).
+reanalisar, seguir o [README da validação](../README.md).
 
 Na consolidação, o script de build também concluiu com sucesso e L3/A1 foi
 executado novamente pelo launcher corrigido: término normal em 2,09 s,

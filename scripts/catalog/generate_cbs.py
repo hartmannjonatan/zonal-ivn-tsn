@@ -29,6 +29,10 @@ def port(node, index):
 
 
 def access_port(node):
+    # The zonal processing endpoint is attached to ZSW.eth[1]; access-array
+    # sensors begin at eth[2].
+    if node.endswith(".ZCPU"):
+        return 1
     return ZONES[zone(node)].index(node) + 2
 
 

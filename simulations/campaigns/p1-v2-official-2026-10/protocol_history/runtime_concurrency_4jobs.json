@@ -1,0 +1,14 @@
+{
+  "created_utc": "20261008T115931Z",
+  "change": "runtime concurrency cap restored from 8 to 4 jobs",
+  "authorized_by": "user request in current task",
+  "effective_runner_limit": 4,
+  "default_jobs": 4,
+  "previous_operational_cap": 8,
+  "historical_record": "runtime_concurrency_8jobs.json",
+  "preregistered_calibration_protocol_changed": false,
+  "methodology_or_workload_changed": false,
+  "reason": "reduce resource contention and avoid system stalls during recovery of C0/L3/A1",
+  "recovery_behavior": "reuse the eight complete unledgered C0/L3/A1 raw outputs for postprocessing; only seeds 1009-1030 require new OMNeT runs",
+  "simulation_started_by_this_change": false
+}
