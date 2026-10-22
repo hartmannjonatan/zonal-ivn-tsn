@@ -1,0 +1,41 @@
+{
+  "method": "gzip level 6; decompressed SHA-256 verified before removing uncompressed duplicate",
+  "files": [
+    {
+      "original_file": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-#0.vec",
+      "original_sha256": "d6c7d5b5305ac62b3cbc43cccb3c18bfc09671347faf8ed3b64305c55bcce539",
+      "original_bytes": 180847843,
+      "compressed_file": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-#0.vec.gz",
+      "compressed_sha256": "c8add896c3a9ff1ad7d5cf7e363c7fce7ae70703debed0f38e6a549042570234",
+      "compressed_bytes": 43242607,
+      "decompression_sha256_verified": true
+    },
+    {
+      "original_file": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-#0.sca",
+      "original_sha256": "dc3f2b1ff7782b1a8c5ef529c57ae6654d7edd44324b941762bf3552917e5630",
+      "original_bytes": 9359474,
+      "compressed_file": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-#0.sca.gz",
+      "compressed_sha256": "7c7c217109fff41e6167adbfad3b6c750b9f105ba7b48e4060f5aa7253a44ba1",
+      "compressed_bytes": 529794,
+      "decompression_sha256_verified": true
+    },
+    {
+      "original_file": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-#0.vec",
+      "original_sha256": "bd1545fb58368f3c9957ed55d8100bb1a72f57b50e457590fcdb2f01d20a2d72",
+      "original_bytes": 230166211,
+      "compressed_file": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-#0.vec.gz",
+      "compressed_sha256": "c452644b959075398f07fd7abf9940b2e7eaac4193d6da5ff1788b7a21e74d9b",
+      "compressed_bytes": 63834076,
+      "decompression_sha256_verified": true
+    },
+    {
+      "original_file": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-#0.sca",
+      "original_sha256": "8065c7dda9d8f3730031f0342a045f4ff38b370c54144118bbd74e6f0b9f9cea",
+      "original_bytes": 9359886,
+      "compressed_file": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-#0.sca.gz",
+      "compressed_sha256": "31f2094c5113eb2409a67093f11074949484750e0eaacbe8ebf0a595e29ec849",
+      "compressed_bytes": 531606,
+      "decompression_sha256_verified": true
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Traffic catalog
 
-The canonical inputs are `simulations/zonal/traffic/flows.csv` and `transients.csv`. They define the 22 flows, endpoints, sizes, timing, deadlines, VLANs, PCPs, and transient event classes. P1 v4 defines the traffic requirements; this page identifies the implementation files and generation process.
+The canonical inputs are `simulations/zonal/traffic/flows.csv` and `transients.csv`. They define the 22 flows, endpoints, sizes, timing, deadlines, VLANs, PCPs, and transient event classes. The [final P1](../design/P1-final.pdf) defines the traffic requirements; this page identifies the implementation files and generation process.
 
 Run `python3 scripts/catalog/generate.py` to generate `catalog.xml` and `configs/catalog-bindings.ini` from the CSV inputs. Use `--check` to verify generated files without rewriting them. `scripts/catalog/generate_cbs.py` derives nominal CBS reservation artifacts from permanent routed traffic; F21/F22 use TC4 when active but are excluded from permanent reservations.
 

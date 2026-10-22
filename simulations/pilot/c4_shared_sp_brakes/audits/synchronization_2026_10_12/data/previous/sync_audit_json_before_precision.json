@@ -1,0 +1,2254 @@
+{
+  "audit_artifacts": [
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/ClockAuditProbe.ned",
+      "sha256": "dabd19d990a06ba41fd5042db52f801de4834f15f0a14c112a78affcc4154882",
+      "size_bytes": 303
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/ZonalIVNClockAudit.ned",
+      "sha256": "da0d0d07757df65cd620b40e82746f0910e9fe88a8be3becb4720adb412d28e6",
+      "size_bytes": 509
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/data/ordered_timechanged_seed41.csv.gz",
+      "sha256": "644a5afdfd32609605d888e2af3d1ce2be8a27a836fe95df9aea0ddc82ac90f1",
+      "size_bytes": 1620962
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/data/periodic_offsets_1ms.csv.gz",
+      "sha256": "81fec075f55092119558570f3677932c52b5d5eade3833f54cc4f1a92e28b32c",
+      "size_bytes": 3840379
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/data/periodic_offsets_1ms_summary.json",
+      "sha256": "87245eda0ae5dee133d92d479e7f79e537daf95d379de917287da62944f04e6d",
+      "size_bytes": 53327
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/data/previous/analysis_before_sync_audit.md",
+      "sha256": "e643792d0600343b593d535df796311c04163490cf737c2ddd30d8caa1148965",
+      "size_bytes": 42467
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/data/previous/pilot_results_before_sync_audit.json",
+      "sha256": "45cb96d802ec281d4ea52c4a7bf7c04fc4fc38b8648f05a5b895827d58fd24ee",
+      "size_bytes": 22380882
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/data/raw_event_order_example_seed41.json",
+      "sha256": "baee6ddc73b92802c5c0bedd0bc620045e5dd8741e243f7bff021c13be113607",
+      "size_bytes": 3373
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/data/raw_reprocess_seed41.json",
+      "sha256": "97428b012045fb7b41252c442bc6d82a35868b4f7e1fe88513aa8eeb812d7297",
+      "size_bytes": 27962
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/data/technical_raw_retention.json",
+      "sha256": "bba915f10e77f1c6c797b5379d38d4fe4306160bcc1044260603ca440ea0b725",
+      "size_bytes": 2682
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/figures/periodic_offsets_seed43.svg",
+      "sha256": "cd87bd5369d28ec6b200abbe1bea78b6ace4fb33c17d7f47daf427235d13950d",
+      "size_bytes": 842569
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/plugin/ClockAuditProbe.cc",
+      "sha256": "b7d9fe99a8d3bfeab3cba9fedfd0066f9afe93f34e0d924601787551a4cd429e",
+      "size_bytes": 3341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/plugin/libclockaudit.so",
+      "sha256": "dc788ed65bf9406884dab59461592b438c26cdc310c9f2364fe5bbaf485a5860",
+      "size_bytes": 177128
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/analyze_probe.py",
+      "sha256": "2adb06c3a4a439d15cfd7d9b90dc7e72d8328abb88583d82f3eabb3e33299b77",
+      "size_bytes": 4374
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/extract_probe_vectors.py",
+      "sha256": "3e452034fe31266f13103b4a2f78415d0f22e29b2875501d51e7c77d6995853d",
+      "size_bytes": 1711
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/make_figures.py",
+      "sha256": "181b038bab3e119c9e6cac05d49192b61072239f50bdaff14a22cf3ad1b98e95",
+      "size_bytes": 6476
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/reprocess_periodic_offsets.py",
+      "sha256": "a1dc4e2b214d62b099841b7351d3255ed6dc845cc7f3c28565de1a2b2c878e73",
+      "size_bytes": 3807
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/reprocess_raw.py",
+      "sha256": "66687215df349e33e90e371987e7465ec1c8272785b374abff3a891d60875010",
+      "size_bytes": 5796
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/run_probe.py",
+      "sha256": "0681c96544303a87f14433327ddf0faa098b4250f366475fd1bbd274fdac8e89",
+      "size_bytes": 2976
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-#0.sca.gz",
+      "sha256": "7c7c217109fff41e6167adbfad3b6c750b9f105ba7b48e4060f5aa7253a44ba1",
+      "size_bytes": 529794
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-#0.vci",
+      "sha256": "4621176d46d3ef8a2d5cdd23d46310866060616291c0fdb53d1e88568f3a6f41",
+      "size_bytes": 562162
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-#0.vec.gz",
+      "sha256": "c8add896c3a9ff1ad7d5cf7e363c7fce7ae70703debed0f38e6a549042570234",
+      "size_bytes": 43242607
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F01-HPC-rx.csv",
+      "sha256": "8a4705cf31e81cc2969305c67a02a471dd7397799aa61ec3bb002bf30aafdbd2",
+      "size_bytes": 394
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F01-LiDAR1-tx.csv",
+      "sha256": "7ff4e9992b2992c61a65e760a898798ab30cf28a6d7bce1d3b93ab1eef07b7c0",
+      "size_bytes": 351
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F02-CAM1-tx.csv",
+      "sha256": "f899a8d76ffe556ebbe3d8269d32dd8cf152f357c83706abcb6557704ede1cc7",
+      "size_bytes": 341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F02-HPC-rx.csv",
+      "sha256": "15efed09454f7a7991850b65165459877232ff84e55f70d812c3bdf4478479f1",
+      "size_bytes": 393
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F03-CAM2-tx.csv",
+      "sha256": "cc4e6335d4b924ad4b34d6db2966366c48b051752ea838aea7e66d8eb4b5b3b4",
+      "size_bytes": 341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F03-HPC-rx.csv",
+      "sha256": "a8e4997b561889b9a34f1975884a3596e7fe41c2ee9ca54e106d001123bef64f",
+      "size_bytes": 397
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F04-CAM3-tx.csv",
+      "sha256": "98456b9044eb888af338b5dfa2f4fc26ad17be711785db76c8d563aaf3758aa0",
+      "size_bytes": 341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F04-HPC-rx.csv",
+      "sha256": "e6e3c88eef7f53028b5db0f99f9bbcee686d51f3fd8e30d2987ef4522123a7a3",
+      "size_bytes": 397
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F05-CAM4-tx.csv",
+      "sha256": "95f24ee90176e2b31108bce6d0e47c9258d1e7ea6b4ee1976ce4b89b289de52d",
+      "size_bytes": 341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F05-HPC-rx.csv",
+      "sha256": "def11d27a03b8d4c23c494462ffcf164035e63c83ac7d63096504aab26ab49d7",
+      "size_bytes": 396
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F06-HPC-rx.csv",
+      "sha256": "7c4977515d291576d1c59268227f7594af4838dffacd3682f1226fbaa11d8dff",
+      "size_bytes": 381
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F06-RADAR1-tx.csv",
+      "sha256": "d09113f40bba96bc1f9990acc739c49581dfb0a6f108bf383a725a1cf7300302",
+      "size_bytes": 344
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F07-HPC-rx.csv",
+      "sha256": "a8ffb27848810b3fc5a9e1404ecb7214742d0fcfee47244a89609f37544b90f1",
+      "size_bytes": 377
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F07-RADAR2-tx.csv",
+      "sha256": "a8283dfa050af056716c028823de40bd63909089283c15530f479b1b4ec90bff",
+      "size_bytes": 346
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F08-BRAKE1-rx.csv",
+      "sha256": "4eeea3155e24c805f2715e2df7d5c9f3a71609876b9db012e20cf8cd4e50be31",
+      "size_bytes": 385
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F08-HPC-tx.csv",
+      "sha256": "1c6d0eed058faab0700d52ceaacb3d5dd4f21eb80ef82aeb281acee9c03969a5",
+      "size_bytes": 336
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F09-BRAKE2-rx.csv",
+      "sha256": "8d67d8b4a9944ecfca8d88dc70e2fd358b2f8059f9251300ba662300b158eb7e",
+      "size_bytes": 374
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F09-HPC-tx.csv",
+      "sha256": "f2b249d73449a22cd39eeac9e0a09b89609cda34cb98c5a963c29bbb7045ce30",
+      "size_bytes": 347
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F10-BRAKE3-rx.csv",
+      "sha256": "2ba66c2eef304ec794ffc34807686423181aedd988788e7603860e0d04359e05",
+      "size_bytes": 374
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F10-HPC-tx.csv",
+      "sha256": "0453dd98a3157281fe64261f94ed24a4dd18a4316b067420256fa7e200f654a8",
+      "size_bytes": 347
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F11-AUDIO1-rx.csv",
+      "sha256": "f33a9bb6da25b1360b02606bd5b189d081b62fbfdf0e78796bbef2b3413a9d96",
+      "size_bytes": 377
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F11-HPC-tx.csv",
+      "sha256": "1f663fc90396c0c714829bb465de0927ef733168f69d8606513773e77b50f0f9",
+      "size_bytes": 340
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F12-AUDIO2-rx.csv",
+      "sha256": "9a4204864170cfb01b33bd8d77fbe5c376ea3eff5b3c6a164af2d4155f2295b4",
+      "size_bytes": 376
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F12-HPC-tx.csv",
+      "sha256": "f2d10572082e53a40dae9e68ab9c404d9de652200f7c00adcc325e10ddd10f1b",
+      "size_bytes": 351
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F13-AUDIO3-rx.csv",
+      "sha256": "aac32f389df3aba6929179e368ba8f6ad07d112f90da06891d13c675651425c5",
+      "size_bytes": 386
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F13-HPC-tx.csv",
+      "sha256": "349774714a7c2c04cd63a4f0433a5efc9e6c9464a4ec70200c0aae4bc345b96c",
+      "size_bytes": 349
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F14-DISPLAY1-rx.csv",
+      "sha256": "87a756297c1577a5c804372fc7b97e92c19901e429aab845df7141640ddddba8",
+      "size_bytes": 388
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F14-DISPLAY2-rx.csv",
+      "sha256": "37967858c0285b61fad7d10c9cfe942f76f52123d10d9a48f13bc99e1274e693",
+      "size_bytes": 388
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F14-HPC-tx.csv",
+      "sha256": "3de950598512a40b6e70c6eef0e75ec75599d21cd1c4bc8f05de3ad940798eb4",
+      "size_bytes": 342
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F15-HPC-tx.csv",
+      "sha256": "a5c5f95e7eab8cf9ae00c979024d8a24451017672432f6c342af2dddde3bc25b",
+      "size_bytes": 343
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F15-WINDOW1-rx.csv",
+      "sha256": "52100170d154cc1fac4500e7b331f38144f022477be1bc5faca6fd30500ccdd3",
+      "size_bytes": 377
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F16-HPC-tx.csv",
+      "sha256": "8e64c9068f1f4b7702815f7419f3e43b70c5a6a3276280135aca5c7f7476523d",
+      "size_bytes": 345
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F16-WINDOW2-rx.csv",
+      "sha256": "676d139688680b8dc08dd5e1341c3de4c5e440393a6f16b8cfb8d635d09b505b",
+      "size_bytes": 376
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F17-HPC-tx.csv",
+      "sha256": "723224007e5fc4d57e2b745330369676bcf404ba3853554645a73f2ae2746118",
+      "size_bytes": 343
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F17-WINDOW3-rx.csv",
+      "sha256": "033ce5cad75ce0ded836d954085d3629c89da632e882cfa1f4b3a369b10abd92",
+      "size_bytes": 375
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F18-BE1-rx.csv",
+      "sha256": "d24544f4234020f25216260753d07d55a1edbdc9aa8e95642a1b4946d7b69126",
+      "size_bytes": 381
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F18-HPC-tx.csv",
+      "sha256": "799aee50574d07fe503ab958b11569c7e7ec21f97c1a65c373de3ff82ebd6e7d",
+      "size_bytes": 351
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F19-BE2-rx.csv",
+      "sha256": "c1fed6fbe160e0b596fa70fd0d5dc3c10e6ca1cad3944bde984f7adf109cbd28",
+      "size_bytes": 381
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F19-HPC-tx.csv",
+      "sha256": "597730c3e3ccbb7cba9560885ace92db86043e01add7524a03c27c4b9d568f3e",
+      "size_bytes": 360
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F20-BE3-rx.csv",
+      "sha256": "e0225eafccd81e8993b1d0b309ceed637c5f17c3acbc7b1d9979d96640355459",
+      "size_bytes": 385
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F20-HPC-tx.csv",
+      "sha256": "c4157911811f65aa7586db7a978050a6cb73cd5ac2b8fb4df727390e5aa49694",
+      "size_bytes": 359
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F21-Z1.ZCPU-tx.csv",
+      "sha256": "5e8d38741fd075caca609064ba3b1bc9400490179926814f8ce67a6ffd5d1ca4",
+      "size_bytes": 369
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F21-Z3.ZCPU-rx.csv",
+      "sha256": "6151046865ec2ebe997b0e6f6f394be9fd05c4314fc48b3546d62c36598ea0d2",
+      "size_bytes": 388
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F22-Z2.ZCPU-tx.csv",
+      "sha256": "1242a728ff8f698c99964dadef136ac36ac8f49ac61d6ede546c6f9ca796dbb5",
+      "size_bytes": 369
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/F22-Z3.ZCPU-rx.csv",
+      "sha256": "d1592f5d72bf884a85703d46cab6f9fe685f033ab467df23f4ea2863fc437eb1",
+      "size_bytes": 386
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/drops.csv",
+      "sha256": "a1198e13d9b11d6e887f595b0cbf14d13e60404cd254856937b4971dad1e7486",
+      "size_bytes": 71
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/events.csv",
+      "sha256": "5163828318dfc113d004cb4e1f60773b9a0fbe225a31ed8e1182d93353b46982",
+      "size_bytes": 2348
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/queues.csv",
+      "sha256": "9634b9ded50e3138db9bd881c507fd96a79c00b98ed18d6e8761904f1ec19073",
+      "size_bytes": 6253
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/releases.csv",
+      "sha256": "8d889642763bcb657a60799621fe7d7cd6b3541b5812166900db11be9cdc5e6d",
+      "size_bytes": 8654251
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/run.csv",
+      "sha256": "2d7918c7a7b942779ee45b7355866346d6c4f0077c2b30667257ff8d338f18ee",
+      "size_bytes": 182
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/wire.csv",
+      "sha256": "38709140ecf6431044c049fbe42c70975bb278f13fffb11ec74662c82230f329",
+      "size_bytes": 6408
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/clock_and_gptp_vectors.csv.gz",
+      "sha256": "0a0368a3eea60b67930c364846c45fc4d6177568fb3aa676617d7e62d3280f90",
+      "size_bytes": 287363
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/clock_and_gptp_vectors.meta.json",
+      "sha256": "e797d6cb8062be313e0c74da2de83518b560a060fcc94f3b807a5cb5caaed425",
+      "size_bytes": 4159
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/clock_audit.csv.gz.gz",
+      "sha256": "1c028cd83730081d2e63ad94ab4d64c8e0120267cca927553c5a1576438c6603",
+      "size_bytes": 129710
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/command.json",
+      "sha256": "8ce489e5f0930463ad1d29dadb7bab72aa9e3f8822303cdae3188a5e2f891610",
+      "size_bytes": 8647
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/probe_summary.json",
+      "sha256": "be2b26019b060ef6ead0bba168c80fdbb0459b7ed6e0a4e3a3a627cca81a62a0",
+      "size_bytes": 26795
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/simulation.log",
+      "sha256": "16f6425814fc7700bad97d98147fbef2dc8f91dd144fd7675322d6460d7f4f8c",
+      "size_bytes": 17885
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-#0.sca.gz",
+      "sha256": "31f2094c5113eb2409a67093f11074949484750e0eaacbe8ebf0a595e29ec849",
+      "size_bytes": 531606
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-#0.vci",
+      "sha256": "b62538839e01858b51dfd878395ce2e62f357da8a9639affe64b05ac12406c44",
+      "size_bytes": 672709
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-#0.vec.gz",
+      "sha256": "c452644b959075398f07fd7abf9940b2e7eaac4193d6da5ff1788b7a21e74d9b",
+      "size_bytes": 63834076
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F01-HPC-rx.csv",
+      "sha256": "8a4705cf31e81cc2969305c67a02a471dd7397799aa61ec3bb002bf30aafdbd2",
+      "size_bytes": 394
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F01-LiDAR1-tx.csv",
+      "sha256": "7ff4e9992b2992c61a65e760a898798ab30cf28a6d7bce1d3b93ab1eef07b7c0",
+      "size_bytes": 351
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F02-CAM1-tx.csv",
+      "sha256": "f899a8d76ffe556ebbe3d8269d32dd8cf152f357c83706abcb6557704ede1cc7",
+      "size_bytes": 341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F02-HPC-rx.csv",
+      "sha256": "15efed09454f7a7991850b65165459877232ff84e55f70d812c3bdf4478479f1",
+      "size_bytes": 393
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F03-CAM2-tx.csv",
+      "sha256": "cc4e6335d4b924ad4b34d6db2966366c48b051752ea838aea7e66d8eb4b5b3b4",
+      "size_bytes": 341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F03-HPC-rx.csv",
+      "sha256": "a8e4997b561889b9a34f1975884a3596e7fe41c2ee9ca54e106d001123bef64f",
+      "size_bytes": 397
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F04-CAM3-tx.csv",
+      "sha256": "98456b9044eb888af338b5dfa2f4fc26ad17be711785db76c8d563aaf3758aa0",
+      "size_bytes": 341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F04-HPC-rx.csv",
+      "sha256": "e6e3c88eef7f53028b5db0f99f9bbcee686d51f3fd8e30d2987ef4522123a7a3",
+      "size_bytes": 397
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F05-CAM4-tx.csv",
+      "sha256": "95f24ee90176e2b31108bce6d0e47c9258d1e7ea6b4ee1976ce4b89b289de52d",
+      "size_bytes": 341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F05-HPC-rx.csv",
+      "sha256": "def11d27a03b8d4c23c494462ffcf164035e63c83ac7d63096504aab26ab49d7",
+      "size_bytes": 396
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F06-HPC-rx.csv",
+      "sha256": "7c4977515d291576d1c59268227f7594af4838dffacd3682f1226fbaa11d8dff",
+      "size_bytes": 381
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F06-RADAR1-tx.csv",
+      "sha256": "d09113f40bba96bc1f9990acc739c49581dfb0a6f108bf383a725a1cf7300302",
+      "size_bytes": 344
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F07-HPC-rx.csv",
+      "sha256": "a8ffb27848810b3fc5a9e1404ecb7214742d0fcfee47244a89609f37544b90f1",
+      "size_bytes": 377
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F07-RADAR2-tx.csv",
+      "sha256": "a8283dfa050af056716c028823de40bd63909089283c15530f479b1b4ec90bff",
+      "size_bytes": 346
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F08-BRAKE1-rx.csv",
+      "sha256": "a94b10dce99d12bcd41281e82b567c945346a7def5f15660d7a78ae42e053eab",
+      "size_bytes": 388
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F08-HPC-tx.csv",
+      "sha256": "1c6d0eed058faab0700d52ceaacb3d5dd4f21eb80ef82aeb281acee9c03969a5",
+      "size_bytes": 336
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F09-BRAKE2-rx.csv",
+      "sha256": "c507de8620f3b1cc96f907ce2f8498ed394185a4cb1bff9466d077412ad4dba6",
+      "size_bytes": 388
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F09-HPC-tx.csv",
+      "sha256": "f2b249d73449a22cd39eeac9e0a09b89609cda34cb98c5a963c29bbb7045ce30",
+      "size_bytes": 347
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F10-BRAKE3-rx.csv",
+      "sha256": "ddbef2353f28930d4f6ba9f0bf786451c8141a467bad998fcbc00b2b76d230b3",
+      "size_bytes": 387
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F10-HPC-tx.csv",
+      "sha256": "0453dd98a3157281fe64261f94ed24a4dd18a4316b067420256fa7e200f654a8",
+      "size_bytes": 347
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F11-AUDIO1-rx.csv",
+      "sha256": "2201a0b536e05688cfe422a1328f591d3b3c8ca0d5898f918af55be580205ac7",
+      "size_bytes": 376
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F11-HPC-tx.csv",
+      "sha256": "1f663fc90396c0c714829bb465de0927ef733168f69d8606513773e77b50f0f9",
+      "size_bytes": 340
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F12-AUDIO2-rx.csv",
+      "sha256": "077ce4bb7a528c7808799f03a2b22cc7cd305dcab37ff31ada84179811ab0d65",
+      "size_bytes": 380
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F12-HPC-tx.csv",
+      "sha256": "f2d10572082e53a40dae9e68ab9c404d9de652200f7c00adcc325e10ddd10f1b",
+      "size_bytes": 351
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F13-AUDIO3-rx.csv",
+      "sha256": "3e92de687286750ccf2ba9fd499389b6c18412abc3aeb60c87436bc32ab0490c",
+      "size_bytes": 386
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F13-HPC-tx.csv",
+      "sha256": "349774714a7c2c04cd63a4f0433a5efc9e6c9464a4ec70200c0aae4bc345b96c",
+      "size_bytes": 349
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F14-DISPLAY1-rx.csv",
+      "sha256": "9ae4af77c49bf420a64b44e7c3ebb662818104470e404b1ed5c84f6c95eb52b8",
+      "size_bytes": 391
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F14-DISPLAY2-rx.csv",
+      "sha256": "293cb2e882747716704dc3ecb8038d4bce4b1ed71b6640cedde2f42d57f8029b",
+      "size_bytes": 390
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F14-HPC-tx.csv",
+      "sha256": "3de950598512a40b6e70c6eef0e75ec75599d21cd1c4bc8f05de3ad940798eb4",
+      "size_bytes": 342
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F15-HPC-tx.csv",
+      "sha256": "a5c5f95e7eab8cf9ae00c979024d8a24451017672432f6c342af2dddde3bc25b",
+      "size_bytes": 343
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F15-WINDOW1-rx.csv",
+      "sha256": "2dd485b4ae7be5cafdb1eacf5757623e6e3de1527fc7c7c834041273e0f71b16",
+      "size_bytes": 384
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F16-HPC-tx.csv",
+      "sha256": "8e64c9068f1f4b7702815f7419f3e43b70c5a6a3276280135aca5c7f7476523d",
+      "size_bytes": 345
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F16-WINDOW2-rx.csv",
+      "sha256": "d3d217fefc98a06bc2a0a3a2dc10d2ba43489fa56d7f8bcd15076db19830c053",
+      "size_bytes": 384
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F17-HPC-tx.csv",
+      "sha256": "723224007e5fc4d57e2b745330369676bcf404ba3853554645a73f2ae2746118",
+      "size_bytes": 343
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F17-WINDOW3-rx.csv",
+      "sha256": "680faf79e3e24ca537a1dfef7278f3cdd1e92306ac279b1867972f81695a1205",
+      "size_bytes": 382
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F18-BE1-rx.csv",
+      "sha256": "e72e05fb98ab0d5d7f402626878ac266f78b80cbf22bb7bd5a4038e401ba5403",
+      "size_bytes": 389
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F18-HPC-tx.csv",
+      "sha256": "799aee50574d07fe503ab958b11569c7e7ec21f97c1a65c373de3ff82ebd6e7d",
+      "size_bytes": 351
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F19-BE2-rx.csv",
+      "sha256": "36968b71421b6a1f06237c345b1adc393bff08a40b0ecd493eda016ac2d9a65d",
+      "size_bytes": 389
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F19-HPC-tx.csv",
+      "sha256": "597730c3e3ccbb7cba9560885ace92db86043e01add7524a03c27c4b9d568f3e",
+      "size_bytes": 360
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F20-BE3-rx.csv",
+      "sha256": "e65dddc1aa2506992df086324264e2ad74f4d56b442354a4f6c16435665371cd",
+      "size_bytes": 385
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F20-HPC-tx.csv",
+      "sha256": "c4157911811f65aa7586db7a978050a6cb73cd5ac2b8fb4df727390e5aa49694",
+      "size_bytes": 359
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F21-Z1.ZCPU-tx.csv",
+      "sha256": "5e8d38741fd075caca609064ba3b1bc9400490179926814f8ce67a6ffd5d1ca4",
+      "size_bytes": 369
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F21-Z3.ZCPU-rx.csv",
+      "sha256": "1d599e19c34041daafbabcbc0694050bfc67ec815d7705196a3c866e1ea6dc7e",
+      "size_bytes": 391
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F22-Z2.ZCPU-tx.csv",
+      "sha256": "1242a728ff8f698c99964dadef136ac36ac8f49ac61d6ede546c6f9ca796dbb5",
+      "size_bytes": 369
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/F22-Z3.ZCPU-rx.csv",
+      "sha256": "b45e5ecfb12b2450ccc04e9818e17b14d46ec46c64cad958b56c6e9cf473f32c",
+      "size_bytes": 391
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/drops.csv",
+      "sha256": "a1198e13d9b11d6e887f595b0cbf14d13e60404cd254856937b4971dad1e7486",
+      "size_bytes": 71
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/events.csv",
+      "sha256": "5163828318dfc113d004cb4e1f60773b9a0fbe225a31ed8e1182d93353b46982",
+      "size_bytes": 2348
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/queues.csv",
+      "sha256": "27a12e7b1ee1988cf68e3092c7e0db09409b925febf75288344626cd2636766b",
+      "size_bytes": 6329
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/releases.csv",
+      "sha256": "8d889642763bcb657a60799621fe7d7cd6b3541b5812166900db11be9cdc5e6d",
+      "size_bytes": 8654251
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/run.csv",
+      "sha256": "2d7918c7a7b942779ee45b7355866346d6c4f0077c2b30667257ff8d338f18ee",
+      "size_bytes": 182
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/wire.csv",
+      "sha256": "c0df5f6ec53291713e47c4c3b965bfe818435bb063083c56b23c75aa76426c71",
+      "size_bytes": 6528
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/clock_and_gptp_vectors.csv.gz",
+      "sha256": "a5381b8725ab49590cce7ac88634876c43c606d2a6f12cafdf768d19bdc1b989",
+      "size_bytes": 276385
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/clock_and_gptp_vectors.meta.json",
+      "sha256": "3af25902ba7f57a82c5afa9f77699eae6544174db9d5dcfb9e1c6a795cc0adc5",
+      "size_bytes": 4173
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/clock_audit.csv.gz.gz",
+      "sha256": "13eae11efb2eaa463b8c49e7aa546418a33f0adfe2d17a82395466f0e2128cbb",
+      "size_bytes": 131545
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/command.json",
+      "sha256": "387e3ef291563e38ecd50b455bf9f03090b044b812027b6f63fbc016a7cee922",
+      "size_bytes": 11939
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/probe_summary.json",
+      "sha256": "d4cf2ecc4105f96219c715a03a93a227efff439ce44a86df68e8737c118df2b3",
+      "size_bytes": 27103
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/simulation.log",
+      "sha256": "fc096e65335469112bcfe75ddf1c056792cf6f87af14fa4260c6df89f219693b",
+      "size_bytes": 19239
+    }
+  ],
+  "audit_id": "c4-shared-sp-brakes-gptp-sync-audit-2026-10-12",
+  "conclusion": {
+    "10us_parent_clock_excursions_observed_in_seed43": true,
+    "C4_queue_stability_failure_unchanged": true,
+    "C4_validated": false,
+    "legacy_millisecond_max_is_setter_transition_export_artifact": true,
+    "legacy_millisecond_offsets_are_free_clock_mixing": false,
+    "observed_without_TAS_in_C3_sync": true,
+    "strict_1us_gate_approved": false
+  },
+  "configuration": {
+    "calendar_path": "simulations/pilot/c4_shared_sp_brakes/results/calendars/L2_A1/seed43_events.csv",
+    "calendar_sha256": "5163828318dfc113d004cb4e1f60773b9a0fbe225a31ed8e1182d93353b46982",
+    "pilot_ini_sha256": "2daaf50d74c28d2d4c43fae2f33f7f68cd33d6b97aaf1d1fc7f1195a28b08d97",
+    "runner_sha256": "095ab70f67c32f9304d0ae8f3507ef1ba692813765da79169620d195df9a53e2",
+    "seed43_drift_ppm": {
+      "CSW": -20.184251384,
+      "HPC": -36.078474909,
+      "Z1": -7.675130093,
+      "Z2": 45.553078722,
+      "Z3": 19.089656043
+    },
+    "technical_run_parameters": {
+      "drain_s": 0.05,
+      "measurement_observation_s": 2,
+      "no_changes_to_workload_drifts_calendar_profile_gcl_or_sync_intervals": true,
+      "seed": 43,
+      "simtime_limit_s": 3.05,
+      "warmup_s": 1
+    }
+  },
+  "deliverable_hashes": {
+    "simulations/pilot/c4_shared_sp_brakes/README.md": {
+      "sha256": "30d773104f2bdfe2a192942bd1aac82cc759bcbdf6a3d20436ccbb203cc7c050",
+      "size_bytes": 2955
+    },
+    "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/audit.md": {
+      "sha256": "c1e9f5b2e24df1e30ddd04eb5ef1d814c2052e22f85eeabbfdff99cb07141076",
+      "size_bytes": 16585
+    },
+    "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/figures/periodic_offsets_seed43.svg": {
+      "sha256": "cd87bd5369d28ec6b200abbe1bea78b6ace4fb33c17d7f47daf427235d13950d",
+      "size_bytes": 842569
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/analysis.md": {
+      "sha256": "f1c9c1a14a659d6f91c07c4bccde2745f32504e7f039129883efe3cf2a154836",
+      "size_bytes": 43440
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/pilot_results.json": {
+      "sha256": "7a767633ff73841c453626a9712a68791bf8638c8fa19244931ad467c355a0a1",
+      "size_bytes": 22397863
+    }
+  },
+  "effective_clock_mapping": {
+    "TAS_clock": "parent synchronized SettableClock, per effective clockModule setting",
+    "offset_definition": "node_clock(t)-HPC_clock(t), both parent SettableClock values at same simulation time",
+    "timeChanged_semantics": "SettableClock setter emits old value, updates clock, emits new value at same simulation timestamp; preserve vector row/event order",
+    "underlying_clock": "free OscillatorBasedClock child of SettableClock; not selected by localSignal statistic or old clock vector extractor"
+  },
+  "exploratory": true,
+  "gptp_message_counts": {
+    "reason": "retained log format did not match parser; no count inferred from configured intervals",
+    "status": "unavailable"
+  },
+  "official_c4_frozen": false,
+  "old_compact_evidence_reprocessing": {
+    "all_series_grid_max_abs_s": 6.000000141170858e-08,
+    "all_series_grid_p99_max_abs_s": 3.999999975690116e-08,
+    "legacy_all_emission_max_abs_s": 0.002519451636324277,
+    "limitations": "sampled grid cannot prove continuous compliance; old same-time correction emissions are preserved separately, not interpolated across",
+    "rows": [
+      {
+        "execution_id": "C3sync_L0_A0_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30948,
+        "legacy_mixed_max_abs_s": 0.0007064520042661115,
+        "legacy_mixed_max_signed_s": -0.0007064520042661115,
+        "legacy_mixed_max_time_s": 30.875741836841,
+        "legacy_non_grid_emission_count": 948,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 16.228,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -3.000000248221113e-08
+      },
+      {
+        "execution_id": "C3sync_L0_A0_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30958,
+        "legacy_mixed_max_abs_s": 0.0004096979859440353,
+        "legacy_mixed_max_signed_s": -0.0004096979859440353,
+        "legacy_mixed_max_time_s": 30.875742752841,
+        "legacy_non_grid_emission_count": 958,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.999999975690116e-08,
+        "sampled_abs_offset_p50_s": 9.999997274690031e-09,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.999999892949745e-08,
+        "sampled_max_time_s": 3.24,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -3.999999975690116e-08
+      },
+      {
+        "execution_id": "C3sync_L0_A0_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30956,
+        "legacy_mixed_max_abs_s": 0.0013783820140567116,
+        "legacy_mixed_max_signed_s": 0.0013783820140567116,
+        "legacy_mixed_max_time_s": 30.875742752841,
+        "legacy_non_grid_emission_count": 956,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.9999999989472883e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.0000001533258e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.999999892949745e-08,
+        "sampled_max_time_s": 9.119,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -4.0000001533258e-08
+      },
+      {
+        "execution_id": "C3sync_L0_A0_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30954,
+        "legacy_mixed_max_abs_s": 0.0006768120140563383,
+        "legacy_mixed_max_signed_s": 0.0006768120140563383,
+        "legacy_mixed_max_time_s": 30.875742752841,
+        "legacy_non_grid_emission_count": 954,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.9999999989472883e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 6.000000141170858e-08,
+        "sampled_abs_offset_p50_s": 9.999997274690031e-09,
+        "sampled_abs_offset_p95_s": 2.0000000100495186e-08,
+        "sampled_abs_offset_p99_s": 3.000000070585429e-08,
+        "sampled_max_time_s": 26.716,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -6.000000141170858e-08
+      },
+      {
+        "execution_id": "C3sync_L1_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30918,
+        "legacy_mixed_max_abs_s": 0.0007064320042680095,
+        "legacy_mixed_max_signed_s": -0.0007064320042680095,
+        "legacy_mixed_max_time_s": 30.875741836841,
+        "legacy_non_grid_emission_count": 918,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.999999810209374e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 26.057,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -3.000000248221113e-08
+      },
+      {
+        "execution_id": "C3sync_L1_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30934,
+        "legacy_mixed_max_abs_s": 0.0004096179859445215,
+        "legacy_mixed_max_signed_s": -0.0004096179859445215,
+        "legacy_mixed_max_time_s": 30.875742752841,
+        "legacy_non_grid_emission_count": 934,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.000000330961484e-08,
+        "sampled_abs_offset_p50_s": 9.999997274690031e-09,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 26.0,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 4.000000330961484e-08
+      },
+      {
+        "execution_id": "C3sync_L1_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30928,
+        "legacy_mixed_max_abs_s": 0.0013784620140562254,
+        "legacy_mixed_max_signed_s": 0.0013784620140562254,
+        "legacy_mixed_max_time_s": 30.875742752841,
+        "legacy_non_grid_emission_count": 928,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.9999999989472883e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.0000001533258e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 2.000000032253979e-08,
+        "sampled_abs_offset_p99_s": 2.999999892949745e-08,
+        "sampled_max_time_s": 10.093,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 4.0000001533258e-08
+      },
+      {
+        "execution_id": "C3sync_L1_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30934,
+        "legacy_mixed_max_abs_s": 0.0006768020140555109,
+        "legacy_mixed_max_signed_s": 0.0006768020140555109,
+        "legacy_mixed_max_time_s": 30.875742752841,
+        "legacy_non_grid_emission_count": 934,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 5.000000058430487e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p99_s": 3.000000070585429e-08,
+        "sampled_max_time_s": 7.613,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 5.000000058430487e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30916,
+        "legacy_mixed_max_abs_s": 0.0007065020042666958,
+        "legacy_mixed_max_signed_s": -0.0007065020042666958,
+        "legacy_mixed_max_time_s": 30.875741836841,
+        "legacy_non_grid_emission_count": 916,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 16.163,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -3.000000248221113e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30942,
+        "legacy_mixed_max_abs_s": 0.00040944798594466647,
+        "legacy_mixed_max_signed_s": -0.00040944798594466647,
+        "legacy_mixed_max_time_s": 30.875742752841,
+        "legacy_non_grid_emission_count": 942,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.000000064507958e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 2.000000032253979e-08,
+        "sampled_abs_offset_p99_s": 2.999999981767587e-08,
+        "sampled_max_time_s": 5.741,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 4.000000064507958e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30940,
+        "legacy_mixed_max_abs_s": 0.0013785320140584645,
+        "legacy_mixed_max_signed_s": 0.0013785320140584645,
+        "legacy_mixed_max_time_s": 30.875742752841,
+        "legacy_non_grid_emission_count": 940,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.000000330961484e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p99_s": 3.0000000039720476e-08,
+        "sampled_max_time_s": 18.364,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -4.000000330961484e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30942,
+        "legacy_mixed_max_abs_s": 0.0006767520140584793,
+        "legacy_mixed_max_signed_s": 0.0006767520140584793,
+        "legacy_mixed_max_time_s": 30.875742752841,
+        "legacy_non_grid_emission_count": 942,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 5.000000058430487e-08,
+        "sampled_abs_offset_p50_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p95_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p99_s": 3.000000070585429e-08,
+        "sampled_max_time_s": 19.366,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 5.000000058430487e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed43",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30952,
+        "legacy_mixed_max_abs_s": 0.0004892967259202408,
+        "legacy_mixed_max_signed_s": 0.0004892967259202408,
+        "legacy_mixed_max_time_s": 30.876118148,
+        "legacy_non_grid_emission_count": 952,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": -1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 30.498,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 3.000000248221113e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed43",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30952,
+        "legacy_mixed_max_abs_s": 0.0008761807625567997,
+        "legacy_mixed_max_signed_s": 0.0008761807625567997,
+        "legacy_mixed_max_time_s": 30.876119064,
+        "legacy_non_grid_emission_count": 952,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": -3.0000000039720476e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.000000020099037e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p99_s": 2.999999892949745e-08,
+        "sampled_max_time_s": 3.996,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -4.000000020099037e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed43",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30950,
+        "legacy_mixed_max_abs_s": 0.0024886986358403362,
+        "legacy_mixed_max_signed_s": 0.0024886986358403362,
+        "legacy_mixed_max_time_s": 30.501115896,
+        "legacy_non_grid_emission_count": 950,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": -1.9999999989472883e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.000000330961484e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p99_s": 3.000000070585429e-08,
+        "sampled_max_time_s": 22.986,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -4.000000330961484e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed43",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30952,
+        "legacy_mixed_max_abs_s": 0.0017021507625578636,
+        "legacy_mixed_max_signed_s": 0.0017021507625578636,
+        "legacy_mixed_max_time_s": 30.876119064,
+        "legacy_non_grid_emission_count": 952,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": -1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.0000001533258e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p99_s": 3.000000070585429e-08,
+        "sampled_max_time_s": 13.62,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -4.0000001533258e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed47",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30926,
+        "legacy_mixed_max_abs_s": 0.0009018644030049927,
+        "legacy_mixed_max_signed_s": -0.0009018644030049927,
+        "legacy_mixed_max_time_s": 30.875514999553,
+        "legacy_non_grid_emission_count": 926,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.000000064507958e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.999999981767587e-08,
+        "sampled_max_time_s": 6.736,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -4.000000064507958e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed47",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30940,
+        "legacy_mixed_max_abs_s": 6.390039384385204e-05,
+        "legacy_mixed_max_signed_s": -6.390039384385204e-05,
+        "legacy_mixed_max_time_s": 30.875515915553,
+        "legacy_non_grid_emission_count": 940,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": -9.99999993922529e-09,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 6.000000052353016e-08,
+        "sampled_abs_offset_p50_s": 9.999997274690031e-09,
+        "sampled_abs_offset_p95_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p99_s": 3.999999975690116e-08,
+        "sampled_max_time_s": 6.997,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -6.000000052353016e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed47",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30942,
+        "legacy_mixed_max_abs_s": 0.001929349606154318,
+        "legacy_mixed_max_signed_s": 0.001929349606154318,
+        "legacy_mixed_max_time_s": 30.875515915553,
+        "legacy_non_grid_emission_count": 942,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 5.000000058430487e-08,
+        "sampled_abs_offset_p50_s": 9.999997274690031e-09,
+        "sampled_abs_offset_p95_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p99_s": 3.0000000039720476e-08,
+        "sampled_max_time_s": 18.748,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -5.000000058430487e-08
+      },
+      {
+        "execution_id": "C3sync_L2_A1_seed47",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30940,
+        "legacy_mixed_max_abs_s": 0.00044158960615447995,
+        "legacy_mixed_max_signed_s": 0.00044158960615447995,
+        "legacy_mixed_max_time_s": 30.875515915553,
+        "legacy_non_grid_emission_count": 940,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 6.000000052353016e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 2.999999892949745e-08,
+        "sampled_abs_offset_p99_s": 3.999999975690116e-08,
+        "sampled_max_time_s": 6.736,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -6.000000052353016e-08
+      },
+      {
+        "execution_id": "C4compensated_L0_A0_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0007064679639441351,
+        "legacy_mixed_max_signed_s": -0.0007064679639441351,
+        "legacy_mixed_max_time_s": 30.875743852841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 8.36,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4compensated_L0_A0_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0004098739456246392,
+        "legacy_mixed_max_signed_s": -0.0004098739456246392,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 1.0000000161269895e-08,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 17.114,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -3.000000248221113e-08
+      },
+      {
+        "execution_id": "C4compensated_L0_A0_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0013783460543770332,
+        "legacy_mixed_max_signed_s": 0.0013783460543770332,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 9.999997274690031e-09,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 2.0000000100495186e-08,
+        "sampled_max_time_s": 16.72,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 3.000000248221113e-08
+      },
+      {
+        "execution_id": "C4compensated_L0_A0_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0006767960543783147,
+        "legacy_mixed_max_signed_s": 0.0006767960543783147,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.999999892949745e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 28.993,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -2.999999892949745e-08
+      },
+      {
+        "execution_id": "C4compensated_L1_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0007064679639441351,
+        "legacy_mixed_max_signed_s": -0.0007064679639441351,
+        "legacy_mixed_max_time_s": 30.875743852841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 8.36,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4compensated_L1_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0004098739456246392,
+        "legacy_mixed_max_signed_s": -0.0004098739456246392,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 8.034,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4compensated_L1_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0013783560543778606,
+        "legacy_mixed_max_signed_s": 0.0013783560543778606,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 9.999997274690031e-09,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 2.0000000100495186e-08,
+        "sampled_max_time_s": 16.707,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 3.000000248221113e-08
+      },
+      {
+        "execution_id": "C4compensated_L1_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0006767960543783147,
+        "legacy_mixed_max_signed_s": 0.0006767960543783147,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 8.158,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0007064679639441351,
+        "legacy_mixed_max_signed_s": -0.0007064679639441351,
+        "legacy_mixed_max_time_s": 30.875743852841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 8.36,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0004098739456246392,
+        "legacy_mixed_max_signed_s": -0.0004098739456246392,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 8.643,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0013783460543770332,
+        "legacy_mixed_max_signed_s": 0.0013783460543770332,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 2.000000032253979e-08,
+        "sampled_max_time_s": 16.707,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 3.000000248221113e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0006767960543783147,
+        "legacy_mixed_max_signed_s": 0.0006767960543783147,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 12.174,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed43",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0004891975996841325,
+        "legacy_mixed_max_signed_s": 0.0004891975996841325,
+        "legacy_mixed_max_time_s": 30.876117567103,
+        "legacy_non_grid_emission_count": 960,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 25.187,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -3.000000248221113e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed43",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.000876461636323711,
+        "legacy_mixed_max_signed_s": 0.000876461636323711,
+        "legacy_mixed_max_time_s": 30.876118483103,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": -1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.000000330961484e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.999999892949745e-08,
+        "sampled_max_time_s": 22.248,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 4.000000330961484e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed43",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.002519451636324277,
+        "legacy_mixed_max_signed_s": 0.002519451636324277,
+        "legacy_mixed_max_time_s": 30.876118483103,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 4.9999999918171056e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 3.000000026176508e-08,
+        "sampled_max_time_s": 1.242,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -4.9999999918171056e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed43",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0017019616363249668,
+        "legacy_mixed_max_signed_s": 0.0017019616363249668,
+        "legacy_mixed_max_time_s": 30.876118483103,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 5.000000058430487e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.999999892949745e-08,
+        "sampled_max_time_s": 14.122,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 5.000000058430487e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed47",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0009016903828431566,
+        "legacy_mixed_max_signed_s": -0.0009016903828431566,
+        "legacy_mixed_max_time_s": 30.875517015553,
+        "legacy_non_grid_emission_count": 960,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": -9.99999993922529e-09,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 8.397,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed47",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 6.414637368123977e-05,
+        "legacy_mixed_max_signed_s": -6.414637368123977e-05,
+        "legacy_mixed_max_time_s": 30.875517931553,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": -1.9999999989472883e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.999999892949745e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.000000032253979e-08,
+        "sampled_max_time_s": 29.725,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 2.999999892949745e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed47",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.001929093626316103,
+        "legacy_mixed_max_signed_s": 0.001929093626316103,
+        "legacy_mixed_max_time_s": 30.875517931553,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": -9.99999993922529e-09,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 2.0000000100495186e-08,
+        "sampled_max_time_s": 18.24,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 3.000000248221113e-08
+      },
+      {
+        "execution_id": "C4compensated_L2_A1_seed47",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.00044197362631592796,
+        "legacy_mixed_max_signed_s": 0.00044197362631592796,
+        "legacy_mixed_max_time_s": 30.875517931553,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": -9.99999993922529e-09,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p95_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 17.535,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -3.000000248221113e-08
+      },
+      {
+        "execution_id": "C4original_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0007064679639441351,
+        "legacy_mixed_max_signed_s": -0.0007064679639441351,
+        "legacy_mixed_max_time_s": 30.875743852841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "CSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 8.36,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4original_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0004098739456246392,
+        "legacy_mixed_max_signed_s": -0.0004098739456246392,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z1.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 9.99999993922529e-09,
+        "sampled_abs_offset_p95_s": 1.999999987845058e-08,
+        "sampled_abs_offset_p99_s": 2.000000165480742e-08,
+        "sampled_max_time_s": 8.643,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -2.000000165480742e-08
+      },
+      {
+        "execution_id": "C4original_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0013783460543770332,
+        "legacy_mixed_max_signed_s": 0.0013783460543770332,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z2.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 1.0000000050247593e-08,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 3.000000248221113e-08,
+        "sampled_abs_offset_p50_s": 9.99999905104687e-09,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 2.000000032253979e-08,
+        "sampled_max_time_s": 16.707,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": 3.000000248221113e-08
+      },
+      {
+        "execution_id": "C4original_L2_A1_seed41",
+        "interpretation": "periodic 1ms samples; same-time non-grid timeChanged emissions excluded from distribution because order/state duration is not preserved in compact export; sampled pass does not establish continuous pass",
+        "legacy_all_emissions_count": 30960,
+        "legacy_mixed_max_abs_s": 0.0006767960543783147,
+        "legacy_mixed_max_signed_s": 0.0006767960543783147,
+        "legacy_mixed_max_time_s": 30.875744768841,
+        "legacy_non_grid_emission_count": 960,
+        "node": "Z3.ZSW.clock",
+        "offset_at_warmup_end_t1_s": 0.0,
+        "periodic_expected_count": 30000,
+        "periodic_population_complete": true,
+        "periodic_sample_count": 30000,
+        "piecewise_linear_sampled_duration_over_1us_s": 0.0,
+        "sample_resolution_s": 0.001,
+        "sampled_abs_offset_max_s": 2.000000165480742e-08,
+        "sampled_abs_offset_p50_s": 0.0,
+        "sampled_abs_offset_p95_s": 1.000000082740371e-08,
+        "sampled_abs_offset_p99_s": 1.999999987845058e-08,
+        "sampled_max_time_s": 12.174,
+        "sampled_points_abs_over_1us": 0,
+        "sampled_signed_offset_at_max_s": -2.000000165480742e-08
+      }
+    ],
+    "run_node_series": 44,
+    "sampling_period_s": 0.001,
+    "source": "existing compact clock_offsets.csv.gz files",
+    "total_grid_points_over_1us": 0,
+    "window_s": [
+      1,
+      31
+    ]
+  },
+  "old_result_snapshots": {
+    "analysis_before_sync_audit_sha256": "e643792d0600343b593d535df796311c04163490cf737c2ddd30d8caa1148965",
+    "pilot_results_before_sync_audit_sha256": "45cb96d802ec281d4ea52c4a7bf7c04fc4fc38b8648f05a5b895827d58fd24ee"
+  },
+  "scope": "audit retained evidence, then two authorized short technical probes; no model/profile/GCL/workload changes",
+  "source_evidence_hashes": {
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C3sync_L0_A0_seed41/Pilot_C3sync_L0_A0-0/clock_offsets.csv.gz": {
+      "sha256": "d34130ca741cfa723348eafdc1f786971533b56e0c1482ab403a2f94a1646583",
+      "size_bytes": 377751
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C3sync_L1_A1_seed41/Pilot_C3sync_L1_A1-0/clock_offsets.csv.gz": {
+      "sha256": "5e0298a2f0c44e2e3f63d55ba22ec9679adf4b1e25035f4d01d42cbc50499290",
+      "size_bytes": 379222
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C3sync_L2_A1_seed41/Pilot_C3sync_L2_A1-#0.vec.gz": {
+      "sha256": "7d55cc78dbb612d28528de2e382f5578efa26ed08091b66a0043e8ddc18fcdc1",
+      "size_bytes": 1551382178
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C3sync_L2_A1_seed41/Pilot_C3sync_L2_A1-0/clock_offsets.csv.gz": {
+      "sha256": "a949bfa885f18833dd325ff263864c34dbcb415e6e708f3c3528d7c5a7aabe05",
+      "size_bytes": 384110
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/clock_offsets.csv.gz": {
+      "sha256": "dceaa33b80cf10e3326f71d1e145044c15cdb722a10af84f7077294ce795919c",
+      "size_bytes": 382856
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C3sync_L2_A1_seed47/Pilot_C3sync_L2_A1-0/clock_offsets.csv.gz": {
+      "sha256": "216588d13b4f0af28540bbbd8a664ebf2cd4c5b45da063beed08cc917c894e83",
+      "size_bytes": 385098
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C4compensated_L0_A0_seed41/Pilot_C4compensated_L0_A0-0/clock_offsets.csv.gz": {
+      "sha256": "29955fbdb16d806e19a32b381b5f9dc1c7469352131cd509629f1345f2137a9d",
+      "size_bytes": 373852
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C4compensated_L1_A1_seed41/Pilot_C4compensated_L1_A1-0/clock_offsets.csv.gz": {
+      "sha256": "55099df5f9053f9f51283dfab4f6affc57ee32f87f376808daa42cb579ea6acd",
+      "size_bytes": 374205
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C4compensated_L2_A1_seed41/Pilot_C4compensated_L2_A1-0/clock_offsets.csv.gz": {
+      "sha256": "f3bc9ccb8f8ce0a739874ff7f088ccffe3e99d09b3a5705dd89d1994f8719b3e",
+      "size_bytes": 374337
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/clock_offsets.csv.gz": {
+      "sha256": "5f00137dc1f543f7b1606a73aeca9e113dc06fc213d69471b03172daab5d3324",
+      "size_bytes": 378283
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C4compensated_L2_A1_seed47/Pilot_C4compensated_L2_A1-0/clock_offsets.csv.gz": {
+      "sha256": "acf3a38b3e986aef0f84b0f4dce571b5234fb63ad5ef6aa884cc3b7ae2ebf213",
+      "size_bytes": 377076
+    },
+    "simulations/pilot/c4_shared_sp_brakes/results/runs/C4original_L2_A1_seed41/Pilot_C4original_L2_A1-0/clock_offsets.csv.gz": {
+      "sha256": "51e381dfcc5f6bacaecd36c0643928ec4e844557bc88e70bbd9e1682b2672f46",
+      "size_bytes": 374337
+    }
+  },
+  "source_hashes": {
+    "inet": {
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/clock/base/ClockBase.cc": "aab9f84f00c8d0681126f271106632dd5d3390abeec10446496b288326f57fce",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/clock/base/ClockBase.ned": "7c646555909aa816ecc20b935e1a30daea65ffd6a82498d0fb478212d755764c",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/clock/contract/IClock.ned": "26bd6172bd5dc2a61b7e09573ab1b56814fac8639a1acc64561ca7f2be81712e",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/clock/model/OscillatorBasedClock.cc": "cd191ed2fddc59da48c6573c8c0405b3cfa0343bebe3a6448dd2a4a4a6e21f5c",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/clock/model/OscillatorBasedClock.ned": "14a3206b7dff1341292369935d52bc454b61cbd519d7420e29947f5c31a9853f",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/clock/model/SettableClock.cc": "9dbda969c9874dd7d0d93b408960ff7e370452e2065d6da822a0bf7b12694317",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/clock/model/SettableClock.ned": "4dffdd4e17ebe201e40ae387d3e7cd7fcdbdc11a5f2338df3ec6e54ab9925e6f",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/clock/servo/StepClockServo.cc": "39e436d66a86ba29cf499d656ab7643e36da45df802ee18ad9aa3d72db1d07ce",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/linklayer/ieee8021as/Gptp.cc": "8a9712bd0483ee745a6e55d84ffb857e0b3d4ae6c948854ce1ab66c3dfb98715",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/linklayer/ieee8021as/Gptp.ned": "ea61887d00fa402a1cc29e90c46264e92aa65b2d9c2c1e3ed3318f5b7d5a861e",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/node/tsn/TsnDevice.ned": "5b56ddd92aec4507de813f53790b87041f1c2a52159f07f0761f1a070efd94ef",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/node/tsn/TsnSwitch.ned": "6a3625066099b4f62bc4333d317cc65e86c7d706015041faad57c376d422d2a1",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/queueing/gate/PeriodicGate.ned": "9dd1ec18337a230b16c0d4774445665670ec00f58f3d548986f52aeff73deeff"
+    },
+    "repository_and_audit_code": {
+      "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/ClockAuditProbe.ned": "dabd19d990a06ba41fd5042db52f801de4834f15f0a14c112a78affcc4154882",
+      "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/ZonalIVNClockAudit.ned": "da0d0d07757df65cd620b40e82746f0910e9fe88a8be3becb4720adb412d28e6",
+      "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/plugin/ClockAuditProbe.cc": "b7d9fe99a8d3bfeab3cba9fedfd0066f9afe93f34e0d924601787551a4cd429e",
+      "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/analyze_probe.py": "2adb06c3a4a439d15cfd7d9b90dc7e72d8328abb88583d82f3eabb3e33299b77",
+      "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/extract_probe_vectors.py": "3e452034fe31266f13103b4a2f78415d0f22e29b2875501d51e7c77d6995853d",
+      "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/make_figures.py": "181b038bab3e119c9e6cac05d49192b61072239f50bdaff14a22cf3ad1b98e95",
+      "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/reprocess_periodic_offsets.py": "a1dc4e2b214d62b099841b7351d3255ed6dc845cc7f3c28565de1a2b2c878e73",
+      "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/reprocess_raw.py": "66687215df349e33e90e371987e7465ec1c8272785b374abff3a891d60875010",
+      "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/run_probe.py": "0681c96544303a87f14433327ddf0faa098b4250f366475fd1bbd274fdac8e89",
+      "simulations/pilot/c4_shared_sp_brakes/pilot.ini": "2daaf50d74c28d2d4c43fae2f33f7f68cd33d6b97aaf1d1fc7f1195a28b08d97",
+      "simulations/pilot/c4_shared_sp_brakes/protocol.md": "8f2aae2cd7cdbc67e6286e57f8f3bfa0126b25f5ba12e11838046f316e567cb0",
+      "simulations/pilot/c4_shared_sp_brakes/run_pilot.py": "095ab70f67c32f9304d0ae8f3507ef1ba692813765da79169620d195df9a53e2"
+    }
+  },
+  "technical_probe_runs": [
+    {
+      "command": [
+        "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/src/zonal-ivn-tsn",
+        "-u",
+        "Cmdenv",
+        "-n",
+        ".:/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/src:/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/tests:/home/jonatan/omnetpp/samples/inet-4.7.0/src",
+        "-f",
+        "omnetpp.ini",
+        "-c",
+        "Pilot_C3sync_L2_A1",
+        "--cmdenv-express-mode=true",
+        "--cmdenv-event-banners=false",
+        "--result-dir=pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43",
+        "-l",
+        "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/plugin/libclockaudit.so",
+        "-f",
+        "pilot/c4_shared_sp_brakes/pilot.ini",
+        "--seed-set=43",
+        "--**.transmitting.result-recording-modes=+vector",
+        "--**.transmissionGate[*].gateState.result-recording-modes=vector",
+        "--**.transmissionGate[*].guardBandState.result-recording-modes=vector",
+        "--**.clock.timeChanged.result-recording-modes=vector",
+        "--**.clock.emitClockTimeInterval=1ms",
+        "--**.numCredits.result-recording-modes=vector,max,min,timeavg",
+        "--**.gptp.gmRateRatio.result-recording-modes=+vector",
+        "--**.gptp.neighborRateRatio.result-recording-modes=+vector",
+        "--**.gptp.pdelay.result-recording-modes=+vector",
+        "--**.gptp.packetDropNotAddressedToUs.result-recording-modes=+count,sum(packetBytes),vector(packetBytes)",
+        "--**.gptp.cmdenv-log-level=info",
+        "--**.transmissionGate[*].enableImplicitGuardBand=true",
+        "--**.transmitter.typename=\"StreamingTransmitter\"",
+        "--**.receiver.typename=\"DestreamingReceiver\"",
+        "--*.trafficPlan.transientCalendarFile=\"/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/pilot/c4_shared_sp_brakes/results/calendars/L2_A1/seed43_events.csv\"",
+        "--*.HPC.hasTimeSynchronization=true",
+        "--*.CSW.hasTimeSynchronization=true",
+        "--*.Z*.ZSW.hasTimeSynchronization=true",
+        "--**.clock.timeChanged.result-recording-modes=vector",
+        "--*.CAM1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CAM1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=56850000bps",
+        "--*.CAM2.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CAM2.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=56850000bps",
+        "--*.CAM3.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CAM3.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=56850000bps",
+        "--*.CAM4.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CAM4.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=56850000bps",
+        "--*.CSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=227400000bps",
+        "--*.CSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=311760000bps",
+        "--*.CSW.eth[1].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[1].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=89280000bps",
+        "--*.CSW.eth[2].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[2].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=89280000bps",
+        "--*.CSW.eth[3].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[3].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=247600000bps",
+        "--*.HPC.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.HPC.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=144480000bps",
+        "--*.LiDAR1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.LiDAR1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=308400000bps",
+        "--*.RADAR1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.RADAR1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=1680000bps",
+        "--*.RADAR2.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.RADAR2.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=1680000bps",
+        "--*.Z1.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z1.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=236850000bps",
+        "--*.Z1.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z1.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=308400000bps",
+        "--*.Z1.ZSW.eth[6].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z1.ZSW.eth[6].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=27600000bps",
+        "--*.Z1.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z1.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=61680000bps",
+        "--*.Z2.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z2.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=216850000bps",
+        "--*.Z2.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z2.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=1680000bps",
+        "--*.Z2.ZSW.eth[6].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z2.ZSW.eth[6].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=27600000bps",
+        "--*.Z2.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z2.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=61680000bps",
+        "--*.Z3.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z3.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=113700000bps",
+        "--*.Z3.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z3.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=1680000bps",
+        "--*.Z3.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z3.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=27600000bps",
+        "--*.HPC.clock.oscillator.driftRate=-36.078474909ppm",
+        "--*.CSW.clock.oscillator.driftRate=-20.184251384ppm",
+        "--*.Z1.ZSW.clock.oscillator.driftRate=-7.675130093ppm",
+        "--*.Z2.ZSW.clock.oscillator.driftRate=45.553078722ppm",
+        "--*.Z3.ZSW.clock.oscillator.driftRate=19.089656043ppm",
+        "--sim-time-limit=3.05s",
+        "--network=zonal_ivn_tsn.simulations.pilot.c4_shared_sp_brakes.audits.synchronization_2026_10_12.ZonalIVNClockAudit",
+        "--*.clockAudit.outputFile=\"/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/clock_audit.csv\"",
+        "--*.clockAudit.sampleInterval=1ms",
+        "--*.clockAudit.stopAt=3.05s",
+        "--**.clock.underlyingClock.emitClockTimeInterval=1ms",
+        "--**.clock.underlyingClock.timeChanged.result-recording-modes=vector",
+        "--**.clock.oscillatorCompensationChanged.result-recording-modes=vector"
+      ],
+      "command_json_sha256": "8ce489e5f0930463ad1d29dadb7bab72aa9e3f8822303cdae3188a5e2f891610",
+      "direct_parent_clock_results": {
+        "CSW": {
+          "callback_count": 2048,
+          "free_clock_relative_change_s": 3.400000000031156e-05,
+          "max_abs_s": 0.0,
+          "max_signed_s": 0.0,
+          "max_time_s": 1.0,
+          "p99_abs_s": 0.0,
+          "samples_abs_over_1us": 0,
+          "signal_matches_direct_getter": true
+        },
+        "Z1.ZSW": {
+          "callback_count": 2048,
+          "free_clock_relative_change_s": 6.200000000011752e-05,
+          "max_abs_s": 1.0000000000065512e-05,
+          "max_signed_s": -1.0000000000065512e-05,
+          "max_time_s": 1.801,
+          "p99_abs_s": 0.0,
+          "samples_abs_over_1us": 3,
+          "signal_matches_direct_getter": true
+        },
+        "Z2.ZSW": {
+          "callback_count": 2048,
+          "free_clock_relative_change_s": 0.00016400000000016401,
+          "max_abs_s": 0.0,
+          "max_signed_s": 0.0,
+          "max_time_s": 1.0,
+          "p99_abs_s": 0.0,
+          "samples_abs_over_1us": 0,
+          "signal_matches_direct_getter": true
+        },
+        "Z3.ZSW": {
+          "callback_count": 2048,
+          "free_clock_relative_change_s": 0.00011400000000028054,
+          "max_abs_s": 0.0,
+          "max_signed_s": 0.0,
+          "max_time_s": 1.0,
+          "p99_abs_s": 0.0,
+          "samples_abs_over_1us": 0,
+          "signal_matches_direct_getter": true
+        }
+      },
+      "execution_id": "C3sync_L2_A1_seed43",
+      "measurement_observation_window_s": [
+        1,
+        3
+      ],
+      "observer_sha256": "1c028cd83730081d2e63ad94ab4d64c8e0120267cca927553c5a1576438c6603",
+      "probe_summary_sha256": "a026d683a79f6c2820735bb2c6a4b8f15958f5013e232990edff9963a1bf58de",
+      "result": "completed",
+      "simtime_limit_s": 3.05,
+      "vector_sha256": "c8add896c3a9ff1ad7d5cf7e363c7fce7ae70703debed0f38e6a549042570234"
+    },
+    {
+      "command": [
+        "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/src/zonal-ivn-tsn",
+        "-u",
+        "Cmdenv",
+        "-n",
+        ".:/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/src:/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/tests:/home/jonatan/omnetpp/samples/inet-4.7.0/src",
+        "-f",
+        "omnetpp.ini",
+        "-c",
+        "Pilot_C4compensated_L2_A1",
+        "--cmdenv-express-mode=true",
+        "--cmdenv-event-banners=false",
+        "--result-dir=pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43",
+        "-l",
+        "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/plugin/libclockaudit.so",
+        "-f",
+        "pilot/c4_shared_sp_brakes/pilot.ini",
+        "--seed-set=43",
+        "--**.transmitting.result-recording-modes=+vector",
+        "--**.transmissionGate[*].gateState.result-recording-modes=vector",
+        "--**.transmissionGate[*].guardBandState.result-recording-modes=vector",
+        "--**.clock.timeChanged.result-recording-modes=vector",
+        "--**.clock.emitClockTimeInterval=1ms",
+        "--**.numCredits.result-recording-modes=vector,max,min,timeavg",
+        "--**.gptp.gmRateRatio.result-recording-modes=+vector",
+        "--**.gptp.neighborRateRatio.result-recording-modes=+vector",
+        "--**.gptp.pdelay.result-recording-modes=+vector",
+        "--**.gptp.packetDropNotAddressedToUs.result-recording-modes=+count,sum(packetBytes),vector(packetBytes)",
+        "--**.gptp.cmdenv-log-level=info",
+        "--**.transmissionGate[*].enableImplicitGuardBand=true",
+        "--**.transmitter.typename=\"StreamingTransmitter\"",
+        "--**.receiver.typename=\"DestreamingReceiver\"",
+        "--*.trafficPlan.transientCalendarFile=\"/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/pilot/c4_shared_sp_brakes/results/calendars/L2_A1/seed43_events.csv\"",
+        "--*.HPC.hasTimeSynchronization=true",
+        "--*.CSW.hasTimeSynchronization=true",
+        "--*.Z*.ZSW.hasTimeSynchronization=true",
+        "--*.HPC.hasEgressTrafficShaping=true",
+        "--*.CSW.hasEgressTrafficShaping=true",
+        "--*.Z*.ZSW.hasEgressTrafficShaping=true",
+        "--*.Z1.ZSW.eth[4].macLayer.queue.transmissionGate[*].clockModule=\"^.^.^.^.clock\"",
+        "--*.Z1.ZSW.eth[4].macLayer.queue.transmissionGate[*].initiallyOpen=true",
+        "--*.Z1.ZSW.eth[4].macLayer.queue.transmissionGate[*].durations=[]",
+        "--*.Z1.ZSW.eth[4].macLayer.queue.transmissionGate[*].offset=0s",
+        "--*.Z2.ZSW.eth[4].macLayer.queue.transmissionGate[*].clockModule=\"^.^.^.^.clock\"",
+        "--*.Z2.ZSW.eth[4].macLayer.queue.transmissionGate[*].initiallyOpen=true",
+        "--*.Z2.ZSW.eth[4].macLayer.queue.transmissionGate[*].durations=[]",
+        "--*.Z2.ZSW.eth[4].macLayer.queue.transmissionGate[*].offset=0s",
+        "--*.Z3.ZSW.eth[5].macLayer.queue.transmissionGate[*].clockModule=\"^.^.^.^.clock\"",
+        "--*.Z3.ZSW.eth[5].macLayer.queue.transmissionGate[*].initiallyOpen=true",
+        "--*.Z3.ZSW.eth[5].macLayer.queue.transmissionGate[*].durations=[]",
+        "--*.Z3.ZSW.eth[5].macLayer.queue.transmissionGate[*].offset=0s",
+        "--*.CSW.eth[1].macLayer.queue.transmissionGate[*].clockModule=\"^.^.^.^.clock\"",
+        "--*.CSW.eth[1].macLayer.queue.transmissionGate[0..6].initiallyOpen=true",
+        "--*.CSW.eth[1].macLayer.queue.transmissionGate[0..6].durations=[77us,23us]",
+        "--*.CSW.eth[1].macLayer.queue.transmissionGate[0..6].offset=90us",
+        "--*.CSW.eth[1].macLayer.queue.transmissionGate[7].initiallyOpen=true",
+        "--*.CSW.eth[1].macLayer.queue.transmissionGate[7].durations=[10us,90us]",
+        "--*.CSW.eth[1].macLayer.queue.transmissionGate[*].enableImplicitGuardBand=true",
+        "--*.CSW.eth[2].macLayer.queue.transmissionGate[*].clockModule=\"^.^.^.^.clock\"",
+        "--*.CSW.eth[2].macLayer.queue.transmissionGate[0..6].initiallyOpen=true",
+        "--*.CSW.eth[2].macLayer.queue.transmissionGate[0..6].durations=[77us,23us]",
+        "--*.CSW.eth[2].macLayer.queue.transmissionGate[0..6].offset=90us",
+        "--*.CSW.eth[2].macLayer.queue.transmissionGate[7].initiallyOpen=true",
+        "--*.CSW.eth[2].macLayer.queue.transmissionGate[7].durations=[10us,90us]",
+        "--*.CSW.eth[2].macLayer.queue.transmissionGate[*].enableImplicitGuardBand=true",
+        "--*.CSW.eth[3].macLayer.queue.transmissionGate[*].clockModule=\"^.^.^.^.clock\"",
+        "--*.CSW.eth[3].macLayer.queue.transmissionGate[0..6].initiallyOpen=true",
+        "--*.CSW.eth[3].macLayer.queue.transmissionGate[0..6].durations=[77us,23us]",
+        "--*.CSW.eth[3].macLayer.queue.transmissionGate[0..6].offset=90us",
+        "--*.CSW.eth[3].macLayer.queue.transmissionGate[7].initiallyOpen=true",
+        "--*.CSW.eth[3].macLayer.queue.transmissionGate[7].durations=[10us,90us]",
+        "--*.CSW.eth[3].macLayer.queue.transmissionGate[*].enableImplicitGuardBand=true",
+        "--*.HPC.eth[0].macLayer.queue.transmissionGate[*].clockModule=\"^.^.^.^.clock\"",
+        "--*.HPC.eth[0].macLayer.queue.transmissionGate[0..6].initiallyOpen=true",
+        "--*.HPC.eth[0].macLayer.queue.transmissionGate[0..6].durations=[77us,23us]",
+        "--*.HPC.eth[0].macLayer.queue.transmissionGate[0..6].offset=90us",
+        "--*.HPC.eth[0].macLayer.queue.transmissionGate[7].initiallyOpen=true",
+        "--*.HPC.eth[0].macLayer.queue.transmissionGate[7].durations=[10us,90us]",
+        "--*.HPC.eth[0].macLayer.queue.transmissionGate[*].enableImplicitGuardBand=true",
+        "--*.CAM1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CAM1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=56850000bps",
+        "--*.CAM2.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CAM2.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=56850000bps",
+        "--*.CAM3.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CAM3.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=56850000bps",
+        "--*.CAM4.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CAM4.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=56850000bps",
+        "--*.CSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=227400000bps",
+        "--*.CSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=311760000bps",
+        "--*.CSW.eth[1].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[1].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=115948052bps",
+        "--*.CSW.eth[2].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[2].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=115948052bps",
+        "--*.CSW.eth[3].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.CSW.eth[3].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=321558442bps",
+        "--*.HPC.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.HPC.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=187636364bps",
+        "--*.LiDAR1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.LiDAR1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=308400000bps",
+        "--*.RADAR1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.RADAR1.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=1680000bps",
+        "--*.RADAR2.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.RADAR2.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=1680000bps",
+        "--*.Z1.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z1.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=236850000bps",
+        "--*.Z1.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z1.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=308400000bps",
+        "--*.Z1.ZSW.eth[6].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z1.ZSW.eth[6].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=27600000bps",
+        "--*.Z1.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z1.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=61680000bps",
+        "--*.Z2.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z2.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=216850000bps",
+        "--*.Z2.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z2.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=1680000bps",
+        "--*.Z2.ZSW.eth[6].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z2.ZSW.eth[6].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=27600000bps",
+        "--*.Z2.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z2.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=61680000bps",
+        "--*.Z3.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z3.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=113700000bps",
+        "--*.Z3.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z3.ZSW.eth[0].macLayer.queue.transmissionSelectionAlgorithm[6].idleSlope=1680000bps",
+        "--*.Z3.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].typename=Ieee8021qCreditBasedShaper",
+        "--*.Z3.ZSW.eth[7].macLayer.queue.transmissionSelectionAlgorithm[4].idleSlope=27600000bps",
+        "--*.HPC.clock.oscillator.driftRate=-36.078474909ppm",
+        "--*.CSW.clock.oscillator.driftRate=-20.184251384ppm",
+        "--*.Z1.ZSW.clock.oscillator.driftRate=-7.675130093ppm",
+        "--*.Z2.ZSW.clock.oscillator.driftRate=45.553078722ppm",
+        "--*.Z3.ZSW.clock.oscillator.driftRate=19.089656043ppm",
+        "--sim-time-limit=3.05s",
+        "--network=zonal_ivn_tsn.simulations.pilot.c4_shared_sp_brakes.audits.synchronization_2026_10_12.ZonalIVNClockAudit",
+        "--*.clockAudit.outputFile=\"/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/clock_audit.csv\"",
+        "--*.clockAudit.sampleInterval=1ms",
+        "--*.clockAudit.stopAt=3.05s",
+        "--**.clock.underlyingClock.emitClockTimeInterval=1ms",
+        "--**.clock.underlyingClock.timeChanged.result-recording-modes=vector",
+        "--**.clock.oscillatorCompensationChanged.result-recording-modes=vector"
+      ],
+      "command_json_sha256": "387e3ef291563e38ecd50b455bf9f03090b044b812027b6f63fbc016a7cee922",
+      "direct_parent_clock_results": {
+        "CSW": {
+          "callback_count": 2048,
+          "free_clock_relative_change_s": 3.400000000031156e-05,
+          "max_abs_s": 1.0000000000065512e-05,
+          "max_signed_s": -1.0000000000065512e-05,
+          "max_time_s": 1.247,
+          "p99_abs_s": 0.0,
+          "samples_abs_over_1us": 1,
+          "signal_matches_direct_getter": true
+        },
+        "Z1.ZSW": {
+          "callback_count": 2048,
+          "free_clock_relative_change_s": 6.200000000011752e-05,
+          "max_abs_s": 1.0000000000065512e-05,
+          "max_signed_s": -1.0000000000065512e-05,
+          "max_time_s": 1.247,
+          "p99_abs_s": 0.0,
+          "samples_abs_over_1us": 3,
+          "signal_matches_direct_getter": true
+        },
+        "Z2.ZSW": {
+          "callback_count": 2048,
+          "free_clock_relative_change_s": 0.00016400000000016401,
+          "max_abs_s": 1.0000000000065512e-05,
+          "max_signed_s": -1.0000000000065512e-05,
+          "max_time_s": 1.247,
+          "p99_abs_s": 0.0,
+          "samples_abs_over_1us": 3,
+          "signal_matches_direct_getter": true
+        },
+        "Z3.ZSW": {
+          "callback_count": 2048,
+          "free_clock_relative_change_s": 0.00011400000000028054,
+          "max_abs_s": 1.0000000000065512e-05,
+          "max_signed_s": -1.0000000000065512e-05,
+          "max_time_s": 1.247,
+          "p99_abs_s": 0.0,
+          "samples_abs_over_1us": 3,
+          "signal_matches_direct_getter": true
+        }
+      },
+      "execution_id": "C4compensated_L2_A1_seed43",
+      "measurement_observation_window_s": [
+        1,
+        3
+      ],
+      "observer_sha256": "13eae11efb2eaa463b8c49e7aa546418a33f0adfe2d17a82395466f0e2128cbb",
+      "probe_summary_sha256": "4f811ae0cb4a0d7c2585d1dc99d3fd17364e9158d1c8a73965b784aec89a3c9e",
+      "result": "completed",
+      "simtime_limit_s": 3.05,
+      "vector_sha256": "c452644b959075398f07fd7abf9940b2e7eaac4193d6da5ff1788b7a21e74d9b"
+    }
+  ],
+  "technical_setup_failures": [
+    {
+      "class": "audit harness setup only",
+      "methodological_simulation_started": false,
+      "reason": "NED package path mismatch"
+    },
+    {
+      "class": "audit harness setup only",
+      "methodological_simulation_started": false,
+      "reason": "stale NED search path"
+    },
+    {
+      "class": "audit harness setup only",
+      "methodological_simulation_started": false,
+      "reason": "observer read clock before clock initialization; fixed by scheduling first read at 1 ms"
+    }
+  ],
+  "versions": {
+    "inet": "inet-4.7.0-dfe270b21f",
+    "inet_source_has_git_metadata": false,
+    "omnetpp": "omnetpp-6.4.0",
+    "repository_commit": "003e44d6cf9387e3332ed6cbfe5812958780e7fb",
+    "working_tree_note": "pre-existing unrelated edits: scripts/run/validate_c0.py, src/common/TrafficPlan.cc, src/common/TrafficPlan.ned; no official files changed by this audit"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "source_vec": "C3sync_L2_A1_seed41 retained raw vector; event/sample order in .vec preserved",
+  "method": "HPC reference linearly interpolated between its regular 1ms samples; all local emissions at each sync timestamp retained in original file order; no sorting by value",
+  "examples": [
+    {
+      "node": "CSW",
+      "simtime_s": 30.8757418368,
+      "hpc_interpolated_clock_s": 30.875001581963264,
+      "emissions_in_original_vec_order": [
+        {
+          "event_number": 140480421,
+          "clock_time_s": 30.87500159,
+          "offset_vs_hpc_s": 8.036735721361765e-09
+        },
+        {
+          "event_number": 140480421,
+          "clock_time_s": 30.87500159,
+          "offset_vs_hpc_s": 8.036735721361765e-09
+        },
+        {
+          "event_number": 140480421,
+          "clock_time_s": 30.87429508,
+          "offset_vs_hpc_s": -0.0007065019632648273
+        },
+        {
+          "event_number": 140480421,
+          "clock_time_s": 30.87500159,
+          "offset_vs_hpc_s": 8.036735721361765e-09
+        }
+      ]
+    },
+    {
+      "node": "Z1.ZSW",
+      "simtime_s": 30.8757427528,
+      "hpc_interpolated_clock_s": 30.875002497944944,
+      "emissions_in_original_vec_order": [
+        {
+          "event_number": 140480443,
+          "clock_time_s": 30.8750025,
+          "offset_vs_hpc_s": 2.0550565693611134e-09
+        },
+        {
+          "event_number": 140480443,
+          "clock_time_s": 30.8750025,
+          "offset_vs_hpc_s": 2.0550565693611134e-09
+        },
+        {
+          "event_number": 140480443,
+          "clock_time_s": 30.87459305,
+          "offset_vs_hpc_s": -0.0004094479449427979
+        },
+        {
+          "event_number": 140480443,
+          "clock_time_s": 30.8750025,
+          "offset_vs_hpc_s": 2.0550565693611134e-09
+        }
+      ]
+    },
+    {
+      "node": "Z2.ZSW",
+      "simtime_s": 30.8757427528,
+      "hpc_interpolated_clock_s": 30.875002497944944,
+      "emissions_in_original_vec_order": [
+        {
+          "event_number": 140480444,
+          "clock_time_s": 30.87500251,
+          "offset_vs_hpc_s": 1.2055057396764823e-08
+        },
+        {
+          "event_number": 140480444,
+          "clock_time_s": 30.87500251,
+          "offset_vs_hpc_s": 1.2055057396764823e-08
+        },
+        {
+          "event_number": 140480444,
+          "clock_time_s": 30.87638103,
+          "offset_vs_hpc_s": 0.0013785320550567803
+        },
+        {
+          "event_number": 140480444,
+          "clock_time_s": 30.87500251,
+          "offset_vs_hpc_s": 1.2055057396764823e-08
+        }
+      ]
+    },
+    {
+      "node": "Z3.ZSW",
+      "simtime_s": 30.8757427528,
+      "hpc_interpolated_clock_s": 30.875002497944944,
+      "emissions_in_original_vec_order": [
+        {
+          "event_number": 140480445,
+          "clock_time_s": 30.87500251,
+          "offset_vs_hpc_s": 1.2055057396764823e-08
+        },
+        {
+          "event_number": 140480445,
+          "clock_time_s": 30.87500251,
+          "offset_vs_hpc_s": 1.2055057396764823e-08
+        },
+        {
+          "event_number": 140480445,
+          "clock_time_s": 30.87567925,
+          "offset_vs_hpc_s": 0.0006767520550567951
+        },
+        {
+          "event_number": 140480445,
+          "clock_time_s": 30.87500251,
+          "offset_vs_hpc_s": 1.2055057396764823e-08
+        }
+      ]
+    }
+  ]
+}

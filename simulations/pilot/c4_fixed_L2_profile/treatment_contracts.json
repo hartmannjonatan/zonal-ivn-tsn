@@ -1,0 +1,83 @@
+{
+  "expected_cbs": {
+    "accumulateCreditInGuardBand": false,
+    "extraDuration": "0 s",
+    "extraLength": "64 b",
+    "initialCredit": 0,
+    "maxCredit": "inf",
+    "maxInterferenceSize": "inf b",
+    "minCredit": "-inf",
+    "sendSlope_formula": "idleSlope - bitrate",
+    "transmitCreditLimit": 0,
+    "type": "inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper"
+  },
+  "expected_no_cbs": [
+    "Z1.ZCPU.eth[0]/TC4",
+    "Z2.ZCPU.eth[0]/TC4",
+    "Z3.ZSW.eth[1]/TC4"
+  ],
+  "exploratory": true,
+  "official_c4_frozen": false,
+  "profile_scope": "The complete absolute D3_coordinated_20pct L2/A1 seed41 profile is applied unchanged to L0/A0 and L1/A1, including talkers, uplinks, access egresses and TC6. Transient-only egresses with no permanent reservation remain SP.",
+  "treatments": {
+    "B_local": {
+      "gates": {
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 9e-05,
+          "CSW.eth[2]": 9e-05,
+          "CSW.eth[3]": 9e-05,
+          "HPC.eth[0]": 9e-05
+        },
+        "class4_open_s": 7.7e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 0.0,
+          "CSW.eth[2]": 0.0,
+          "CSW.eth[3]": 0.0,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 1e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "kind": "reused_corrected_B_local",
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      },
+      "profile": "A005"
+    },
+    "D3_fixed_TAS": {
+      "CBS_profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "CBS_profile_source": "D3_coordinated_20pct L2/A1 seed41",
+      "gates": {
+        "candidate_name": "D3_coordinated_20pct",
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 6.9324e-05,
+          "CSW.eth[2]": 6.9324e-05,
+          "CSW.eth[3]": 6.9324e-05,
+          "HPC.eth[0]": 7e-05
+        },
+        "class4_open_s": 5.4999999999999995e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 9.932399999999999e-05,
+          "CSW.eth[2]": 9.932399999999999e-05,
+          "CSW.eth[3]": 9.932399999999999e-05,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 2.9999999999999997e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      }
+    },
+    "D3_fixed_noTAS": {
+      "CBS_profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "CBS_profile_source": "D3_coordinated_20pct L2/A1 seed41",
+      "gates": {
+        "CBS_profile_same_as_TAS": true,
+        "kind": "permanently_open"
+      }
+    }
+  }
+}

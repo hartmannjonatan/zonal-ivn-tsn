@@ -51,6 +51,7 @@ results/
 
 *.sca
 *.vec
+*.vec.gz
 *.vci
 *.elog
 *.sna

@@ -1,0 +1,2 @@
+flow,node,role,packets,app_bytes,measured_packets,measured_app_bytes,first,last,min_gap,max_gap,min_size,max_size,sequence_sum,duplicates_or_reorder,deadline_s,deadline_misses,max_latency,measured_images,completed_images,image_deadline_misses
+F11,HPC,tx,38126,7853956,25626,5278956,0,3.05,0.00008,0.00008,206,206,726776875,0,0.01,0,0,0,0,0

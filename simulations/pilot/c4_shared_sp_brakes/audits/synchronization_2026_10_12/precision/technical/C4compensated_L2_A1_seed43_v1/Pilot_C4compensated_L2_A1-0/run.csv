@@ -1,0 +1,2 @@
+load,aggregation,factor,warmup,measurement,volume_layer,transients_only,exhaustive,source_pre_shaping,adas_spacing_limit,vision_spacing_limit
+2,A1,2.5,1,30,app,0,0,0,0.000324,0.0005

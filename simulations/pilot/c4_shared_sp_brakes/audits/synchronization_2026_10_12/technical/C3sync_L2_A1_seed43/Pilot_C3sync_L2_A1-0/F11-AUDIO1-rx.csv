@@ -1,0 +1,2 @@
+flow,node,role,packets,app_bytes,measured_packets,measured_app_bytes,first,last,min_gap,max_gap,min_size,max_size,sequence_sum,duplicates_or_reorder,deadline_s,deadline_misses,max_latency,measured_images,completed_images,image_deadline_misses
+F11,AUDIO1,rx,38123,7853338,25623,5278338,0.000026316,3.049968748,0.00008,0.000165660043,206,206,726662503,0,0.01,0,0.000208748,0,0,0

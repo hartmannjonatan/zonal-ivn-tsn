@@ -1,0 +1,168 @@
+{
+  "audit_id": "clock-precision-audit-2026-10-12",
+  "repository_head_at_execution": "003e44d6cf9387e3332ed6cbfe5812958780e7fb",
+  "working_tree_note": "Audit used the existing local checkout. Official campaign/model parameters were not changed. Input and evidence hashes identify effective inputs.",
+  "versions": {
+    "omnetpp": "6.4.0",
+    "inet": "4.7.0-dfe270b21f"
+  },
+  "runs": [
+    {
+      "id": "PRECISION_AUDIT_C3sync_L2_A1_seed43_v1",
+      "variant": "C3sync",
+      "seed": 43,
+      "window_s": [
+        1,
+        3
+      ],
+      "sim_time_limit_s": 3.05,
+      "return_code": 0
+    },
+    {
+      "id": "PRECISION_AUDIT_C4compensated_L2_A1_seed43_v1",
+      "variant": "C4compensated",
+      "seed": 43,
+      "window_s": [
+        1,
+        3
+      ],
+      "sim_time_limit_s": 3.05,
+      "return_code": 0
+    }
+  ],
+  "calendar_sha256": "5163828318dfc113d004cb4e1f60773b9a0fbe225a31ed8e1182d93353b46982",
+  "evidence": [
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/plugin/ClockPrecisionProbe.cc",
+      "sha256": "ce1b87bf9c80515285726d784b9586ddcb8ef4842ad7912b8c0db662fd98ba4e",
+      "size_bytes": 4778
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/ZonalIVNClockPrecisionAudit.ned",
+      "sha256": "a1b505c6d211448ef6573b528a5e598eb5ef822df646ad2098cb01fdce07b1a7",
+      "size_bytes": 550
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/build_precision_probe.sh",
+      "sha256": "2f351165afe87ff24656dd2e46e4b03fa6e63cd873dd03ffc4e653ac5a3dc46f",
+      "size_bytes": 368
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/run_precision_probe.py",
+      "sha256": "a71a60642ee022579854aa86efb7c96c34b322f9d477062f61ae4d8989d6cc73",
+      "size_bytes": 3181
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/analyze_precision.py",
+      "sha256": "3c571c11f8ffe212624d2d3e86ab68ed5bfb8b12c4d774492c4a1e3b8cd78e6e",
+      "size_bytes": 7565
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/test_precision_serialization.py",
+      "sha256": "687775d10d9c82a1883ace8a3e6ef293300f6089d554326e5385bdffb4c53a7a",
+      "size_bytes": 1644
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/plugin/ClockAuditProbe.cc",
+      "sha256": "b7d9fe99a8d3bfeab3cba9fedfd0066f9afe93f34e0d924601787551a4cd429e",
+      "size_bytes": 3341
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/scripts/analyze_probe.py",
+      "sha256": "2adb06c3a4a439d15cfd7d9b90dc7e72d8328abb88583d82f3eabb3e33299b77",
+      "size_bytes": 4374
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/pilot.ini",
+      "sha256": "2daaf50d74c28d2d4c43fae2f33f7f68cd33d6b97aaf1d1fc7f1195a28b08d97",
+      "size_bytes": 5479
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/run_pilot.py",
+      "sha256": "095ab70f67c32f9304d0ae8f3507ef1ba692813765da79169620d195df9a53e2",
+      "size_bytes": 147006
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/results/calendars/L2_A1/seed43_events.csv",
+      "sha256": "5163828318dfc113d004cb4e1f60773b9a0fbe225a31ed8e1182d93353b46982",
+      "size_bytes": 2348
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/results/runs/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-0/clock_offsets.csv.gz",
+      "sha256": "dceaa33b80cf10e3326f71d1e145044c15cdb722a10af84f7077294ce795919c",
+      "size_bytes": 382856
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/results/runs/C4compensated_L2_A1_seed43/Pilot_C4compensated_L2_A1-0/clock_offsets.csv.gz",
+      "sha256": "5f00137dc1f543f7b1606a73aeca9e113dc06fc213d69471b03172daab5d3324",
+      "size_bytes": 378283
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/precision_audit.md",
+      "sha256": "b537eb0cc54da90ec784a32bddd19b3faf656b2f8573ed52ea093acd83bb0f14",
+      "size_bytes": 10144
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/precision_summary.json",
+      "sha256": "49944c745e246ea4268e6650dde45a7cebbda56a5e0d8f7e525c78aa2408dd20",
+      "size_bytes": 35870
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/precision_peak_snippets.csv",
+      "sha256": "f4cfff845134cea8b37182946fd68fc2e3c6405968b55166e840f23010e85628",
+      "size_bytes": 21317
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/legacy_precision_comparison.csv",
+      "sha256": "3fe0b56de895fa7dad15a3261ac7d2bd2471202c16ce05d15c73afc6b1c004d1",
+      "size_bytes": 876
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/plugin/libclockprecision.so",
+      "sha256": "31c1a20340d1897a66934d767f663117ffb35e018693656726f52678001a8c3e",
+      "size_bytes": 120880
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/technical/C3sync_L2_A1_seed43_v1/command.json",
+      "sha256": "84dde7c1f5ac7477fd61f313873892ddd38a34e1565eceed7e5fed5e6a245864",
+      "size_bytes": 8966
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/technical/C3sync_L2_A1_seed43_v1/clock_precision.csv",
+      "sha256": "289f882b5a499cd8550fd63a1c02694adf4f398bae2950a4e6a230708a1156e1",
+      "size_bytes": 9639448
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/technical/C3sync_L2_A1_seed43_v1/simulation.log",
+      "sha256": "6a670788e6b1c87e05c06d7cfc472b0c47f710bde8a68d76cc519ede6db9a5b4",
+      "size_bytes": 16877
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/technical/C4compensated_L2_A1_seed43_v1/command.json",
+      "sha256": "6fc5913453e344e68cfae84cd63ef02a7af70c66a878d33850f0de9723eeffd6",
+      "size_bytes": 12258
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/technical/C4compensated_L2_A1_seed43_v1/clock_precision.csv",
+      "sha256": "513694573248c659e47398b7d19b9ff329b5b6417934a6cdd7ebd10ef21e6704",
+      "size_bytes": 9647178
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/precision/technical/C4compensated_L2_A1_seed43_v1/simulation.log",
+      "sha256": "b4d38425f4e30c73bc485947b638708d75d2d2e4d6c76b5fae1b48f127689edb",
+      "size_bytes": 18734
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/clock_audit.csv.gz.gz",
+      "sha256": "1c028cd83730081d2e63ad94ab4d64c8e0120267cca927553c5a1576438c6603",
+      "size_bytes": 129710,
+      "note": "legacy six-significant-digit direct-probe CSV; retained solely as the rounded comparison source"
+    },
+    {
+      "path": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C4compensated_L2_A1_seed43/clock_audit.csv.gz.gz",
+      "sha256": "13eae11efb2eaa463b8c49e7aa546418a33f0adfe2d17a82395466f0e2128cbb",
+      "size_bytes": 131545,
+      "note": "legacy six-significant-digit direct-probe CSV; retained solely as the rounded comparison source"
+    }
+  ]
+}

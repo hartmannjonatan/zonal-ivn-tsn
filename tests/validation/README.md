@@ -1,6 +1,6 @@
 # P1 validation
 
-This directory contains focused checks for the implemented benchmark. The acceptance criteria and required metrics are defined by [P1 v4](../../docs/design/P1-v4.pdf).
+This directory contains focused checks for the implemented benchmark. The acceptance criteria and required metrics are defined by the [final P1](../../docs/design/P1-final.pdf).
 
 - `traffic/` checks the 22-flow catalog, payload/wire sizes, timing, VLAN/PCP, L/A workload, multicast, and transient calendars.
 - `topology/` checks the NED network and connectivity.

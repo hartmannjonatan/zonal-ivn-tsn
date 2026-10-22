@@ -218,7 +218,40 @@ def recompute_queue_occupancy_trace(trace_path):
     return result
 
 
-def verify_configuration(params, config, run_dir):
+def audit_active_classes(expected_active, observed_active, allow_gptp_control=False):
+    """Check catalog classes, optionally allowing gPTP PCP 7 on clock-aware egresses.
+
+    The exception is deliberately narrow: PCP 7 may be an additional active
+    queue only on interfaces of the synchronized HPC, CSW, and zonal switches.
+    Catalog PCPs must still be present exactly as observed, and all other extra
+    classes remain an error.
+    """
+    extras_by_queue = {}
+    for queue, classes in expected_active.items():
+        observed = observed_active.get(queue, set())
+        extras = observed - classes
+        gptp_egress = bool(re.match(
+            r"^ZonalIVN\.(?:HPC|CSW|Z[123]\.ZSW)\.eth\[\d+\]\.macLayer\.queue$", queue))
+        permitted = {7} if allow_gptp_control and gptp_egress else set()
+        require(classes <= observed and extras <= permitted,
+                f"observed PCP queues at {queue} are {observed}, expected {classes}"
+                + (f" plus gPTP control PCPs {permitted}" if permitted else ""))
+        if extras:
+            extras_by_queue[queue] = sorted(extras)
+    # Control traffic can activate an egress with no catalog data flow.
+    for queue, observed in observed_active.items():
+        if queue in expected_active or not observed:
+            continue
+        gptp_egress = bool(re.match(
+            r"^ZonalIVN\.(?:HPC|CSW|Z[123]\.ZSW)\.eth\[\d+\]\.macLayer\.queue$", queue))
+        require(allow_gptp_control and gptp_egress and observed <= {7},
+                f"unexpected active PCP queues at {queue}: {observed}")
+        extras_by_queue[queue] = sorted(observed)
+    return extras_by_queue
+
+
+def verify_configuration(params, config, run_dir, allow_gptp_control=False,
+                         allow_scheduled_gates=False):
     interfaces = sorted({module.removesuffix(".classifier")
                          for module, name in params
                          if name == "mapping" and module.endswith(".macLayer.queue.classifier")})
@@ -235,10 +268,19 @@ def verify_configuration(params, config, run_dir):
         selector = selection.removesuffix(".classifier") + ".transmissionSelection"
         require(params.get((selector, "reverseOrder")) == "true",
                 f"{config}: strict priority is not descending at {interface}")
+        gcl_interfaces = {"ZonalIVN.HPC.eth[0].macLayer.queue",
+                          *(f"ZonalIVN.CSW.eth[{i}].macLayer.queue" for i in (1, 2, 3)),
+                          *(f"ZonalIVN.Z{z}.ZSW.eth[4].macLayer.queue" for z in (1, 2)),
+                          # F10 exits at Z3.ZSW.eth[5]. The corrected full-path
+                          # pilot diagnostic gates that actual route egress.
+                          "ZonalIVN.Z3.ZSW.eth[5].macLayer.queue"}
         for tc in range(8):
             gate = interface.replace(".classifier", "") + f".transmissionGate[{tc}]"
             require(params.get((gate, "initiallyOpen")) == "true", f"{config}: gate {gate} is not open")
-            require(params.get((gate, "durations")) == "[]", f"{config}: unexpected gate schedule at {gate}")
+            durations = params.get((gate, "durations"))
+            scheduled = durations != "[]"
+            require(not scheduled or (allow_scheduled_gates and interface.replace(".classifier", "") in gcl_interfaces),
+                    f"{config}: unexpected gate schedule at {gate}")
             queue = interface.replace(".classifier", "") + f".queue[{tc}]"
             require("DropTailQueue" in params.get((queue, "typename"), ""),
                     f"{config}: {queue} is not drop-tail")
@@ -277,10 +319,9 @@ def verify_configuration(params, config, run_dir):
         match = re.fullmatch(r"(ZonalIVN\..*\.macLayer\.queue)\.queue\[(\d+)\]", module)
         if match and name == "queueLength:max" and float(value) > 0:
             observed_active.setdefault(match.group(1), set()).add(int(match.group(2)))
-    for queue, classes in expected_active.items():
-        require(observed_active.get(queue, set()) == classes,
-                f"{config}: observed PCP queues at {queue} are {observed_active.get(queue, set())}, expected {classes}")
-    return interfaces, queue_modules
+    control_queues = audit_active_classes(expected_active, observed_active,
+                                          allow_gptp_control=allow_gptp_control)
+    return interfaces, queue_modules, control_queues
 
 
 def load_app_flow_map():
@@ -712,7 +753,7 @@ def assess_qos(summary, latencies, image_latencies):
 
 
 def run_cell(config, output, env=None, inet=None, execute=True, result_dir_override=None,
-             extra_args=()):
+             extra_args=(), allow_gptp_control=False, allow_scheduled_gates=False):
     if execute:
         command = [str(ROOT / "src/zonal-ivn-tsn"), "-u", "Cmdenv",
                    "-n", f".:{ROOT / 'src'}:{ROOT / 'tests'}:{inet / 'src'}",
@@ -755,7 +796,10 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
     sca_path = output / f"{config}-#0.sca"
     require(vec_path is not None and sca_path.exists(), f"{config}: missing OMNeT++ result files")
     params = parse_sca(sca_path)
-    interfaces, queues = verify_configuration(params, config, run_dir)
+    interfaces, queues, control_queues = verify_configuration(
+        params, config, run_dir, allow_gptp_control=allow_gptp_control,
+        allow_scheduled_gates=allow_scheduled_gates)
+    summary["additional_active_gptp_control_queues"] = control_queues
     camera_source_queue_drops = {}
     flow_classes = {r["flow_id"]: int(r["traffic_class"])
                     for r in csv.DictReader((SIM / "zonal/traffic/flows.csv").open())}

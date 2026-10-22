@@ -1,0 +1,66 @@
+{
+  "execution_classification": "historical valid CBS reference; executable hash unavailable",
+  "execution_id": "A005_local_L2_A1_seed41_v1",
+  "interpretation": "historical offered/served queue-bit rates; not a service guarantee or a new simulation",
+  "queue_bit_rates_bps": {
+    "CSW.eth[1]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0.0,
+      "incomingPacketLengths:vector": 86478099.73333333,
+      "outgoingPacketLengths:vector": 86478236.26666667
+    },
+    "CSW.eth[2]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0.0,
+      "incomingPacketLengths:vector": 86478099.73333333,
+      "outgoingPacketLengths:vector": 86478236.26666667
+    },
+    "CSW.eth[3]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0.0,
+      "incomingPacketLengths:vector": 72564930.66666667,
+      "outgoingPacketLengths:vector": 72564930.66666667
+    },
+    "HPC.eth[0]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0.0,
+      "incomingPacketLengths:vector": 137680000.0,
+      "outgoingPacketLengths:vector": 137676734.4
+    },
+    "Z3.ZSW.eth[7]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0.0,
+      "incomingPacketLengths:vector": 25599385.6,
+      "outgoingPacketLengths:vector": 25595835.733333334
+    }
+  },
+  "queue_bit_totals": {
+    "CSW.eth[1]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0,
+      "incomingPacketLengths:vector": 2594342992,
+      "outgoingPacketLengths:vector": 2594347088
+    },
+    "CSW.eth[2]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0,
+      "incomingPacketLengths:vector": 2594342992,
+      "outgoingPacketLengths:vector": 2594347088
+    },
+    "CSW.eth[3]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0,
+      "incomingPacketLengths:vector": 2176947920,
+      "outgoingPacketLengths:vector": 2176947920
+    },
+    "HPC.eth[0]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0,
+      "incomingPacketLengths:vector": 4130400000,
+      "outgoingPacketLengths:vector": 4130302032
+    },
+    "Z3.ZSW.eth[7]/TC4": {
+      "droppedPacketLengthsQueueOverflow:vector": 0,
+      "incomingPacketLengths:vector": 767981568,
+      "outgoingPacketLengths:vector": 767875072
+    }
+  },
+  "source_path": "simulations/pilot/c4_gate_clock_reference/results/runs/A005_local_L2_A1_seed41_v1/Pilot_C4compensated_L2_A1-0/service_and_wire_events.csv.gz",
+  "source_sha256": "8f40b38ca7aa6a851d7f843b7e5093b5497b2fe738e945220923cb66c4867ea6",
+  "source_vector_units": "bits per packet sample; integrated by summation",
+  "window_s": {
+    "end_exclusive": 31.0,
+    "start_inclusive": 1.0
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "source_vec": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/Pilot_C3sync_L2_A1-#0.vec",
+  "vector_defs": {
+    "0": {
+      "module": "ZonalIVNClockAudit.HPC.clock.underlyingClock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "1": {
+      "module": "ZonalIVNClockAudit.HPC.clock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "2": {
+      "module": "ZonalIVNClockAudit.HPC.clock",
+      "name": "oscillatorCompensationChanged:vector",
+      "attrs": "ETV"
+    },
+    "79": {
+      "module": "ZonalIVNClockAudit.HPC.gptp",
+      "name": "gmRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "80": {
+      "module": "ZonalIVNClockAudit.HPC.gptp",
+      "name": "neighborRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "81": {
+      "module": "ZonalIVNClockAudit.HPC.gptp",
+      "name": "pdelay:vector",
+      "attrs": "ETV"
+    },
+    "83": {
+      "module": "ZonalIVNClockAudit.CSW.clock.underlyingClock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "84": {
+      "module": "ZonalIVNClockAudit.CSW.clock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "85": {
+      "module": "ZonalIVNClockAudit.CSW.clock",
+      "name": "oscillatorCompensationChanged:vector",
+      "attrs": "ETV"
+    },
+    "86": {
+      "module": "ZonalIVNClockAudit.CSW.gptp",
+      "name": "gmRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "87": {
+      "module": "ZonalIVNClockAudit.CSW.gptp",
+      "name": "neighborRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "88": {
+      "module": "ZonalIVNClockAudit.CSW.gptp",
+      "name": "pdelay:vector",
+      "attrs": "ETV"
+    },
+    "172": {
+      "module": "ZonalIVNClockAudit.Z1.ZSW.clock.underlyingClock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "173": {
+      "module": "ZonalIVNClockAudit.Z1.ZSW.clock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "174": {
+      "module": "ZonalIVNClockAudit.Z1.ZSW.clock",
+      "name": "oscillatorCompensationChanged:vector",
+      "attrs": "ETV"
+    },
+    "175": {
+      "module": "ZonalIVNClockAudit.Z1.ZSW.gptp",
+      "name": "gmRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "176": {
+      "module": "ZonalIVNClockAudit.Z1.ZSW.gptp",
+      "name": "neighborRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "177": {
+      "module": "ZonalIVNClockAudit.Z1.ZSW.gptp",
+      "name": "pdelay:vector",
+      "attrs": "ETV"
+    },
+    "573": {
+      "module": "ZonalIVNClockAudit.Z2.ZSW.clock.underlyingClock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "574": {
+      "module": "ZonalIVNClockAudit.Z2.ZSW.clock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "575": {
+      "module": "ZonalIVNClockAudit.Z2.ZSW.clock",
+      "name": "oscillatorCompensationChanged:vector",
+      "attrs": "ETV"
+    },
+    "576": {
+      "module": "ZonalIVNClockAudit.Z2.ZSW.gptp",
+      "name": "gmRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "577": {
+      "module": "ZonalIVNClockAudit.Z2.ZSW.gptp",
+      "name": "neighborRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "578": {
+      "module": "ZonalIVNClockAudit.Z2.ZSW.gptp",
+      "name": "pdelay:vector",
+      "attrs": "ETV"
+    },
+    "974": {
+      "module": "ZonalIVNClockAudit.Z3.ZSW.clock.underlyingClock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "975": {
+      "module": "ZonalIVNClockAudit.Z3.ZSW.clock",
+      "name": "timeChanged:vector",
+      "attrs": "ETV"
+    },
+    "976": {
+      "module": "ZonalIVNClockAudit.Z3.ZSW.clock",
+      "name": "oscillatorCompensationChanged:vector",
+      "attrs": "ETV"
+    },
+    "977": {
+      "module": "ZonalIVNClockAudit.Z3.ZSW.gptp",
+      "name": "gmRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "978": {
+      "module": "ZonalIVNClockAudit.Z3.ZSW.gptp",
+      "name": "neighborRateRatio:vector",
+      "attrs": "ETV"
+    },
+    "979": {
+      "module": "ZonalIVNClockAudit.Z3.ZSW.gptp",
+      "name": "pdelay:vector",
+      "attrs": "ETV"
+    }
+  },
+  "window_s": [
+    0,
+    3.05
+  ]
+}

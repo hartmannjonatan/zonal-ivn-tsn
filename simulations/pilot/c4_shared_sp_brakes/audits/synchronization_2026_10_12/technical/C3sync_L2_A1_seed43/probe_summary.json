@@ -1,0 +1,1352 @@
+{
+  "trace": "simulations/pilot/c4_shared_sp_brakes/audits/synchronization_2026_10_12/technical/C3sync_L2_A1_seed43/clock_audit.csv.gz.gz",
+  "trace_rows": 34050,
+  "measurement_slice_s": [
+    1.0,
+    3.0
+  ],
+  "nodes": {
+    "CSW": {
+      "observer_periodic_samples": {
+        "population": "audit module samples, 1ms",
+        "count": 2000,
+        "p50_abs_s": 0.0,
+        "p95_abs_s": 0.0,
+        "p99_abs_s": 0.0,
+        "max_abs_s": 0.0,
+        "max_signed_s": 0.0,
+        "max_time_s": 1.0,
+        "samples_abs_over_1us": 0,
+        "distinct_times_abs_over_1us": 0,
+        "signal_value_matches_getClockTime_count": 0,
+        "signal_value_checked_count": 2000
+      },
+      "direct_timeChanged_callbacks": {
+        "population": "callbacks from this node SettableClock, event ordered",
+        "count": 2048,
+        "p50_abs_s": 0.0,
+        "p95_abs_s": 0.0,
+        "p99_abs_s": 0.0,
+        "max_abs_s": 0.0,
+        "max_signed_s": 0.0,
+        "max_time_s": 1.0,
+        "samples_abs_over_1us": 0,
+        "distinct_times_abs_over_1us": 0,
+        "signal_value_matches_getClockTime_count": 2048,
+        "signal_value_checked_count": 2048
+      },
+      "free_clock_relative_at_near_1_and_2_999s": {
+        "near_1s_s": 1.6000000000016e-05,
+        "near_2_999s_s": 5.000000000032756e-05,
+        "change_s": 3.400000000031156e-05
+      },
+      "same_timestamp_direct_callback_groups": [
+        {
+          "simtime_s": "1.00004",
+          "count": 3,
+          "values_s": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.12504",
+          "count": 3,
+          "values_s": [
+            1.125,
+            1.125,
+            1.125
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.25005",
+          "count": 3,
+          "values_s": [
+            1.25,
+            1.25,
+            1.25
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.37505",
+          "count": 3,
+          "values_s": [
+            1.375,
+            1.375,
+            1.375
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.50006",
+          "count": 3,
+          "values_s": [
+            1.5,
+            1.5,
+            1.5
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.62506",
+          "count": 3,
+          "values_s": [
+            1.625,
+            1.625,
+            1.625
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.75006",
+          "count": 3,
+          "values_s": [
+            1.75,
+            1.75,
+            1.75
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.87507",
+          "count": 3,
+          "values_s": [
+            1.875,
+            1.875,
+            1.875
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.00007",
+          "count": 3,
+          "values_s": [
+            2.0,
+            2.0,
+            2.0
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.12508",
+          "count": 3,
+          "values_s": [
+            2.125,
+            2.125,
+            2.125
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.25008",
+          "count": 3,
+          "values_s": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.37509",
+          "count": 3,
+          "values_s": [
+            2.375,
+            2.375,
+            2.375
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.50009",
+          "count": 3,
+          "values_s": [
+            2.5,
+            2.5,
+            2.5
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.6251",
+          "count": 3,
+          "values_s": [
+            2.625,
+            2.625,
+            2.625
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.7501",
+          "count": 3,
+          "values_s": [
+            2.75,
+            2.75,
+            2.75
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.87511",
+          "count": 3,
+          "values_s": [
+            2.875,
+            2.875,
+            2.875
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    "Z1.ZSW": {
+      "observer_periodic_samples": {
+        "population": "audit module samples, 1ms",
+        "count": 2000,
+        "p50_abs_s": 0.0,
+        "p95_abs_s": 0.0,
+        "p99_abs_s": 0.0,
+        "max_abs_s": 1.0000000000065512e-05,
+        "max_signed_s": -1.0000000000065512e-05,
+        "max_time_s": 1.801,
+        "samples_abs_over_1us": 3,
+        "distinct_times_abs_over_1us": 3,
+        "signal_value_matches_getClockTime_count": 0,
+        "signal_value_checked_count": 2000
+      },
+      "direct_timeChanged_callbacks": {
+        "population": "callbacks from this node SettableClock, event ordered",
+        "count": 2048,
+        "p50_abs_s": 0.0,
+        "p95_abs_s": 0.0,
+        "p99_abs_s": 0.0,
+        "max_abs_s": 1.0000000000065512e-05,
+        "max_signed_s": -1.0000000000065512e-05,
+        "max_time_s": 1.801,
+        "samples_abs_over_1us": 3,
+        "distinct_times_abs_over_1us": 3,
+        "signal_value_matches_getClockTime_count": 2048,
+        "signal_value_checked_count": 2048
+      },
+      "free_clock_relative_at_near_1_and_2_999s": {
+        "near_1s_s": 2.8000000000028002e-05,
+        "near_2_999s_s": 9.000000000014552e-05,
+        "change_s": 6.200000000011752e-05
+      },
+      "same_timestamp_direct_callback_groups": [
+        {
+          "simtime_s": "1.00005",
+          "count": 3,
+          "values_s": [
+            1.00001,
+            1.00001,
+            1.00001
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.12504",
+          "count": 3,
+          "values_s": [
+            1.125,
+            1.125,
+            1.125
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.25005",
+          "count": 3,
+          "values_s": [
+            1.25,
+            1.25,
+            1.25
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.37506",
+          "count": 3,
+          "values_s": [
+            1.37501,
+            1.37501,
+            1.37501
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.50006",
+          "count": 3,
+          "values_s": [
+            1.5,
+            1.5,
+            1.5
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.62506",
+          "count": 3,
+          "values_s": [
+            1.625,
+            1.625,
+            1.625
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.75007",
+          "count": 3,
+          "values_s": [
+            1.75,
+            1.75,
+            1.75
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.87507",
+          "count": 3,
+          "values_s": [
+            1.875,
+            1.875,
+            1.875
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.00007",
+          "count": 3,
+          "values_s": [
+            2.0,
+            2.0,
+            2.0
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.12508",
+          "count": 3,
+          "values_s": [
+            2.125,
+            2.125,
+            2.125
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.25008",
+          "count": 3,
+          "values_s": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.37509",
+          "count": 3,
+          "values_s": [
+            2.375,
+            2.375,
+            2.375
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.50009",
+          "count": 3,
+          "values_s": [
+            2.5,
+            2.5,
+            2.5
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.6251",
+          "count": 3,
+          "values_s": [
+            2.625,
+            2.625,
+            2.625
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.7501",
+          "count": 3,
+          "values_s": [
+            2.75,
+            2.75,
+            2.75
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.87511",
+          "count": 3,
+          "values_s": [
+            2.875,
+            2.875,
+            2.875
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    "Z2.ZSW": {
+      "observer_periodic_samples": {
+        "population": "audit module samples, 1ms",
+        "count": 2000,
+        "p50_abs_s": 0.0,
+        "p95_abs_s": 0.0,
+        "p99_abs_s": 0.0,
+        "max_abs_s": 0.0,
+        "max_signed_s": 0.0,
+        "max_time_s": 1.0,
+        "samples_abs_over_1us": 0,
+        "distinct_times_abs_over_1us": 0,
+        "signal_value_matches_getClockTime_count": 0,
+        "signal_value_checked_count": 2000
+      },
+      "direct_timeChanged_callbacks": {
+        "population": "callbacks from this node SettableClock, event ordered",
+        "count": 2048,
+        "p50_abs_s": 0.0,
+        "p95_abs_s": 0.0,
+        "p99_abs_s": 0.0,
+        "max_abs_s": 0.0,
+        "max_signed_s": 0.0,
+        "max_time_s": 1.0,
+        "samples_abs_over_1us": 0,
+        "distinct_times_abs_over_1us": 0,
+        "signal_value_matches_getClockTime_count": 2048,
+        "signal_value_checked_count": 2048
+      },
+      "free_clock_relative_at_near_1_and_2_999s": {
+        "near_1s_s": 8.600000000014152e-05,
+        "near_2_999s_s": 0.00025000000000030553,
+        "change_s": 0.00016400000000016401
+      },
+      "same_timestamp_direct_callback_groups": [
+        {
+          "simtime_s": "1.00005",
+          "count": 3,
+          "values_s": [
+            1.00001,
+            1.00001,
+            1.00001
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.12504",
+          "count": 3,
+          "values_s": [
+            1.125,
+            1.125,
+            1.125
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.25005",
+          "count": 3,
+          "values_s": [
+            1.25,
+            1.25,
+            1.25
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.37506",
+          "count": 3,
+          "values_s": [
+            1.37501,
+            1.37501,
+            1.37501
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.50006",
+          "count": 3,
+          "values_s": [
+            1.5,
+            1.5,
+            1.5
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.62506",
+          "count": 3,
+          "values_s": [
+            1.625,
+            1.625,
+            1.625
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.75007",
+          "count": 3,
+          "values_s": [
+            1.75,
+            1.75,
+            1.75
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.87507",
+          "count": 3,
+          "values_s": [
+            1.875,
+            1.875,
+            1.875
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.00007",
+          "count": 3,
+          "values_s": [
+            2.0,
+            2.0,
+            2.0
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.12508",
+          "count": 3,
+          "values_s": [
+            2.125,
+            2.125,
+            2.125
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.25008",
+          "count": 3,
+          "values_s": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.37509",
+          "count": 3,
+          "values_s": [
+            2.375,
+            2.375,
+            2.375
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.50009",
+          "count": 3,
+          "values_s": [
+            2.5,
+            2.5,
+            2.5
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.6251",
+          "count": 3,
+          "values_s": [
+            2.625,
+            2.625,
+            2.625
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.7501",
+          "count": 3,
+          "values_s": [
+            2.75,
+            2.75,
+            2.75
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.87511",
+          "count": 3,
+          "values_s": [
+            2.875,
+            2.875,
+            2.875
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    "Z3.ZSW": {
+      "observer_periodic_samples": {
+        "population": "audit module samples, 1ms",
+        "count": 2000,
+        "p50_abs_s": 0.0,
+        "p95_abs_s": 0.0,
+        "p99_abs_s": 0.0,
+        "max_abs_s": 0.0,
+        "max_signed_s": 0.0,
+        "max_time_s": 1.0,
+        "samples_abs_over_1us": 0,
+        "distinct_times_abs_over_1us": 0,
+        "signal_value_matches_getClockTime_count": 0,
+        "signal_value_checked_count": 2000
+      },
+      "direct_timeChanged_callbacks": {
+        "population": "callbacks from this node SettableClock, event ordered",
+        "count": 2048,
+        "p50_abs_s": 0.0,
+        "p95_abs_s": 0.0,
+        "p99_abs_s": 0.0,
+        "max_abs_s": 0.0,
+        "max_signed_s": 0.0,
+        "max_time_s": 1.0,
+        "samples_abs_over_1us": 0,
+        "distinct_times_abs_over_1us": 0,
+        "signal_value_matches_getClockTime_count": 2048,
+        "signal_value_checked_count": 2048
+      },
+      "free_clock_relative_at_near_1_and_2_999s": {
+        "near_1s_s": 5.599999999994498e-05,
+        "near_2_999s_s": 0.00017000000000022553,
+        "change_s": 0.00011400000000028054
+      },
+      "same_timestamp_direct_callback_groups": [
+        {
+          "simtime_s": "1.00004",
+          "count": 3,
+          "values_s": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.12504",
+          "count": 3,
+          "values_s": [
+            1.125,
+            1.125,
+            1.125
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.25005",
+          "count": 3,
+          "values_s": [
+            1.25,
+            1.25,
+            1.25
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.37505",
+          "count": 3,
+          "values_s": [
+            1.375,
+            1.375,
+            1.375
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.50006",
+          "count": 3,
+          "values_s": [
+            1.5,
+            1.5,
+            1.5
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.62506",
+          "count": 3,
+          "values_s": [
+            1.625,
+            1.625,
+            1.625
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.75007",
+          "count": 3,
+          "values_s": [
+            1.75,
+            1.75,
+            1.75
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "1.87507",
+          "count": 3,
+          "values_s": [
+            1.875,
+            1.875,
+            1.875
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.00007",
+          "count": 3,
+          "values_s": [
+            2.0,
+            2.0,
+            2.0
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.12508",
+          "count": 3,
+          "values_s": [
+            2.125,
+            2.125,
+            2.125
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.25008",
+          "count": 3,
+          "values_s": [
+            2.25,
+            2.25,
+            2.25
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.37509",
+          "count": 3,
+          "values_s": [
+            2.375,
+            2.375,
+            2.375
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.50009",
+          "count": 3,
+          "values_s": [
+            2.5,
+            2.5,
+            2.5
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.6251",
+          "count": 3,
+          "values_s": [
+            2.625,
+            2.625,
+            2.625
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.7501",
+          "count": 3,
+          "values_s": [
+            2.75,
+            2.75,
+            2.75
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "simtime_s": "2.87511",
+          "count": 3,
+          "values_s": [
+            2.875,
+            2.875,
+            2.875
+          ],
+          "direct_offsets_s": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  },
+  "compensation_ppm": {
+    "CSW": {
+      "count": 16,
+      "unit": "ppm",
+      "min_ppm": -15.8398,
+      "max_ppm": -15.7602,
+      "last_ppm": -15.8397,
+      "timeline_s_ppm": [
+        [
+          1.00004,
+          -15.7602
+        ],
+        [
+          1.12504,
+          -15.8398
+        ],
+        [
+          1.25005,
+          -15.8397
+        ],
+        [
+          1.37505,
+          -15.8397
+        ],
+        [
+          1.50006,
+          -15.8397
+        ],
+        [
+          1.62506,
+          -15.8397
+        ],
+        [
+          1.75006,
+          -15.8397
+        ],
+        [
+          1.87507,
+          -15.8397
+        ],
+        [
+          2.00007,
+          -15.8398
+        ],
+        [
+          2.12508,
+          -15.8397
+        ],
+        [
+          2.25008,
+          -15.8397
+        ],
+        [
+          2.37509,
+          -15.8397
+        ],
+        [
+          2.50009,
+          -15.8397
+        ],
+        [
+          2.6251,
+          -15.8397
+        ],
+        [
+          2.7501,
+          -15.8397
+        ],
+        [
+          2.87511,
+          -15.8397
+        ]
+      ]
+    },
+    "Z1.ZSW": {
+      "count": 16,
+      "unit": "ppm",
+      "min_ppm": -28.3992,
+      "max_ppm": -28.319,
+      "last_ppm": -28.3992,
+      "timeline_s_ppm": [
+        [
+          1.00005,
+          -28.319
+        ],
+        [
+          1.12504,
+          -28.3203
+        ],
+        [
+          1.25005,
+          -28.399
+        ],
+        [
+          1.37506,
+          -28.3984
+        ],
+        [
+          1.50006,
+          -28.3201
+        ],
+        [
+          1.62506,
+          -28.3992
+        ],
+        [
+          1.75007,
+          -28.3992
+        ],
+        [
+          1.87507,
+          -28.3192
+        ],
+        [
+          2.00007,
+          -28.3992
+        ],
+        [
+          2.12508,
+          -28.3992
+        ],
+        [
+          2.25008,
+          -28.3992
+        ],
+        [
+          2.37509,
+          -28.3992
+        ],
+        [
+          2.50009,
+          -28.3992
+        ],
+        [
+          2.6251,
+          -28.3992
+        ],
+        [
+          2.7501,
+          -28.3992
+        ],
+        [
+          2.87511,
+          -28.3992
+        ]
+      ]
+    },
+    "Z2.ZSW": {
+      "count": 16,
+      "unit": "ppm",
+      "min_ppm": -81.6725,
+      "max_ppm": -81.5183,
+      "last_ppm": -81.5933,
+      "timeline_s_ppm": [
+        [
+          1.00005,
+          -81.5902
+        ],
+        [
+          1.12504,
+          -81.5189
+        ],
+        [
+          1.25005,
+          -81.6725
+        ],
+        [
+          1.37506,
+          -81.5892
+        ],
+        [
+          1.50006,
+          -81.5183
+        ],
+        [
+          1.62506,
+          -81.5931
+        ],
+        [
+          1.75007,
+          -81.5936
+        ],
+        [
+          1.87507,
+          -81.5933
+        ],
+        [
+          2.00007,
+          -81.5934
+        ],
+        [
+          2.12508,
+          -81.5933
+        ],
+        [
+          2.25008,
+          -81.5933
+        ],
+        [
+          2.37509,
+          -81.5933
+        ],
+        [
+          2.50009,
+          -81.5933
+        ],
+        [
+          2.6251,
+          -81.5933
+        ],
+        [
+          2.7501,
+          -81.5933
+        ],
+        [
+          2.87511,
+          -81.5933
+        ]
+      ]
+    },
+    "Z3.ZSW": {
+      "count": 16,
+      "unit": "ppm",
+      "min_ppm": -55.117,
+      "max_ppm": -55.0386,
+      "last_ppm": -55.117,
+      "timeline_s_ppm": [
+        [
+          1.00004,
+          -55.0386
+        ],
+        [
+          1.12504,
+          -55.117
+        ],
+        [
+          1.25005,
+          -55.117
+        ],
+        [
+          1.37505,
+          -55.117
+        ],
+        [
+          1.50006,
+          -55.117
+        ],
+        [
+          1.62506,
+          -55.117
+        ],
+        [
+          1.75007,
+          -55.117
+        ],
+        [
+          1.87507,
+          -55.117
+        ],
+        [
+          2.00007,
+          -55.117
+        ],
+        [
+          2.12508,
+          -55.117
+        ],
+        [
+          2.25008,
+          -55.117
+        ],
+        [
+          2.37509,
+          -55.117
+        ],
+        [
+          2.50009,
+          -55.117
+        ],
+        [
+          2.6251,
+          -55.117
+        ],
+        [
+          2.7501,
+          -55.117
+        ],
+        [
+          2.87511,
+          -55.117
+        ]
+      ]
+    }
+  },
+  "signal_propagation": {
+    "underlying_clock_timeChanged_rows_seen_by_listener_on_parent": 15356,
+    "meaning": "A cComponent listener subscribed on SettableClock receives bubbled child signal events too, identifiable by source path. INET ClockBase @statistic uses localSignal(timeChanged), so these child events are excluded from that vector."
+  }
+}

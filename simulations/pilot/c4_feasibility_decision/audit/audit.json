@@ -1,0 +1,2981 @@
+{
+  "CSW_eth3_diagnosis": {
+    "C3_sync": "zero confirmed queue overflow in this queue",
+    "candidate_runs": {
+      "D1_TAS": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 69217690,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 48559,
+          "overflow_drops_post_warmup_including_drain": 48559,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "D1_noTAS": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 54117332,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 37701,
+          "overflow_drops_post_warmup_including_drain": 37701,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "D2_TAS": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 65655278,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 44539,
+          "overflow_drops_post_warmup_including_drain": 44539,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "D2_noTAS": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 46483688,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 31745,
+          "overflow_drops_post_warmup_including_drain": 31745,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "D3_TAS": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 59919698,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 41107,
+          "overflow_drops_post_warmup_including_drain": 41107,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "D3_noTAS": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 39505688,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 27089,
+          "overflow_drops_post_warmup_including_drain": 27089,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ]
+    },
+    "finding": "In every affected run, all positive overflow counters are at CSW.eth[3]/TC4. Receiver loss totals for F13/F21/F22 reconcile to that queue counter. The older candidates reduce CSW eth3 idleSlope relative to C3 and also release larger upstream bursts; both are compatible contributors. Aggregate records do not identify which individual packet was dropped or partition causality among reserve, gate opportunity, and burst phase."
+  },
+  "CSW_eth3_loss_reconciliation": {
+    "D1_TAS": {
+      "CSW_eth3_TC4_overflow_drops": 48559,
+      "attribution": "Only CSW.eth[3]/TC4 has confirmed overflow in this execution; flow losses are reported at receiver. The exact identity of individual dropped packets is not present in the compact summary.",
+      "flow_loss_total": 48559,
+      "loss_by_flow": {
+        "F08": 0,
+        "F09": 0,
+        "F13": 3702,
+        "F21": 21516,
+        "F22": 23341
+      },
+      "reconciles": true
+    },
+    "D1_noTAS": {
+      "CSW_eth3_TC4_overflow_drops": 37701,
+      "attribution": "Only CSW.eth[3]/TC4 has confirmed overflow in this execution; flow losses are reported at receiver. The exact identity of individual dropped packets is not present in the compact summary.",
+      "flow_loss_total": 37701,
+      "loss_by_flow": {
+        "F08": 0,
+        "F09": 0,
+        "F13": 2575,
+        "F21": 16454,
+        "F22": 18672
+      },
+      "reconciles": true
+    },
+    "D2_TAS": {
+      "CSW_eth3_TC4_overflow_drops": 44539,
+      "attribution": "Only CSW.eth[3]/TC4 has confirmed overflow in this execution; flow losses are reported at receiver. The exact identity of individual dropped packets is not present in the compact summary.",
+      "flow_loss_total": 44539,
+      "loss_by_flow": {
+        "F08": 0,
+        "F09": 0,
+        "F13": 1680,
+        "F21": 20521,
+        "F22": 22338
+      },
+      "reconciles": true
+    },
+    "D2_noTAS": {
+      "CSW_eth3_TC4_overflow_drops": 31745,
+      "attribution": "Only CSW.eth[3]/TC4 has confirmed overflow in this execution; flow losses are reported at receiver. The exact identity of individual dropped packets is not present in the compact summary.",
+      "flow_loss_total": 31745,
+      "loss_by_flow": {
+        "F08": 0,
+        "F09": 0,
+        "F13": 1445,
+        "F21": 14329,
+        "F22": 15971
+      },
+      "reconciles": true
+    },
+    "D3_TAS": {
+      "CSW_eth3_TC4_overflow_drops": 41107,
+      "attribution": "Only CSW.eth[3]/TC4 has confirmed overflow in this execution; flow losses are reported at receiver. The exact identity of individual dropped packets is not present in the compact summary.",
+      "flow_loss_total": 41107,
+      "loss_by_flow": {
+        "F08": 0,
+        "F09": 0,
+        "F13": 2086,
+        "F21": 18473,
+        "F22": 20548
+      },
+      "reconciles": true
+    },
+    "D3_noTAS": {
+      "CSW_eth3_TC4_overflow_drops": 27089,
+      "attribution": "Only CSW.eth[3]/TC4 has confirmed overflow in this execution; flow losses are reported at receiver. The exact identity of individual dropped packets is not present in the compact summary.",
+      "flow_loss_total": 27089,
+      "loss_by_flow": {
+        "F08": 0,
+        "F09": 0,
+        "F13": 1361,
+        "F21": 12199,
+        "F22": 13529
+      },
+      "reconciles": true
+    }
+  },
+  "D3_TAS_brake_miss_reconstruction": {
+    "conclusion": "The preserved hop trace plus exact 100 ns final link reproduces 4 F08 and 14 F09 receiver misses and maxima exactly; no new diagnostic simulation is required. Gate waiting dominates at the first HPC egress; CSW waiting and final serialization consume the remaining budget. The exact competing frame identity is unavailable in the selected trace.",
+    "miss_count": 18,
+    "misses": [
+      {
+        "flow": "F08",
+        "generation_s": 3.4022,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.570028,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.229972,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 3.402299912,
+        "latency_us": 100.01200000003531,
+        "over_deadline_us": 0.012000000035314429,
+        "receiver_s": 3.402300012,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 34022
+      },
+      {
+        "flow": "F08",
+        "generation_s": 7.5656,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.387939,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.412061,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 7.565699912,
+        "latency_us": 100.0120000004794,
+        "over_deadline_us": 0.012000000479403639,
+        "receiver_s": 7.565700012000001,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 75656
+      },
+      {
+        "flow": "F08",
+        "generation_s": 11.729,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.20585,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.59415,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 11.729099912,
+        "latency_us": 100.01200000136758,
+        "over_deadline_us": 0.012000001367582058,
+        "receiver_s": 11.729100012,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 117290
+      },
+      {
+        "flow": "F08",
+        "generation_s": 15.9262,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.834138,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.605862,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 15.926300552,
+        "latency_us": 100.65200000103071,
+        "over_deadline_us": 0.6520000010307143,
+        "receiver_s": 15.926300652,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 159262
+      },
+      {
+        "flow": "F09",
+        "generation_s": 3.487402,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.612755,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.59773,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 3.487502322485,
+        "latency_us": 100.42248500024822,
+        "over_deadline_us": 0.42248500024821567,
+        "receiver_s": 3.487502422485,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 34874
+      },
+      {
+        "flow": "F09",
+        "generation_s": 3.494802,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.790175,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.596825,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 3.494902499,
+        "latency_us": 100.59900000019819,
+        "over_deadline_us": 0.5990000001981883,
+        "receiver_s": 3.494902599,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 34948
+      },
+      {
+        "flow": "F09",
+        "generation_s": 7.650802,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.430666,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.602632,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 7.650902145298,
+        "latency_us": 100.245298000065,
+        "over_deadline_us": 0.2452980000650058,
+        "receiver_s": 7.650902245298,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 76508
+      },
+      {
+        "flow": "F09",
+        "generation_s": 7.658202,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.608086,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.601728,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 7.658302321814,
+        "latency_us": 100.42181400010388,
+        "over_deadline_us": 0.42181400010387904,
+        "receiver_s": 7.658302421814001,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 76582
+      },
+      {
+        "flow": "F09",
+        "generation_s": 11.814202,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.248577,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.611754,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 11.814301972331,
+        "latency_us": 100.07233100023096,
+        "over_deadline_us": 0.07233100023096029,
+        "receiver_s": 11.814302072331,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 118142
+      },
+      {
+        "flow": "F09",
+        "generation_s": 11.821602,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.425997,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.614003,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 11.821702152,
+        "latency_us": 100.25199999990899,
+        "over_deadline_us": 0.251999999908989,
+        "receiver_s": 11.821702252,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 118216
+      },
+      {
+        "flow": "F09",
+        "generation_s": 16.011402,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.876865,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.612949,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 16.011502601814,
+        "latency_us": 100.70181400106672,
+        "over_deadline_us": 0.7018140010667224,
+        "receiver_s": 16.011502701814003,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 160114
+      },
+      {
+        "flow": "F09",
+        "generation_s": 16.015102,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.965575,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 10.914425,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 16.015201992,
+        "latency_us": 100.09200000265774,
+        "over_deadline_us": 0.09200000265774122,
+        "receiver_s": 16.015202092000003,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 160151
+      },
+      {
+        "flow": "F09",
+        "generation_s": 20.174802,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.694776,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.608133,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 20.174902414909,
+        "latency_us": 100.5149089993689,
+        "over_deadline_us": 0.5149089993688989,
+        "receiver_s": 20.174902514909,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 201748
+      },
+      {
+        "flow": "F09",
+        "generation_s": 20.178502,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.783486,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.096514,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 20.178601992,
+        "latency_us": 100.09199999910503,
+        "over_deadline_us": 0.09199999910502754,
+        "receiver_s": 20.178602092000002,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 201785
+      },
+      {
+        "flow": "F09",
+        "generation_s": 24.338202,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.512687,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.60938,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 24.338302234067,
+        "latency_us": 100.3340670019919,
+        "over_deadline_us": 0.3340670019918974,
+        "receiver_s": 24.338302334067002,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 243382
+      },
+      {
+        "flow": "F09",
+        "generation_s": 24.341902,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.601397,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.278603,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 24.342001992,
+        "latency_us": 100.09199999910503,
+        "over_deadline_us": 0.09199999910502754,
+        "receiver_s": 24.342002092,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 243419
+      },
+      {
+        "flow": "F09",
+        "generation_s": 28.501602,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.330598,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.612156,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 28.501702054754,
+        "latency_us": 100.1547540002117,
+        "over_deadline_us": 0.15475400021169605,
+        "receiver_s": 28.501702154754,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 285016
+      },
+      {
+        "flow": "F09",
+        "generation_s": 28.505302,
+        "hops": [
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 81.419308,
+            "serialization_us": 0.576,
+            "stage": 1
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 11.460692,
+            "serialization_us": 0.576,
+            "stage": 2
+          },
+          {
+            "link_propagation_to_next_us": 0.1,
+            "queue_wait_us": 0.0,
+            "serialization_us": 5.76,
+            "stage": 3
+          }
+        ],
+        "last_phy_tx_end_s": 28.505401992,
+        "latency_us": 100.09199999910503,
+        "over_deadline_us": 0.09199999910502754,
+        "receiver_s": 28.505402092,
+        "reconstruction": "last final PHY tx end + 100 ns final channel propagation; CatalogUdpApp latency is simTime minus CreationTimeTag",
+        "seq": 285053
+      }
+    ]
+  },
+  "F13_episode_recalculation": {
+    "correction": "D1-D3 TAS all contain natural episodes exceeding 53 frames (113, 110, 106 respectively). Z3 local recovery is conditional on arrivals surviving CSW upstream drops.",
+    "criterion": "peak occupancy minus episode-specific pre-event baseline; frame-equivalent uses 2,048 queue bits/frame. This is an incremental backlog, not absolute occupancy.",
+    "episodes": [
+      {
+        "capacity_bits": 262144,
+        "confirmed_local_queue_drops": 0,
+        "end_s": 1.943676502638,
+        "episode_baseline_bits": 4096.0,
+        "episode_start_s": 1.500651525312,
+        "episodes": 71,
+        "execution_id": "D1_TAS_L2_A1_seed41",
+        "fraction_time_ge90pct": 1.4212258033404387e-05,
+        "max_increment_2048b_frames": 113.0,
+        "max_increment_bits": 231424.0,
+        "peak_occupancy_bits": 235520.0,
+        "peak_time_s": 1.503389155269,
+        "population_condition": "Z3 local F13 queue only; arrivals have already survived upstream CSW.eth[3]/TC4.",
+        "recovery_s": 0.443024977326
+      },
+      {
+        "capacity_bits": 262144,
+        "confirmed_local_queue_drops": 0,
+        "end_s": 1.893672945634,
+        "episode_baseline_bits": 4096.0,
+        "episode_start_s": 1.499594108247,
+        "episodes": 101,
+        "execution_id": "D1_noTAS_L2_A1_seed41",
+        "fraction_time_ge90pct": 0.0,
+        "max_increment_2048b_frames": 101.0,
+        "max_increment_bits": 206848.0,
+        "peak_occupancy_bits": 210944.0,
+        "peak_time_s": 1.501730232,
+        "population_condition": "Z3 local F13 queue only; arrivals have already survived upstream CSW.eth[3]/TC4.",
+        "recovery_s": 0.3940788373870001
+      },
+      {
+        "capacity_bits": 262144,
+        "confirmed_local_queue_drops": 0,
+        "end_s": 1.930079866786,
+        "episode_baseline_bits": 6144.0,
+        "episode_start_s": 1.500385223458,
+        "episodes": 67,
+        "execution_id": "D2_TAS_L2_A1_seed41",
+        "fraction_time_ge90pct": 0.0,
+        "max_increment_2048b_frames": 110.0,
+        "max_increment_bits": 225280.0,
+        "peak_occupancy_bits": 231424.0,
+        "peak_time_s": 1.50298199629,
+        "population_condition": "Z3 local F13 queue only; arrivals have already survived upstream CSW.eth[3]/TC4.",
+        "recovery_s": 0.429694643328
+      },
+      {
+        "capacity_bits": 262144,
+        "confirmed_local_queue_drops": 0,
+        "end_s": 2.537663069442,
+        "episode_baseline_bits": 67584.0,
+        "episode_start_s": 2.299249337082,
+        "episodes": 90,
+        "execution_id": "D2_noTAS_L2_A1_seed41",
+        "fraction_time_ge90pct": 0.0,
+        "max_increment_2048b_frames": 62.0,
+        "max_increment_bits": 126976.0,
+        "peak_occupancy_bits": 194560.0,
+        "peak_time_s": 2.300405192368,
+        "population_condition": "Z3 local F13 queue only; arrivals have already survived upstream CSW.eth[3]/TC4.",
+        "recovery_s": 0.23841373235999974
+      },
+      {
+        "capacity_bits": 262144,
+        "confirmed_local_queue_drops": 0,
+        "end_s": 1.912874911331,
+        "episode_baseline_bits": 4096.0,
+        "episode_start_s": 1.499988176869,
+        "episodes": 68,
+        "execution_id": "D3_TAS_L2_A1_seed41",
+        "fraction_time_ge90pct": 0.0,
+        "max_increment_2048b_frames": 106.0,
+        "max_increment_bits": 217088.0,
+        "peak_occupancy_bits": 221184.0,
+        "peak_time_s": 1.502358443082,
+        "population_condition": "Z3 local F13 queue only; arrivals have already survived upstream CSW.eth[3]/TC4.",
+        "recovery_s": 0.41288673446199997
+      },
+      {
+        "capacity_bits": 262144,
+        "confirmed_local_queue_drops": 0,
+        "end_s": 2.333654329104,
+        "episode_baseline_bits": 155648.0,
+        "episode_start_s": 2.299342700805,
+        "episodes": 86,
+        "execution_id": "D3_noTAS_L2_A1_seed41",
+        "fraction_time_ge90pct": 0.0,
+        "max_increment_2048b_frames": 11.0,
+        "max_increment_bits": 22528.0,
+        "peak_occupancy_bits": 178176.0,
+        "peak_time_s": 2.299500570999,
+        "population_condition": "Z3 local F13 queue only; arrivals have already survived upstream CSW.eth[3]/TC4.",
+        "recovery_s": 0.03431162829900014
+      }
+    ]
+  },
+  "diagnostic_only": true,
+  "exploratory": true,
+  "official_c4_frozen": false,
+  "preserved_run_reconciliation": [
+    {
+      "application_viable": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "drop_reconciliation": {
+        "limitation": "drops.csv stores whole-run aggregates and first/last timestamps, not a warm-up-binned count; the scope delta is not silently called a measurement loss",
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain": 0,
+        "sca_scope": "droppedPacketsQueueOverflow count with OMNeT++ automatic warm-up filtering; t>=warmup through drain",
+        "timestamped_scope": "droppedPacketLengthsQueueOverflow vector, independently split into measurement and drain after warm-up",
+        "traffic_audit_drops_entire_simulation": 0,
+        "whole_run_minus_post_warmup_scope_delta": 0,
+        "whole_run_scope": "TrafficAudit queue packetDropped callbacks from t=0 through simulation end"
+      },
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 116527792,
+        "CSW.eth[2]/TC4": 116527792,
+        "CSW.eth[3]/TC4": 323166234,
+        "HPC.eth[0]/TC4": 188574546,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 27600000
+      },
+      "execution_id": "B_local_L2_A1_seed41",
+      "flow_metrics": {
+        "F08": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F08",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 9.7785805e-05,
+          "offered_packets": 300000,
+          "p99_s": 9.7270061e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE1",
+          "useful_throughput_mbps": 1.12
+        },
+        "F09": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F09",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 9.781354299999999e-05,
+          "offered_packets": 300000,
+          "p99_s": 9.7269616e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE2",
+          "useful_throughput_mbps": 1.12
+        },
+        "F13": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F13",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 375000,
+          "max_s": 0.005074157502,
+          "offered_packets": 375000,
+          "p99_s": 0.005074157502,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 375000,
+          "receiver": "AUDIO3",
+          "useful_throughput_mbps": 20.6
+        },
+        "F21": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F21",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 60420,
+          "max_s": 0.004308645939,
+          "offered_packets": 60420,
+          "p99_s": 0.002576340975,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 60420,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 23.712266666666668
+        },
+        "F22": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F22",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 55321,
+          "max_s": 0.00431594439,
+          "offered_packets": 55321,
+          "p99_s": 0.00259892834,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 55321,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 21.710133333333335
+        }
+      },
+      "positive_overflow_queues": [],
+      "simulation_valid": true,
+      "stability_viable": false,
+      "variant": "B_local"
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "drop_reconciliation": {
+        "limitation": "drops.csv stores whole-run aggregates and first/last timestamps, not a warm-up-binned count; the scope delta is not silently called a measurement loss",
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain": 0,
+        "sca_scope": "droppedPacketsQueueOverflow count with OMNeT++ automatic warm-up filtering; t>=warmup through drain",
+        "timestamped_scope": "droppedPacketLengthsQueueOverflow vector, independently split into measurement and drain after warm-up",
+        "traffic_audit_drops_entire_simulation": 0,
+        "whole_run_minus_post_warmup_scope_delta": 0,
+        "whole_run_scope": "TrafficAudit queue packetDropped callbacks from t=0 through simulation end"
+      },
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 89280000,
+        "CSW.eth[2]/TC4": 89280000,
+        "CSW.eth[3]/TC4": 247600000,
+        "HPC.eth[0]/TC4": 144480000,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 27600000
+      },
+      "execution_id": "C3_sync_control_L2_A1_seed41",
+      "flow_metrics": {
+        "F08": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F08",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 3.1473696e-05,
+          "offered_packets": 300000,
+          "p99_s": 2.8332e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE1",
+          "useful_throughput_mbps": 1.12
+        },
+        "F09": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F09",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 3.1132e-05,
+          "offered_packets": 300000,
+          "p99_s": 2.7612e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE2",
+          "useful_throughput_mbps": 1.12
+        },
+        "F13": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F13",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 375000,
+          "max_s": 0.002305633699,
+          "offered_packets": 375000,
+          "p99_s": 0.002305633699,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 375000,
+          "receiver": "AUDIO3",
+          "useful_throughput_mbps": 20.6
+        },
+        "F21": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F21",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 60420,
+          "max_s": 0.0021690421559999997,
+          "offered_packets": 60420,
+          "p99_s": 0.001153636391,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 60420,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 23.712266666666668
+        },
+        "F22": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F22",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 55321,
+          "max_s": 0.002193077741,
+          "offered_packets": 55321,
+          "p99_s": 0.001237347109,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 55321,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 21.710133333333335
+        }
+      },
+      "positive_overflow_queues": [],
+      "simulation_valid": true,
+      "stability_viable": true,
+      "variant": "C3_sync_control"
+    },
+    {
+      "application_viable": false,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "drop_reconciliation": {
+        "limitation": "drops.csv stores whole-run aggregates and first/last timestamps, not a warm-up-binned count; the scope delta is not silently called a measurement loss",
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain": 48559,
+        "sca_scope": "droppedPacketsQueueOverflow count with OMNeT++ automatic warm-up filtering; t>=warmup through drain",
+        "timestamped_scope": "droppedPacketLengthsQueueOverflow vector, independently split into measurement and drain after warm-up",
+        "traffic_audit_drops_entire_simulation": 48559,
+        "whole_run_minus_post_warmup_scope_delta": 0,
+        "whole_run_scope": "TrafficAudit queue packetDropped callbacks from t=0 through simulation end"
+      },
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 159809228,
+        "CSW.eth[2]/TC4": 159809228,
+        "CSW.eth[3]/TC4": 130747623,
+        "HPC.eth[0]/TC4": 248072073,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 28152000
+      },
+      "execution_id": "D1_TAS_L2_A1_seed41",
+      "flow_metrics": {
+        "F08": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0016333333333333334,
+          "deadline_misses_received": 490,
+          "flow": "F08",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 0.000108652,
+          "offered_packets": 300000,
+          "p99_s": 9.4412e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE1",
+          "useful_throughput_mbps": 1.12
+        },
+        "F09": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.00158,
+          "deadline_misses_received": 474,
+          "flow": "F09",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 0.00010825199999999999,
+          "offered_packets": 300000,
+          "p99_s": 9.6948038e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE2",
+          "useful_throughput_mbps": 1.12
+        },
+        "F13": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.009872,
+          "deadline_misses_received": 0,
+          "flow": "F13",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 0.990128,
+          "image_completion": null,
+          "latency_samples": 371298,
+          "max_s": 0.009428142024999999,
+          "offered_packets": 375000,
+          "p99_s": 0.009338889366,
+          "packet_loss_ratio": 0.009872,
+          "received_packets": 371298,
+          "receiver": "AUDIO3",
+          "useful_throughput_mbps": 20.3966368
+        },
+        "F21": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.35610724925521353,
+          "deadline_misses_received": 0,
+          "flow": "F21",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.6438315358576714,
+          "image_completion": null,
+          "latency_samples": 38904,
+          "max_s": 0.009334213163,
+          "offered_packets": 60420,
+          "p99_s": 0.009267290227,
+          "packet_loss_ratio": 0.35610724925521353,
+          "received_packets": 38904,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 15.266705066666667
+        },
+        "F22": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.42191934346812243,
+          "deadline_misses_received": 0,
+          "flow": "F22",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.5780001719627087,
+          "image_completion": null,
+          "latency_samples": 31980,
+          "max_s": 0.009361186012,
+          "offered_packets": 55321,
+          "p99_s": 0.009275505235,
+          "packet_loss_ratio": 0.42191934346812243,
+          "received_packets": 31980,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 12.5484608
+        }
+      },
+      "positive_overflow_queues": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 69217690,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 48559,
+          "overflow_drops_post_warmup_including_drain": 48559,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "simulation_valid": true,
+      "stability_viable": true,
+      "variant": "D1_TAS"
+    },
+    {
+      "application_viable": false,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "drop_reconciliation": {
+        "limitation": "drops.csv stores whole-run aggregates and first/last timestamps, not a warm-up-binned count; the scope delta is not silently called a measurement loss",
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain": 37701,
+        "sca_scope": "droppedPacketsQueueOverflow count with OMNeT++ automatic warm-up filtering; t>=warmup through drain",
+        "timestamped_scope": "droppedPacketLengthsQueueOverflow vector, independently split into measurement and drain after warm-up",
+        "traffic_audit_drops_entire_simulation": 37701,
+        "whole_run_minus_post_warmup_scope_delta": 0,
+        "whole_run_scope": "TrafficAudit queue packetDropped callbacks from t=0 through simulation end"
+      },
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 159809228,
+        "CSW.eth[2]/TC4": 159809228,
+        "CSW.eth[3]/TC4": 130747623,
+        "HPC.eth[0]/TC4": 248072073,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 28152000
+      },
+      "execution_id": "D1_noTAS_L2_A1_seed41",
+      "flow_metrics": {
+        "F08": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F08",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 3.1052e-05,
+          "offered_packets": 300000,
+          "p99_s": 2.8172e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE1",
+          "useful_throughput_mbps": 1.12
+        },
+        "F09": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F09",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 3.102e-05,
+          "offered_packets": 300000,
+          "p99_s": 3.0012e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE2",
+          "useful_throughput_mbps": 1.12
+        },
+        "F13": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.006866666666666667,
+          "deadline_misses_received": 0,
+          "flow": "F13",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 0.9931333333333333,
+          "image_completion": null,
+          "latency_samples": 372425,
+          "max_s": 0.008366453203,
+          "offered_packets": 375000,
+          "p99_s": 0.008316606064999999,
+          "packet_loss_ratio": 0.006866666666666667,
+          "received_packets": 372425,
+          "receiver": "AUDIO3",
+          "useful_throughput_mbps": 20.458546666666667
+        },
+        "F21": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.2723270440251572,
+          "deadline_misses_received": 0,
+          "flow": "F21",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.7276298737081229,
+          "image_completion": null,
+          "latency_samples": 43966,
+          "max_s": 0.008297869172,
+          "offered_packets": 60420,
+          "p99_s": 0.008258471207999999,
+          "packet_loss_ratio": 0.2723270440251572,
+          "received_packets": 43966,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 17.2537536
+        },
+        "F22": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.33752101371992554,
+          "deadline_misses_received": 0,
+          "flow": "F22",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.6624321914190608,
+          "image_completion": null,
+          "latency_samples": 36649,
+          "max_s": 0.008313239792,
+          "offered_packets": 55321,
+          "p99_s": 0.008267405424,
+          "packet_loss_ratio": 0.33752101371992554,
+          "received_packets": 36649,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 14.3814912
+        }
+      },
+      "positive_overflow_queues": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 54117332,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 37701,
+          "overflow_drops_post_warmup_including_drain": 37701,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "simulation_valid": true,
+      "stability_viable": true,
+      "variant": "D1_noTAS"
+    },
+    {
+      "application_viable": false,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "drop_reconciliation": {
+        "limitation": "drops.csv stores whole-run aggregates and first/last timestamps, not a warm-up-binned count; the scope delta is not silently called a measurement loss",
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain": 44539,
+        "sca_scope": "droppedPacketsQueueOverflow count with OMNeT++ automatic warm-up filtering; t>=warmup through drain",
+        "timestamped_scope": "droppedPacketLengthsQueueOverflow vector, independently split into measurement and drain after warm-up",
+        "traffic_audit_drops_entire_simulation": 44539,
+        "whole_run_minus_post_warmup_scope_delta": 0,
+        "whole_run_scope": "TrafficAudit queue packetDropped callbacks from t=0 through simulation end"
+      },
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 173140884,
+        "CSW.eth[2]/TC4": 173140884,
+        "CSW.eth[3]/TC4": 141360255,
+        "HPC.eth[0]/TC4": 268207793,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 28152000
+      },
+      "execution_id": "D2_TAS_L2_A1_seed41",
+      "flow_metrics": {
+        "F08": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.00032333333333333335,
+          "deadline_misses_received": 97,
+          "flow": "F08",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 0.000103372,
+          "offered_packets": 300000,
+          "p99_s": 9.0111145e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE1",
+          "useful_throughput_mbps": 1.12
+        },
+        "F09": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.00025,
+          "deadline_misses_received": 75,
+          "flow": "F09",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 0.000103612,
+          "offered_packets": 300000,
+          "p99_s": 9.1299227e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE2",
+          "useful_throughput_mbps": 1.12
+        },
+        "F13": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.00448,
+          "deadline_misses_received": 0,
+          "flow": "F13",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 0.99552,
+          "image_completion": null,
+          "latency_samples": 373320,
+          "max_s": 0.009199411838999999,
+          "offered_packets": 375000,
+          "p99_s": 0.009084932650999999,
+          "packet_loss_ratio": 0.00448,
+          "received_packets": 373320,
+          "receiver": "AUDIO3",
+          "useful_throughput_mbps": 20.507712
+        },
+        "F21": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.3396391923204237,
+          "deadline_misses_received": 0,
+          "flow": "F21",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.6603182600285646,
+          "image_completion": null,
+          "latency_samples": 39899,
+          "max_s": 0.009129330586,
+          "offered_packets": 60420,
+          "p99_s": 0.009025533407,
+          "packet_loss_ratio": 0.3396391923204237,
+          "received_packets": 39899,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 15.657642666666666
+        },
+        "F22": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.40378879629797004,
+          "deadline_misses_received": 0,
+          "flow": "F22",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.5961651333325144,
+          "image_completion": null,
+          "latency_samples": 32983,
+          "max_s": 0.009114391079,
+          "offered_packets": 55321,
+          "p99_s": 0.009034740981,
+          "packet_loss_ratio": 0.40378879629797004,
+          "received_packets": 32983,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 12.942824533333333
+        }
+      },
+      "positive_overflow_queues": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 65655278,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 44539,
+          "overflow_drops_post_warmup_including_drain": 44539,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "simulation_valid": true,
+      "stability_viable": true,
+      "variant": "D2_TAS"
+    },
+    {
+      "application_viable": false,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "drop_reconciliation": {
+        "limitation": "drops.csv stores whole-run aggregates and first/last timestamps, not a warm-up-binned count; the scope delta is not silently called a measurement loss",
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain": 31745,
+        "sca_scope": "droppedPacketsQueueOverflow count with OMNeT++ automatic warm-up filtering; t>=warmup through drain",
+        "timestamped_scope": "droppedPacketLengthsQueueOverflow vector, independently split into measurement and drain after warm-up",
+        "traffic_audit_drops_entire_simulation": 31745,
+        "whole_run_minus_post_warmup_scope_delta": 0,
+        "whole_run_scope": "TrafficAudit queue packetDropped callbacks from t=0 through simulation end"
+      },
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 173140884,
+        "CSW.eth[2]/TC4": 173140884,
+        "CSW.eth[3]/TC4": 141360255,
+        "HPC.eth[0]/TC4": 268207793,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 28152000
+      },
+      "execution_id": "D2_noTAS_L2_A1_seed41",
+      "flow_metrics": {
+        "F08": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F08",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 3.1052e-05,
+          "offered_packets": 300000,
+          "p99_s": 2.8972e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE1",
+          "useful_throughput_mbps": 1.12
+        },
+        "F09": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F09",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 3.102e-05,
+          "offered_packets": 300000,
+          "p99_s": 3.0012e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE2",
+          "useful_throughput_mbps": 1.12
+        },
+        "F13": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.003853333333333333,
+          "deadline_misses_received": 0,
+          "flow": "F13",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 0.9961466666666666,
+          "image_completion": null,
+          "latency_samples": 373555,
+          "max_s": 0.007730757152,
+          "offered_packets": 375000,
+          "p99_s": 0.007685734917999999,
+          "packet_loss_ratio": 0.003853333333333333,
+          "received_packets": 373555,
+          "receiver": "AUDIO3",
+          "useful_throughput_mbps": 20.520621333333334
+        },
+        "F21": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.2371565706719629,
+          "deadline_misses_received": 0,
+          "flow": "F21",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.762800238413873,
+          "image_completion": null,
+          "latency_samples": 46091,
+          "max_s": 0.007673977574,
+          "offered_packets": 60420,
+          "p99_s": 0.007636363531,
+          "packet_loss_ratio": 0.2371565706719629,
+          "received_packets": 46091,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 18.087722666666668
+        },
+        "F22": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.2886968782198442,
+          "deadline_misses_received": 0,
+          "flow": "F22",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.7112656701018265,
+          "image_completion": null,
+          "latency_samples": 39350,
+          "max_s": 0.007688348583,
+          "offered_packets": 55321,
+          "p99_s": 0.007651472623,
+          "packet_loss_ratio": 0.2886968782198442,
+          "received_packets": 39350,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 15.441672533333334
+        }
+      },
+      "positive_overflow_queues": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 46483688,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 31745,
+          "overflow_drops_post_warmup_including_drain": 31745,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "simulation_valid": true,
+      "stability_viable": true,
+      "variant": "D2_noTAS"
+    },
+    {
+      "application_viable": false,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "drop_reconciliation": {
+        "limitation": "drops.csv stores whole-run aggregates and first/last timestamps, not a warm-up-binned count; the scope delta is not silently called a measurement loss",
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain": 41107,
+        "sca_scope": "droppedPacketsQueueOverflow count with OMNeT++ automatic warm-up filtering; t>=warmup through drain",
+        "timestamped_scope": "droppedPacketLengthsQueueOverflow vector, independently split into measurement and drain after warm-up",
+        "traffic_audit_drops_entire_simulation": 41107,
+        "whole_run_minus_post_warmup_scope_delta": 0,
+        "whole_run_scope": "TrafficAudit queue packetDropped callbacks from t=0 through simulation end"
+      },
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 183345795,
+        "CSW.eth[2]/TC4": 183345795,
+        "CSW.eth[3]/TC4": 153847910,
+        "HPC.eth[0]/TC4": 291901061,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 28152000
+      },
+      "execution_id": "D3_TAS_L2_A1_seed41",
+      "flow_metrics": {
+        "F08": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 1.3333333333333333e-05,
+          "deadline_misses_received": 4,
+          "flow": "F08",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 0.000100652,
+          "offered_packets": 300000,
+          "p99_s": 8.6880051e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE1",
+          "useful_throughput_mbps": 1.12
+        },
+        "F09": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 4.6666666666666665e-05,
+          "deadline_misses_received": 14,
+          "flow": "F09",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 0.000100701814,
+          "offered_packets": 300000,
+          "p99_s": 8.8252e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE2",
+          "useful_throughput_mbps": 1.12
+        },
+        "F13": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.005562666666666666,
+          "deadline_misses_received": 0,
+          "flow": "F13",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 0.9944373333333333,
+          "image_completion": null,
+          "latency_samples": 372914,
+          "max_s": 0.008783612571,
+          "offered_packets": 375000,
+          "p99_s": 0.008718567392,
+          "packet_loss_ratio": 0.005562666666666666,
+          "received_packets": 372914,
+          "receiver": "AUDIO3",
+          "useful_throughput_mbps": 20.485409066666666
+        },
+        "F21": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.3057431314134393,
+          "deadline_misses_received": 0,
+          "flow": "F21",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.6942094668301076,
+          "image_completion": null,
+          "latency_samples": 41947,
+          "max_s": 0.008710300737,
+          "offered_packets": 60420,
+          "p99_s": 0.008649321068,
+          "packet_loss_ratio": 0.3057431314134393,
+          "received_packets": 41947,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 16.46128
+        },
+        "F22": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.3714321866922145,
+          "deadline_misses_received": 0,
+          "flow": "F22",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.6285183938683011,
+          "image_completion": null,
+          "latency_samples": 34773,
+          "max_s": 0.008729289024,
+          "offered_packets": 55321,
+          "p99_s": 0.008657361545,
+          "packet_loss_ratio": 0.3714321866922145,
+          "received_packets": 34773,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 13.645218133333334
+        }
+      },
+      "positive_overflow_queues": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 59919698,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 41107,
+          "overflow_drops_post_warmup_including_drain": 41107,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "simulation_valid": true,
+      "stability_viable": true,
+      "variant": "D3_TAS"
+    },
+    {
+      "application_viable": false,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "drop_reconciliation": {
+        "limitation": "drops.csv stores whole-run aggregates and first/last timestamps, not a warm-up-binned count; the scope delta is not silently called a measurement loss",
+        "sca_and_timestamped_queue_overflow_drops_post_warmup_including_drain": 27089,
+        "sca_scope": "droppedPacketsQueueOverflow count with OMNeT++ automatic warm-up filtering; t>=warmup through drain",
+        "timestamped_scope": "droppedPacketLengthsQueueOverflow vector, independently split into measurement and drain after warm-up",
+        "traffic_audit_drops_entire_simulation": 27089,
+        "whole_run_minus_post_warmup_scope_delta": 0,
+        "whole_run_scope": "TrafficAudit queue packetDropped callbacks from t=0 through simulation end"
+      },
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 183345795,
+        "CSW.eth[2]/TC4": 183345795,
+        "CSW.eth[3]/TC4": 153847910,
+        "HPC.eth[0]/TC4": 291901061,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 28152000
+      },
+      "execution_id": "D3_noTAS_L2_A1_seed41",
+      "flow_metrics": {
+        "F08": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F08",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 3.1052e-05,
+          "offered_packets": 300000,
+          "p99_s": 2.8652e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE1",
+          "useful_throughput_mbps": 1.12
+        },
+        "F09": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0,
+          "deadline_misses_received": 0,
+          "flow": "F09",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 1.0,
+          "image_completion": null,
+          "latency_samples": 300000,
+          "max_s": 3.102e-05,
+          "offered_packets": 300000,
+          "p99_s": 3.0012e-05,
+          "packet_loss_ratio": 0.0,
+          "received_packets": 300000,
+          "receiver": "BRAKE2",
+          "useful_throughput_mbps": 1.12
+        },
+        "F13": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.0036293333333333334,
+          "deadline_misses_received": 0,
+          "flow": "F13",
+          "flow_gate_viable": true,
+          "goodput_payload_ratio": 0.9963706666666666,
+          "image_completion": null,
+          "latency_samples": 373639,
+          "max_s": 0.007109148,
+          "offered_packets": 375000,
+          "p99_s": 0.007048501275,
+          "packet_loss_ratio": 0.0036293333333333334,
+          "received_packets": 373639,
+          "receiver": "AUDIO3",
+          "useful_throughput_mbps": 20.525235733333332
+        },
+        "F21": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.20190334326381992,
+          "deadline_misses_received": 0,
+          "flow": "F21",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.7980626398713465,
+          "image_completion": null,
+          "latency_samples": 48221,
+          "max_s": 0.007053748917,
+          "offered_packets": 60420,
+          "p99_s": 0.007007752469,
+          "packet_loss_ratio": 0.20190334326381992,
+          "received_packets": 48221,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 18.92387413333333
+        },
+        "F22": {
+          "criticality": null,
+          "deadline_miss_ratio_including_loss": 0.24455450913757887,
+          "deadline_misses_received": 0,
+          "flow": "F22",
+          "flow_gate_viable": false,
+          "goodput_payload_ratio": 0.7553904167639075,
+          "image_completion": null,
+          "latency_samples": 41792,
+          "max_s": 0.007058003108,
+          "offered_packets": 55321,
+          "p99_s": 0.0070189961149999995,
+          "packet_loss_ratio": 0.24455450913757887,
+          "received_packets": 41792,
+          "receiver": "Z3.ZCPU",
+          "useful_throughput_mbps": 16.399626666666666
+        }
+      },
+      "positive_overflow_queues": [
+        {
+          "capacity_bits": 1048576,
+          "drop_metric": "droppedPacketsQueueOverflow SCA/vector; OMNeT++ automatic warm-up filter applies",
+          "overflow_drop_bytes_post_warmup_including_drain": 39505688,
+          "overflow_drops_drain": 0,
+          "overflow_drops_measurement_window": 27089,
+          "overflow_drops_post_warmup_including_drain": 27089,
+          "queue": "ZonalIVN.CSW.eth[3].macLayer.queue.queue[4]",
+          "tc": 4
+        }
+      ],
+      "simulation_valid": true,
+      "stability_viable": true,
+      "variant": "D3_noTAS"
+    }
+  ],
+  "rate_audit": {
+    "factor": 2.5,
+    "finding": "F13 is 25.60 Mb/s queue-MAC and 27.60 Mb/s wire at L2, not 10.24 Mb/s queue; the old dimensioner omitted the L2 factor for scalable flows.",
+    "flow_rates": [
+      {
+        "app_bytes": 1472,
+        "base_period_us": 100.0,
+        "catalog_base_wire_rate_bps": 123360000.0,
+        "destinations": "HPC",
+        "effective_L2_period_us": 40.0,
+        "expected_L2_wire_rate_bps": 308400000.0,
+        "flow": "F01",
+        "ip_bytes": 1500,
+        "mac_bytes": 1522,
+        "path": "P1-Z1",
+        "payload_rate_bps": 294400000.0,
+        "pcp": 6,
+        "queue_mac_rate_bps": 304400000.0,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "LiDAR1",
+        "tc": 6,
+        "wire_bytes": 1542,
+        "wire_rate_bps": 308400000.0
+      },
+      {
+        "app_bytes": 1446,
+        "base_period_us": 16000.0,
+        "catalog_base_wire_rate_bps": 22740000.0,
+        "destinations": "HPC",
+        "effective_L2_period_us": 6400.0,
+        "expected_L2_wire_rate_bps": 56850000.00000001,
+        "flow": "F02",
+        "ip_bytes": 1474,
+        "mac_bytes": 1496,
+        "path": "P1-Z1",
+        "payload_rate_bps": 54225000.00000001,
+        "pcp": 4,
+        "queue_mac_rate_bps": 56100000.00000001,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "CAM1",
+        "tc": 4,
+        "wire_bytes": 1516,
+        "wire_rate_bps": 56850000.00000001
+      },
+      {
+        "app_bytes": 1446,
+        "base_period_us": 16000.0,
+        "catalog_base_wire_rate_bps": 22740000.0,
+        "destinations": "HPC",
+        "effective_L2_period_us": 6400.0,
+        "expected_L2_wire_rate_bps": 56850000.00000001,
+        "flow": "F03",
+        "ip_bytes": 1474,
+        "mac_bytes": 1496,
+        "path": "P1-Z2",
+        "payload_rate_bps": 54225000.00000001,
+        "pcp": 4,
+        "queue_mac_rate_bps": 56100000.00000001,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "CAM2",
+        "tc": 4,
+        "wire_bytes": 1516,
+        "wire_rate_bps": 56850000.00000001
+      },
+      {
+        "app_bytes": 1446,
+        "base_period_us": 16000.0,
+        "catalog_base_wire_rate_bps": 22740000.0,
+        "destinations": "HPC",
+        "effective_L2_period_us": 6400.0,
+        "expected_L2_wire_rate_bps": 56850000.00000001,
+        "flow": "F04",
+        "ip_bytes": 1474,
+        "mac_bytes": 1496,
+        "path": "P1-Z3",
+        "payload_rate_bps": 54225000.00000001,
+        "pcp": 4,
+        "queue_mac_rate_bps": 56100000.00000001,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "CAM3",
+        "tc": 4,
+        "wire_bytes": 1516,
+        "wire_rate_bps": 56850000.00000001
+      },
+      {
+        "app_bytes": 1446,
+        "base_period_us": 16000.0,
+        "catalog_base_wire_rate_bps": 22740000.0,
+        "destinations": "HPC",
+        "effective_L2_period_us": 6400.0,
+        "expected_L2_wire_rate_bps": 56850000.00000001,
+        "flow": "F05",
+        "ip_bytes": 1474,
+        "mac_bytes": 1496,
+        "path": "P1-Z3",
+        "payload_rate_bps": 54225000.00000001,
+        "pcp": 4,
+        "queue_mac_rate_bps": 56100000.00000001,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "CAM4",
+        "tc": 4,
+        "wire_bytes": 1516,
+        "wire_rate_bps": 56850000.00000001
+      },
+      {
+        "app_bytes": 14,
+        "base_period_us": 1000.0,
+        "catalog_base_wire_rate_bps": 672000.0,
+        "destinations": "HPC",
+        "effective_L2_period_us": 400.0,
+        "expected_L2_wire_rate_bps": 1680000.0000000002,
+        "flow": "F06",
+        "ip_bytes": 42,
+        "mac_bytes": 64,
+        "path": "P1-Z2",
+        "payload_rate_bps": 280000.0,
+        "pcp": 6,
+        "queue_mac_rate_bps": 1280000.0,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "RADAR1",
+        "tc": 6,
+        "wire_bytes": 84,
+        "wire_rate_bps": 1680000.0000000002
+      },
+      {
+        "app_bytes": 14,
+        "base_period_us": 1000.0,
+        "catalog_base_wire_rate_bps": 672000.0,
+        "destinations": "HPC",
+        "effective_L2_period_us": 400.0,
+        "expected_L2_wire_rate_bps": 1680000.0000000002,
+        "flow": "F07",
+        "ip_bytes": 42,
+        "mac_bytes": 64,
+        "path": "P1-Z3",
+        "payload_rate_bps": 280000.0,
+        "pcp": 6,
+        "queue_mac_rate_bps": 1280000.0,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "RADAR2",
+        "tc": 6,
+        "wire_bytes": 84,
+        "wire_rate_bps": 1680000.0000000002
+      },
+      {
+        "app_bytes": 14,
+        "base_period_us": 100.0,
+        "catalog_base_wire_rate_bps": 6720000.0,
+        "destinations": "BRAKE1",
+        "effective_L2_period_us": 100.0,
+        "expected_L2_wire_rate_bps": 6720000.000000001,
+        "flow": "F08",
+        "ip_bytes": 42,
+        "mac_bytes": 64,
+        "path": "P2-Z1",
+        "payload_rate_bps": 1120000.0,
+        "pcp": 7,
+        "queue_mac_rate_bps": 5120000.0,
+        "rate_source": "periodic catalog",
+        "scalable": false,
+        "source": "HPC",
+        "tc": 7,
+        "wire_bytes": 84,
+        "wire_rate_bps": 6720000.000000001
+      },
+      {
+        "app_bytes": 14,
+        "base_period_us": 100.0,
+        "catalog_base_wire_rate_bps": 6720000.0,
+        "destinations": "BRAKE2",
+        "effective_L2_period_us": 100.0,
+        "expected_L2_wire_rate_bps": 6720000.000000001,
+        "flow": "F09",
+        "ip_bytes": 42,
+        "mac_bytes": 64,
+        "path": "P2-Z2",
+        "payload_rate_bps": 1120000.0,
+        "pcp": 7,
+        "queue_mac_rate_bps": 5120000.0,
+        "rate_source": "periodic catalog",
+        "scalable": false,
+        "source": "HPC",
+        "tc": 7,
+        "wire_bytes": 84,
+        "wire_rate_bps": 6720000.000000001
+      },
+      {
+        "app_bytes": 14,
+        "base_period_us": 100.0,
+        "catalog_base_wire_rate_bps": 6720000.0,
+        "destinations": "BRAKE3",
+        "effective_L2_period_us": 100.0,
+        "expected_L2_wire_rate_bps": 6720000.000000001,
+        "flow": "F10",
+        "ip_bytes": 42,
+        "mac_bytes": 64,
+        "path": "P2-Z3",
+        "payload_rate_bps": 1120000.0,
+        "pcp": 7,
+        "queue_mac_rate_bps": 5120000.0,
+        "rate_source": "periodic catalog",
+        "scalable": false,
+        "source": "HPC",
+        "tc": 7,
+        "wire_bytes": 84,
+        "wire_rate_bps": 6720000.000000001
+      },
+      {
+        "app_bytes": 206,
+        "base_period_us": 200.0,
+        "catalog_base_wire_rate_bps": 11040000.0,
+        "destinations": "AUDIO1",
+        "effective_L2_period_us": 80.0,
+        "expected_L2_wire_rate_bps": 27600000.000000004,
+        "flow": "F11",
+        "ip_bytes": 234,
+        "mac_bytes": 256,
+        "path": "P2-Z1",
+        "payload_rate_bps": 20600000.0,
+        "pcp": 4,
+        "queue_mac_rate_bps": 25600000.000000004,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "HPC",
+        "tc": 4,
+        "wire_bytes": 276,
+        "wire_rate_bps": 27600000.000000004
+      },
+      {
+        "app_bytes": 206,
+        "base_period_us": 200.0,
+        "catalog_base_wire_rate_bps": 11040000.0,
+        "destinations": "AUDIO2",
+        "effective_L2_period_us": 80.0,
+        "expected_L2_wire_rate_bps": 27600000.000000004,
+        "flow": "F12",
+        "ip_bytes": 234,
+        "mac_bytes": 256,
+        "path": "P2-Z2",
+        "payload_rate_bps": 20600000.0,
+        "pcp": 4,
+        "queue_mac_rate_bps": 25600000.000000004,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "HPC",
+        "tc": 4,
+        "wire_bytes": 276,
+        "wire_rate_bps": 27600000.000000004
+      },
+      {
+        "app_bytes": 206,
+        "base_period_us": 200.0,
+        "catalog_base_wire_rate_bps": 11040000.0,
+        "destinations": "AUDIO3",
+        "effective_L2_period_us": 80.0,
+        "expected_L2_wire_rate_bps": 27600000.000000004,
+        "flow": "F13",
+        "ip_bytes": 234,
+        "mac_bytes": 256,
+        "path": "P2-Z3",
+        "payload_rate_bps": 20600000.0,
+        "pcp": 4,
+        "queue_mac_rate_bps": 25600000.000000004,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "HPC",
+        "tc": 4,
+        "wire_bytes": 276,
+        "wire_rate_bps": 27600000.000000004
+      },
+      {
+        "app_bytes": 1472,
+        "base_period_us": 200.0,
+        "catalog_base_wire_rate_bps": 61680000.0,
+        "destinations": "DISPLAY1;DISPLAY2",
+        "effective_L2_period_us": 200.0,
+        "expected_L2_wire_rate_bps": 61680000.00000001,
+        "flow": "F14",
+        "ip_bytes": 1500,
+        "mac_bytes": 1522,
+        "path": "P2-Z1;P2-Z2",
+        "payload_rate_bps": 58880000.00000001,
+        "pcp": 4,
+        "queue_mac_rate_bps": 60880000.00000001,
+        "rate_source": "periodic catalog",
+        "scalable": false,
+        "source": "HPC",
+        "tc": 4,
+        "wire_bytes": 1542,
+        "wire_rate_bps": 61680000.00000001
+      },
+      {
+        "app_bytes": 14,
+        "base_period_us": 200.0,
+        "catalog_base_wire_rate_bps": 3360000.0,
+        "destinations": "WINDOW1",
+        "effective_L2_period_us": 200.0,
+        "expected_L2_wire_rate_bps": 3360000.0000000005,
+        "flow": "F15",
+        "ip_bytes": 42,
+        "mac_bytes": 64,
+        "path": "P2-Z1",
+        "payload_rate_bps": 560000.0,
+        "pcp": 3,
+        "queue_mac_rate_bps": 2560000.0,
+        "rate_source": "periodic catalog",
+        "scalable": false,
+        "source": "HPC",
+        "tc": 3,
+        "wire_bytes": 84,
+        "wire_rate_bps": 3360000.0000000005
+      },
+      {
+        "app_bytes": 14,
+        "base_period_us": 200.0,
+        "catalog_base_wire_rate_bps": 3360000.0,
+        "destinations": "WINDOW2",
+        "effective_L2_period_us": 200.0,
+        "expected_L2_wire_rate_bps": 3360000.0000000005,
+        "flow": "F16",
+        "ip_bytes": 42,
+        "mac_bytes": 64,
+        "path": "P2-Z2",
+        "payload_rate_bps": 560000.0,
+        "pcp": 3,
+        "queue_mac_rate_bps": 2560000.0,
+        "rate_source": "periodic catalog",
+        "scalable": false,
+        "source": "HPC",
+        "tc": 3,
+        "wire_bytes": 84,
+        "wire_rate_bps": 3360000.0000000005
+      },
+      {
+        "app_bytes": 14,
+        "base_period_us": 200.0,
+        "catalog_base_wire_rate_bps": 3360000.0,
+        "destinations": "WINDOW3",
+        "effective_L2_period_us": 200.0,
+        "expected_L2_wire_rate_bps": 3360000.0000000005,
+        "flow": "F17",
+        "ip_bytes": 42,
+        "mac_bytes": 64,
+        "path": "P2-Z3",
+        "payload_rate_bps": 560000.0,
+        "pcp": 3,
+        "queue_mac_rate_bps": 2560000.0,
+        "rate_source": "periodic catalog",
+        "scalable": false,
+        "source": "HPC",
+        "tc": 3,
+        "wire_bytes": 84,
+        "wire_rate_bps": 3360000.0000000005
+      },
+      {
+        "app_bytes": 1472,
+        "base_period_us": 616.8,
+        "catalog_base_wire_rate_bps": 20000000.0,
+        "destinations": "BE1",
+        "effective_L2_period_us": 246.71999999999997,
+        "expected_L2_wire_rate_bps": 50000000.00000001,
+        "flow": "F18",
+        "ip_bytes": 1500,
+        "mac_bytes": 1522,
+        "path": "P2-Z1",
+        "payload_rate_bps": 47730220.49286641,
+        "pcp": 0,
+        "queue_mac_rate_bps": 49351491.56939041,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "HPC",
+        "tc": 0,
+        "wire_bytes": 1542,
+        "wire_rate_bps": 50000000.00000001
+      },
+      {
+        "app_bytes": 1472,
+        "base_period_us": 616.8,
+        "catalog_base_wire_rate_bps": 20000000.0,
+        "destinations": "BE2",
+        "effective_L2_period_us": 246.71999999999997,
+        "expected_L2_wire_rate_bps": 50000000.00000001,
+        "flow": "F19",
+        "ip_bytes": 1500,
+        "mac_bytes": 1522,
+        "path": "P2-Z2",
+        "payload_rate_bps": 47730220.49286641,
+        "pcp": 0,
+        "queue_mac_rate_bps": 49351491.56939041,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "HPC",
+        "tc": 0,
+        "wire_bytes": 1542,
+        "wire_rate_bps": 50000000.00000001
+      },
+      {
+        "app_bytes": 1472,
+        "base_period_us": 616.8,
+        "catalog_base_wire_rate_bps": 20000000.0,
+        "destinations": "BE3",
+        "effective_L2_period_us": 246.71999999999997,
+        "expected_L2_wire_rate_bps": 50000000.00000001,
+        "flow": "F20",
+        "ip_bytes": 1500,
+        "mac_bytes": 1522,
+        "path": "P2-Z3",
+        "payload_rate_bps": 47730220.49286641,
+        "pcp": 0,
+        "queue_mac_rate_bps": 49351491.56939041,
+        "rate_source": "periodic catalog",
+        "scalable": true,
+        "source": "HPC",
+        "tc": 0,
+        "wire_bytes": 1542,
+        "wire_rate_bps": 50000000.00000001
+      },
+      {
+        "app_bytes": 1472,
+        "base_period_us": 0.0,
+        "catalog_base_wire_rate_bps": null,
+        "destinations": "Z3.ZCPU",
+        "effective_L2_period_us": null,
+        "expected_L2_wire_rate_bps": null,
+        "flow": "F21",
+        "ip_bytes": 1500,
+        "mac_bytes": 1522,
+        "path": "P4-Z1-Z3",
+        "payload_rate_bps": null,
+        "pcp": 4,
+        "queue_mac_rate_bps": null,
+        "rate_source": "event calendar; no periodic rate",
+        "scalable": false,
+        "source": "Z1.ZCPU",
+        "tc": 4,
+        "wire_bytes": 1542,
+        "wire_rate_bps": null
+      },
+      {
+        "app_bytes": 1472,
+        "base_period_us": 0.0,
+        "catalog_base_wire_rate_bps": null,
+        "destinations": "Z3.ZCPU",
+        "effective_L2_period_us": null,
+        "expected_L2_wire_rate_bps": null,
+        "flow": "F22",
+        "ip_bytes": 1500,
+        "mac_bytes": 1522,
+        "path": "P4-Z2-Z3",
+        "payload_rate_bps": null,
+        "pcp": 4,
+        "queue_mac_rate_bps": null,
+        "rate_source": "event calendar; no periodic rate",
+        "scalable": false,
+        "source": "Z2.ZCPU",
+        "tc": 4,
+        "wire_bytes": 1542,
+        "wire_rate_bps": null
+      }
+    ],
+    "load": "L2",
+    "permanent_egress_rates": [
+      {
+        "catalog_idleSlope_bps": 56850000,
+        "egress": "CAM1.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F02",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F02"
+        ],
+        "tc": 4,
+        "total_payload_bps": 54225000.00000001,
+        "total_queue_mac_bps": 56100000.00000001,
+        "total_wire_bps": 56850000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 56850000,
+        "egress": "CAM2.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F03",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F03"
+        ],
+        "tc": 4,
+        "total_payload_bps": 54225000.00000001,
+        "total_queue_mac_bps": 56100000.00000001,
+        "total_wire_bps": 56850000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 56850000,
+        "egress": "CAM3.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F04",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F04"
+        ],
+        "tc": 4,
+        "total_payload_bps": 54225000.00000001,
+        "total_queue_mac_bps": 56100000.00000001,
+        "total_wire_bps": 56850000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 56850000,
+        "egress": "CAM4.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F05",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F05"
+        ],
+        "tc": 4,
+        "total_payload_bps": 54225000.00000001,
+        "total_queue_mac_bps": 56100000.00000001,
+        "total_wire_bps": 56850000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 227400000,
+        "egress": "CSW.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F02",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          },
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F03",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          },
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F04",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          },
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F05",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F02",
+          "F03",
+          "F04",
+          "F05"
+        ],
+        "tc": 4,
+        "total_payload_bps": 216900000.00000003,
+        "total_queue_mac_bps": 224400000.00000003,
+        "total_wire_bps": 227400000.00000003
+      },
+      {
+        "catalog_idleSlope_bps": 311760000,
+        "egress": "CSW.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 40.0,
+            "flow": "F01",
+            "payload_bps": 294400000.0,
+            "queue_mac_bps": 304400000.0,
+            "wire_bps": 308400000.0
+          },
+          {
+            "effective_period_us": 400.0,
+            "flow": "F06",
+            "payload_bps": 280000.0,
+            "queue_mac_bps": 1280000.0,
+            "wire_bps": 1680000.0000000002
+          },
+          {
+            "effective_period_us": 400.0,
+            "flow": "F07",
+            "payload_bps": 280000.0,
+            "queue_mac_bps": 1280000.0,
+            "wire_bps": 1680000.0000000002
+          }
+        ],
+        "permanent_flows": [
+          "F01",
+          "F06",
+          "F07"
+        ],
+        "tc": 6,
+        "total_payload_bps": 294960000.0,
+        "total_queue_mac_bps": 306960000.0,
+        "total_wire_bps": 311760000.0
+      },
+      {
+        "catalog_idleSlope_bps": 89280000,
+        "egress": "CSW.eth[1]",
+        "flows": [
+          {
+            "effective_period_us": 80.0,
+            "flow": "F11",
+            "payload_bps": 20600000.0,
+            "queue_mac_bps": 25600000.000000004,
+            "wire_bps": 27600000.000000004
+          },
+          {
+            "effective_period_us": 200.0,
+            "flow": "F14",
+            "payload_bps": 58880000.00000001,
+            "queue_mac_bps": 60880000.00000001,
+            "wire_bps": 61680000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F11",
+          "F14"
+        ],
+        "tc": 4,
+        "total_payload_bps": 79480000.0,
+        "total_queue_mac_bps": 86480000.00000001,
+        "total_wire_bps": 89280000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 89280000,
+        "egress": "CSW.eth[2]",
+        "flows": [
+          {
+            "effective_period_us": 80.0,
+            "flow": "F12",
+            "payload_bps": 20600000.0,
+            "queue_mac_bps": 25600000.000000004,
+            "wire_bps": 27600000.000000004
+          },
+          {
+            "effective_period_us": 200.0,
+            "flow": "F14",
+            "payload_bps": 58880000.00000001,
+            "queue_mac_bps": 60880000.00000001,
+            "wire_bps": 61680000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F12",
+          "F14"
+        ],
+        "tc": 4,
+        "total_payload_bps": 79480000.0,
+        "total_queue_mac_bps": 86480000.00000001,
+        "total_wire_bps": 89280000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 27600000,
+        "egress": "CSW.eth[3]",
+        "flows": [
+          {
+            "effective_period_us": 80.0,
+            "flow": "F13",
+            "payload_bps": 20600000.0,
+            "queue_mac_bps": 25600000.000000004,
+            "wire_bps": 27600000.000000004
+          }
+        ],
+        "permanent_flows": [
+          "F13"
+        ],
+        "tc": 4,
+        "total_payload_bps": 20600000.0,
+        "total_queue_mac_bps": 25600000.000000004,
+        "total_wire_bps": 27600000.000000004
+      },
+      {
+        "catalog_idleSlope_bps": 144480000,
+        "egress": "HPC.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 80.0,
+            "flow": "F11",
+            "payload_bps": 20600000.0,
+            "queue_mac_bps": 25600000.000000004,
+            "wire_bps": 27600000.000000004
+          },
+          {
+            "effective_period_us": 80.0,
+            "flow": "F12",
+            "payload_bps": 20600000.0,
+            "queue_mac_bps": 25600000.000000004,
+            "wire_bps": 27600000.000000004
+          },
+          {
+            "effective_period_us": 80.0,
+            "flow": "F13",
+            "payload_bps": 20600000.0,
+            "queue_mac_bps": 25600000.000000004,
+            "wire_bps": 27600000.000000004
+          },
+          {
+            "effective_period_us": 200.0,
+            "flow": "F14",
+            "payload_bps": 58880000.00000001,
+            "queue_mac_bps": 60880000.00000001,
+            "wire_bps": 61680000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F11",
+          "F12",
+          "F13",
+          "F14"
+        ],
+        "tc": 4,
+        "total_payload_bps": 120680000.0,
+        "total_queue_mac_bps": 137680000.00000003,
+        "total_wire_bps": 144480000.00000003
+      },
+      {
+        "catalog_idleSlope_bps": 308400000,
+        "egress": "LiDAR1.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 40.0,
+            "flow": "F01",
+            "payload_bps": 294400000.0,
+            "queue_mac_bps": 304400000.0,
+            "wire_bps": 308400000.0
+          }
+        ],
+        "permanent_flows": [
+          "F01"
+        ],
+        "tc": 6,
+        "total_payload_bps": 294400000.0,
+        "total_queue_mac_bps": 304400000.0,
+        "total_wire_bps": 308400000.0
+      },
+      {
+        "catalog_idleSlope_bps": 1680000,
+        "egress": "RADAR1.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 400.0,
+            "flow": "F06",
+            "payload_bps": 280000.0,
+            "queue_mac_bps": 1280000.0,
+            "wire_bps": 1680000.0000000002
+          }
+        ],
+        "permanent_flows": [
+          "F06"
+        ],
+        "tc": 6,
+        "total_payload_bps": 280000.0,
+        "total_queue_mac_bps": 1280000.0,
+        "total_wire_bps": 1680000.0000000002
+      },
+      {
+        "catalog_idleSlope_bps": 1680000,
+        "egress": "RADAR2.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 400.0,
+            "flow": "F07",
+            "payload_bps": 280000.0,
+            "queue_mac_bps": 1280000.0,
+            "wire_bps": 1680000.0000000002
+          }
+        ],
+        "permanent_flows": [
+          "F07"
+        ],
+        "tc": 6,
+        "total_payload_bps": 280000.0,
+        "total_queue_mac_bps": 1280000.0,
+        "total_wire_bps": 1680000.0000000002
+      },
+      {
+        "catalog_idleSlope_bps": 56850000,
+        "egress": "Z1.ZSW.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F02",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F02"
+        ],
+        "tc": 4,
+        "total_payload_bps": 54225000.00000001,
+        "total_queue_mac_bps": 56100000.00000001,
+        "total_wire_bps": 56850000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 308400000,
+        "egress": "Z1.ZSW.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 40.0,
+            "flow": "F01",
+            "payload_bps": 294400000.0,
+            "queue_mac_bps": 304400000.0,
+            "wire_bps": 308400000.0
+          }
+        ],
+        "permanent_flows": [
+          "F01"
+        ],
+        "tc": 6,
+        "total_payload_bps": 294400000.0,
+        "total_queue_mac_bps": 304400000.0,
+        "total_wire_bps": 308400000.0
+      },
+      {
+        "catalog_idleSlope_bps": 27600000,
+        "egress": "Z1.ZSW.eth[6]",
+        "flows": [
+          {
+            "effective_period_us": 80.0,
+            "flow": "F11",
+            "payload_bps": 20600000.0,
+            "queue_mac_bps": 25600000.000000004,
+            "wire_bps": 27600000.000000004
+          }
+        ],
+        "permanent_flows": [
+          "F11"
+        ],
+        "tc": 4,
+        "total_payload_bps": 20600000.0,
+        "total_queue_mac_bps": 25600000.000000004,
+        "total_wire_bps": 27600000.000000004
+      },
+      {
+        "catalog_idleSlope_bps": 61680000,
+        "egress": "Z1.ZSW.eth[7]",
+        "flows": [
+          {
+            "effective_period_us": 200.0,
+            "flow": "F14",
+            "payload_bps": 58880000.00000001,
+            "queue_mac_bps": 60880000.00000001,
+            "wire_bps": 61680000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F14"
+        ],
+        "tc": 4,
+        "total_payload_bps": 58880000.00000001,
+        "total_queue_mac_bps": 60880000.00000001,
+        "total_wire_bps": 61680000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 56850000,
+        "egress": "Z2.ZSW.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F03",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F03"
+        ],
+        "tc": 4,
+        "total_payload_bps": 54225000.00000001,
+        "total_queue_mac_bps": 56100000.00000001,
+        "total_wire_bps": 56850000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 1680000,
+        "egress": "Z2.ZSW.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 400.0,
+            "flow": "F06",
+            "payload_bps": 280000.0,
+            "queue_mac_bps": 1280000.0,
+            "wire_bps": 1680000.0000000002
+          }
+        ],
+        "permanent_flows": [
+          "F06"
+        ],
+        "tc": 6,
+        "total_payload_bps": 280000.0,
+        "total_queue_mac_bps": 1280000.0,
+        "total_wire_bps": 1680000.0000000002
+      },
+      {
+        "catalog_idleSlope_bps": 27600000,
+        "egress": "Z2.ZSW.eth[6]",
+        "flows": [
+          {
+            "effective_period_us": 80.0,
+            "flow": "F12",
+            "payload_bps": 20600000.0,
+            "queue_mac_bps": 25600000.000000004,
+            "wire_bps": 27600000.000000004
+          }
+        ],
+        "permanent_flows": [
+          "F12"
+        ],
+        "tc": 4,
+        "total_payload_bps": 20600000.0,
+        "total_queue_mac_bps": 25600000.000000004,
+        "total_wire_bps": 27600000.000000004
+      },
+      {
+        "catalog_idleSlope_bps": 61680000,
+        "egress": "Z2.ZSW.eth[7]",
+        "flows": [
+          {
+            "effective_period_us": 200.0,
+            "flow": "F14",
+            "payload_bps": 58880000.00000001,
+            "queue_mac_bps": 60880000.00000001,
+            "wire_bps": 61680000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F14"
+        ],
+        "tc": 4,
+        "total_payload_bps": 58880000.00000001,
+        "total_queue_mac_bps": 60880000.00000001,
+        "total_wire_bps": 61680000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 113700000,
+        "egress": "Z3.ZSW.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F04",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          },
+          {
+            "effective_period_us": 6400.0,
+            "flow": "F05",
+            "payload_bps": 54225000.00000001,
+            "queue_mac_bps": 56100000.00000001,
+            "wire_bps": 56850000.00000001
+          }
+        ],
+        "permanent_flows": [
+          "F04",
+          "F05"
+        ],
+        "tc": 4,
+        "total_payload_bps": 108450000.00000001,
+        "total_queue_mac_bps": 112200000.00000001,
+        "total_wire_bps": 113700000.00000001
+      },
+      {
+        "catalog_idleSlope_bps": 1680000,
+        "egress": "Z3.ZSW.eth[0]",
+        "flows": [
+          {
+            "effective_period_us": 400.0,
+            "flow": "F07",
+            "payload_bps": 280000.0,
+            "queue_mac_bps": 1280000.0,
+            "wire_bps": 1680000.0000000002
+          }
+        ],
+        "permanent_flows": [
+          "F07"
+        ],
+        "tc": 6,
+        "total_payload_bps": 280000.0,
+        "total_queue_mac_bps": 1280000.0,
+        "total_wire_bps": 1680000.0000000002
+      },
+      {
+        "catalog_idleSlope_bps": 27600000,
+        "egress": "Z3.ZSW.eth[7]",
+        "flows": [
+          {
+            "effective_period_us": 80.0,
+            "flow": "F13",
+            "payload_bps": 20600000.0,
+            "queue_mac_bps": 25600000.000000004,
+            "wire_bps": 27600000.000000004
+          }
+        ],
+        "permanent_flows": [
+          "F13"
+        ],
+        "tc": 4,
+        "total_payload_bps": 20600000.0,
+        "total_queue_mac_bps": 25600000.000000004,
+        "total_wire_bps": 27600000.000000004
+      }
+    ],
+    "unit_definitions": {
+      "payload": "app_bytes \u00d7 8 / effective period",
+      "queue_mac": "mac_bytes \u00d7 8 / effective period; queue packet length in INET is MAC frame data length",
+      "wire": "wire_bytes \u00d7 8 / effective period, including catalog wire overhead; not queue occupancy"
+    }
+  },
+  "schema_version": "1.0",
+  "sources": {
+    "simulations/pilot/c4_feasibility_decision/audit/d3_tas_brake_stage_traces.json": "a79e7d852841a660542bbaf9e08190bb6a392f452c6b5fd5bb450645e43334a9",
+    "simulations/pilot/c4_joint_dimensioning/results/f13_natural_episode_analysis.json": "920f1708a9fdb6389f6a7ef532114dc5611608759380b2b30c33df7ce29eeb02",
+    "simulations/pilot/c4_joint_dimensioning/results/pilot_results.json": "0787820605433427425e059783dccb4e71321c4ad8ceb763df560afad18a9bdd",
+    "simulations/pilot/c4_joint_dimensioning/results/runs/D3_TAS_L2_A1_seed41/Joint_D3_TAS_L2_A1-0/d3-acceptance.json": "9dfaf1afe43a33faaf3ef3be5cb4a33fa480cdacd1f6c67a63d1377c4ead3a53",
+    "simulations/zonal/traffic/cbs_nominal_reservations.csv": "a839a8bdfde0f09a77e2413611df862f41f8fcae556f8aace6a2d026c30d1910",
+    "simulations/zonal/traffic/flows.csv": "3e3f28c70ab7e4f2b80b970edf3b13fdf6092b069a460a8ee46c21b524a5bbc1",
+    "simulations/zonal/traffic/transients.csv": "fd41ec629855db8974af0b9b54e5eaa664bc44611783dcca41520bd1b4eb0e3d"
+  }
+}

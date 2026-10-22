@@ -1,0 +1,14 @@
+{
+  "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+  "all_port_reservation_caps_pass": true,
+  "L3": {
+    "P1_permanent_demand_CSW_to_HPC_bps": 862656000,
+    "fixed_profile_CSW_eth0_TC4_bps": 227400000,
+    "fixed_profile_CSW_eth0_TC6_bps": 311760000,
+    "fixed_profile_total_bps": 539160000,
+    "demand_excess_over_max_configured_credit_rate_bps": 323496000,
+    "physical_rate_bps": 1000000000,
+    "interpretation": "inadmissible for this fixed candidate: CSW.eth[0] is not TAS-gated, and the sum of the two permanent CBS idle slopes is below L3 permanent demand. Even an optimistic sustained CBS service upper bound cannot meet the offered permanent rate; no simulation."
+  },
+  "L0_L2": "reservation sums are under cap. Empirical reuse supports the candidate in L0/A0 seed41, L1/A1 seed41 and L2/A1 seeds41/43/47. Other cells remain empirical gaps; a static reserve sum alone is not a gate-aware service guarantee."
+}

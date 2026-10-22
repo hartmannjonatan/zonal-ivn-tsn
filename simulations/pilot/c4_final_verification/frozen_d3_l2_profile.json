@@ -1,0 +1,54 @@
+{
+  "canonical_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+  "effective_profile_bps": {
+    "CAM1.eth[0]/TC4": 56850000,
+    "CAM2.eth[0]/TC4": 56850000,
+    "CAM3.eth[0]/TC4": 56850000,
+    "CAM4.eth[0]/TC4": 56850000,
+    "CSW.eth[0]/TC4": 227400000,
+    "CSW.eth[0]/TC6": 311760000,
+    "CSW.eth[1]/TC4": 251115695,
+    "CSW.eth[2]/TC4": 251115695,
+    "CSW.eth[3]/TC4": 707606774,
+    "HPC.eth[0]/TC4": 406375399,
+    "LiDAR1.eth[0]/TC6": 308400000,
+    "RADAR1.eth[0]/TC6": 1680000,
+    "RADAR2.eth[0]/TC6": 1680000,
+    "Z1.ZSW.eth[0]/TC4": 236850000,
+    "Z1.ZSW.eth[0]/TC6": 308400000,
+    "Z1.ZSW.eth[6]/TC4": 27600000,
+    "Z1.ZSW.eth[7]/TC4": 61680000,
+    "Z2.ZSW.eth[0]/TC4": 216850000,
+    "Z2.ZSW.eth[0]/TC6": 1680000,
+    "Z2.ZSW.eth[6]/TC4": 27600000,
+    "Z2.ZSW.eth[7]/TC4": 61680000,
+    "Z3.ZSW.eth[0]/TC4": 113700000,
+    "Z3.ZSW.eth[0]/TC6": 1680000,
+    "Z3.ZSW.eth[7]/TC4": 28152000
+  },
+  "gcl": {
+    "candidate_name": "D3_coordinated_20pct",
+    "class4_offset_s_by_egress": {
+      "CSW.eth[1]": 6.9324e-05,
+      "CSW.eth[2]": 6.9324e-05,
+      "CSW.eth[3]": 6.9324e-05,
+      "HPC.eth[0]": 7e-05
+    },
+    "class4_open_s": 5.4999999999999995e-05,
+    "class7_offset_s_by_egress": {
+      "CSW.eth[1]": 9.932399999999999e-05,
+      "CSW.eth[2]": 9.932399999999999e-05,
+      "CSW.eth[3]": 9.932399999999999e-05,
+      "HPC.eth[0]": 0.0
+    },
+    "class7_open_s": 2.9999999999999997e-05,
+    "clockModule": "^.^.^.^.clock",
+    "implicit_guard_band": true,
+    "initiallyOpen": true,
+    "period_s": 0.0001,
+    "scheduleForAbsoluteTime": true
+  },
+  "source_candidate": "D3_coordinated_20pct",
+  "source_execution_id": "D3_TAS_L2_A1_seed41",
+  "source_result": "simulations/pilot/c4_feasibility_decision/results/final_results_2026-10-20.json"
+}

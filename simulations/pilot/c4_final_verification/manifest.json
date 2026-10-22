@@ -1,0 +1,2308 @@
+{
+  "buffers": {
+    "P1_source": "docs/design/P1-v4.pdf",
+    "bottlenecks_bits": 1048576,
+    "bottlenecks_bytes": 131072,
+    "camera_talkers_bits": 524288,
+    "camera_talkers_bytes": 65536,
+    "effective_CSW_Z3_T4_verified_in_SCA": "128KiB=131072B=1048576b",
+    "remaining_ports_bits": 262144,
+    "remaining_ports_bytes": 32768
+  },
+  "changed_parameters": [],
+  "commands": {
+    "calendar_generation": "TrafficPlan init-only, empty transientCalendarFile, sim-time-limit=0s; generated calendar replayed byte-identically in both treatments",
+    "imported_helper": "simulations/pilot/c4_fixed_L2_profile/run_study.py",
+    "methodological_runner": "python3 simulations/pilot/c4_final_verification/run_verification.py",
+    "prepare_only": "python3 simulations/pilot/c4_final_verification/run_verification.py --prepare-only"
+  },
+  "created_local": "2026-10-20",
+  "effective_profile_bps": {
+    "CAM1.eth[0]/TC4": 56850000,
+    "CAM2.eth[0]/TC4": 56850000,
+    "CAM3.eth[0]/TC4": 56850000,
+    "CAM4.eth[0]/TC4": 56850000,
+    "CSW.eth[0]/TC4": 227400000,
+    "CSW.eth[0]/TC6": 311760000,
+    "CSW.eth[1]/TC4": 251115695,
+    "CSW.eth[2]/TC4": 251115695,
+    "CSW.eth[3]/TC4": 707606774,
+    "HPC.eth[0]/TC4": 406375399,
+    "LiDAR1.eth[0]/TC6": 308400000,
+    "RADAR1.eth[0]/TC6": 1680000,
+    "RADAR2.eth[0]/TC6": 1680000,
+    "Z1.ZSW.eth[0]/TC4": 236850000,
+    "Z1.ZSW.eth[0]/TC6": 308400000,
+    "Z1.ZSW.eth[6]/TC4": 27600000,
+    "Z1.ZSW.eth[7]/TC4": 61680000,
+    "Z2.ZSW.eth[0]/TC4": 216850000,
+    "Z2.ZSW.eth[0]/TC6": 1680000,
+    "Z2.ZSW.eth[6]/TC4": 27600000,
+    "Z2.ZSW.eth[7]/TC4": 61680000,
+    "Z3.ZSW.eth[0]/TC4": 113700000,
+    "Z3.ZSW.eth[0]/TC6": 1680000,
+    "Z3.ZSW.eth[7]/TC4": 28152000
+  },
+  "exploratory": true,
+  "frozen_at_utc": "2026-10-20T18:42:32Z",
+  "gcl": {
+    "candidate_name": "D3_coordinated_20pct",
+    "class4_offset_s_by_egress": {
+      "CSW.eth[1]": 6.9324e-05,
+      "CSW.eth[2]": 6.9324e-05,
+      "CSW.eth[3]": 6.9324e-05,
+      "HPC.eth[0]": 7e-05
+    },
+    "class4_open_s": 5.4999999999999995e-05,
+    "class7_offset_s_by_egress": {
+      "CSW.eth[1]": 9.932399999999999e-05,
+      "CSW.eth[2]": 9.932399999999999e-05,
+      "CSW.eth[3]": 9.932399999999999e-05,
+      "HPC.eth[0]": 0.0
+    },
+    "class7_open_s": 2.9999999999999997e-05,
+    "clockModule": "^.^.^.^.clock",
+    "implicit_guard_band": true,
+    "initiallyOpen": true,
+    "period_s": 0.0001,
+    "scheduleForAbsoluteTime": true
+  },
+  "git_commit": "003e44d6cf9387e3332ed6cbfe5812958780e7fb",
+  "input_hashes": {
+    "docs/design/P1-v4.pdf": "87809f1b5e22f72e7c58ad2f3a90aab8476e58a80e7417b82f47897af66235f5",
+    "scripts/run/validate_c0.py": "232f97adef3c9a332f03a82dfd150abbbfa07dd08e5fad328233e0f85e7c49c9",
+    "simulations/omnetpp.ini": "ccb2660dc084be88e5d2fb1f156f63e5aedbb4c216f38d473cac9bcd910ee339",
+    "simulations/pilot/c4_feasibility_decision/results/final_results_2026-10-20.json": "2877ba2704e026477aae87f1a6019257ad012c97d25c7c4ffbd8cb1b1d234f78",
+    "simulations/pilot/c4_feasibility_decision/results/plan.json": "2ebc0116b60bdbec2617aca5e4f39980eee0fadf473435b7e853ef674fb8faaf",
+    "simulations/pilot/c4_final_verification/answers_previous_questions.md": "653a9a50405f1dc924f264c49935dc543c0c4721457671efa3820bfec6a41c62",
+    "simulations/pilot/c4_final_verification/frozen_d3_l2_profile.json": "ccf836e5960eb8e6271ad5082039e2853130a30f4264fe76e02f8a3e2d53dbcf",
+    "simulations/pilot/c4_final_verification/frozen_profile_table.csv": "cdaa1186f60f48983eabae06787346fc581584032ac79dfc2e51b74f43be460c",
+    "simulations/pilot/c4_final_verification/pilot.ini": "be5d27d990fa5827e638a232b0f9c61efb7009c81a922a28f8217d3270bf48a4",
+    "simulations/pilot/c4_final_verification/plugin/ClockPrecisionProbe.cc": "6f91e3632f2a87e40b56aa0c37663195695fec82a00560d5791ba3e9dc3c1f8f",
+    "simulations/pilot/c4_final_verification/plugin/Makefile": "2ad778c6785d24a1341f9b60095797b4ce25311e2db3e93250386fc1fd05810e",
+    "simulations/pilot/c4_final_verification/plugin/RealClockTraceProbe.cc": "f4881c7e11dc4cd8babf19e1b8b05967f67fe07df89710102e174f4af50584c0",
+    "simulations/pilot/c4_final_verification/plugin/libc4realclockprobe.so": "70e335e9d9c07690b219399e1e4753f3c015598089e109d229f62982c3fc4d7e",
+    "simulations/pilot/c4_final_verification/protocol.md": "2840c0d2cfc68a4847071bd02e02cea4197bdec95a9e33113e427c6148a94542",
+    "simulations/pilot/c4_final_verification/run_verification.py": "f419afb535228f7f0ff18f3efe2306cf745bdb9d9f77006a1bc4b68fa9ac6ee7",
+    "simulations/pilot/c4_final_verification/treatment_contracts.json": "d41eb6cff877788c5e20c5287535c4b129331d43eef3945431cd264a440d23e1",
+    "simulations/pilot/c4_fixed_L2_profile/consolidate.py": "44bbb09862521dd5145f3ae4d916159538753630d8cd28bdb2cf8e22edae7073",
+    "simulations/pilot/c4_fixed_L2_profile/plugin/libc4realclockprobe.so": "70e335e9d9c07690b219399e1e4753f3c015598089e109d229f62982c3fc4d7e",
+    "simulations/pilot/c4_fixed_L2_profile/run_study.py": "f5dcc6108f9f28becf531e9caac3d155f1eb0bffa6586af20bbcf7fd4b027f24",
+    "simulations/pilot/c4_fixed_L2_profile/treatment_contracts.json": "d41eb6cff877788c5e20c5287535c4b129331d43eef3945431cd264a440d23e1",
+    "simulations/zonal/configs/classification.ini": "dd150b02cd475a586c758e0444582f0c0d1de69f4fd67b9a9df6001285a2d976",
+    "simulations/zonal/configs/mechanisms/C3_calibrated_cbs.ini": "ded5bf6fd8c3141fd46b8b33fbee059844fb7c268e7b50edeedebdd0d87b5f3c",
+    "simulations/zonal/configs/mechanisms/C3_calibrated_rates.ini": "0715ad2e87e604647faa993fad82d24c51479b4b13cb53c84806a59323ae438e",
+    "simulations/zonal/networks/ZonalIVN.ned": "02aa82a87e54ed4011d1744ae5471579c30d84f466fc1eef595fed402febb55f",
+    "simulations/zonal/traffic/cbs_nominal_reservations.csv": "a839a8bdfde0f09a77e2413611df862f41f8fcae556f8aace6a2d026c30d1910",
+    "simulations/zonal/traffic/flows.csv": "3e3f28c70ab7e4f2b80b970edf3b13fdf6092b069a460a8ee46c21b524a5bbc1",
+    "simulations/zonal/traffic/transients.csv": "fd41ec629855db8974af0b9b54e5eaa664bc44611783dcca41520bd1b4eb0e3d",
+    "src/common/TrafficPlan.cc": "e900b7b0ea165a5f7202ba5e2715860c6020bca5963e68c25b8db7d1e49af48e",
+    "src/common/TrafficPlan.ned": "39959c40b3792dfa84d7090fb950336ffe01d93668878549c070b428bf16bb37",
+    "src/zonal-ivn-tsn": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7"
+  },
+  "manifest_immutable": true,
+  "matrix_policy": {
+    "disk_limited_batch_expected": "first three pairs; re-evaluate before pair 4; no run starts unless projected temporary+retained size stays >=40GiB",
+    "phase1_pair_order": [
+      "L0_A0 seed43",
+      "L0_A0 seed47",
+      "L1_A1 seed43",
+      "L1_A1 seed47",
+      "L0_A1 seed41",
+      "L1_A0 seed41",
+      "L2_A0 seed41"
+    ],
+    "phase2": "only after complete phase1 with all gates pass; not preregistered as run start unless disk permits"
+  },
+  "official_c4_frozen": false,
+  "phase": "preregistered_before_methodological_runs",
+  "phased_matrix": {
+    "L0-L2_total_positions": 36,
+    "L3_positions_max": 12,
+    "new_run_storage_estimate_GiB": "> 18 for all 14 phase-1 executions at current per-run evidence volume",
+    "new_runs_authorized_now": "bounded first batch only; re-evaluate floor after each complete pair",
+    "phase1_remaining_new_positions": 14,
+    "total_cap": 48
+  },
+  "port_reservation_totals": [
+    {
+      "egress": "CAM1.eth[0]",
+      "fraction": 0.05685,
+      "headroom_75pct_bps": 693150000,
+      "idleSlope_sum_bps": 56850000,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "CAM2.eth[0]",
+      "fraction": 0.05685,
+      "headroom_75pct_bps": 693150000,
+      "idleSlope_sum_bps": 56850000,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "CAM3.eth[0]",
+      "fraction": 0.05685,
+      "headroom_75pct_bps": 693150000,
+      "idleSlope_sum_bps": 56850000,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "CAM4.eth[0]",
+      "fraction": 0.05685,
+      "headroom_75pct_bps": 693150000,
+      "idleSlope_sum_bps": 56850000,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "CSW.eth[0]",
+      "fraction": 0.53916,
+      "headroom_75pct_bps": 210840000,
+      "idleSlope_sum_bps": 539160000,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "CSW.eth[1]",
+      "fraction": 0.251115695,
+      "headroom_75pct_bps": 498884305,
+      "idleSlope_sum_bps": 251115695,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "CSW.eth[2]",
+      "fraction": 0.251115695,
+      "headroom_75pct_bps": 498884305,
+      "idleSlope_sum_bps": 251115695,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "CSW.eth[3]",
+      "fraction": 0.707606774,
+      "headroom_75pct_bps": 42393226,
+      "idleSlope_sum_bps": 707606774,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "HPC.eth[0]",
+      "fraction": 0.406375399,
+      "headroom_75pct_bps": 343624601,
+      "idleSlope_sum_bps": 406375399,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "LiDAR1.eth[0]",
+      "fraction": 0.3084,
+      "headroom_75pct_bps": 441600000,
+      "idleSlope_sum_bps": 308400000,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "RADAR1.eth[0]",
+      "fraction": 0.0168,
+      "headroom_75pct_bps": 73320000,
+      "idleSlope_sum_bps": 1680000,
+      "passes_75pct": true,
+      "physical_rate_bps": 100000000
+    },
+    {
+      "egress": "RADAR2.eth[0]",
+      "fraction": 0.0168,
+      "headroom_75pct_bps": 73320000,
+      "idleSlope_sum_bps": 1680000,
+      "passes_75pct": true,
+      "physical_rate_bps": 100000000
+    },
+    {
+      "egress": "Z1.ZSW.eth[0]",
+      "fraction": 0.54525,
+      "headroom_75pct_bps": 204750000,
+      "idleSlope_sum_bps": 545250000,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "Z1.ZSW.eth[6]",
+      "fraction": 0.276,
+      "headroom_75pct_bps": 47400000,
+      "idleSlope_sum_bps": 27600000,
+      "passes_75pct": true,
+      "physical_rate_bps": 100000000
+    },
+    {
+      "egress": "Z1.ZSW.eth[7]",
+      "fraction": 0.6168,
+      "headroom_75pct_bps": 13320000,
+      "idleSlope_sum_bps": 61680000,
+      "passes_75pct": true,
+      "physical_rate_bps": 100000000
+    },
+    {
+      "egress": "Z2.ZSW.eth[0]",
+      "fraction": 0.21853,
+      "headroom_75pct_bps": 531470000,
+      "idleSlope_sum_bps": 218530000,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "Z2.ZSW.eth[6]",
+      "fraction": 0.276,
+      "headroom_75pct_bps": 47400000,
+      "idleSlope_sum_bps": 27600000,
+      "passes_75pct": true,
+      "physical_rate_bps": 100000000
+    },
+    {
+      "egress": "Z2.ZSW.eth[7]",
+      "fraction": 0.6168,
+      "headroom_75pct_bps": 13320000,
+      "idleSlope_sum_bps": 61680000,
+      "passes_75pct": true,
+      "physical_rate_bps": 100000000
+    },
+    {
+      "egress": "Z3.ZSW.eth[0]",
+      "fraction": 0.11538,
+      "headroom_75pct_bps": 634620000,
+      "idleSlope_sum_bps": 115380000,
+      "passes_75pct": true,
+      "physical_rate_bps": 1000000000
+    },
+    {
+      "egress": "Z3.ZSW.eth[7]",
+      "fraction": 0.28152,
+      "headroom_75pct_bps": 46848000,
+      "idleSlope_sum_bps": 28152000,
+      "passes_75pct": true,
+      "physical_rate_bps": 100000000
+    }
+  ],
+  "preparation_technical_failure": {
+    "cause": "duplicate copied NED wrapper declared c4_fixed package while located under c4_final_verification; no methodological run; resolved by using the already compiled fixed-profile wrapper only",
+    "path": "simulations/pilot/c4_final_verification/results/preparation_failures/calendar_init_package_mismatch.log",
+    "retry": "init-only calendar generation rerun under distinct attempt directory; successful signatures and preflights recorded"
+  },
+  "preparation_technical_failures": [
+    {
+      "cause": "duplicate copied NED wrapper package mismatch; no methodological run; corrected by reusing compiled fixed wrapper",
+      "path": "simulations/pilot/c4_final_verification/results/preparation_failures/calendar_init_package_mismatch.log"
+    },
+    {
+      "cause": "generated calendar metadata skipped when populating runtime plan; no simulator process or methodological run; fixed before execution",
+      "path": "simulations/pilot/c4_final_verification/results/preparation_failures/runner_calendar_index_bug.txt"
+    }
+  ],
+  "prepared_calendars": {
+    "L0_A0/seed41": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L0_A0/seed41_events.csv",
+      "csv_sha256": "cc65938878671f4db14cfe336bf59edf4cc52c27feb99efd6d27f8e1c090c5bf",
+      "event_count": 60,
+      "metadata_sha256": "e2d63bcaea63fda3b7412a93f6b72d4f5fa1e1e30593d37f05e28175991db108",
+      "signature": "c2218e4a1289f01113c14c4a2bf38a59a687f0bee812ab0747b91b5ab0e36285",
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/calendars/L0_A0/seed41_events.csv"
+    },
+    "L0_A0/seed43": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L0_A0/seed43_events.csv",
+      "csv_sha256": "62e850489981156fca34b853b8dc5751bb8df7d8f0caf478d78e3f18d2dbba33",
+      "event_count": 60,
+      "metadata_sha256": "204076c84269651d34dbdd0c6af57b9ba4ed3e3e5637470c3cf7b1eb1e6aaf81",
+      "signature": "f1c34564cf7faca7f795c1a7279bdc0e020686bb0a113a3a3a448e8bd1cd4159",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L0_A0/seed47": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L0_A0/seed47_events.csv",
+      "csv_sha256": "0022be1caf39ab29220908a2bbf583c19ba7bbe5d658a480a3ec8456e1036cc0",
+      "event_count": 60,
+      "metadata_sha256": "4cd0d9b03811059af7d21b0be3855f1a1efa69065b9f8f4a4aa18fb481322503",
+      "signature": "42d7fe2af9137c050f67ccb31693f6f000fbb5c7c6e6fcd61078a263305c9a3f",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L0_A1/seed41": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L0_A1/seed41_events.csv",
+      "csv_sha256": "8d15d5d8f7e96bfd22087c916b9cf0524105d0ef73b0d661fbaf87d788b56afa",
+      "event_count": 60,
+      "metadata_sha256": "c8a2aa3f8c3de6e808ce4dc1668e27f8c44917489480cff61f886af7c6ec8c36",
+      "signature": "5308ca7e7e76e83d45ca6e7c0a7e55221c2c10e491818154084052ee8ed51735",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L0_A1/seed43": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L0_A1/seed43_events.csv",
+      "csv_sha256": "5fa0365a7ce6f130ea42ae00599e416915579790e6f2ce0568908dea26defb74",
+      "event_count": 60,
+      "metadata_sha256": "56e6d08459ee36ebac0fceb27b9c30117cd15a720941fbe8491f7932e6920bc8",
+      "signature": "3c68e7fc3be60bdf35f04b12933cc1f003cd172953e43f78a54f51867ff4ae51",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L0_A1/seed47": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L0_A1/seed47_events.csv",
+      "csv_sha256": "07ac12fa6af50d153e66f86f6b90888b0634945e60f436a98b2108990b5adebd",
+      "event_count": 60,
+      "metadata_sha256": "5ab1cc6d6d3d052ff2ac2652b599863ac2d7a262192934594da2db2b0c48ee2a",
+      "signature": "48134248d0e260258a5da9e39b03565386524cf14fcfb001c1567a1b3483afc4",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L1_A0/seed41": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L1_A0/seed41_events.csv",
+      "csv_sha256": "8dca10434892f57dc2dafa84ee0826e972ac2d78d1d40381508d22cde81befda",
+      "event_count": 60,
+      "metadata_sha256": "2f6c6e1629f45b9dd0dbba2c9c447d970b2c08d81aeee45348a962d24ece6fd6",
+      "signature": "b45c9ba68b3b03ac63287e35a8f340bb8f6b7c90bd7a91fff47c48d5c607ab6c",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L1_A0/seed43": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L1_A0/seed43_events.csv",
+      "csv_sha256": "62e850489981156fca34b853b8dc5751bb8df7d8f0caf478d78e3f18d2dbba33",
+      "event_count": 60,
+      "metadata_sha256": "a7713d3015f76923d0f7f3e0480f81a12fcf6c1641dffef1544b3417aeb508cd",
+      "signature": "f1c34564cf7faca7f795c1a7279bdc0e020686bb0a113a3a3a448e8bd1cd4159",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L1_A0/seed47": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L1_A0/seed47_events.csv",
+      "csv_sha256": "0022be1caf39ab29220908a2bbf583c19ba7bbe5d658a480a3ec8456e1036cc0",
+      "event_count": 60,
+      "metadata_sha256": "be90475b3203198bac98fb16567ffe00407e3dfe40cce1b8c11086e0ba4c51be",
+      "signature": "42d7fe2af9137c050f67ccb31693f6f000fbb5c7c6e6fcd61078a263305c9a3f",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L1_A1/seed41": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L1_A1/seed41_events.csv",
+      "csv_sha256": "b7cb7c1dc62c70bb506f9044f0bfc661cdd3e62b81e07b3c0eab4945ec55579a",
+      "event_count": 60,
+      "metadata_sha256": "e19adfcb4e90b0b022fcd51b786a711e220577b5b107789a77024230314ceaa7",
+      "signature": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/calendars/L1_A1/seed41_events.csv"
+    },
+    "L1_A1/seed43": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L1_A1/seed43_events.csv",
+      "csv_sha256": "5fa0365a7ce6f130ea42ae00599e416915579790e6f2ce0568908dea26defb74",
+      "event_count": 60,
+      "metadata_sha256": "4a10bae26edf3e3c7828aaa5d9f4240a271db993958313703adc37c1eb5070ef",
+      "signature": "3c68e7fc3be60bdf35f04b12933cc1f003cd172953e43f78a54f51867ff4ae51",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L1_A1/seed47": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L1_A1/seed47_events.csv",
+      "csv_sha256": "07ac12fa6af50d153e66f86f6b90888b0634945e60f436a98b2108990b5adebd",
+      "event_count": 60,
+      "metadata_sha256": "4b14b12c16543ce2c012f255fe553647e4eec6da42bd88c71744f9e00029fd19",
+      "signature": "48134248d0e260258a5da9e39b03565386524cf14fcfb001c1567a1b3483afc4",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L2_A0/seed41": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L2_A0/seed41_events.csv",
+      "csv_sha256": "8dca10434892f57dc2dafa84ee0826e972ac2d78d1d40381508d22cde81befda",
+      "event_count": 60,
+      "metadata_sha256": "29018d9eba90938b0dd82bcb53789e0f9b6e956c364227751b01c84371078154",
+      "signature": "b45c9ba68b3b03ac63287e35a8f340bb8f6b7c90bd7a91fff47c48d5c607ab6c",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L2_A0/seed43": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L2_A0/seed43_events.csv",
+      "csv_sha256": "62e850489981156fca34b853b8dc5751bb8df7d8f0caf478d78e3f18d2dbba33",
+      "event_count": 60,
+      "metadata_sha256": "6aeae34ad18b69cc5311dfce69b7d17324536aca9fd74863796b67a56d3a5145",
+      "signature": "f1c34564cf7faca7f795c1a7279bdc0e020686bb0a113a3a3a448e8bd1cd4159",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L2_A0/seed47": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L2_A0/seed47_events.csv",
+      "csv_sha256": "0022be1caf39ab29220908a2bbf583c19ba7bbe5d658a480a3ec8456e1036cc0",
+      "event_count": 60,
+      "metadata_sha256": "c4d300c2aa849181ff49e44b55a9d01d0b711e0cfa84c3a0c2361ce5faa4c166",
+      "signature": "42d7fe2af9137c050f67ccb31693f6f000fbb5c7c6e6fcd61078a263305c9a3f",
+      "source": "TrafficPlan init-only with empty transientCalendarFile; dedicated seeded RNGs; no simulated time advanced"
+    },
+    "L2_A1/seed41": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L2_A1/seed41_events.csv",
+      "csv_sha256": "b7cb7c1dc62c70bb506f9044f0bfc661cdd3e62b81e07b3c0eab4945ec55579a",
+      "event_count": 60,
+      "metadata_sha256": "e1d9c0a52bb13aceeb4fbe6257fc3c428e24bb73b6ece75900205d75ff04f649",
+      "signature": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "source": "simulations/pilot/c4_feasibility_decision/results/calendars/L2_A1/seed41_events.csv"
+    },
+    "L2_A1/seed43": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L2_A1/seed43_events.csv",
+      "csv_sha256": "5163828318dfc113d004cb4e1f60773b9a0fbe225a31ed8e1182d93353b46982",
+      "event_count": 60,
+      "metadata_sha256": "d774d5a8166d96e3139d96484f7948ac697b4ea57e7cdb311499943c5950de6a",
+      "signature": "d2baf317250c75162cc7ba0c583e33cb46daf8be94bfca02cde1df789acb1a33",
+      "source": "simulations/pilot/c4_feasibility_decision/results/calendars/L2_A1/seed43_events.csv"
+    },
+    "L2_A1/seed47": {
+      "csv": "simulations/pilot/c4_final_verification/results/calendars/L2_A1/seed47_events.csv",
+      "csv_sha256": "07502f8d67f8fd266fd512aabc427f61f870b9ece19220a79be76c0d368a3d56",
+      "event_count": 60,
+      "metadata_sha256": "0d15d5845e8c6a3c94f421a76e261fdb6613b8511f5689621be947814e8c68a4",
+      "signature": "675862c65a77c2074021616d2c4e2dd54f8d34226121f78742ccb723afe8e0c5",
+      "source": "simulations/pilot/c4_feasibility_decision/results/calendars/L2_A1/seed47_events.csv"
+    }
+  },
+  "profile_file_sha256": "ccf836e5960eb8e6271ad5082039e2853130a30f4264fe76e02f8a3e2d53dbcf",
+  "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+  "profile_table_sha256": "cdaa1186f60f48983eabae06787346fc581584032ac79dfc2e51b74f43be460c",
+  "replacements_remaining": 2,
+  "resource_after_prepare_only": {
+    "MemAvailable_GiB": 9.68,
+    "free_disk_GiB": 57.4
+  },
+  "resource_baseline": {
+    "MemAvailable_GiB": 9.23,
+    "free_disk_GiB": 57.64,
+    "minimum_MemAvailable_GiB": 7,
+    "minimum_free_disk_GiB": 40
+  },
+  "reused_methodological_positions": [
+    {
+      "application_viable": true,
+      "calendar_sha256": "c2218e4a1289f01113c14c4a2bf38a59a687f0bee812ab0747b91b5ab0e36285",
+      "execution_id": "D3_fixed_TAS_L0_A0_seed41",
+      "position": "L0_A0/seed41/D3_fixed_TAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/runs/D3_fixed_TAS_L0_A0_seed41",
+      "stability_viable": true,
+      "status": "reused_valid",
+      "sync_sample_viable": false
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "c2218e4a1289f01113c14c4a2bf38a59a687f0bee812ab0747b91b5ab0e36285",
+      "execution_id": "D3_fixed_noTAS_L0_A0_seed41",
+      "position": "L0_A0/seed41/D3_fixed_noTAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/runs/D3_fixed_noTAS_L0_A0_seed41",
+      "stability_viable": true,
+      "status": "reused_valid",
+      "sync_sample_viable": false
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "execution_id": "D3_fixed_TAS_L1_A1_seed41",
+      "position": "L1_A1/seed41/D3_fixed_TAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/runs/D3_fixed_TAS_L1_A1_seed41",
+      "stability_viable": true,
+      "status": "reused_valid",
+      "sync_sample_viable": false
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "execution_id": "D3_fixed_noTAS_L1_A1_seed41",
+      "position": "L1_A1/seed41/D3_fixed_noTAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/runs/D3_fixed_noTAS_L1_A1_seed41",
+      "stability_viable": true,
+      "status": "reused_valid",
+      "sync_sample_viable": false
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "execution_id": "D3_TAS_L2_A1_seed41",
+      "position": "L2_A1/seed41/D3_fixed_TAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_TAS_L2_A1_seed41",
+      "stability_viable": true,
+      "status": "reused_valid_pending_current_sync_reprocess",
+      "sync_legacy_flag": true
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "execution_id": "D3_noTAS_L2_A1_seed41",
+      "position": "L2_A1/seed41/D3_fixed_noTAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_noTAS_L2_A1_seed41",
+      "stability_viable": true,
+      "status": "reused_valid_pending_current_sync_reprocess",
+      "sync_legacy_flag": true
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "d2baf317250c75162cc7ba0c583e33cb46daf8be94bfca02cde1df789acb1a33",
+      "execution_id": "D3_TAS_L2_A1_seed43",
+      "position": "L2_A1/seed43/D3_fixed_TAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_TAS_L2_A1_seed43",
+      "stability_viable": true,
+      "status": "reused_valid_pending_current_sync_reprocess",
+      "sync_legacy_flag": false
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "d2baf317250c75162cc7ba0c583e33cb46daf8be94bfca02cde1df789acb1a33",
+      "execution_id": "D3_noTAS_L2_A1_seed43",
+      "position": "L2_A1/seed43/D3_fixed_noTAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_noTAS_L2_A1_seed43",
+      "stability_viable": true,
+      "status": "reused_valid_pending_current_sync_reprocess",
+      "sync_legacy_flag": false
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "675862c65a77c2074021616d2c4e2dd54f8d34226121f78742ccb723afe8e0c5",
+      "execution_id": "D3_TAS_L2_A1_seed47",
+      "position": "L2_A1/seed47/D3_fixed_TAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_TAS_L2_A1_seed47",
+      "stability_viable": true,
+      "status": "reused_valid_pending_current_sync_reprocess",
+      "sync_legacy_flag": false
+    },
+    {
+      "application_viable": true,
+      "calendar_sha256": "675862c65a77c2074021616d2c4e2dd54f8d34226121f78742ccb723afe8e0c5",
+      "execution_id": "D3_noTAS_L2_A1_seed47",
+      "position": "L2_A1/seed47/D3_fixed_noTAS",
+      "profile_match": true,
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_noTAS_L2_A1_seed47",
+      "stability_viable": true,
+      "status": "reused_valid_pending_current_sync_reprocess",
+      "sync_legacy_flag": false
+    }
+  ],
+  "reused_positions_full_audit": [
+    {
+      "applications_pass": true,
+      "calendar_sha256": "c2218e4a1289f01113c14c4a2bf38a59a687f0bee812ab0747b91b5ab0e36285",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 2e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 3535528,
+              "offset_s": -2e-08,
+              "record_kind": "periodic",
+              "sequence": 7769,
+              "signal": "-",
+              "signed_offset_raw": -20000,
+              "simtime_raw": 1260000000000,
+              "simtime_s": 1.26
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 9412749,
+              "offset_s": 3e-08,
+              "record_kind": "periodic",
+              "sequence": 19997,
+              "signal": "-",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 3248000000000,
+              "simtime_s": 3.2479999999999998
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 6052855,
+              "offset_s": -3e-08,
+              "record_kind": "periodic",
+              "sequence": 12917,
+              "signal": "-",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 2098000000000,
+              "simtime_s": 2.098
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 2e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 9068963,
+              "offset_s": -2e-08,
+              "record_kind": "periodic",
+              "sequence": 19331,
+              "signal": "-",
+              "signed_offset_raw": -20000,
+              "simtime_raw": 3137000000000,
+              "simtime_s": 3.137
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 2e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 3535529,
+              "offset_s": -2e-08,
+              "record_kind": "signal",
+              "sequence": 7770,
+              "signal": "timeChanged",
+              "signed_offset_raw": -20000,
+              "simtime_raw": 1260000000000,
+              "simtime_s": 1.26
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 9412750,
+              "offset_s": 3e-08,
+              "record_kind": "signal",
+              "sequence": 19998,
+              "signal": "timeChanged",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 3248000000000,
+              "simtime_s": 3.2479999999999998
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 6052856,
+              "offset_s": -3e-08,
+              "record_kind": "signal",
+              "sequence": 12918,
+              "signal": "timeChanged",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 2098000000000,
+              "simtime_s": 2.098
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.CSW.clock",
+              "event_number": 84786441,
+              "offset_s": 3e-08,
+              "record_kind": "signal",
+              "sequence": 180175,
+              "signal": "timeChanged",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 29250703548375,
+              "simtime_s": 29.250703548375
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_fixed_TAS_L0_A0_seed41",
+      "position": "L0_A0/seed41/D3_fixed_TAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "7ea3c638f76cf9a9d507fb471d064a2612a6ce3f2435f71319ccd33db56e7536",
+      "report_sha256": "b5e68adad9ee31c0a3e9f8e4e0c344ac7299dd4a1332052c9dd5a031222ab23d",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/runs/D3_fixed_TAS_L0_A0_seed41",
+      "stability_pass": true
+    },
+    {
+      "applications_pass": true,
+      "calendar_sha256": "c2218e4a1289f01113c14c4a2bf38a59a687f0bee812ab0747b91b5ab0e36285",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 18885910,
+              "offset_s": -3e-08,
+              "record_kind": "periodic",
+              "sequence": 53977,
+              "signal": "-",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 8762000000000,
+              "simtime_s": 8.762
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 19017601,
+              "offset_s": -4e-08,
+              "record_kind": "periodic",
+              "sequence": 54367,
+              "signal": "-",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 8827000000000,
+              "simtime_s": 8.827
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 19064075,
+              "offset_s": -5e-08,
+              "record_kind": "periodic",
+              "sequence": 54505,
+              "signal": "-",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 8850000000000,
+              "simtime_s": 8.85
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 4040531,
+              "offset_s": -4e-08,
+              "record_kind": "periodic",
+              "sequence": 11453,
+              "signal": "-",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 1861000000000,
+              "simtime_s": 1.861
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 18885911,
+              "offset_s": -3e-08,
+              "record_kind": "signal",
+              "sequence": 53978,
+              "signal": "timeChanged",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 8762000000000,
+              "simtime_s": 8.762
+            },
+            "samples": 154764,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 19017602,
+              "offset_s": -4e-08,
+              "record_kind": "signal",
+              "sequence": 54368,
+              "signal": "timeChanged",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 8827000000000,
+              "simtime_s": 8.827
+            },
+            "samples": 154764,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 19064076,
+              "offset_s": -5e-08,
+              "record_kind": "signal",
+              "sequence": 54506,
+              "signal": "timeChanged",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 8850000000000,
+              "simtime_s": 8.85
+            },
+            "samples": 154764,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 4040532,
+              "offset_s": -4e-08,
+              "record_kind": "signal",
+              "sequence": 11454,
+              "signal": "timeChanged",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 1861000000000,
+              "simtime_s": 1.861
+            },
+            "samples": 154764,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_fixed_noTAS_L0_A0_seed41",
+      "position": "L0_A0/seed41/D3_fixed_noTAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "3e9a4bbded7538378a25e215315cfeaa082601d3e1e36c46e2434557b106a959",
+      "report_sha256": "a97bdb2ccacce32800e54bb591895d0660d1359a4a4310bdda2dc0dd75904484",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/runs/D3_fixed_noTAS_L0_A0_seed41",
+      "stability_pass": true
+    },
+    {
+      "applications_pass": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 2e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 4396071,
+              "offset_s": -2e-08,
+              "record_kind": "periodic",
+              "sequence": 7769,
+              "signal": "-",
+              "signed_offset_raw": -20000,
+              "simtime_raw": 1260000000000,
+              "simtime_s": 1.26
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 11461494,
+              "offset_s": 3e-08,
+              "record_kind": "periodic",
+              "sequence": 19997,
+              "signal": "-",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 3248000000000,
+              "simtime_s": 3.2479999999999998
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 3555550,
+              "offset_s": -3e-08,
+              "record_kind": "periodic",
+              "sequence": 6463,
+              "signal": "-",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 1049000000000,
+              "simtime_s": 1.049
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 2e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 11045128,
+              "offset_s": -2e-08,
+              "record_kind": "periodic",
+              "sequence": 19331,
+              "signal": "-",
+              "signed_offset_raw": -20000,
+              "simtime_raw": 3137000000000,
+              "simtime_s": 3.137
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 2e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 4396072,
+              "offset_s": -2e-08,
+              "record_kind": "signal",
+              "sequence": 7770,
+              "signal": "timeChanged",
+              "signed_offset_raw": -20000,
+              "simtime_raw": 1260000000000,
+              "simtime_s": 1.26
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 11461495,
+              "offset_s": 3e-08,
+              "record_kind": "signal",
+              "sequence": 19998,
+              "signal": "timeChanged",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 3248000000000,
+              "simtime_s": 3.2479999999999998
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 3555551,
+              "offset_s": -3e-08,
+              "record_kind": "signal",
+              "sequence": 6464,
+              "signal": "timeChanged",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 1049000000000,
+              "simtime_s": 1.049
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.CSW.clock",
+              "event_number": 103126224,
+              "offset_s": 3e-08,
+              "record_kind": "signal",
+              "sequence": 180175,
+              "signal": "timeChanged",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 29250703548375,
+              "simtime_s": 29.250703548375
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_fixed_TAS_L1_A1_seed41",
+      "position": "L1_A1/seed41/D3_fixed_TAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "f1405ec752952e30c8b0425b2aea689dcadc1298a2144ed5f9be54288d798bee",
+      "report_sha256": "7b063baca857ce19b84fcb7460bd21070eb7a7929a50f3e910540ce47c7d79b8",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/runs/D3_fixed_TAS_L1_A1_seed41",
+      "stability_pass": true
+    },
+    {
+      "applications_pass": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 24593032,
+              "offset_s": 3e-08,
+              "record_kind": "periodic",
+              "sequence": 54597,
+              "signal": "-",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 8873000000000,
+              "simtime_s": 8.873
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 70920138,
+              "offset_s": -5e-08,
+              "record_kind": "periodic",
+              "sequence": 156831,
+              "signal": "-",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 25483000000000,
+              "simtime_s": 25.483
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 46603674,
+              "offset_s": -4e-08,
+              "record_kind": "periodic",
+              "sequence": 103707,
+              "signal": "-",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 16852000000000,
+              "simtime_s": 16.852
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 25226761,
+              "offset_s": -4e-08,
+              "record_kind": "periodic",
+              "sequence": 55949,
+              "signal": "-",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 9094000000000,
+              "simtime_s": 9.094
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 24593033,
+              "offset_s": 3e-08,
+              "record_kind": "signal",
+              "sequence": 54598,
+              "signal": "timeChanged",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 8873000000000,
+              "simtime_s": 8.873
+            },
+            "samples": 154638,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 70920139,
+              "offset_s": -5e-08,
+              "record_kind": "signal",
+              "sequence": 156832,
+              "signal": "timeChanged",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 25483000000000,
+              "simtime_s": 25.483
+            },
+            "samples": 154638,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 46603675,
+              "offset_s": -4e-08,
+              "record_kind": "signal",
+              "sequence": 103708,
+              "signal": "timeChanged",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 16852000000000,
+              "simtime_s": 16.852
+            },
+            "samples": 154638,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 25226762,
+              "offset_s": -4e-08,
+              "record_kind": "signal",
+              "sequence": 55950,
+              "signal": "timeChanged",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 9094000000000,
+              "simtime_s": 9.094
+            },
+            "samples": 154638,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_fixed_noTAS_L1_A1_seed41",
+      "position": "L1_A1/seed41/D3_fixed_noTAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "b7fc8e0ad6071597b26a486884861b6ea74b7518c833e66ebcd2b2f866a0920c",
+      "report_sha256": "e09c7f1ff3356d923b74f10a83d5d9b3d8ba8bfe310e840ee088b193b44a23a1",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_fixed_L2_profile/results/runs/D3_fixed_noTAS_L1_A1_seed41",
+      "stability_pass": true
+    },
+    {
+      "applications_pass": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 2e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 6589512,
+              "offset_s": -2e-08,
+              "record_kind": "periodic",
+              "sequence": 7769,
+              "signal": "-",
+              "signed_offset_raw": -20000,
+              "simtime_raw": 1260000000000,
+              "simtime_s": 1.26
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 17102155,
+              "offset_s": 3e-08,
+              "record_kind": "periodic",
+              "sequence": 19997,
+              "signal": "-",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 3248000000000,
+              "simtime_s": 3.2479999999999998
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 5385054,
+              "offset_s": -3e-08,
+              "record_kind": "periodic",
+              "sequence": 6463,
+              "signal": "-",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 1049000000000,
+              "simtime_s": 1.049
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 17773449,
+              "offset_s": 3e-08,
+              "record_kind": "periodic",
+              "sequence": 20755,
+              "signal": "-",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 3371000000000,
+              "simtime_s": 3.371
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 2e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 6589513,
+              "offset_s": -2e-08,
+              "record_kind": "signal",
+              "sequence": 7770,
+              "signal": "timeChanged",
+              "signed_offset_raw": -20000,
+              "simtime_raw": 1260000000000,
+              "simtime_s": 1.26
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 17102156,
+              "offset_s": 3e-08,
+              "record_kind": "signal",
+              "sequence": 19998,
+              "signal": "timeChanged",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 3248000000000,
+              "simtime_s": 3.2479999999999998
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 5385055,
+              "offset_s": -3e-08,
+              "record_kind": "signal",
+              "sequence": 6464,
+              "signal": "timeChanged",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 1049000000000,
+              "simtime_s": 1.049
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 17773450,
+              "offset_s": 3e-08,
+              "record_kind": "signal",
+              "sequence": 20756,
+              "signal": "timeChanged",
+              "signed_offset_raw": 30000,
+              "simtime_raw": 3371000000000,
+              "simtime_s": 3.371
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_TAS_L2_A1_seed41",
+      "legacy_sync_flag": true,
+      "position": "L2_A1/seed41/D3_fixed_TAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "5237bb56cc2d5fe15afd44a9abbfb7eaca646239f04a203f4a96f3fa471ab2eb",
+      "report_sha256": "65fbdd16e9b26b547becf14466b8e90472b54e56bc8e0df1e1f3f9178b0b43ec",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_TAS_L2_A1_seed41",
+      "stability_pass": true
+    },
+    {
+      "applications_pass": true,
+      "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 47824642,
+              "offset_s": -3e-08,
+              "record_kind": "periodic",
+              "sequence": 64647,
+              "signal": "-",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 10512000000000,
+              "simtime_s": 10.512
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 44202290,
+              "offset_s": -5e-08,
+              "record_kind": "periodic",
+              "sequence": 59695,
+              "signal": "-",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 9710000000000,
+              "simtime_s": 9.709999999999999
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 6e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 100218810,
+              "offset_s": -6e-08,
+              "record_kind": "periodic",
+              "sequence": 135199,
+              "signal": "-",
+              "signed_offset_raw": -60000,
+              "simtime_raw": 21979000000000,
+              "simtime_s": 21.979
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 102650366,
+              "offset_s": 5e-08,
+              "record_kind": "periodic",
+              "sequence": 138389,
+              "signal": "-",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 22498000000000,
+              "simtime_s": 22.498
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 47824643,
+              "offset_s": -3e-08,
+              "record_kind": "signal",
+              "sequence": 64648,
+              "signal": "timeChanged",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 10512000000000,
+              "simtime_s": 10.512
+            },
+            "samples": 154568,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 44202291,
+              "offset_s": -5e-08,
+              "record_kind": "signal",
+              "sequence": 59696,
+              "signal": "timeChanged",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 9710000000000,
+              "simtime_s": 9.709999999999999
+            },
+            "samples": 154568,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 6e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 100218811,
+              "offset_s": -6e-08,
+              "record_kind": "signal",
+              "sequence": 135200,
+              "signal": "timeChanged",
+              "signed_offset_raw": -60000,
+              "simtime_raw": 21979000000000,
+              "simtime_s": 21.979
+            },
+            "samples": 154568,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 102650367,
+              "offset_s": 5e-08,
+              "record_kind": "signal",
+              "sequence": 138390,
+              "signal": "timeChanged",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 22498000000000,
+              "simtime_s": 22.498
+            },
+            "samples": 154568,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_noTAS_L2_A1_seed41",
+      "legacy_sync_flag": true,
+      "position": "L2_A1/seed41/D3_fixed_noTAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "8c0eaeea032309c9e34750b6204c5ca2a30c3f10715a7074d2b41fc65ba2c19c",
+      "report_sha256": "a5eafbe452d61861774c8861af363af2d5b6b5cb5a733d221818778453acb621",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_noTAS_L2_A1_seed41",
+      "stability_pass": true
+    },
+    {
+      "applications_pass": true,
+      "calendar_sha256": "d2baf317250c75162cc7ba0c583e33cb46daf8be94bfca02cde1df789acb1a33",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 10542111,
+              "offset_s": -3e-08,
+              "record_kind": "periodic",
+              "sequence": 12605,
+              "signal": "-",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 2046000000000,
+              "simtime_s": 2.046
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 59300965,
+              "offset_s": -4e-08,
+              "record_kind": "periodic",
+              "sequence": 69957,
+              "signal": "-",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 11358000000000,
+              "simtime_s": 11.358
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 6430622,
+              "offset_s": -5e-08,
+              "record_kind": "periodic",
+              "sequence": 7641,
+              "signal": "-",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 1242000000000,
+              "simtime_s": 1.242
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 73734123,
+              "offset_s": 5e-08,
+              "record_kind": "periodic",
+              "sequence": 86981,
+              "signal": "-",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 14122000000000,
+              "simtime_s": 14.122
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 10542112,
+              "offset_s": -3e-08,
+              "record_kind": "signal",
+              "sequence": 12606,
+              "signal": "timeChanged",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 2046000000000,
+              "simtime_s": 2.046
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 59300966,
+              "offset_s": -4e-08,
+              "record_kind": "signal",
+              "sequence": 69958,
+              "signal": "timeChanged",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 11358000000000,
+              "simtime_s": 11.358
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 6430623,
+              "offset_s": -5e-08,
+              "record_kind": "signal",
+              "sequence": 7642,
+              "signal": "timeChanged",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 1242000000000,
+              "simtime_s": 1.242
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 73734124,
+              "offset_s": 5e-08,
+              "record_kind": "signal",
+              "sequence": 86982,
+              "signal": "timeChanged",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 14122000000000,
+              "simtime_s": 14.122
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_TAS_L2_A1_seed43",
+      "legacy_sync_flag": false,
+      "position": "L2_A1/seed43/D3_fixed_TAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "92e5f35a3aa2cc2828182f214d72959d250916f830200cdf54cdbf744bbe1252",
+      "report_sha256": "c6be45db9a2cbf1c137ce4866796dd8a45891f38777b10c561a358b231276c8e",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_TAS_L2_A1_seed43",
+      "stability_pass": true
+    },
+    {
+      "applications_pass": true,
+      "calendar_sha256": "d2baf317250c75162cc7ba0c583e33cb46daf8be94bfca02cde1df789acb1a33",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 86751630,
+              "offset_s": -3e-08,
+              "record_kind": "periodic",
+              "sequence": 116775,
+              "signal": "-",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 18975000000000,
+              "simtime_s": 18.974999999999998
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 86672209,
+              "offset_s": -5e-08,
+              "record_kind": "periodic",
+              "sequence": 116667,
+              "signal": "-",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 18957000000000,
+              "simtime_s": 18.957
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 38621608,
+              "offset_s": -4e-08,
+              "record_kind": "periodic",
+              "sequence": 52251,
+              "signal": "-",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 8492000000000,
+              "simtime_s": 8.491999999999999
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 21823065,
+              "offset_s": -4e-08,
+              "record_kind": "periodic",
+              "sequence": 29585,
+              "signal": "-",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 4807000000000,
+              "simtime_s": 4.8069999999999995
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 86751631,
+              "offset_s": -3e-08,
+              "record_kind": "signal",
+              "sequence": 116776,
+              "signal": "timeChanged",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 18975000000000,
+              "simtime_s": 18.974999999999998
+            },
+            "samples": 154658,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 86672210,
+              "offset_s": -5e-08,
+              "record_kind": "signal",
+              "sequence": 116668,
+              "signal": "timeChanged",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 18957000000000,
+              "simtime_s": 18.957
+            },
+            "samples": 154658,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 38621609,
+              "offset_s": -4e-08,
+              "record_kind": "signal",
+              "sequence": 52252,
+              "signal": "timeChanged",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 8492000000000,
+              "simtime_s": 8.491999999999999
+            },
+            "samples": 154658,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 21823066,
+              "offset_s": -4e-08,
+              "record_kind": "signal",
+              "sequence": 29586,
+              "signal": "timeChanged",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 4807000000000,
+              "simtime_s": 4.8069999999999995
+            },
+            "samples": 154658,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_noTAS_L2_A1_seed43",
+      "legacy_sync_flag": false,
+      "position": "L2_A1/seed43/D3_fixed_noTAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "711d979703e570a55cc283522c5dccf9924f200e534166782075f069b90ae21d",
+      "report_sha256": "131483caba994826f30af818996d6f547b9678e070a4dfb905d5097f448a17a6",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_noTAS_L2_A1_seed43",
+      "stability_pass": true
+    },
+    {
+      "applications_pass": true,
+      "calendar_sha256": "675862c65a77c2074021616d2c4e2dd54f8d34226121f78742ccb723afe8e0c5",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 22360509,
+              "offset_s": -3e-08,
+              "record_kind": "periodic",
+              "sequence": 26333,
+              "signal": "-",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 4274000000000,
+              "simtime_s": 4.274
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 55888829,
+              "offset_s": 5e-08,
+              "record_kind": "periodic",
+              "sequence": 65379,
+              "signal": "-",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 10615000000000,
+              "simtime_s": 10.615
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 55780838,
+              "offset_s": 5e-08,
+              "record_kind": "periodic",
+              "sequence": 65253,
+              "signal": "-",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 10594000000000,
+              "simtime_s": 10.594
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 55842637,
+              "offset_s": 4e-08,
+              "record_kind": "periodic",
+              "sequence": 65325,
+              "signal": "-",
+              "signed_offset_raw": 40000,
+              "simtime_raw": 10606000000000,
+              "simtime_s": 10.606
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 3e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 22360510,
+              "offset_s": -3e-08,
+              "record_kind": "signal",
+              "sequence": 26334,
+              "signal": "timeChanged",
+              "signed_offset_raw": -30000,
+              "simtime_raw": 4274000000000,
+              "simtime_s": 4.274
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 55888830,
+              "offset_s": 5e-08,
+              "record_kind": "signal",
+              "sequence": 65380,
+              "signal": "timeChanged",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 10615000000000,
+              "simtime_s": 10.615
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 55780839,
+              "offset_s": 5e-08,
+              "record_kind": "signal",
+              "sequence": 65254,
+              "signal": "timeChanged",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 10594000000000,
+              "simtime_s": 10.594
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 55842638,
+              "offset_s": 4e-08,
+              "record_kind": "signal",
+              "sequence": 65326,
+              "signal": "timeChanged",
+              "signed_offset_raw": 40000,
+              "simtime_raw": 10606000000000,
+              "simtime_s": 10.606
+            },
+            "samples": 154800,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_TAS_L2_A1_seed47",
+      "legacy_sync_flag": false,
+      "position": "L2_A1/seed47/D3_fixed_TAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "f2d9d8fbac0291ac0d52f18e211eb020c1994082aa21af8b654e5413123c16aa",
+      "report_sha256": "3ddaaa4d8b99f632e5bb115b1e63a5d18612d7276a05fe5933aa6b31410d03b2",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_TAS_L2_A1_seed47",
+      "stability_pass": true
+    },
+    {
+      "applications_pass": true,
+      "calendar_sha256": "675862c65a77c2074021616d2c4e2dd54f8d34226121f78742ccb723afe8e0c5",
+      "direct_tick_sync": {
+        "clock_event_snapshot_pass": true,
+        "continuous_conformity": "not_verified; 1 ms periodic samples and discrete clock-signal snapshots do not cover every instant",
+        "definition": "offset_i = corrected_clock_i_raw - corrected_HPC_raw at the same probe event",
+        "method": "simultaneous corrected IClock::getClockTime() snapshots; integer native ticks subtracted before serialization; no interpolation",
+        "observed_sample_pass": true,
+        "periodic": {
+          "CSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 32787772,
+              "offset_s": -4e-08,
+              "record_kind": "periodic",
+              "sequence": 43789,
+              "signal": "-",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 7122000000000,
+              "simtime_s": 7.122
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 49415631,
+              "offset_s": 5e-08,
+              "record_kind": "periodic",
+              "sequence": 66093,
+              "signal": "-",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 10745000000000,
+              "simtime_s": 10.745
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 85785287,
+              "offset_s": -5e-08,
+              "record_kind": "periodic",
+              "sequence": 115291,
+              "signal": "-",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 18748000000000,
+              "simtime_s": 18.748
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "-",
+              "event_number": 17520419,
+              "offset_s": -4e-08,
+              "record_kind": "periodic",
+              "sequence": 23655,
+              "signal": "-",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 3853000000000,
+              "simtime_s": 3.8529999999999998
+            },
+            "samples": 30000,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "periodic_sample_pass": true,
+        "signal": {
+          "CSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 32787773,
+              "offset_s": -4e-08,
+              "record_kind": "signal",
+              "sequence": 43790,
+              "signal": "timeChanged",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 7122000000000,
+              "simtime_s": 7.122
+            },
+            "samples": 154574,
+            "samples_abs_gt_1us": 0
+          },
+          "Z1.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 49415632,
+              "offset_s": 5e-08,
+              "record_kind": "signal",
+              "sequence": 66094,
+              "signal": "timeChanged",
+              "signed_offset_raw": 50000,
+              "simtime_raw": 10745000000000,
+              "simtime_s": 10.745
+            },
+            "samples": 154574,
+            "samples_abs_gt_1us": 0
+          },
+          "Z2.ZSW": {
+            "max_abs_offset_s": 5e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 85785288,
+              "offset_s": -5e-08,
+              "record_kind": "signal",
+              "sequence": 115292,
+              "signal": "timeChanged",
+              "signed_offset_raw": -50000,
+              "simtime_raw": 18748000000000,
+              "simtime_s": 18.748
+            },
+            "samples": 154574,
+            "samples_abs_gt_1us": 0
+          },
+          "Z3.ZSW": {
+            "max_abs_offset_s": 4e-08,
+            "max_sample": {
+              "emitter": "ZonalIVN.HPC.clock",
+              "event_number": 17520420,
+              "offset_s": -4e-08,
+              "record_kind": "signal",
+              "sequence": 23656,
+              "signal": "timeChanged",
+              "signed_offset_raw": -40000,
+              "simtime_raw": 3853000000000,
+              "simtime_s": 3.8529999999999998
+            },
+            "samples": 154574,
+            "samples_abs_gt_1us": 0
+          }
+        },
+        "threshold_s": 1e-06,
+        "tick_scale_exp": -12,
+        "window_s": [
+          1,
+          31
+        ]
+      },
+      "execution_id": "D3_noTAS_L2_A1_seed47",
+      "legacy_sync_flag": false,
+      "position": "L2_A1/seed47/D3_fixed_noTAS",
+      "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+      "raw_vector_sha256": "69198dc5ba181a72aabdc20a8a7380e07e05e1aa0d5bb27e4a546a45e9add7af",
+      "report_sha256": "b8f42fc217cafd8fe744c0869548ece18b2b6befa5ca401b508ad753f437fdbf",
+      "simulation_valid": true,
+      "source": "simulations/pilot/c4_feasibility_decision/results/runs/D3_noTAS_L2_A1_seed47",
+      "stability_pass": true
+    }
+  ],
+  "runtime": {
+    "executable_hashes": {
+      "/home/jonatan/omnetpp/lib/liboppcmdenv.so": "4073740b9c1f20dceb7f953daf1394af7a0276b3a7a4d090fdea17cc418099d5",
+      "/home/jonatan/omnetpp/lib/liboppcommon.so": "7ad5cd1b7304960edbbe4beeaa5d645aa75d37bc1a144d71b940aac17de3731d",
+      "/home/jonatan/omnetpp/lib/liboppenvir.so": "613fc0295bb0828d0e60f25686c1e7dfd72f4bedcff9e9d4951f03d2c59e6785",
+      "/home/jonatan/omnetpp/lib/liboppnedxml.so": "5c1f84578a1dd2b2a14f7955f21d0d81b0336b5861dfc9d93ed36ce8b433b59d",
+      "/home/jonatan/omnetpp/lib/liboppsim.so": "72a86224f40ae6df55cad64a554f0dc15a64b00e3598e664fe8d880933684ff5",
+      "/home/jonatan/omnetpp/samples/inet-4.7.0/src/libINET.so": "5beee4b431f2e685e1bb9664bcc4a8a9f5b4123704b7da081d7017be1c58f3e1"
+    },
+    "inet": "4.7.0",
+    "omnetpp": "6.4.0 build 260506-2cf25223fe",
+    "source_hashes": {
+      "docs/design/P1-v4.pdf": "87809f1b5e22f72e7c58ad2f3a90aab8476e58a80e7417b82f47897af66235f5",
+      "scripts/run/validate_c0.py": "232f97adef3c9a332f03a82dfd150abbbfa07dd08e5fad328233e0f85e7c49c9",
+      "simulations/omnetpp.ini": "ccb2660dc084be88e5d2fb1f156f63e5aedbb4c216f38d473cac9bcd910ee339",
+      "simulations/zonal/configs/classification.ini": "dd150b02cd475a586c758e0444582f0c0d1de69f4fd67b9a9df6001285a2d976",
+      "simulations/zonal/configs/mechanisms/C3_calibrated_cbs.ini": "ded5bf6fd8c3141fd46b8b33fbee059844fb7c268e7b50edeedebdd0d87b5f3c",
+      "simulations/zonal/configs/mechanisms/C3_calibrated_rates.ini": "0715ad2e87e604647faa993fad82d24c51479b4b13cb53c84806a59323ae438e",
+      "simulations/zonal/networks/ZonalIVN.ned": "02aa82a87e54ed4011d1744ae5471579c30d84f466fc1eef595fed402febb55f",
+      "simulations/zonal/traffic/flows.csv": "3e3f28c70ab7e4f2b80b970edf3b13fdf6092b069a460a8ee46c21b524a5bbc1",
+      "simulations/zonal/traffic/transients.csv": "fd41ec629855db8974af0b9b54e5eaa664bc44611783dcca41520bd1b4eb0e3d",
+      "src/common/TrafficPlan.cc": "e900b7b0ea165a5f7202ba5e2715860c6020bca5963e68c25b8db7d1e49af48e",
+      "src/common/TrafficPlan.ned": "39959c40b3792dfa84d7090fb950336ffe01d93668878549c070b428bf16bb37",
+      "src/zonal-ivn-tsn": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7"
+    },
+    "working_tree_status": " M scripts/run/validate_c0.py\n M src/common/TrafficPlan.cc\n M src/common/TrafficPlan.ned\n?? simulations/pilot/c4_cbs_tas_investigation/\n?? simulations/pilot/c4_feasibility_decision/\n?? simulations/pilot/c4_final_verification/\n?? simulations/pilot/c4_fixed_L2_profile/\n?? simulations/pilot/c4_gate_clock_reference/\n?? simulations/pilot/c4_joint_dimensioning/\n?? simulations/pilot/c4_real_clock_service_margin/\n?? simulations/pilot/c4_real_clock_service_margin_corrected/\n?? simulations/pilot/c4_service_preservation/\n?? simulations/pilot/c4_shared_sp_brakes/\n"
+  },
+  "runtime_preflights": {
+    "L0_A0": {
+      "sha256": "21002241a56fbbda66a93d612aca3b0d7c2283cdb9f2c52fab18290cd7cb2068",
+      "status": "pass",
+      "treatments": {
+        "D3_fixed_TAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "8b4fb8ef72a0a07fee2d4835797de4706e6ce97ffb5f297dcae46eaa33133983"
+        },
+        "D3_fixed_noTAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "544a6c3e50c972059b62bdd2592db22a492d770c8e0e676752bafa980dea96bb"
+        }
+      }
+    },
+    "L0_A1": {
+      "sha256": "b35ecccd210ea70e4298ce8f1cb1e265cb7ddf4eecef7b514aab519f345b0cf8",
+      "status": "pass",
+      "treatments": {
+        "D3_fixed_TAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "d83799f77eedb148dcf4d6ec19f812dd12dc99d713b0e81ec3089f59389750f3"
+        },
+        "D3_fixed_noTAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "fdeae5ef0081c03f306effab7f1f2e39d58bf2003a002642b931022b15db8712"
+        }
+      }
+    },
+    "L1_A0": {
+      "sha256": "3fb32b6efb5151b2ea1e34bc1ae5ff68e11f633e03b89c2eaa69f478fd9c5262",
+      "status": "pass",
+      "treatments": {
+        "D3_fixed_TAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "58a12c13ff453c299fff70ad1d1b17898e522331691444d6b0f00694942270b8"
+        },
+        "D3_fixed_noTAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "8288c4a2bccee462eab35df8c705334c657cf9e7abdc7ab0d5503b799006cf71"
+        }
+      }
+    },
+    "L1_A1": {
+      "sha256": "6822d7d8e5e87dbdf1fcdc82cb15cd9cd0f5187f33e8964d364aa7327d5a6b3c",
+      "status": "pass",
+      "treatments": {
+        "D3_fixed_TAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "70ba0f9418a1d6a19914e62e129d1e338587e70a05689ad4a94ef7b5c4d0ef16"
+        },
+        "D3_fixed_noTAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "4e399e6dd3172769a473f91f41c849f570493f9283e8cf9b01030582e448fd48"
+        }
+      }
+    },
+    "L2_A0": {
+      "sha256": "ebdd6a9549b1e6840816ea4eef1c6c98e25a11615204ff85aaa55ca133690ae7",
+      "status": "pass",
+      "treatments": {
+        "D3_fixed_TAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "3f6ccb8c316326850c4b7b34da259709232884612522e59d3933cc904e47ceed"
+        },
+        "D3_fixed_noTAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "6aec34cba21eba06c99fda9965bc57452f98a474eabf1ddfb162d7298fd30d05"
+        }
+      }
+    },
+    "L2_A1": {
+      "sha256": "84d2ac0e5f3c7db92815ce4179c5783bbb46d2c81290c5b82b9aaa1dad49f6ce",
+      "status": "pass",
+      "treatments": {
+        "D3_fixed_TAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "f18237511dcae9dfebd1ec5ad2e55ef74949cda6e0e0ac53aa45404ce86eece8"
+        },
+        "D3_fixed_noTAS": {
+          "cbs_pass": true,
+          "gates": "pass",
+          "sca_sha256": "6bf54de77e9838b63a9bb85e93a61afc7d8161187555521e63e24ef15f735ebc"
+        }
+      }
+    }
+  },
+  "source_candidate": "D3_coordinated_20pct",
+  "source_execution": "simulations/pilot/c4_feasibility_decision/results/final_results_2026-10-20.json#D3_TAS_L2_A1_seed41",
+  "study": "c4_final_verification",
+  "unresolved_calendar_cells": [
+    "L0_A1",
+    "L1_A0",
+    "L2_A0"
+  ],
+  "working_tree_status_at_freeze": " M scripts/run/validate_c0.py\n M src/common/TrafficPlan.cc\n M src/common/TrafficPlan.ned\n?? simulations/pilot/c4_cbs_tas_investigation/\n?? simulations/pilot/c4_feasibility_decision/\n?? simulations/pilot/c4_final_verification/\n?? simulations/pilot/c4_fixed_L2_profile/\n?? simulations/pilot/c4_gate_clock_reference/\n?? simulations/pilot/c4_joint_dimensioning/\n?? simulations/pilot/c4_real_clock_service_margin/\n?? simulations/pilot/c4_real_clock_service_margin_corrected/\n?? simulations/pilot/c4_service_preservation/\n?? simulations/pilot/c4_shared_sp_brakes/\n"
+}

@@ -1,0 +1,43 @@
+{
+  "exploratory": true,
+  "diagnostic_only": false,
+  "official_c4_frozen": false,
+  "cell": "L2/A1",
+  "seed": 41,
+  "window_s": {"warmup_end": 1.0, "measurement_start_inclusive": 1.0, "measurement_end_exclusive": 31.0, "simulation_end": 31.05},
+  "treatments": {
+    "B_local": {"gates": {"kind": "local_A005", "period_s": 0.0001, "class4_open_s": 0.000077, "class7_open_s": 0.00001, "class4_offset_s": 0.00009, "class7_offset_s": 0.0, "clock": "HPC clock per egress", "clockModule": "^.^.^.^.clock", "initiallyOpen": true, "scheduleForAbsoluteTime": true, "implicit_guard_band": true}, "profile": "A005", "run_even_if_service_margin_inconclusive": true},
+    "R_cadence": {"gates": {"kind": "cadence_R", "period_s": 0.000099995, "class4_open_s": 0.000047995, "class7_open_s": 0.000052, "class4_offset_s": 0.0000899955, "class7_offset_s": 0.0, "clock": "HPC clock per egress", "clockModule": "^.^.^.^.clock", "initiallyOpen": true, "scheduleForAbsoluteTime": true, "implicit_guard_band": true}, "profile": "A005"},
+    "RP_cadence_phase": {"gates": {"kind": "cadence_RP", "period_s": 0.000099995, "class4_open_s": 0.000047995, "class7_open_s": 0.000052, "class4_offset_s": 0.0000899955, "class7_offset_s_by_egress": {"HPC.eth[0]": 0.0, "CSW.eth[1]": 0.000098995, "CSW.eth[2]": 0.000098995, "CSW.eth[3]": 0.000098995}, "clock": "HPC clock per egress", "clockModule": "^.^.^.^.clock", "initiallyOpen": true, "scheduleForAbsoluteTime": true, "implicit_guard_band": true}, "profile": "A005"},
+    "BM_recovery": {"gates": "same_as:B_local", "profile": "A005_plus_only_Z3_eth7_TC4_2_percent", "overrides_bps": {"Z3.ZSW.eth[7]/TC4": 28152000}},
+    "RPM_combined": {"gates": "same_as:RP_cadence_phase", "profile": "A005_plus_only_Z3_eth7_TC4_2_percent", "overrides_bps": {"Z3.ZSW.eth[7]/TC4": 28152000}},
+    "C3_sync_control": {"gates": {"kind": "no_periodic_TAS", "gptp": true}, "profile": "official_reduction_11_L2"}
+  },
+  "expected_cbs": {
+    "type": "inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper",
+    "initialCredit": 0,
+    "transmitCreditLimit": 0,
+    "minCredit": "-inf",
+    "maxCredit": "inf",
+    "accumulateCreditInGuardBand": false,
+    "maxInterferenceSize": "inf b",
+    "extraLength": "64 b",
+    "extraDuration": "0 s",
+    "sendSlope_formula": "idleSlope - bitrate",
+    "transmitCreditSpendRate_formula": "bitrate - idleSlope"
+  },
+  "expected_no_cbs": ["Z1.ZCPU.eth[0]/TC4", "Z2.ZCPU.eth[0]/TC4", "Z3.ZSW.eth[1]/TC4"],
+  "profiles_only_enable_CBS_on_positive_permanent_reservations": true,
+  "f13_evaluation": {
+    "queue_baseline": "Q immediately before episode crossing in measurement [1,31); otherwise Q(1-)",
+    "episode_threshold_and_recovery_tolerance_bits": 2048,
+    "recovery_horizon_s": 5.0,
+    "horizon_basis": "one P1 queue-stability aggregation interval; diagnostic episode analysis only",
+    "must_remain_offered": true,
+    "drop_tolerance": 0,
+    "crossing_measurement_end": "right-censored at Q(31-)",
+    "no_episode_status": "not_identifiable"
+  },
+  "budget": {"max_complete_treatments_seed41": 6, "order": ["B_local", "C3_sync_control", "BM_recovery", "R_cadence", "RP_cadence_phase", "RPM_combined"], "max_technical_replacements_per_proven_failure": 1, "other_seeds_or_cells_authorized": false},
+  "resource_policy": {"max_parallel_jobs": 1, "minimum_free_disk_GiB": 40, "minimum_MemAvailable_GiB": 7, "stream_vector_processing": true, "keep_compressed_audit_evidence": true}
+}

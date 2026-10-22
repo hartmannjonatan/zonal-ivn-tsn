@@ -1,0 +1,1274 @@
+{
+  "C3_profile_bps": {
+    "CAM1.eth[0]/TC4": 56850000,
+    "CAM2.eth[0]/TC4": 56850000,
+    "CAM3.eth[0]/TC4": 56850000,
+    "CAM4.eth[0]/TC4": 56850000,
+    "CSW.eth[0]/TC4": 227400000,
+    "CSW.eth[0]/TC6": 311760000,
+    "CSW.eth[1]/TC4": 89280000,
+    "CSW.eth[2]/TC4": 89280000,
+    "CSW.eth[3]/TC4": 247600000,
+    "HPC.eth[0]/TC4": 144480000,
+    "LiDAR1.eth[0]/TC6": 308400000,
+    "RADAR1.eth[0]/TC6": 1680000,
+    "RADAR2.eth[0]/TC6": 1680000,
+    "Z1.ZSW.eth[0]/TC4": 236850000,
+    "Z1.ZSW.eth[0]/TC6": 308400000,
+    "Z1.ZSW.eth[6]/TC4": 27600000,
+    "Z1.ZSW.eth[7]/TC4": 61680000,
+    "Z2.ZSW.eth[0]/TC4": 216850000,
+    "Z2.ZSW.eth[0]/TC6": 1680000,
+    "Z2.ZSW.eth[6]/TC4": 27600000,
+    "Z2.ZSW.eth[7]/TC4": 61680000,
+    "Z3.ZSW.eth[0]/TC4": 113700000,
+    "Z3.ZSW.eth[0]/TC6": 1680000,
+    "Z3.ZSW.eth[7]/TC4": 27600000
+  },
+  "base_reference_profile_bps": {
+    "CAM1.eth[0]/TC4": 56850000,
+    "CAM2.eth[0]/TC4": 56850000,
+    "CAM3.eth[0]/TC4": 56850000,
+    "CAM4.eth[0]/TC4": 56850000,
+    "CSW.eth[0]/TC4": 227400000,
+    "CSW.eth[0]/TC6": 311760000,
+    "CSW.eth[1]/TC4": 115948052,
+    "CSW.eth[2]/TC4": 115948052,
+    "CSW.eth[3]/TC4": 321558442,
+    "HPC.eth[0]/TC4": 187636364,
+    "LiDAR1.eth[0]/TC6": 308400000,
+    "RADAR1.eth[0]/TC6": 1680000,
+    "RADAR2.eth[0]/TC6": 1680000,
+    "Z1.ZSW.eth[0]/TC4": 236850000,
+    "Z1.ZSW.eth[0]/TC6": 308400000,
+    "Z1.ZSW.eth[6]/TC4": 27600000,
+    "Z1.ZSW.eth[7]/TC4": 61680000,
+    "Z2.ZSW.eth[0]/TC4": 216850000,
+    "Z2.ZSW.eth[0]/TC6": 1680000,
+    "Z2.ZSW.eth[6]/TC4": 27600000,
+    "Z2.ZSW.eth[7]/TC4": 61680000,
+    "Z3.ZSW.eth[0]/TC4": 113700000,
+    "Z3.ZSW.eth[0]/TC6": 1680000,
+    "Z3.ZSW.eth[7]/TC4": 27600000
+  },
+  "base_reference_profile_sha256": "2e4b9e49a9bc6712a987ccc4b69a90ee60f9b72ae93c3819cbfeff3816270723",
+  "candidate_generation_note": "Only the six predefined positions are considered. Duplicate/cap-rejected/not-generated positions are not replaced.",
+  "candidate_ids_predeclared": [
+    "M",
+    "H005",
+    "A001",
+    "A005",
+    "A010",
+    "A020"
+  ],
+  "candidate_limit": 6,
+  "candidate_order": [
+    "M",
+    "H005",
+    "A001",
+    "A005",
+    "A010",
+    "A020"
+  ],
+  "candidates": [
+    {
+      "base_reference_profile_sha256": "2e4b9e49a9bc6712a987ccc4b69a90ee60f9b72ae93c3819cbfeff3816270723",
+      "candidate_id": "M",
+      "duplicate_of": null,
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 115951064,
+        "CSW.eth[2]/TC4": 115950986,
+        "CSW.eth[3]/TC4": 323092834,
+        "HPC.eth[0]/TC4": 187648814,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 27600000
+      },
+      "effective_profile_sha256": "cd3bc8d74a20a5a777abade78dbad902660d77e5cdbf900a6e9472d20bd218c8",
+      "method_inputs": {
+        "effective_eligible_fraction_by_queue": {
+          "CSW.eth[1]/TC4": 0.7699799969529371,
+          "CSW.eth[2]/TC4": 0.7699805134681039,
+          "CSW.eth[3]/TC4": 0.7663432133344615,
+          "HPC.eth[0]/TC4": 0.7699489122227356
+        },
+        "formula": "I_M(q)=I_C3(q)/f_eligible(q); equivalently I_ref(q)*0.77/f_eligible(q)",
+        "limitation": "control-informed estimate; guard-band duration depends on observed packet fit and queue state; does not guarantee service or stability",
+        "measurement": "C4_reference seed41 L2/A1, [1,31), open gate minus observed guard-band duration"
+      },
+      "multipliers_by_queue": {
+        "CSW.eth[1]/TC4": 1.0000259786580719,
+        "CSW.eth[2]/TC4": 1.0000253078247505,
+        "CSW.eth[3]/TC4": 1.0047717349118646,
+        "HPC.eth[0]/TC4": 1.0000663521649986
+      },
+      "normalized_sum_increase": 0.001552788,
+      "port_reservations": {
+        "CAM1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM3.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM4.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.53916,
+          "headroom_to_75pct_bps": 210840000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 539160000
+        },
+        "CSW.eth[1]": {
+          "admissible": true,
+          "cap_fraction": 0.115951064,
+          "headroom_to_75pct_bps": 634048936,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115951064
+        },
+        "CSW.eth[2]": {
+          "admissible": true,
+          "cap_fraction": 0.115950986,
+          "headroom_to_75pct_bps": 634049014,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115950986
+        },
+        "CSW.eth[3]": {
+          "admissible": true,
+          "cap_fraction": 0.323092834,
+          "headroom_to_75pct_bps": 426907166,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 323092834
+        },
+        "HPC.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.187648814,
+          "headroom_to_75pct_bps": 562351186,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 187648814
+        },
+        "LiDAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.3084,
+          "headroom_to_75pct_bps": 441600000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 308400000
+        },
+        "RADAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "RADAR2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "Z1.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.54525,
+          "headroom_to_75pct_bps": 204750000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 545250000
+        },
+        "Z1.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z1.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z2.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.21853,
+          "headroom_to_75pct_bps": 531470000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 218530000
+        },
+        "Z2.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z2.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z3.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.11538,
+          "headroom_to_75pct_bps": 634620000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115380000
+        },
+        "Z3.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        }
+      },
+      "result": {
+        "application_viable": true,
+        "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+        "execution_id": "M_L2_A1_seed41",
+        "pilot_viable": false,
+        "recorded_drop_total_whole_run": 0,
+        "simulation_valid": true,
+        "stability_failure_queues": [
+          "ZonalIVN.HPC.eth[0].macLayer.queue.queue[4]"
+        ],
+        "stability_viable": false
+      },
+      "status": "completed_rejected_stability",
+      "transformation": "mechanism_derived_control_estimate"
+    },
+    {
+      "base_reference_profile_sha256": "2e4b9e49a9bc6712a987ccc4b69a90ee60f9b72ae93c3819cbfeff3816270723",
+      "candidate_id": "H005",
+      "duplicate_of": null,
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 115948052,
+        "CSW.eth[2]/TC4": 115948052,
+        "CSW.eth[3]/TC4": 321558442,
+        "HPC.eth[0]/TC4": 188574546,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 27600000
+      },
+      "effective_profile_sha256": "0b175ed4e2ffcccb3f039421cd30bb9e91d5337f99890044eed42318dce24d8e",
+      "method_inputs": {},
+      "multipliers_by_queue": {
+        "HPC.eth[0]/TC4": 1.005
+      },
+      "normalized_sum_increase": 0.000938182,
+      "port_reservations": {
+        "CAM1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM3.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM4.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.53916,
+          "headroom_to_75pct_bps": 210840000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 539160000
+        },
+        "CSW.eth[1]": {
+          "admissible": true,
+          "cap_fraction": 0.115948052,
+          "headroom_to_75pct_bps": 634051948,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115948052
+        },
+        "CSW.eth[2]": {
+          "admissible": true,
+          "cap_fraction": 0.115948052,
+          "headroom_to_75pct_bps": 634051948,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115948052
+        },
+        "CSW.eth[3]": {
+          "admissible": true,
+          "cap_fraction": 0.321558442,
+          "headroom_to_75pct_bps": 428441558,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 321558442
+        },
+        "HPC.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.188574546,
+          "headroom_to_75pct_bps": 561425454,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 188574546
+        },
+        "LiDAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.3084,
+          "headroom_to_75pct_bps": 441600000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 308400000
+        },
+        "RADAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "RADAR2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "Z1.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.54525,
+          "headroom_to_75pct_bps": 204750000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 545250000
+        },
+        "Z1.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z1.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z2.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.21853,
+          "headroom_to_75pct_bps": 531470000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 218530000
+        },
+        "Z2.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z2.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z3.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.11538,
+          "headroom_to_75pct_bps": 634620000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115380000
+        },
+        "Z3.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        }
+      },
+      "result": {
+        "application_viable": true,
+        "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+        "execution_id": "H005_L2_A1_seed41",
+        "pilot_viable": false,
+        "recorded_drop_total_whole_run": 37,
+        "simulation_valid": true,
+        "stability_failure_queues": [
+          "ZonalIVN.HPC.eth[0].macLayer.queue.queue[4]"
+        ],
+        "stability_viable": false
+      },
+      "status": "completed_rejected_stability",
+      "transformation": "predeclared_HPC_only_plus_0.5_percent"
+    },
+    {
+      "base_reference_profile_sha256": "2e4b9e49a9bc6712a987ccc4b69a90ee60f9b72ae93c3819cbfeff3816270723",
+      "candidate_id": "A001",
+      "duplicate_of": null,
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 116064000,
+        "CSW.eth[2]/TC4": 116064000,
+        "CSW.eth[3]/TC4": 321880000,
+        "HPC.eth[0]/TC4": 187824000,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 27600000
+      },
+      "effective_profile_sha256": "2e768936730f582e92d6327a87383b23833c86bcb49b407f5b1f94edcd440deb",
+      "method_inputs": {},
+      "multipliers_by_queue": {
+        "CSW.eth[1]/TC4": 1.001,
+        "CSW.eth[2]/TC4": 1.001,
+        "CSW.eth[3]/TC4": 1.001,
+        "HPC.eth[0]/TC4": 1.001
+      },
+      "normalized_sum_increase": 0.00074109,
+      "port_reservations": {
+        "CAM1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM3.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM4.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.53916,
+          "headroom_to_75pct_bps": 210840000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 539160000
+        },
+        "CSW.eth[1]": {
+          "admissible": true,
+          "cap_fraction": 0.116064,
+          "headroom_to_75pct_bps": 633936000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 116064000
+        },
+        "CSW.eth[2]": {
+          "admissible": true,
+          "cap_fraction": 0.116064,
+          "headroom_to_75pct_bps": 633936000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 116064000
+        },
+        "CSW.eth[3]": {
+          "admissible": true,
+          "cap_fraction": 0.32188,
+          "headroom_to_75pct_bps": 428120000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 321880000
+        },
+        "HPC.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.187824,
+          "headroom_to_75pct_bps": 562176000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 187824000
+        },
+        "LiDAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.3084,
+          "headroom_to_75pct_bps": 441600000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 308400000
+        },
+        "RADAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "RADAR2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "Z1.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.54525,
+          "headroom_to_75pct_bps": 204750000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 545250000
+        },
+        "Z1.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z1.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z2.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.21853,
+          "headroom_to_75pct_bps": 531470000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 218530000
+        },
+        "Z2.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z2.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z3.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.11538,
+          "headroom_to_75pct_bps": 634620000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115380000
+        },
+        "Z3.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        }
+      },
+      "result": {
+        "application_viable": true,
+        "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+        "execution_id": "A001_L2_A1_seed41",
+        "pilot_viable": false,
+        "recorded_drop_total_whole_run": 28,
+        "simulation_valid": true,
+        "stability_failure_queues": [
+          "ZonalIVN.HPC.eth[0].macLayer.queue.queue[4]"
+        ],
+        "stability_viable": false
+      },
+      "status": "completed_rejected_stability",
+      "transformation": "predeclared_all_gated_CBS_plus_0.1_percent"
+    },
+    {
+      "base_reference_profile_sha256": "2e4b9e49a9bc6712a987ccc4b69a90ee60f9b72ae93c3819cbfeff3816270723",
+      "candidate_id": "A005",
+      "duplicate_of": null,
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 116527792,
+        "CSW.eth[2]/TC4": 116527792,
+        "CSW.eth[3]/TC4": 323166234,
+        "HPC.eth[0]/TC4": 188574546,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 27600000
+      },
+      "effective_profile_sha256": "a5b621c65dc429a9747370426a8d51c43078769fa54efd543dac7be703590585",
+      "method_inputs": {},
+      "multipliers_by_queue": {
+        "CSW.eth[1]/TC4": 1.005,
+        "CSW.eth[2]/TC4": 1.005,
+        "CSW.eth[3]/TC4": 1.005,
+        "HPC.eth[0]/TC4": 1.005
+      },
+      "normalized_sum_increase": 0.003705454,
+      "port_reservations": {
+        "CAM1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM3.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM4.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.53916,
+          "headroom_to_75pct_bps": 210840000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 539160000
+        },
+        "CSW.eth[1]": {
+          "admissible": true,
+          "cap_fraction": 0.116527792,
+          "headroom_to_75pct_bps": 633472208,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 116527792
+        },
+        "CSW.eth[2]": {
+          "admissible": true,
+          "cap_fraction": 0.116527792,
+          "headroom_to_75pct_bps": 633472208,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 116527792
+        },
+        "CSW.eth[3]": {
+          "admissible": true,
+          "cap_fraction": 0.323166234,
+          "headroom_to_75pct_bps": 426833766,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 323166234
+        },
+        "HPC.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.188574546,
+          "headroom_to_75pct_bps": 561425454,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 188574546
+        },
+        "LiDAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.3084,
+          "headroom_to_75pct_bps": 441600000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 308400000
+        },
+        "RADAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "RADAR2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "Z1.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.54525,
+          "headroom_to_75pct_bps": 204750000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 545250000
+        },
+        "Z1.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z1.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z2.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.21853,
+          "headroom_to_75pct_bps": 531470000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 218530000
+        },
+        "Z2.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z2.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z3.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.11538,
+          "headroom_to_75pct_bps": 634620000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115380000
+        },
+        "Z3.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        }
+      },
+      "result": {
+        "application_viable": true,
+        "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+        "execution_id": "A005_L2_A1_seed41",
+        "pilot_viable": false,
+        "recorded_drop_total_whole_run": 0,
+        "simulation_valid": true,
+        "stability_failure_queues": [
+          "ZonalIVN.HPC.eth[0].macLayer.queue.queue[4]"
+        ],
+        "stability_viable": false
+      },
+      "status": "completed_rejected_stability",
+      "transformation": "predeclared_all_gated_CBS_plus_0.5_percent"
+    },
+    {
+      "base_reference_profile_sha256": "2e4b9e49a9bc6712a987ccc4b69a90ee60f9b72ae93c3819cbfeff3816270723",
+      "candidate_id": "A010",
+      "duplicate_of": null,
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 117107533,
+        "CSW.eth[2]/TC4": 117107533,
+        "CSW.eth[3]/TC4": 324774026,
+        "HPC.eth[0]/TC4": 189512728,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 27600000
+      },
+      "effective_profile_sha256": "1caff619c4aa9bded742a0d85c9bf743004b6f7a669580b56957e9af0305ea88",
+      "method_inputs": {},
+      "multipliers_by_queue": {
+        "CSW.eth[1]/TC4": 1.01,
+        "CSW.eth[2]/TC4": 1.01,
+        "CSW.eth[3]/TC4": 1.01,
+        "HPC.eth[0]/TC4": 1.01
+      },
+      "normalized_sum_increase": 0.00741091,
+      "port_reservations": {
+        "CAM1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM3.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM4.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.53916,
+          "headroom_to_75pct_bps": 210840000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 539160000
+        },
+        "CSW.eth[1]": {
+          "admissible": true,
+          "cap_fraction": 0.117107533,
+          "headroom_to_75pct_bps": 632892467,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 117107533
+        },
+        "CSW.eth[2]": {
+          "admissible": true,
+          "cap_fraction": 0.117107533,
+          "headroom_to_75pct_bps": 632892467,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 117107533
+        },
+        "CSW.eth[3]": {
+          "admissible": true,
+          "cap_fraction": 0.324774026,
+          "headroom_to_75pct_bps": 425225974,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 324774026
+        },
+        "HPC.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.189512728,
+          "headroom_to_75pct_bps": 560487272,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 189512728
+        },
+        "LiDAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.3084,
+          "headroom_to_75pct_bps": 441600000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 308400000
+        },
+        "RADAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "RADAR2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "Z1.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.54525,
+          "headroom_to_75pct_bps": 204750000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 545250000
+        },
+        "Z1.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z1.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z2.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.21853,
+          "headroom_to_75pct_bps": 531470000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 218530000
+        },
+        "Z2.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z2.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z3.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.11538,
+          "headroom_to_75pct_bps": 634620000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115380000
+        },
+        "Z3.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        }
+      },
+      "result": {
+        "application_viable": true,
+        "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+        "execution_id": "A010_L2_A1_seed41",
+        "pilot_viable": false,
+        "recorded_drop_total_whole_run": 0,
+        "simulation_valid": true,
+        "stability_failure_queues": [
+          "ZonalIVN.HPC.eth[0].macLayer.queue.queue[4]"
+        ],
+        "stability_viable": false
+      },
+      "status": "completed_rejected_stability",
+      "transformation": "predeclared_all_gated_CBS_plus_1_percent"
+    },
+    {
+      "base_reference_profile_sha256": "2e4b9e49a9bc6712a987ccc4b69a90ee60f9b72ae93c3819cbfeff3816270723",
+      "candidate_id": "A020",
+      "duplicate_of": null,
+      "effective_profile_bps": {
+        "CAM1.eth[0]/TC4": 56850000,
+        "CAM2.eth[0]/TC4": 56850000,
+        "CAM3.eth[0]/TC4": 56850000,
+        "CAM4.eth[0]/TC4": 56850000,
+        "CSW.eth[0]/TC4": 227400000,
+        "CSW.eth[0]/TC6": 311760000,
+        "CSW.eth[1]/TC4": 118267013,
+        "CSW.eth[2]/TC4": 118267013,
+        "CSW.eth[3]/TC4": 327989611,
+        "HPC.eth[0]/TC4": 191389091,
+        "LiDAR1.eth[0]/TC6": 308400000,
+        "RADAR1.eth[0]/TC6": 1680000,
+        "RADAR2.eth[0]/TC6": 1680000,
+        "Z1.ZSW.eth[0]/TC4": 236850000,
+        "Z1.ZSW.eth[0]/TC6": 308400000,
+        "Z1.ZSW.eth[6]/TC4": 27600000,
+        "Z1.ZSW.eth[7]/TC4": 61680000,
+        "Z2.ZSW.eth[0]/TC4": 216850000,
+        "Z2.ZSW.eth[0]/TC6": 1680000,
+        "Z2.ZSW.eth[6]/TC4": 27600000,
+        "Z2.ZSW.eth[7]/TC4": 61680000,
+        "Z3.ZSW.eth[0]/TC4": 113700000,
+        "Z3.ZSW.eth[0]/TC6": 1680000,
+        "Z3.ZSW.eth[7]/TC4": 27600000
+      },
+      "effective_profile_sha256": "307da7bc88292daf1812d7ef0bd2c1fea1d6cfa502b77a29f1912a2fefe882db",
+      "method_inputs": {},
+      "multipliers_by_queue": {
+        "CSW.eth[1]/TC4": 1.02,
+        "CSW.eth[2]/TC4": 1.02,
+        "CSW.eth[3]/TC4": 1.02,
+        "HPC.eth[0]/TC4": 1.02
+      },
+      "normalized_sum_increase": 0.014821818,
+      "port_reservations": {
+        "CAM1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM3.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CAM4.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.05685,
+          "headroom_to_75pct_bps": 693150000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 56850000
+        },
+        "CSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.53916,
+          "headroom_to_75pct_bps": 210840000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 539160000
+        },
+        "CSW.eth[1]": {
+          "admissible": true,
+          "cap_fraction": 0.118267013,
+          "headroom_to_75pct_bps": 631732987,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 118267013
+        },
+        "CSW.eth[2]": {
+          "admissible": true,
+          "cap_fraction": 0.118267013,
+          "headroom_to_75pct_bps": 631732987,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 118267013
+        },
+        "CSW.eth[3]": {
+          "admissible": true,
+          "cap_fraction": 0.327989611,
+          "headroom_to_75pct_bps": 422010389,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 327989611
+        },
+        "HPC.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.191389091,
+          "headroom_to_75pct_bps": 558610909,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 191389091
+        },
+        "LiDAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.3084,
+          "headroom_to_75pct_bps": 441600000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 308400000
+        },
+        "RADAR1.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "RADAR2.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.00168,
+          "headroom_to_75pct_bps": 748320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 1680000
+        },
+        "Z1.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.54525,
+          "headroom_to_75pct_bps": 204750000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 545250000
+        },
+        "Z1.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z1.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z2.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.21853,
+          "headroom_to_75pct_bps": 531470000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 218530000
+        },
+        "Z2.ZSW.eth[6]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        },
+        "Z2.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.06168,
+          "headroom_to_75pct_bps": 688320000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 61680000
+        },
+        "Z3.ZSW.eth[0]": {
+          "admissible": true,
+          "cap_fraction": 0.11538,
+          "headroom_to_75pct_bps": 634620000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 115380000
+        },
+        "Z3.ZSW.eth[7]": {
+          "admissible": true,
+          "cap_fraction": 0.0276,
+          "headroom_to_75pct_bps": 722400000,
+          "port_rate_bps": 1000000000,
+          "total_reservation_bps": 27600000
+        }
+      },
+      "result": {
+        "application_viable": true,
+        "calendar_sha256": "cb74a68801e037dce0480422e4371150c2c95765974b0ef3857f1633b54a600d",
+        "execution_id": "A020_L2_A1_seed41",
+        "pilot_viable": false,
+        "recorded_drop_total_whole_run": 0,
+        "simulation_valid": true,
+        "stability_failure_queues": [
+          "ZonalIVN.HPC.eth[0].macLayer.queue.queue[4]"
+        ],
+        "stability_viable": false
+      },
+      "status": "completed_rejected_stability",
+      "transformation": "predeclared_all_gated_CBS_plus_2_percent"
+    }
+  ],
+  "ceiling_rule": "sum all effective CBS idleSlope on each physical egress; reject before execution if >75%; never clip",
+  "exploratory": true,
+  "measured_gate_eligible_fraction": {
+    "CSW.eth[1]/TC4": 0.7699799969529371,
+    "CSW.eth[2]/TC4": 0.7699805134681039,
+    "CSW.eth[3]/TC4": 0.7663432133344615,
+    "HPC.eth[0]/TC4": 0.7699489122227356
+  },
+  "official_c4_frozen": false,
+  "profile_id": "reduction_11",
+  "reference": "C4_shared_SPbrakes / idleSlope_C3 divided by 0.77",
+  "seed41_cell": "L2_A1",
+  "selected_candidate_id": null,
+  "selection_conclusion": "No candidate passed all application and stability gates on seed 41; registered seed-43/47 checks and L0/L1 extrapolations were therefore not run.",
+  "selection_rule": "among seed41 candidates passing all P1 application and stability gates, minimize sum of per-queue reservation increments divided by physical port rate; tie order is candidate_order",
+  "selection_status": "no_candidate_approved_seed41"
+}

@@ -1,0 +1,3858 @@
+{
+  "source": "simulations/pilot/c4_joint_dimensioning/results/runs/D3_TAS_L2_A1_seed41/Joint_D3_TAS_L2_A1-0/packet_events.csv.gz",
+  "selected_stage_events": 7440000,
+  "raw_time_unit": "simtime_t.raw(); 1 ps per tick in this build",
+  "interpretation": "No application reception timestamp is present; last PHY TX end is not treated as delivery.",
+  "near_deadline_packet_traces": [
+    {
+      "flow": "F08",
+      "seq": 32971,
+      "generation_raw": 3297100000000,
+      "hop1": {
+        "queue_in_raw": 3297100000000,
+        "queue_out_raw": 3297179050185,
+        "tx_start_raw": 3297179050185,
+        "tx_end_raw": 3297179626185
+      },
+      "hop2": {
+        "queue_in_raw": 3297179726185,
+        "queue_out_raw": 3297190756000,
+        "tx_start_raw": 3297190756000,
+        "tx_end_raw": 3297191332000
+      },
+      "hop3": {
+        "queue_in_raw": 3297191432000,
+        "queue_out_raw": 3297191432000,
+        "tx_start_raw": 3297191432000,
+        "tx_end_raw": 3297197192000
+      },
+      "generation_to_last_phy_tx_end_us": 97.192,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 33008,
+      "generation_raw": 3300800000000,
+      "hop1": {
+        "queue_in_raw": 3300800000000,
+        "queue_out_raw": 3300879216000,
+        "tx_start_raw": 3300879216000,
+        "tx_end_raw": 3300879792000
+      },
+      "hop2": {
+        "queue_in_raw": 3300879892000,
+        "queue_out_raw": 3300891556000,
+        "tx_start_raw": 3300891556000,
+        "tx_end_raw": 3300892132000
+      },
+      "hop3": {
+        "queue_in_raw": 3300892232000,
+        "queue_out_raw": 3300892232000,
+        "tx_start_raw": 3300892232000,
+        "tx_end_raw": 3300897992000
+      },
+      "generation_to_last_phy_tx_end_us": 97.992,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 33272,
+      "generation_raw": 3327200000000,
+      "hop1": {
+        "queue_in_raw": 3327200000000,
+        "queue_out_raw": 3327279771853,
+        "tx_start_raw": 3327279771853,
+        "tx_end_raw": 3327280347853
+      },
+      "hop2": {
+        "queue_in_raw": 3327280447853,
+        "queue_out_raw": 3327290596000,
+        "tx_start_raw": 3327290596000,
+        "tx_end_raw": 3327291172000
+      },
+      "hop3": {
+        "queue_in_raw": 3327291272000,
+        "queue_out_raw": 3327291272000,
+        "tx_start_raw": 3327291272000,
+        "tx_end_raw": 3327297032000
+      },
+      "generation_to_last_phy_tx_end_us": 97.032,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 33346,
+      "generation_raw": 3334600000000,
+      "hop1": {
+        "queue_in_raw": 3334600000000,
+        "queue_out_raw": 3334679949273,
+        "tx_start_raw": 3334679949273,
+        "tx_end_raw": 3334680525273
+      },
+      "hop2": {
+        "queue_in_raw": 3334680625273,
+        "queue_out_raw": 3334692196000,
+        "tx_start_raw": 3334692196000,
+        "tx_end_raw": 3334692772000
+      },
+      "hop3": {
+        "queue_in_raw": 3334692872000,
+        "queue_out_raw": 3334692872000,
+        "tx_start_raw": 3334692872000,
+        "tx_end_raw": 3334698632000
+      },
+      "generation_to_last_phy_tx_end_us": 98.632,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 33610,
+      "generation_raw": 3361000000000,
+      "hop1": {
+        "queue_in_raw": 3361000000000,
+        "queue_out_raw": 3361080582230,
+        "tx_start_raw": 3361080582230,
+        "tx_end_raw": 3361081158230
+      },
+      "hop2": {
+        "queue_in_raw": 3361081258230,
+        "queue_out_raw": 3361091236000,
+        "tx_start_raw": 3361091236000,
+        "tx_end_raw": 3361091812000
+      },
+      "hop3": {
+        "queue_in_raw": 3361091912000,
+        "queue_out_raw": 3361091912000,
+        "tx_start_raw": 3361091912000,
+        "tx_end_raw": 3361097672000
+      },
+      "generation_to_last_phy_tx_end_us": 97.672,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 33647,
+      "generation_raw": 3364700000000,
+      "hop1": {
+        "queue_in_raw": 3364700000000,
+        "queue_out_raw": 3364780670940,
+        "tx_start_raw": 3364780670940,
+        "tx_end_raw": 3364781246940
+      },
+      "hop2": {
+        "queue_in_raw": 3364781346940,
+        "queue_out_raw": 3364792036000,
+        "tx_start_raw": 3364792036000,
+        "tx_end_raw": 3364792612000
+      },
+      "hop3": {
+        "queue_in_raw": 3364792712000,
+        "queue_out_raw": 3364792712000,
+        "tx_start_raw": 3364792712000,
+        "tx_end_raw": 3364798472000
+      },
+      "generation_to_last_phy_tx_end_us": 98.472,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 33684,
+      "generation_raw": 3368400000000,
+      "hop1": {
+        "queue_in_raw": 3368400000000,
+        "queue_out_raw": 3368480759650,
+        "tx_start_raw": 3368480759650,
+        "tx_end_raw": 3368481335650
+      },
+      "hop2": {
+        "queue_in_raw": 3368481435650,
+        "queue_out_raw": 3368492836000,
+        "tx_start_raw": 3368492836000,
+        "tx_end_raw": 3368493412000
+      },
+      "hop3": {
+        "queue_in_raw": 3368493512000,
+        "queue_out_raw": 3368493512000,
+        "tx_start_raw": 3368493512000,
+        "tx_end_raw": 3368499272000
+      },
+      "generation_to_last_phy_tx_end_us": 99.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 33911,
+      "generation_raw": 3391100000000,
+      "hop1": {
+        "queue_in_raw": 3391100000000,
+        "queue_out_raw": 3391181303898,
+        "tx_start_raw": 3391181303898,
+        "tx_end_raw": 3391181879898
+      },
+      "hop2": {
+        "queue_in_raw": 3391181979898,
+        "queue_out_raw": 3391191076000,
+        "tx_start_raw": 3391191076000,
+        "tx_end_raw": 3391191652000
+      },
+      "hop3": {
+        "queue_in_raw": 3391191752000,
+        "queue_out_raw": 3391191752000,
+        "tx_start_raw": 3391191752000,
+        "tx_end_raw": 3391197512000
+      },
+      "generation_to_last_phy_tx_end_us": 97.512,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 33948,
+      "generation_raw": 3394800000000,
+      "hop1": {
+        "queue_in_raw": 3394800000000,
+        "queue_out_raw": 3394881392608,
+        "tx_start_raw": 3394881392608,
+        "tx_end_raw": 3394881968608
+      },
+      "hop2": {
+        "queue_in_raw": 3394882068608,
+        "queue_out_raw": 3394891876000,
+        "tx_start_raw": 3394891876000,
+        "tx_end_raw": 3394892452000
+      },
+      "hop3": {
+        "queue_in_raw": 3394892552000,
+        "queue_out_raw": 3394892552000,
+        "tx_start_raw": 3394892552000,
+        "tx_end_raw": 3394898312000
+      },
+      "generation_to_last_phy_tx_end_us": 98.312,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 34022,
+      "generation_raw": 3402200000000,
+      "hop1": {
+        "queue_in_raw": 3402200000000,
+        "queue_out_raw": 3402281570028,
+        "tx_start_raw": 3402281570028,
+        "tx_end_raw": 3402282146028
+      },
+      "hop2": {
+        "queue_in_raw": 3402282246028,
+        "queue_out_raw": 3402293476000,
+        "tx_start_raw": 3402293476000,
+        "tx_end_raw": 3402294052000
+      },
+      "hop3": {
+        "queue_in_raw": 3402294152000,
+        "queue_out_raw": 3402294152000,
+        "tx_start_raw": 3402294152000,
+        "tx_end_raw": 3402299912000
+      },
+      "generation_to_last_phy_tx_end_us": 99.912,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 74605,
+      "generation_raw": 7460500000000,
+      "hop1": {
+        "queue_in_raw": 7460500000000,
+        "queue_out_raw": 7460578868096,
+        "tx_start_raw": 7460578868096,
+        "tx_end_raw": 7460579444096
+      },
+      "hop2": {
+        "queue_in_raw": 7460579544096,
+        "queue_out_raw": 7460590756000,
+        "tx_start_raw": 7460590756000,
+        "tx_end_raw": 7460591332000
+      },
+      "hop3": {
+        "queue_in_raw": 7460591432000,
+        "queue_out_raw": 7460591432000,
+        "tx_start_raw": 7460591432000,
+        "tx_end_raw": 7460597192000
+      },
+      "generation_to_last_phy_tx_end_us": 97.192,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 74906,
+      "generation_raw": 7490600000000,
+      "hop1": {
+        "queue_in_raw": 7490600000000,
+        "queue_out_raw": 7490679589763,
+        "tx_start_raw": 7490679589763,
+        "tx_end_raw": 7490680165763
+      },
+      "hop2": {
+        "queue_in_raw": 7490680265763,
+        "queue_out_raw": 7490690596000,
+        "tx_start_raw": 7490690596000,
+        "tx_end_raw": 7490691172000
+      },
+      "hop3": {
+        "queue_in_raw": 7490691272000,
+        "queue_out_raw": 7490691272000,
+        "tx_start_raw": 7490691272000,
+        "tx_end_raw": 7490697032000
+      },
+      "generation_to_last_phy_tx_end_us": 97.032,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 74943,
+      "generation_raw": 7494300000000,
+      "hop1": {
+        "queue_in_raw": 7494300000000,
+        "queue_out_raw": 7494379678473,
+        "tx_start_raw": 7494379678473,
+        "tx_end_raw": 7494380254473
+      },
+      "hop2": {
+        "queue_in_raw": 7494380354473,
+        "queue_out_raw": 7494391396000,
+        "tx_start_raw": 7494391396000,
+        "tx_end_raw": 7494391972000
+      },
+      "hop3": {
+        "queue_in_raw": 7494392072000,
+        "queue_out_raw": 7494392072000,
+        "tx_start_raw": 7494392072000,
+        "tx_end_raw": 7494397832000
+      },
+      "generation_to_last_phy_tx_end_us": 97.832,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 74980,
+      "generation_raw": 7498000000000,
+      "hop1": {
+        "queue_in_raw": 7498000000000,
+        "queue_out_raw": 7498079856000,
+        "tx_start_raw": 7498079856000,
+        "tx_end_raw": 7498080432000
+      },
+      "hop2": {
+        "queue_in_raw": 7498080532000,
+        "queue_out_raw": 7498092196000,
+        "tx_start_raw": 7498092196000,
+        "tx_end_raw": 7498092772000
+      },
+      "hop3": {
+        "queue_in_raw": 7498092872000,
+        "queue_out_raw": 7498092872000,
+        "tx_start_raw": 7498092872000,
+        "tx_end_raw": 7498098632000
+      },
+      "generation_to_last_phy_tx_end_us": 98.632,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 75244,
+      "generation_raw": 7524400000000,
+      "hop1": {
+        "queue_in_raw": 7524400000000,
+        "queue_out_raw": 7524480400141,
+        "tx_start_raw": 7524480400141,
+        "tx_end_raw": 7524480976141
+      },
+      "hop2": {
+        "queue_in_raw": 7524481076141,
+        "queue_out_raw": 7524491236000,
+        "tx_start_raw": 7524491236000,
+        "tx_end_raw": 7524491812000
+      },
+      "hop3": {
+        "queue_in_raw": 7524491912000,
+        "queue_out_raw": 7524491912000,
+        "tx_start_raw": 7524491912000,
+        "tx_end_raw": 7524497672000
+      },
+      "generation_to_last_phy_tx_end_us": 97.672,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 75318,
+      "generation_raw": 7531800000000,
+      "hop1": {
+        "queue_in_raw": 7531800000000,
+        "queue_out_raw": 7531880577561,
+        "tx_start_raw": 7531880577561,
+        "tx_end_raw": 7531881153561
+      },
+      "hop2": {
+        "queue_in_raw": 7531881253561,
+        "queue_out_raw": 7531892836000,
+        "tx_start_raw": 7531892836000,
+        "tx_end_raw": 7531893412000
+      },
+      "hop3": {
+        "queue_in_raw": 7531893512000,
+        "queue_out_raw": 7531893512000,
+        "tx_start_raw": 7531893512000,
+        "tx_end_raw": 7531899272000
+      },
+      "generation_to_last_phy_tx_end_us": 99.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 75582,
+      "generation_raw": 7558200000000,
+      "hop1": {
+        "queue_in_raw": 7558200000000,
+        "queue_out_raw": 7558281210519,
+        "tx_start_raw": 7558281210519,
+        "tx_end_raw": 7558281786519
+      },
+      "hop2": {
+        "queue_in_raw": 7558281886519,
+        "queue_out_raw": 7558291876000,
+        "tx_start_raw": 7558291876000,
+        "tx_end_raw": 7558292452000
+      },
+      "hop3": {
+        "queue_in_raw": 7558292552000,
+        "queue_out_raw": 7558292552000,
+        "tx_start_raw": 7558292552000,
+        "tx_end_raw": 7558298312000
+      },
+      "generation_to_last_phy_tx_end_us": 98.312,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 75619,
+      "generation_raw": 7561900000000,
+      "hop1": {
+        "queue_in_raw": 7561900000000,
+        "queue_out_raw": 7561981299229,
+        "tx_start_raw": 7561981299229,
+        "tx_end_raw": 7561981875229
+      },
+      "hop2": {
+        "queue_in_raw": 7561981975229,
+        "queue_out_raw": 7561992676000,
+        "tx_start_raw": 7561992676000,
+        "tx_end_raw": 7561993252000
+      },
+      "hop3": {
+        "queue_in_raw": 7561993352000,
+        "queue_out_raw": 7561993352000,
+        "tx_start_raw": 7561993352000,
+        "tx_end_raw": 7561999112000
+      },
+      "generation_to_last_phy_tx_end_us": 99.112,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 75656,
+      "generation_raw": 7565600000000,
+      "hop1": {
+        "queue_in_raw": 7565600000000,
+        "queue_out_raw": 7565681387939,
+        "tx_start_raw": 7565681387939,
+        "tx_end_raw": 7565681963939
+      },
+      "hop2": {
+        "queue_in_raw": 7565682063939,
+        "queue_out_raw": 7565693476000,
+        "tx_start_raw": 7565693476000,
+        "tx_end_raw": 7565694052000
+      },
+      "hop3": {
+        "queue_in_raw": 7565694152000,
+        "queue_out_raw": 7565694152000,
+        "tx_start_raw": 7565694152000,
+        "tx_end_raw": 7565699912000
+      },
+      "generation_to_last_phy_tx_end_us": 99.912,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 75846,
+      "generation_raw": 7584600000000,
+      "hop1": {
+        "queue_in_raw": 7584600000000,
+        "queue_out_raw": 7584681843477,
+        "tx_start_raw": 7584681843477,
+        "tx_end_raw": 7584682419477
+      },
+      "hop2": {
+        "queue_in_raw": 7584682519477,
+        "queue_out_raw": 7584690916000,
+        "tx_start_raw": 7584690916000,
+        "tx_end_raw": 7584691492000
+      },
+      "hop3": {
+        "queue_in_raw": 7584691592000,
+        "queue_out_raw": 7584691592000,
+        "tx_start_raw": 7584691592000,
+        "tx_end_raw": 7584697352000
+      },
+      "generation_to_last_phy_tx_end_us": 97.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 75883,
+      "generation_raw": 7588300000000,
+      "hop1": {
+        "queue_in_raw": 7588300000000,
+        "queue_out_raw": 7588381932187,
+        "tx_start_raw": 7588381932187,
+        "tx_end_raw": 7588382508187
+      },
+      "hop2": {
+        "queue_in_raw": 7588382608187,
+        "queue_out_raw": 7588391716000,
+        "tx_start_raw": 7588391716000,
+        "tx_end_raw": 7588392292000
+      },
+      "hop3": {
+        "queue_in_raw": 7588392392000,
+        "queue_out_raw": 7588392392000,
+        "tx_start_raw": 7588392392000,
+        "tx_end_raw": 7588398152000
+      },
+      "generation_to_last_phy_tx_end_us": 98.152,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 116239,
+      "generation_raw": 11623900000000,
+      "hop1": {
+        "queue_in_raw": 11623900000000,
+        "queue_out_raw": 11623978686007,
+        "tx_start_raw": 11623978686007,
+        "tx_end_raw": 11623979262007
+      },
+      "hop2": {
+        "queue_in_raw": 11623979362007,
+        "queue_out_raw": 11623990756000,
+        "tx_start_raw": 11623990756000,
+        "tx_end_raw": 11623991332000
+      },
+      "hop3": {
+        "queue_in_raw": 11623991432000,
+        "queue_out_raw": 11623991432000,
+        "tx_start_raw": 11623991432000,
+        "tx_end_raw": 11623997192000
+      },
+      "generation_to_last_phy_tx_end_us": 97.192,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 116540,
+      "generation_raw": 11654000000000,
+      "hop1": {
+        "queue_in_raw": 11654000000000,
+        "queue_out_raw": 11654079407674,
+        "tx_start_raw": 11654079407674,
+        "tx_end_raw": 11654079983674
+      },
+      "hop2": {
+        "queue_in_raw": 11654080083674,
+        "queue_out_raw": 11654090596000,
+        "tx_start_raw": 11654090596000,
+        "tx_end_raw": 11654091172000
+      },
+      "hop3": {
+        "queue_in_raw": 11654091272000,
+        "queue_out_raw": 11654091272000,
+        "tx_start_raw": 11654091272000,
+        "tx_end_raw": 11654097032000
+      },
+      "generation_to_last_phy_tx_end_us": 97.032,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 116577,
+      "generation_raw": 11657700000000,
+      "hop1": {
+        "queue_in_raw": 11657700000000,
+        "queue_out_raw": 11657779496384,
+        "tx_start_raw": 11657779496384,
+        "tx_end_raw": 11657780072384
+      },
+      "hop2": {
+        "queue_in_raw": 11657780172384,
+        "queue_out_raw": 11657791396000,
+        "tx_start_raw": 11657791396000,
+        "tx_end_raw": 11657791972000
+      },
+      "hop3": {
+        "queue_in_raw": 11657792072000,
+        "queue_out_raw": 11657792072000,
+        "tx_start_raw": 11657792072000,
+        "tx_end_raw": 11657797832000
+      },
+      "generation_to_last_phy_tx_end_us": 97.832,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 116878,
+      "generation_raw": 11687800000000,
+      "hop1": {
+        "queue_in_raw": 11687800000000,
+        "queue_out_raw": 11687880218052,
+        "tx_start_raw": 11687880218052,
+        "tx_end_raw": 11687880794052
+      },
+      "hop2": {
+        "queue_in_raw": 11687880894052,
+        "queue_out_raw": 11687891236000,
+        "tx_start_raw": 11687891236000,
+        "tx_end_raw": 11687891812000
+      },
+      "hop3": {
+        "queue_in_raw": 11687891912000,
+        "queue_out_raw": 11687891912000,
+        "tx_start_raw": 11687891912000,
+        "tx_end_raw": 11687897672000
+      },
+      "generation_to_last_phy_tx_end_us": 97.672,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 116915,
+      "generation_raw": 11691500000000,
+      "hop1": {
+        "queue_in_raw": 11691500000000,
+        "queue_out_raw": 11691580306762,
+        "tx_start_raw": 11691580306762,
+        "tx_end_raw": 11691580882762
+      },
+      "hop2": {
+        "queue_in_raw": 11691580982762,
+        "queue_out_raw": 11691592036000,
+        "tx_start_raw": 11691592036000,
+        "tx_end_raw": 11691592612000
+      },
+      "hop3": {
+        "queue_in_raw": 11691592712000,
+        "queue_out_raw": 11691592712000,
+        "tx_start_raw": 11691592712000,
+        "tx_end_raw": 11691598472000
+      },
+      "generation_to_last_phy_tx_end_us": 98.472,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 116952,
+      "generation_raw": 11695200000000,
+      "hop1": {
+        "queue_in_raw": 11695200000000,
+        "queue_out_raw": 11695280496000,
+        "tx_start_raw": 11695280496000,
+        "tx_end_raw": 11695281072000
+      },
+      "hop2": {
+        "queue_in_raw": 11695281172000,
+        "queue_out_raw": 11695292836000,
+        "tx_start_raw": 11695292836000,
+        "tx_end_raw": 11695293412000
+      },
+      "hop3": {
+        "queue_in_raw": 11695293512000,
+        "queue_out_raw": 11695293512000,
+        "tx_start_raw": 11695293512000,
+        "tx_end_raw": 11695299272000
+      },
+      "generation_to_last_phy_tx_end_us": 99.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 117179,
+      "generation_raw": 11717900000000,
+      "hop1": {
+        "queue_in_raw": 11717900000000,
+        "queue_out_raw": 11717980939720,
+        "tx_start_raw": 11717980939720,
+        "tx_end_raw": 11717981515720
+      },
+      "hop2": {
+        "queue_in_raw": 11717981615720,
+        "queue_out_raw": 11717991076000,
+        "tx_start_raw": 11717991076000,
+        "tx_end_raw": 11717991652000
+      },
+      "hop3": {
+        "queue_in_raw": 11717991752000,
+        "queue_out_raw": 11717991752000,
+        "tx_start_raw": 11717991752000,
+        "tx_end_raw": 11717997512000
+      },
+      "generation_to_last_phy_tx_end_us": 97.512,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 117216,
+      "generation_raw": 11721600000000,
+      "hop1": {
+        "queue_in_raw": 11721600000000,
+        "queue_out_raw": 11721681028430,
+        "tx_start_raw": 11721681028430,
+        "tx_end_raw": 11721681604430
+      },
+      "hop2": {
+        "queue_in_raw": 11721681704430,
+        "queue_out_raw": 11721691876000,
+        "tx_start_raw": 11721691876000,
+        "tx_end_raw": 11721692452000
+      },
+      "hop3": {
+        "queue_in_raw": 11721692552000,
+        "queue_out_raw": 11721692552000,
+        "tx_start_raw": 11721692552000,
+        "tx_end_raw": 11721698312000
+      },
+      "generation_to_last_phy_tx_end_us": 98.312,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 117290,
+      "generation_raw": 11729000000000,
+      "hop1": {
+        "queue_in_raw": 11729000000000,
+        "queue_out_raw": 11729081205850,
+        "tx_start_raw": 11729081205850,
+        "tx_end_raw": 11729081781850
+      },
+      "hop2": {
+        "queue_in_raw": 11729081881850,
+        "queue_out_raw": 11729093476000,
+        "tx_start_raw": 11729093476000,
+        "tx_end_raw": 11729094052000
+      },
+      "hop3": {
+        "queue_in_raw": 11729094152000,
+        "queue_out_raw": 11729094152000,
+        "tx_start_raw": 11729094152000,
+        "tx_end_raw": 11729099912000
+      },
+      "generation_to_last_phy_tx_end_us": 99.912,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 117480,
+      "generation_raw": 11748000000000,
+      "hop1": {
+        "queue_in_raw": 11748000000000,
+        "queue_out_raw": 11748081661387,
+        "tx_start_raw": 11748081661387,
+        "tx_end_raw": 11748082237387
+      },
+      "hop2": {
+        "queue_in_raw": 11748082337387,
+        "queue_out_raw": 11748090916000,
+        "tx_start_raw": 11748090916000,
+        "tx_end_raw": 11748091492000
+      },
+      "hop3": {
+        "queue_in_raw": 11748091592000,
+        "queue_out_raw": 11748091592000,
+        "tx_start_raw": 11748091592000,
+        "tx_end_raw": 11748097352000
+      },
+      "generation_to_last_phy_tx_end_us": 97.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 117554,
+      "generation_raw": 11755400000000,
+      "hop1": {
+        "queue_in_raw": 11755400000000,
+        "queue_out_raw": 11755481838807,
+        "tx_start_raw": 11755481838807,
+        "tx_end_raw": 11755482414807
+      },
+      "hop2": {
+        "queue_in_raw": 11755482514807,
+        "queue_out_raw": 11755492516000,
+        "tx_start_raw": 11755492516000,
+        "tx_end_raw": 11755493092000
+      },
+      "hop3": {
+        "queue_in_raw": 11755493192000,
+        "queue_out_raw": 11755493192000,
+        "tx_start_raw": 11755493192000,
+        "tx_end_raw": 11755498952000
+      },
+      "generation_to_last_phy_tx_end_us": 98.952,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 117591,
+      "generation_raw": 11759100000000,
+      "hop1": {
+        "queue_in_raw": 11759100000000,
+        "queue_out_raw": 11759181927517,
+        "tx_start_raw": 11759181927517,
+        "tx_end_raw": 11759182503517
+      },
+      "hop2": {
+        "queue_in_raw": 11759182603517,
+        "queue_out_raw": 11759193316000,
+        "tx_start_raw": 11759193316000,
+        "tx_end_raw": 11759193892000
+      },
+      "hop3": {
+        "queue_in_raw": 11759193992000,
+        "queue_out_raw": 11759193992000,
+        "tx_start_raw": 11759193992000,
+        "tx_end_raw": 11759199752000
+      },
+      "generation_to_last_phy_tx_end_us": 99.752,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 157873,
+      "generation_raw": 15787300000000,
+      "hop1": {
+        "queue_in_raw": 15787300000000,
+        "queue_out_raw": 15787378503918,
+        "tx_start_raw": 15787378503918,
+        "tx_end_raw": 15787379079918
+      },
+      "hop2": {
+        "queue_in_raw": 15787379179918,
+        "queue_out_raw": 15787390756000,
+        "tx_start_raw": 15787390756000,
+        "tx_end_raw": 15787391332000
+      },
+      "hop3": {
+        "queue_in_raw": 15787391432000,
+        "queue_out_raw": 15787391432000,
+        "tx_start_raw": 15787391432000,
+        "tx_end_raw": 15787397192000
+      },
+      "generation_to_last_phy_tx_end_us": 97.192,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 158174,
+      "generation_raw": 15817400000000,
+      "hop1": {
+        "queue_in_raw": 15817400000000,
+        "queue_out_raw": 15817479225585,
+        "tx_start_raw": 15817479225585,
+        "tx_end_raw": 15817479801585
+      },
+      "hop2": {
+        "queue_in_raw": 15817479901585,
+        "queue_out_raw": 15817490596000,
+        "tx_start_raw": 15817490596000,
+        "tx_end_raw": 15817491172000
+      },
+      "hop3": {
+        "queue_in_raw": 15817491272000,
+        "queue_out_raw": 15817491272000,
+        "tx_start_raw": 15817491272000,
+        "tx_end_raw": 15817497032000
+      },
+      "generation_to_last_phy_tx_end_us": 97.032,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 158211,
+      "generation_raw": 15821100000000,
+      "hop1": {
+        "queue_in_raw": 15821100000000,
+        "queue_out_raw": 15821179314295,
+        "tx_start_raw": 15821179314295,
+        "tx_end_raw": 15821179890295
+      },
+      "hop2": {
+        "queue_in_raw": 15821179990295,
+        "queue_out_raw": 15821191396000,
+        "tx_start_raw": 15821191396000,
+        "tx_end_raw": 15821191972000
+      },
+      "hop3": {
+        "queue_in_raw": 15821192072000,
+        "queue_out_raw": 15821192072000,
+        "tx_start_raw": 15821192072000,
+        "tx_end_raw": 15821197832000
+      },
+      "generation_to_last_phy_tx_end_us": 97.832,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 158512,
+      "generation_raw": 15851200000000,
+      "hop1": {
+        "queue_in_raw": 15851200000000,
+        "queue_out_raw": 15851280035963,
+        "tx_start_raw": 15851280035963,
+        "tx_end_raw": 15851280611963
+      },
+      "hop2": {
+        "queue_in_raw": 15851280711963,
+        "queue_out_raw": 15851291236000,
+        "tx_start_raw": 15851291236000,
+        "tx_end_raw": 15851291812000
+      },
+      "hop3": {
+        "queue_in_raw": 15851291912000,
+        "queue_out_raw": 15851291912000,
+        "tx_start_raw": 15851291912000,
+        "tx_end_raw": 15851297672000
+      },
+      "generation_to_last_phy_tx_end_us": 97.672,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 158850,
+      "generation_raw": 15885000000000,
+      "hop1": {
+        "queue_in_raw": 15885000000000,
+        "queue_out_raw": 15885080846341,
+        "tx_start_raw": 15885080846341,
+        "tx_end_raw": 15885081422341
+      },
+      "hop2": {
+        "queue_in_raw": 15885081522341,
+        "queue_out_raw": 15885091876000,
+        "tx_start_raw": 15885091876000,
+        "tx_end_raw": 15885092452000
+      },
+      "hop3": {
+        "queue_in_raw": 15885092552000,
+        "queue_out_raw": 15885092552000,
+        "tx_start_raw": 15885092552000,
+        "tx_end_raw": 15885098312000
+      },
+      "generation_to_last_phy_tx_end_us": 98.312,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 158887,
+      "generation_raw": 15888700000000,
+      "hop1": {
+        "queue_in_raw": 15888700000000,
+        "queue_out_raw": 15888780935051,
+        "tx_start_raw": 15888780935051,
+        "tx_end_raw": 15888781511051
+      },
+      "hop2": {
+        "queue_in_raw": 15888781611051,
+        "queue_out_raw": 15888792676000,
+        "tx_start_raw": 15888792676000,
+        "tx_end_raw": 15888793252000
+      },
+      "hop3": {
+        "queue_in_raw": 15888793352000,
+        "queue_out_raw": 15888793352000,
+        "tx_start_raw": 15888793352000,
+        "tx_end_raw": 15888799112000
+      },
+      "generation_to_last_phy_tx_end_us": 99.112,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 159114,
+      "generation_raw": 15911400000000,
+      "hop1": {
+        "queue_in_raw": 15911400000000,
+        "queue_out_raw": 15911481479298,
+        "tx_start_raw": 15911481479298,
+        "tx_end_raw": 15911482055298
+      },
+      "hop2": {
+        "queue_in_raw": 15911482155298,
+        "queue_out_raw": 15911490916000,
+        "tx_start_raw": 15911490916000,
+        "tx_end_raw": 15911491492000
+      },
+      "hop3": {
+        "queue_in_raw": 15911491592000,
+        "queue_out_raw": 15911491592000,
+        "tx_start_raw": 15911491592000,
+        "tx_end_raw": 15911497352000
+      },
+      "generation_to_last_phy_tx_end_us": 97.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 159151,
+      "generation_raw": 15915100000000,
+      "hop1": {
+        "queue_in_raw": 15915100000000,
+        "queue_out_raw": 15915181568008,
+        "tx_start_raw": 15915181568008,
+        "tx_end_raw": 15915182144008
+      },
+      "hop2": {
+        "queue_in_raw": 15915182244008,
+        "queue_out_raw": 15915191716000,
+        "tx_start_raw": 15915191716000,
+        "tx_end_raw": 15915192292000
+      },
+      "hop3": {
+        "queue_in_raw": 15915192392000,
+        "queue_out_raw": 15915192392000,
+        "tx_start_raw": 15915192392000,
+        "tx_end_raw": 15915198152000
+      },
+      "generation_to_last_phy_tx_end_us": 98.152,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 159188,
+      "generation_raw": 15918800000000,
+      "hop1": {
+        "queue_in_raw": 15918800000000,
+        "queue_out_raw": 15918881656718,
+        "tx_start_raw": 15918881656718,
+        "tx_end_raw": 15918882232718
+      },
+      "hop2": {
+        "queue_in_raw": 15918882332718,
+        "queue_out_raw": 15918892516000,
+        "tx_start_raw": 15918892516000,
+        "tx_end_raw": 15918893092000
+      },
+      "hop3": {
+        "queue_in_raw": 15918893192000,
+        "queue_out_raw": 15918893192000,
+        "tx_start_raw": 15918893192000,
+        "tx_end_raw": 15918898952000
+      },
+      "generation_to_last_phy_tx_end_us": 98.952,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 159262,
+      "generation_raw": 15926200000000,
+      "hop1": {
+        "queue_in_raw": 15926200000000,
+        "queue_out_raw": 15926281834138,
+        "tx_start_raw": 15926281834138,
+        "tx_end_raw": 15926282410138
+      },
+      "hop2": {
+        "queue_in_raw": 15926282510138,
+        "queue_out_raw": 15926294116000,
+        "tx_start_raw": 15926294116000,
+        "tx_end_raw": 15926294692000
+      },
+      "hop3": {
+        "queue_in_raw": 15926294792000,
+        "queue_out_raw": 15926294792000,
+        "tx_start_raw": 15926294792000,
+        "tx_end_raw": 15926300552000
+      },
+      "generation_to_last_phy_tx_end_us": 100.552,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 199507,
+      "generation_raw": 19950700000000,
+      "hop1": {
+        "queue_in_raw": 19950700000000,
+        "queue_out_raw": 19950778416000,
+        "tx_start_raw": 19950778416000,
+        "tx_end_raw": 19950778992000
+      },
+      "hop2": {
+        "queue_in_raw": 19950779092000,
+        "queue_out_raw": 19950790756000,
+        "tx_start_raw": 19950790756000,
+        "tx_end_raw": 19950791332000
+      },
+      "hop3": {
+        "queue_in_raw": 19950791432000,
+        "queue_out_raw": 19950791432000,
+        "tx_start_raw": 19950791432000,
+        "tx_end_raw": 19950797192000
+      },
+      "generation_to_last_phy_tx_end_us": 97.192,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 199808,
+      "generation_raw": 19980800000000,
+      "hop1": {
+        "queue_in_raw": 19980800000000,
+        "queue_out_raw": 19980879043496,
+        "tx_start_raw": 19980879043496,
+        "tx_end_raw": 19980879619496
+      },
+      "hop2": {
+        "queue_in_raw": 19980879719496,
+        "queue_out_raw": 19980890596000,
+        "tx_start_raw": 19980890596000,
+        "tx_end_raw": 19980891172000
+      },
+      "hop3": {
+        "queue_in_raw": 19980891272000,
+        "queue_out_raw": 19980891272000,
+        "tx_start_raw": 19980891272000,
+        "tx_end_raw": 19980897032000
+      },
+      "generation_to_last_phy_tx_end_us": 97.032,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 199845,
+      "generation_raw": 19984500000000,
+      "hop1": {
+        "queue_in_raw": 19984500000000,
+        "queue_out_raw": 19984579132206,
+        "tx_start_raw": 19984579132206,
+        "tx_end_raw": 19984579708206
+      },
+      "hop2": {
+        "queue_in_raw": 19984579808206,
+        "queue_out_raw": 19984591396000,
+        "tx_start_raw": 19984591396000,
+        "tx_end_raw": 19984591972000
+      },
+      "hop3": {
+        "queue_in_raw": 19984592072000,
+        "queue_out_raw": 19984592072000,
+        "tx_start_raw": 19984592072000,
+        "tx_end_raw": 19984597832000
+      },
+      "generation_to_last_phy_tx_end_us": 97.832,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 200146,
+      "generation_raw": 20014600000000,
+      "hop1": {
+        "queue_in_raw": 20014600000000,
+        "queue_out_raw": 20014679853874,
+        "tx_start_raw": 20014679853874,
+        "tx_end_raw": 20014680429874
+      },
+      "hop2": {
+        "queue_in_raw": 20014680529874,
+        "queue_out_raw": 20014691236000,
+        "tx_start_raw": 20014691236000,
+        "tx_end_raw": 20014691812000
+      },
+      "hop3": {
+        "queue_in_raw": 20014691912000,
+        "queue_out_raw": 20014691912000,
+        "tx_start_raw": 20014691912000,
+        "tx_end_raw": 20014697672000
+      },
+      "generation_to_last_phy_tx_end_us": 97.672,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 200183,
+      "generation_raw": 20018300000000,
+      "hop1": {
+        "queue_in_raw": 20018300000000,
+        "queue_out_raw": 20018379942584,
+        "tx_start_raw": 20018379942584,
+        "tx_end_raw": 20018380518584
+      },
+      "hop2": {
+        "queue_in_raw": 20018380618584,
+        "queue_out_raw": 20018392036000,
+        "tx_start_raw": 20018392036000,
+        "tx_end_raw": 20018392612000
+      },
+      "hop3": {
+        "queue_in_raw": 20018392712000,
+        "queue_out_raw": 20018392712000,
+        "tx_start_raw": 20018392712000,
+        "tx_end_raw": 20018398472000
+      },
+      "generation_to_last_phy_tx_end_us": 98.472,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 200447,
+      "generation_raw": 20044700000000,
+      "hop1": {
+        "queue_in_raw": 20044700000000,
+        "queue_out_raw": 20044780575541,
+        "tx_start_raw": 20044780575541,
+        "tx_end_raw": 20044781151541
+      },
+      "hop2": {
+        "queue_in_raw": 20044781251541,
+        "queue_out_raw": 20044791076000,
+        "tx_start_raw": 20044791076000,
+        "tx_end_raw": 20044791652000
+      },
+      "hop3": {
+        "queue_in_raw": 20044791752000,
+        "queue_out_raw": 20044791752000,
+        "tx_start_raw": 20044791752000,
+        "tx_end_raw": 20044797512000
+      },
+      "generation_to_last_phy_tx_end_us": 97.512,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 200484,
+      "generation_raw": 20048400000000,
+      "hop1": {
+        "queue_in_raw": 20048400000000,
+        "queue_out_raw": 20048480664251,
+        "tx_start_raw": 20048480664251,
+        "tx_end_raw": 20048481240251
+      },
+      "hop2": {
+        "queue_in_raw": 20048481340251,
+        "queue_out_raw": 20048491876000,
+        "tx_start_raw": 20048491876000,
+        "tx_end_raw": 20048492452000
+      },
+      "hop3": {
+        "queue_in_raw": 20048492552000,
+        "queue_out_raw": 20048492552000,
+        "tx_start_raw": 20048492552000,
+        "tx_end_raw": 20048498312000
+      },
+      "generation_to_last_phy_tx_end_us": 98.312,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 200748,
+      "generation_raw": 20074800000000,
+      "hop1": {
+        "queue_in_raw": 20074800000000,
+        "queue_out_raw": 20074881297209,
+        "tx_start_raw": 20074881297209,
+        "tx_end_raw": 20074881873209
+      },
+      "hop2": {
+        "queue_in_raw": 20074881973209,
+        "queue_out_raw": 20074890916000,
+        "tx_start_raw": 20074890916000,
+        "tx_end_raw": 20074891492000
+      },
+      "hop3": {
+        "queue_in_raw": 20074891592000,
+        "queue_out_raw": 20074891592000,
+        "tx_start_raw": 20074891592000,
+        "tx_end_raw": 20074897352000
+      },
+      "generation_to_last_phy_tx_end_us": 97.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 200822,
+      "generation_raw": 20082200000000,
+      "hop1": {
+        "queue_in_raw": 20082200000000,
+        "queue_out_raw": 20082281474629,
+        "tx_start_raw": 20082281474629,
+        "tx_end_raw": 20082282050629
+      },
+      "hop2": {
+        "queue_in_raw": 20082282150629,
+        "queue_out_raw": 20082292516000,
+        "tx_start_raw": 20082292516000,
+        "tx_end_raw": 20082293092000
+      },
+      "hop3": {
+        "queue_in_raw": 20082293192000,
+        "queue_out_raw": 20082293192000,
+        "tx_start_raw": 20082293192000,
+        "tx_end_raw": 20082298952000
+      },
+      "generation_to_last_phy_tx_end_us": 98.952,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 200859,
+      "generation_raw": 20085900000000,
+      "hop1": {
+        "queue_in_raw": 20085900000000,
+        "queue_out_raw": 20085981563339,
+        "tx_start_raw": 20085981563339,
+        "tx_end_raw": 20085982139339
+      },
+      "hop2": {
+        "queue_in_raw": 20085982239339,
+        "queue_out_raw": 20085993316000,
+        "tx_start_raw": 20085993316000,
+        "tx_end_raw": 20085993892000
+      },
+      "hop3": {
+        "queue_in_raw": 20085993992000,
+        "queue_out_raw": 20085993992000,
+        "tx_start_raw": 20085993992000,
+        "tx_end_raw": 20085999752000
+      },
+      "generation_to_last_phy_tx_end_us": 99.752,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 241442,
+      "generation_raw": 24144200000000,
+      "hop1": {
+        "queue_in_raw": 24144200000000,
+        "queue_out_raw": 24144278861407,
+        "tx_start_raw": 24144278861407,
+        "tx_end_raw": 24144279437407
+      },
+      "hop2": {
+        "queue_in_raw": 24144279537407,
+        "queue_out_raw": 24144290596000,
+        "tx_start_raw": 24144290596000,
+        "tx_end_raw": 24144291172000
+      },
+      "hop3": {
+        "queue_in_raw": 24144291272000,
+        "queue_out_raw": 24144291272000,
+        "tx_start_raw": 24144291272000,
+        "tx_end_raw": 24144297032000
+      },
+      "generation_to_last_phy_tx_end_us": 97.032,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 241780,
+      "generation_raw": 24178000000000,
+      "hop1": {
+        "queue_in_raw": 24178000000000,
+        "queue_out_raw": 24178079671785,
+        "tx_start_raw": 24178079671785,
+        "tx_end_raw": 24178080247785
+      },
+      "hop2": {
+        "queue_in_raw": 24178080347785,
+        "queue_out_raw": 24178091236000,
+        "tx_start_raw": 24178091236000,
+        "tx_end_raw": 24178091812000
+      },
+      "hop3": {
+        "queue_in_raw": 24178091912000,
+        "queue_out_raw": 24178091912000,
+        "tx_start_raw": 24178091912000,
+        "tx_end_raw": 24178097672000
+      },
+      "generation_to_last_phy_tx_end_us": 97.672,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 241817,
+      "generation_raw": 24181700000000,
+      "hop1": {
+        "queue_in_raw": 24181700000000,
+        "queue_out_raw": 24181779760495,
+        "tx_start_raw": 24181779760495,
+        "tx_end_raw": 24181780336495
+      },
+      "hop2": {
+        "queue_in_raw": 24181780436495,
+        "queue_out_raw": 24181792036000,
+        "tx_start_raw": 24181792036000,
+        "tx_end_raw": 24181792612000
+      },
+      "hop3": {
+        "queue_in_raw": 24181792712000,
+        "queue_out_raw": 24181792712000,
+        "tx_start_raw": 24181792712000,
+        "tx_end_raw": 24181798472000
+      },
+      "generation_to_last_phy_tx_end_us": 98.472,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 242118,
+      "generation_raw": 24211800000000,
+      "hop1": {
+        "queue_in_raw": 24211800000000,
+        "queue_out_raw": 24211880482162,
+        "tx_start_raw": 24211880482162,
+        "tx_end_raw": 24211881058162
+      },
+      "hop2": {
+        "queue_in_raw": 24211881158162,
+        "queue_out_raw": 24211891876000,
+        "tx_start_raw": 24211891876000,
+        "tx_end_raw": 24211892452000
+      },
+      "hop3": {
+        "queue_in_raw": 24211892552000,
+        "queue_out_raw": 24211892552000,
+        "tx_start_raw": 24211892552000,
+        "tx_end_raw": 24211898312000
+      },
+      "generation_to_last_phy_tx_end_us": 98.312,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 242155,
+      "generation_raw": 24215500000000,
+      "hop1": {
+        "queue_in_raw": 24215500000000,
+        "queue_out_raw": 24215580570872,
+        "tx_start_raw": 24215580570872,
+        "tx_end_raw": 24215581146872
+      },
+      "hop2": {
+        "queue_in_raw": 24215581246872,
+        "queue_out_raw": 24215592676000,
+        "tx_start_raw": 24215592676000,
+        "tx_end_raw": 24215593252000
+      },
+      "hop3": {
+        "queue_in_raw": 24215593352000,
+        "queue_out_raw": 24215593352000,
+        "tx_start_raw": 24215593352000,
+        "tx_end_raw": 24215599112000
+      },
+      "generation_to_last_phy_tx_end_us": 99.112,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 242382,
+      "generation_raw": 24238200000000,
+      "hop1": {
+        "queue_in_raw": 24238200000000,
+        "queue_out_raw": 24238281115120,
+        "tx_start_raw": 24238281115120,
+        "tx_end_raw": 24238281691120
+      },
+      "hop2": {
+        "queue_in_raw": 24238281791120,
+        "queue_out_raw": 24238290916000,
+        "tx_start_raw": 24238290916000,
+        "tx_end_raw": 24238291492000
+      },
+      "hop3": {
+        "queue_in_raw": 24238291592000,
+        "queue_out_raw": 24238291592000,
+        "tx_start_raw": 24238291592000,
+        "tx_end_raw": 24238297352000
+      },
+      "generation_to_last_phy_tx_end_us": 97.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 242419,
+      "generation_raw": 24241900000000,
+      "hop1": {
+        "queue_in_raw": 24241900000000,
+        "queue_out_raw": 24241981203830,
+        "tx_start_raw": 24241981203830,
+        "tx_end_raw": 24241981779830
+      },
+      "hop2": {
+        "queue_in_raw": 24241981879830,
+        "queue_out_raw": 24241991716000,
+        "tx_start_raw": 24241991716000,
+        "tx_end_raw": 24241992292000
+      },
+      "hop3": {
+        "queue_in_raw": 24241992392000,
+        "queue_out_raw": 24241992392000,
+        "tx_start_raw": 24241992392000,
+        "tx_end_raw": 24241998152000
+      },
+      "generation_to_last_phy_tx_end_us": 98.152,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 242456,
+      "generation_raw": 24245600000000,
+      "hop1": {
+        "queue_in_raw": 24245600000000,
+        "queue_out_raw": 24245681292540,
+        "tx_start_raw": 24245681292540,
+        "tx_end_raw": 24245681868540
+      },
+      "hop2": {
+        "queue_in_raw": 24245681968540,
+        "queue_out_raw": 24245692516000,
+        "tx_start_raw": 24245692516000,
+        "tx_end_raw": 24245693092000
+      },
+      "hop3": {
+        "queue_in_raw": 24245693192000,
+        "queue_out_raw": 24245693192000,
+        "tx_start_raw": 24245693192000,
+        "tx_end_raw": 24245698952000
+      },
+      "generation_to_last_phy_tx_end_us": 98.952,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 242683,
+      "generation_raw": 24268300000000,
+      "hop1": {
+        "queue_in_raw": 24268300000000,
+        "queue_out_raw": 24268381836788,
+        "tx_start_raw": 24268381836788,
+        "tx_end_raw": 24268382412788
+      },
+      "hop2": {
+        "queue_in_raw": 24268382512788,
+        "queue_out_raw": 24268390756000,
+        "tx_start_raw": 24268390756000,
+        "tx_end_raw": 24268391332000
+      },
+      "hop3": {
+        "queue_in_raw": 24268391432000,
+        "queue_out_raw": 24268391432000,
+        "tx_start_raw": 24268391432000,
+        "tx_end_raw": 24268397192000
+      },
+      "generation_to_last_phy_tx_end_us": 97.192,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 242720,
+      "generation_raw": 24272000000000,
+      "hop1": {
+        "queue_in_raw": 24272000000000,
+        "queue_out_raw": 24272081925498,
+        "tx_start_raw": 24272081925498,
+        "tx_end_raw": 24272082501498
+      },
+      "hop2": {
+        "queue_in_raw": 24272082601498,
+        "queue_out_raw": 24272091556000,
+        "tx_start_raw": 24272091556000,
+        "tx_end_raw": 24272092132000
+      },
+      "hop3": {
+        "queue_in_raw": 24272092232000,
+        "queue_out_raw": 24272092232000,
+        "tx_start_raw": 24272092232000,
+        "tx_end_raw": 24272097992000
+      },
+      "generation_to_last_phy_tx_end_us": 97.992,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 283076,
+      "generation_raw": 28307600000000,
+      "hop1": {
+        "queue_in_raw": 28307600000000,
+        "queue_out_raw": 28307678679318,
+        "tx_start_raw": 28307678679318,
+        "tx_end_raw": 28307679255318
+      },
+      "hop2": {
+        "queue_in_raw": 28307679355318,
+        "queue_out_raw": 28307690596000,
+        "tx_start_raw": 28307690596000,
+        "tx_end_raw": 28307691172000
+      },
+      "hop3": {
+        "queue_in_raw": 28307691272000,
+        "queue_out_raw": 28307691272000,
+        "tx_start_raw": 28307691272000,
+        "tx_end_raw": 28307697032000
+      },
+      "generation_to_last_phy_tx_end_us": 97.032,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 283414,
+      "generation_raw": 28341400000000,
+      "hop1": {
+        "queue_in_raw": 28341400000000,
+        "queue_out_raw": 28341479489695,
+        "tx_start_raw": 28341479489695,
+        "tx_end_raw": 28341480065695
+      },
+      "hop2": {
+        "queue_in_raw": 28341480165695,
+        "queue_out_raw": 28341491236000,
+        "tx_start_raw": 28341491236000,
+        "tx_end_raw": 28341491812000
+      },
+      "hop3": {
+        "queue_in_raw": 28341491912000,
+        "queue_out_raw": 28341491912000,
+        "tx_start_raw": 28341491912000,
+        "tx_end_raw": 28341497672000
+      },
+      "generation_to_last_phy_tx_end_us": 97.672,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 283715,
+      "generation_raw": 28371500000000,
+      "hop1": {
+        "queue_in_raw": 28371500000000,
+        "queue_out_raw": 28371580211363,
+        "tx_start_raw": 28371580211363,
+        "tx_end_raw": 28371580787363
+      },
+      "hop2": {
+        "queue_in_raw": 28371580887363,
+        "queue_out_raw": 28371591076000,
+        "tx_start_raw": 28371591076000,
+        "tx_end_raw": 28371591652000
+      },
+      "hop3": {
+        "queue_in_raw": 28371591752000,
+        "queue_out_raw": 28371591752000,
+        "tx_start_raw": 28371591752000,
+        "tx_end_raw": 28371597512000
+      },
+      "generation_to_last_phy_tx_end_us": 97.512,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 283752,
+      "generation_raw": 28375200000000,
+      "hop1": {
+        "queue_in_raw": 28375200000000,
+        "queue_out_raw": 28375280300073,
+        "tx_start_raw": 28375280300073,
+        "tx_end_raw": 28375280876073
+      },
+      "hop2": {
+        "queue_in_raw": 28375280976073,
+        "queue_out_raw": 28375291876000,
+        "tx_start_raw": 28375291876000,
+        "tx_end_raw": 28375292452000
+      },
+      "hop3": {
+        "queue_in_raw": 28375292552000,
+        "queue_out_raw": 28375292552000,
+        "tx_start_raw": 28375292552000,
+        "tx_end_raw": 28375298312000
+      },
+      "generation_to_last_phy_tx_end_us": 98.312,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 284016,
+      "generation_raw": 28401600000000,
+      "hop1": {
+        "queue_in_raw": 28401600000000,
+        "queue_out_raw": 28401680933031,
+        "tx_start_raw": 28401680933031,
+        "tx_end_raw": 28401681509031
+      },
+      "hop2": {
+        "queue_in_raw": 28401681609031,
+        "queue_out_raw": 28401690916000,
+        "tx_start_raw": 28401690916000,
+        "tx_end_raw": 28401691492000
+      },
+      "hop3": {
+        "queue_in_raw": 28401691592000,
+        "queue_out_raw": 28401691592000,
+        "tx_start_raw": 28401691592000,
+        "tx_end_raw": 28401697352000
+      },
+      "generation_to_last_phy_tx_end_us": 97.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 284090,
+      "generation_raw": 28409000000000,
+      "hop1": {
+        "queue_in_raw": 28409000000000,
+        "queue_out_raw": 28409081110451,
+        "tx_start_raw": 28409081110451,
+        "tx_end_raw": 28409081686451
+      },
+      "hop2": {
+        "queue_in_raw": 28409081786451,
+        "queue_out_raw": 28409092516000,
+        "tx_start_raw": 28409092516000,
+        "tx_end_raw": 28409093092000
+      },
+      "hop3": {
+        "queue_in_raw": 28409093192000,
+        "queue_out_raw": 28409093192000,
+        "tx_start_raw": 28409093192000,
+        "tx_end_raw": 28409098952000
+      },
+      "generation_to_last_phy_tx_end_us": 98.952,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 284127,
+      "generation_raw": 28412700000000,
+      "hop1": {
+        "queue_in_raw": 28412700000000,
+        "queue_out_raw": 28412781199161,
+        "tx_start_raw": 28412781199161,
+        "tx_end_raw": 28412781775161
+      },
+      "hop2": {
+        "queue_in_raw": 28412781875161,
+        "queue_out_raw": 28412793316000,
+        "tx_start_raw": 28412793316000,
+        "tx_end_raw": 28412793892000
+      },
+      "hop3": {
+        "queue_in_raw": 28412793992000,
+        "queue_out_raw": 28412793992000,
+        "tx_start_raw": 28412793992000,
+        "tx_end_raw": 28412799752000
+      },
+      "generation_to_last_phy_tx_end_us": 99.752,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 284354,
+      "generation_raw": 28435400000000,
+      "hop1": {
+        "queue_in_raw": 28435400000000,
+        "queue_out_raw": 28435481743409,
+        "tx_start_raw": 28435481743409,
+        "tx_end_raw": 28435482319409
+      },
+      "hop2": {
+        "queue_in_raw": 28435482419409,
+        "queue_out_raw": 28435491556000,
+        "tx_start_raw": 28435491556000,
+        "tx_end_raw": 28435492132000
+      },
+      "hop3": {
+        "queue_in_raw": 28435492232000,
+        "queue_out_raw": 28435492232000,
+        "tx_start_raw": 28435492232000,
+        "tx_end_raw": 28435497992000
+      },
+      "generation_to_last_phy_tx_end_us": 97.992,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 284391,
+      "generation_raw": 28439100000000,
+      "hop1": {
+        "queue_in_raw": 28439100000000,
+        "queue_out_raw": 28439181832118,
+        "tx_start_raw": 28439181832118,
+        "tx_end_raw": 28439182408118
+      },
+      "hop2": {
+        "queue_in_raw": 28439182508118,
+        "queue_out_raw": 28439192356000,
+        "tx_start_raw": 28439192356000,
+        "tx_end_raw": 28439192932000
+      },
+      "hop3": {
+        "queue_in_raw": 28439193032000,
+        "queue_out_raw": 28439193032000,
+        "tx_start_raw": 28439193032000,
+        "tx_end_raw": 28439198792000
+      },
+      "generation_to_last_phy_tx_end_us": 98.792,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F08",
+      "seq": 284428,
+      "generation_raw": 28442800000000,
+      "hop1": {
+        "queue_in_raw": 28442800000000,
+        "queue_out_raw": 28442881920828,
+        "tx_start_raw": 28442881920828,
+        "tx_end_raw": 28442882496828
+      },
+      "hop2": {
+        "queue_in_raw": 28442882596828,
+        "queue_out_raw": 28442893156000,
+        "tx_start_raw": 28442893156000,
+        "tx_end_raw": 28442893732000
+      },
+      "hop3": {
+        "queue_in_raw": 28442893832000,
+        "queue_out_raw": 28442893832000,
+        "tx_start_raw": 28442893832000,
+        "tx_end_raw": 28442899592000
+      },
+      "generation_to_last_phy_tx_end_us": 99.592,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 33934,
+      "generation_raw": 3393402000000,
+      "hop1": {
+        "queue_in_raw": 3393402000000,
+        "queue_out_raw": 3393482128000,
+        "tx_start_raw": 3393482128000,
+        "tx_end_raw": 3393482704000
+      },
+      "hop2": {
+        "queue_in_raw": 3393482804000,
+        "queue_out_raw": 3393493796000,
+        "tx_start_raw": 3393493796000,
+        "tx_end_raw": 3393494372000
+      },
+      "hop3": {
+        "queue_in_raw": 3393494472000,
+        "queue_out_raw": 3393494472000,
+        "tx_start_raw": 3393494472000,
+        "tx_end_raw": 3393500232000
+      },
+      "generation_to_last_phy_tx_end_us": 98.232,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34198,
+      "generation_raw": 3419802000000,
+      "hop1": {
+        "queue_in_raw": 3419802000000,
+        "queue_out_raw": 3419882664000,
+        "tx_start_raw": 3419882664000,
+        "tx_end_raw": 3419883240000
+      },
+      "hop2": {
+        "queue_in_raw": 3419883340000,
+        "queue_out_raw": 3419892836000,
+        "tx_start_raw": 3419892836000,
+        "tx_end_raw": 3419893412000
+      },
+      "hop3": {
+        "queue_in_raw": 3419893512000,
+        "queue_out_raw": 3419893512000,
+        "tx_start_raw": 3419893512000,
+        "tx_end_raw": 3419899272000
+      },
+      "generation_to_last_phy_tx_end_us": 97.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34235,
+      "generation_raw": 3423502000000,
+      "hop1": {
+        "queue_in_raw": 3423502000000,
+        "queue_out_raw": 3423582080710,
+        "tx_start_raw": 3423582080710,
+        "tx_end_raw": 3423582656710
+      },
+      "hop2": {
+        "queue_in_raw": 3423582756710,
+        "queue_out_raw": 3423593636000,
+        "tx_start_raw": 3423593636000,
+        "tx_end_raw": 3423594212000
+      },
+      "hop3": {
+        "queue_in_raw": 3423594312000,
+        "queue_out_raw": 3423594312000,
+        "tx_start_raw": 3423594312000,
+        "tx_end_raw": 3423600072000
+      },
+      "generation_to_last_phy_tx_end_us": 98.072,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34499,
+      "generation_raw": 3449902000000,
+      "hop1": {
+        "queue_in_raw": 3449902000000,
+        "queue_out_raw": 3449982713667,
+        "tx_start_raw": 3449982713667,
+        "tx_end_raw": 3449983289667
+      },
+      "hop2": {
+        "queue_in_raw": 3449983389667,
+        "queue_out_raw": 3449992676000,
+        "tx_start_raw": 3449992676000,
+        "tx_end_raw": 3449993252000
+      },
+      "hop3": {
+        "queue_in_raw": 3449993352000,
+        "queue_out_raw": 3449993352000,
+        "tx_start_raw": 3449993352000,
+        "tx_end_raw": 3449999112000
+      },
+      "generation_to_last_phy_tx_end_us": 97.112,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34536,
+      "generation_raw": 3453602000000,
+      "hop1": {
+        "queue_in_raw": 3453602000000,
+        "queue_out_raw": 3453682802377,
+        "tx_start_raw": 3453682802377,
+        "tx_end_raw": 3453683378377
+      },
+      "hop2": {
+        "queue_in_raw": 3453683478377,
+        "queue_out_raw": 3453695083752,
+        "tx_start_raw": 3453695083752,
+        "tx_end_raw": 3453695659752
+      },
+      "hop3": {
+        "queue_in_raw": 3453695759752,
+        "queue_out_raw": 3453695759752,
+        "tx_start_raw": 3453695759752,
+        "tx_end_raw": 3453701519752
+      },
+      "generation_to_last_phy_tx_end_us": 99.519752,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34573,
+      "generation_raw": 3457302000000,
+      "hop1": {
+        "queue_in_raw": 3457302000000,
+        "queue_out_raw": 3457382891087,
+        "tx_start_raw": 3457382891087,
+        "tx_end_raw": 3457383467087
+      },
+      "hop2": {
+        "queue_in_raw": 3457383567087,
+        "queue_out_raw": 3457394448207,
+        "tx_start_raw": 3457394448207,
+        "tx_end_raw": 3457395024207
+      },
+      "hop3": {
+        "queue_in_raw": 3457395124207,
+        "queue_out_raw": 3457395124207,
+        "tx_start_raw": 3457395124207,
+        "tx_end_raw": 3457400884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34610,
+      "generation_raw": 3461002000000,
+      "hop1": {
+        "queue_in_raw": 3461002000000,
+        "queue_out_raw": 3461082979797,
+        "tx_start_raw": 3461082979797,
+        "tx_end_raw": 3461083555797
+      },
+      "hop2": {
+        "queue_in_raw": 3461083655797,
+        "queue_out_raw": 3461095260267,
+        "tx_start_raw": 3461095260267,
+        "tx_end_raw": 3461095836267
+      },
+      "hop3": {
+        "queue_in_raw": 3461095936267,
+        "queue_out_raw": 3461095936267,
+        "tx_start_raw": 3461095936267,
+        "tx_end_raw": 3461101696267
+      },
+      "generation_to_last_phy_tx_end_us": 99.696267,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34837,
+      "generation_raw": 3483702000000,
+      "hop1": {
+        "queue_in_raw": 3483702000000,
+        "queue_out_raw": 3483783524045,
+        "tx_start_raw": 3483783524045,
+        "tx_end_raw": 3483784100045
+      },
+      "hop2": {
+        "queue_in_raw": 3483784200045,
+        "queue_out_raw": 3483794448207,
+        "tx_start_raw": 3483794448207,
+        "tx_end_raw": 3483795024207
+      },
+      "hop3": {
+        "queue_in_raw": 3483795124207,
+        "queue_out_raw": 3483795124207,
+        "tx_start_raw": 3483795124207,
+        "tx_end_raw": 3483800884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34874,
+      "generation_raw": 3487402000000,
+      "hop1": {
+        "queue_in_raw": 3487402000000,
+        "queue_out_raw": 3487483612755,
+        "tx_start_raw": 3487483612755,
+        "tx_end_raw": 3487484188755
+      },
+      "hop2": {
+        "queue_in_raw": 3487484288755,
+        "queue_out_raw": 3487495886485,
+        "tx_start_raw": 3487495886485,
+        "tx_end_raw": 3487496462485
+      },
+      "hop3": {
+        "queue_in_raw": 3487496562485,
+        "queue_out_raw": 3487496562485,
+        "tx_start_raw": 3487496562485,
+        "tx_end_raw": 3487502322485
+      },
+      "generation_to_last_phy_tx_end_us": 100.322485,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34911,
+      "generation_raw": 3491102000000,
+      "hop1": {
+        "queue_in_raw": 3491102000000,
+        "queue_out_raw": 3491183701465,
+        "tx_start_raw": 3491183701465,
+        "tx_end_raw": 3491184277465
+      },
+      "hop2": {
+        "queue_in_raw": 3491184377465,
+        "queue_out_raw": 3491194916000,
+        "tx_start_raw": 3491194916000,
+        "tx_end_raw": 3491195492000
+      },
+      "hop3": {
+        "queue_in_raw": 3491195592000,
+        "queue_out_raw": 3491195592000,
+        "tx_start_raw": 3491195592000,
+        "tx_end_raw": 3491201352000
+      },
+      "generation_to_last_phy_tx_end_us": 99.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 34948,
+      "generation_raw": 3494802000000,
+      "hop1": {
+        "queue_in_raw": 3494802000000,
+        "queue_out_raw": 3494883790175,
+        "tx_start_raw": 3494883790175,
+        "tx_end_raw": 3494884366175
+      },
+      "hop2": {
+        "queue_in_raw": 3494884466175,
+        "queue_out_raw": 3494896063000,
+        "tx_start_raw": 3494896063000,
+        "tx_end_raw": 3494896639000
+      },
+      "hop3": {
+        "queue_in_raw": 3494896739000,
+        "queue_out_raw": 3494896739000,
+        "tx_start_raw": 3494896739000,
+        "tx_end_raw": 3494902499000
+      },
+      "generation_to_last_phy_tx_end_us": 100.499,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 75531,
+      "generation_raw": 7553102000000,
+      "hop1": {
+        "queue_in_raw": 7553102000000,
+        "queue_out_raw": 7553181760243,
+        "tx_start_raw": 7553181760243,
+        "tx_end_raw": 7553182336243
+      },
+      "hop2": {
+        "queue_in_raw": 7553182436243,
+        "queue_out_raw": 7553192996000,
+        "tx_start_raw": 7553192996000,
+        "tx_end_raw": 7553193572000
+      },
+      "hop3": {
+        "queue_in_raw": 7553193672000,
+        "queue_out_raw": 7553193672000,
+        "tx_start_raw": 7553193672000,
+        "tx_end_raw": 7553199432000
+      },
+      "generation_to_last_phy_tx_end_us": 97.432,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 75832,
+      "generation_raw": 7583202000000,
+      "hop1": {
+        "queue_in_raw": 7583202000000,
+        "queue_out_raw": 7583282481911,
+        "tx_start_raw": 7583282481911,
+        "tx_end_raw": 7583283057911
+      },
+      "hop2": {
+        "queue_in_raw": 7583283157911,
+        "queue_out_raw": 7583292836000,
+        "tx_start_raw": 7583292836000,
+        "tx_end_raw": 7583293412000
+      },
+      "hop3": {
+        "queue_in_raw": 7583293512000,
+        "queue_out_raw": 7583293512000,
+        "tx_start_raw": 7583293512000,
+        "tx_end_raw": 7583299272000
+      },
+      "generation_to_last_phy_tx_end_us": 97.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 76133,
+      "generation_raw": 7613302000000,
+      "hop1": {
+        "queue_in_raw": 7613302000000,
+        "queue_out_raw": 7613382531578,
+        "tx_start_raw": 7613382531578,
+        "tx_end_raw": 7613383107578
+      },
+      "hop2": {
+        "queue_in_raw": 7613383207578,
+        "queue_out_raw": 7613394448207,
+        "tx_start_raw": 7613394448207,
+        "tx_end_raw": 7613395024207
+      },
+      "hop3": {
+        "queue_in_raw": 7613395124207,
+        "queue_out_raw": 7613395124207,
+        "tx_start_raw": 7613395124207,
+        "tx_end_raw": 7613400884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 76170,
+      "generation_raw": 7617002000000,
+      "hop1": {
+        "queue_in_raw": 7617002000000,
+        "queue_out_raw": 7617082620288,
+        "tx_start_raw": 7617082620288,
+        "tx_end_raw": 7617083196288
+      },
+      "hop2": {
+        "queue_in_raw": 7617083296288,
+        "queue_out_raw": 7617093476000,
+        "tx_start_raw": 7617093476000,
+        "tx_end_raw": 7617094052000
+      },
+      "hop3": {
+        "queue_in_raw": 7617094152000,
+        "queue_out_raw": 7617094152000,
+        "tx_start_raw": 7617094152000,
+        "tx_end_raw": 7617099912000
+      },
+      "generation_to_last_phy_tx_end_us": 97.912,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 76207,
+      "generation_raw": 7620702000000,
+      "hop1": {
+        "queue_in_raw": 7620702000000,
+        "queue_out_raw": 7620782708998,
+        "tx_start_raw": 7620782708998,
+        "tx_end_raw": 7620783284998
+      },
+      "hop2": {
+        "queue_in_raw": 7620783384998,
+        "queue_out_raw": 7620794276000,
+        "tx_start_raw": 7620794276000,
+        "tx_end_raw": 7620794852000
+      },
+      "hop3": {
+        "queue_in_raw": 7620794952000,
+        "queue_out_raw": 7620794952000,
+        "tx_start_raw": 7620794952000,
+        "tx_end_raw": 7620800712000
+      },
+      "generation_to_last_phy_tx_end_us": 98.712,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 76244,
+      "generation_raw": 7624402000000,
+      "hop1": {
+        "queue_in_raw": 7624402000000,
+        "queue_out_raw": 7624482797708,
+        "tx_start_raw": 7624482797708,
+        "tx_end_raw": 7624483373708
+      },
+      "hop2": {
+        "queue_in_raw": 7624483473708,
+        "queue_out_raw": 7624495076000,
+        "tx_start_raw": 7624495076000,
+        "tx_end_raw": 7624495652000
+      },
+      "hop3": {
+        "queue_in_raw": 7624495752000,
+        "queue_out_raw": 7624495752000,
+        "tx_start_raw": 7624495752000,
+        "tx_end_raw": 7624501512000
+      },
+      "generation_to_last_phy_tx_end_us": 99.512,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 76471,
+      "generation_raw": 7647102000000,
+      "hop1": {
+        "queue_in_raw": 7647102000000,
+        "queue_out_raw": 7647183341956,
+        "tx_start_raw": 7647183341956,
+        "tx_end_raw": 7647183917956
+      },
+      "hop2": {
+        "queue_in_raw": 7647184017956,
+        "queue_out_raw": 7647193316000,
+        "tx_start_raw": 7647193316000,
+        "tx_end_raw": 7647193892000
+      },
+      "hop3": {
+        "queue_in_raw": 7647193992000,
+        "queue_out_raw": 7647193992000,
+        "tx_start_raw": 7647193992000,
+        "tx_end_raw": 7647199752000
+      },
+      "generation_to_last_phy_tx_end_us": 97.752,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 76508,
+      "generation_raw": 7650802000000,
+      "hop1": {
+        "queue_in_raw": 7650802000000,
+        "queue_out_raw": 7650883430666,
+        "tx_start_raw": 7650883430666,
+        "tx_end_raw": 7650884006666
+      },
+      "hop2": {
+        "queue_in_raw": 7650884106666,
+        "queue_out_raw": 7650895709298,
+        "tx_start_raw": 7650895709298,
+        "tx_end_raw": 7650896285298
+      },
+      "hop3": {
+        "queue_in_raw": 7650896385298,
+        "queue_out_raw": 7650896385298,
+        "tx_start_raw": 7650896385298,
+        "tx_end_raw": 7650902145298
+      },
+      "generation_to_last_phy_tx_end_us": 100.145298,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 76545,
+      "generation_raw": 7654502000000,
+      "hop1": {
+        "queue_in_raw": 7654502000000,
+        "queue_out_raw": 7654583519376,
+        "tx_start_raw": 7654583519376,
+        "tx_end_raw": 7654584095376
+      },
+      "hop2": {
+        "queue_in_raw": 7654584195376,
+        "queue_out_raw": 7654594916000,
+        "tx_start_raw": 7654594916000,
+        "tx_end_raw": 7654595492000
+      },
+      "hop3": {
+        "queue_in_raw": 7654595592000,
+        "queue_out_raw": 7654595592000,
+        "tx_start_raw": 7654595592000,
+        "tx_end_raw": 7654601352000
+      },
+      "generation_to_last_phy_tx_end_us": 99.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 76582,
+      "generation_raw": 7658202000000,
+      "hop1": {
+        "queue_in_raw": 7658202000000,
+        "queue_out_raw": 7658283608086,
+        "tx_start_raw": 7658283608086,
+        "tx_end_raw": 7658284184086
+      },
+      "hop2": {
+        "queue_in_raw": 7658284284086,
+        "queue_out_raw": 7658295885814,
+        "tx_start_raw": 7658295885814,
+        "tx_end_raw": 7658296461814
+      },
+      "hop3": {
+        "queue_in_raw": 7658296561814,
+        "queue_out_raw": 7658296561814,
+        "tx_start_raw": 7658296561814,
+        "tx_end_raw": 7658302321814
+      },
+      "generation_to_last_phy_tx_end_us": 100.321814,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 117466,
+      "generation_raw": 11746602000000,
+      "hop1": {
+        "queue_in_raw": 11746602000000,
+        "queue_out_raw": 11746682299821,
+        "tx_start_raw": 11746682299821,
+        "tx_end_raw": 11746682875821
+      },
+      "hop2": {
+        "queue_in_raw": 11746682975821,
+        "queue_out_raw": 11746692836000,
+        "tx_start_raw": 11746692836000,
+        "tx_end_raw": 11746693412000
+      },
+      "hop3": {
+        "queue_in_raw": 11746693512000,
+        "queue_out_raw": 11746693512000,
+        "tx_start_raw": 11746693512000,
+        "tx_end_raw": 11746699272000
+      },
+      "generation_to_last_phy_tx_end_us": 97.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 117503,
+      "generation_raw": 11750302000000,
+      "hop1": {
+        "queue_in_raw": 11750302000000,
+        "queue_out_raw": 11750382388531,
+        "tx_start_raw": 11750382388531,
+        "tx_end_raw": 11750382964531
+      },
+      "hop2": {
+        "queue_in_raw": 11750383064531,
+        "queue_out_raw": 11750393636000,
+        "tx_start_raw": 11750393636000,
+        "tx_end_raw": 11750394212000
+      },
+      "hop3": {
+        "queue_in_raw": 11750394312000,
+        "queue_out_raw": 11750394312000,
+        "tx_start_raw": 11750394312000,
+        "tx_end_raw": 11750400072000
+      },
+      "generation_to_last_phy_tx_end_us": 98.072,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 117767,
+      "generation_raw": 11776702000000,
+      "hop1": {
+        "queue_in_raw": 11776702000000,
+        "queue_out_raw": 11776782349489,
+        "tx_start_raw": 11776782349489,
+        "tx_end_raw": 11776782925489
+      },
+      "hop2": {
+        "queue_in_raw": 11776783025489,
+        "queue_out_raw": 11776792676000,
+        "tx_start_raw": 11776792676000,
+        "tx_end_raw": 11776793252000
+      },
+      "hop3": {
+        "queue_in_raw": 11776793352000,
+        "queue_out_raw": 11776793352000,
+        "tx_start_raw": 11776793352000,
+        "tx_end_raw": 11776799112000
+      },
+      "generation_to_last_phy_tx_end_us": 97.112,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 117804,
+      "generation_raw": 11780402000000,
+      "hop1": {
+        "queue_in_raw": 11780402000000,
+        "queue_out_raw": 11780482438199,
+        "tx_start_raw": 11780482438199,
+        "tx_end_raw": 11780483014199
+      },
+      "hop2": {
+        "queue_in_raw": 11780483114199,
+        "queue_out_raw": 11780494838699,
+        "tx_start_raw": 11780494838699,
+        "tx_end_raw": 11780495414699
+      },
+      "hop3": {
+        "queue_in_raw": 11780495514699,
+        "queue_out_raw": 11780495514699,
+        "tx_start_raw": 11780495514699,
+        "tx_end_raw": 11780501274699
+      },
+      "generation_to_last_phy_tx_end_us": 99.274699,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 117841,
+      "generation_raw": 11784102000000,
+      "hop1": {
+        "queue_in_raw": 11784102000000,
+        "queue_out_raw": 11784182526909,
+        "tx_start_raw": 11784182526909,
+        "tx_end_raw": 11784183102909
+      },
+      "hop2": {
+        "queue_in_raw": 11784183202909,
+        "queue_out_raw": 11784194448207,
+        "tx_start_raw": 11784194448207,
+        "tx_end_raw": 11784195024207
+      },
+      "hop3": {
+        "queue_in_raw": 11784195124207,
+        "queue_out_raw": 11784195124207,
+        "tx_start_raw": 11784195124207,
+        "tx_end_raw": 11784200884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 118105,
+      "generation_raw": 11810502000000,
+      "hop1": {
+        "queue_in_raw": 11810502000000,
+        "queue_out_raw": 11810583159867,
+        "tx_start_raw": 11810583159867,
+        "tx_end_raw": 11810583735867
+      },
+      "hop2": {
+        "queue_in_raw": 11810583835867,
+        "queue_out_raw": 11810594448207,
+        "tx_start_raw": 11810594448207,
+        "tx_end_raw": 11810595024207
+      },
+      "hop3": {
+        "queue_in_raw": 11810595124207,
+        "queue_out_raw": 11810595124207,
+        "tx_start_raw": 11810595124207,
+        "tx_end_raw": 11810600884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 118142,
+      "generation_raw": 11814202000000,
+      "hop1": {
+        "queue_in_raw": 11814202000000,
+        "queue_out_raw": 11814283248577,
+        "tx_start_raw": 11814283248577,
+        "tx_end_raw": 11814283824577
+      },
+      "hop2": {
+        "queue_in_raw": 11814283924577,
+        "queue_out_raw": 11814295536331,
+        "tx_start_raw": 11814295536331,
+        "tx_end_raw": 11814296112331
+      },
+      "hop3": {
+        "queue_in_raw": 11814296212331,
+        "queue_out_raw": 11814296212331,
+        "tx_start_raw": 11814296212331,
+        "tx_end_raw": 11814301972331
+      },
+      "generation_to_last_phy_tx_end_us": 99.972331,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 118179,
+      "generation_raw": 11817902000000,
+      "hop1": {
+        "queue_in_raw": 11817902000000,
+        "queue_out_raw": 11817983337287,
+        "tx_start_raw": 11817983337287,
+        "tx_end_raw": 11817983913287
+      },
+      "hop2": {
+        "queue_in_raw": 11817984013287,
+        "queue_out_raw": 11817994916000,
+        "tx_start_raw": 11817994916000,
+        "tx_end_raw": 11817995492000
+      },
+      "hop3": {
+        "queue_in_raw": 11817995592000,
+        "queue_out_raw": 11817995592000,
+        "tx_start_raw": 11817995592000,
+        "tx_end_raw": 11818001352000
+      },
+      "generation_to_last_phy_tx_end_us": 99.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 118216,
+      "generation_raw": 11821602000000,
+      "hop1": {
+        "queue_in_raw": 11821602000000,
+        "queue_out_raw": 11821683425997,
+        "tx_start_raw": 11821683425997,
+        "tx_end_raw": 11821684001997
+      },
+      "hop2": {
+        "queue_in_raw": 11821684101997,
+        "queue_out_raw": 11821695716000,
+        "tx_start_raw": 11821695716000,
+        "tx_end_raw": 11821696292000
+      },
+      "hop3": {
+        "queue_in_raw": 11821696392000,
+        "queue_out_raw": 11821696392000,
+        "tx_start_raw": 11821696392000,
+        "tx_end_raw": 11821702152000
+      },
+      "generation_to_last_phy_tx_end_us": 100.152,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 118369,
+      "generation_raw": 11836902000000,
+      "hop1": {
+        "queue_in_raw": 11836902000000,
+        "queue_out_raw": 11836983792825,
+        "tx_start_raw": 11836983792825,
+        "tx_end_raw": 11836984368825
+      },
+      "hop2": {
+        "queue_in_raw": 11836984468825,
+        "queue_out_raw": 11836994448207,
+        "tx_start_raw": 11836994448207,
+        "tx_end_raw": 11836995024207
+      },
+      "hop3": {
+        "queue_in_raw": 11836995124207,
+        "queue_out_raw": 11836995124207,
+        "tx_start_raw": 11836995124207,
+        "tx_end_raw": 11837000884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 118406,
+      "generation_raw": 11840602000000,
+      "hop1": {
+        "queue_in_raw": 11840602000000,
+        "queue_out_raw": 11840683881535,
+        "tx_start_raw": 11840683881535,
+        "tx_end_raw": 11840684457535
+      },
+      "hop2": {
+        "queue_in_raw": 11840684557535,
+        "queue_out_raw": 11840693156000,
+        "tx_start_raw": 11840693156000,
+        "tx_end_raw": 11840693732000
+      },
+      "hop3": {
+        "queue_in_raw": 11840693832000,
+        "queue_out_raw": 11840693832000,
+        "tx_start_raw": 11840693832000,
+        "tx_end_raw": 11840699592000
+      },
+      "generation_to_last_phy_tx_end_us": 97.592,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 118443,
+      "generation_raw": 11844302000000,
+      "hop1": {
+        "queue_in_raw": 11844302000000,
+        "queue_out_raw": 11844383970245,
+        "tx_start_raw": 11844383970245,
+        "tx_end_raw": 11844384546245
+      },
+      "hop2": {
+        "queue_in_raw": 11844384646245,
+        "queue_out_raw": 11844393956000,
+        "tx_start_raw": 11844393956000,
+        "tx_end_raw": 11844394532000
+      },
+      "hop3": {
+        "queue_in_raw": 11844394632000,
+        "queue_out_raw": 11844394632000,
+        "tx_start_raw": 11844394632000,
+        "tx_end_raw": 11844400392000
+      },
+      "generation_to_last_phy_tx_end_us": 98.392,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 158799,
+      "generation_raw": 15879902000000,
+      "hop1": {
+        "queue_in_raw": 15879902000000,
+        "queue_out_raw": 15879981396065,
+        "tx_start_raw": 15879981396065,
+        "tx_end_raw": 15879981972065
+      },
+      "hop2": {
+        "queue_in_raw": 15879982072065,
+        "queue_out_raw": 15879992996000,
+        "tx_start_raw": 15879992996000,
+        "tx_end_raw": 15879993572000
+      },
+      "hop3": {
+        "queue_in_raw": 15879993672000,
+        "queue_out_raw": 15879993672000,
+        "tx_start_raw": 15879993672000,
+        "tx_end_raw": 15879999432000
+      },
+      "generation_to_last_phy_tx_end_us": 97.432,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 159100,
+      "generation_raw": 15910002000000,
+      "hop1": {
+        "queue_in_raw": 15910002000000,
+        "queue_out_raw": 15910082117732,
+        "tx_start_raw": 15910082117732,
+        "tx_end_raw": 15910082693732
+      },
+      "hop2": {
+        "queue_in_raw": 15910082793732,
+        "queue_out_raw": 15910092836000,
+        "tx_start_raw": 15910092836000,
+        "tx_end_raw": 15910093412000
+      },
+      "hop3": {
+        "queue_in_raw": 15910093512000,
+        "queue_out_raw": 15910093512000,
+        "tx_start_raw": 15910093512000,
+        "tx_end_raw": 15910099272000
+      },
+      "generation_to_last_phy_tx_end_us": 97.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 159401,
+      "generation_raw": 15940102000000,
+      "hop1": {
+        "queue_in_raw": 15940102000000,
+        "queue_out_raw": 15940182167400,
+        "tx_start_raw": 15940182167400,
+        "tx_end_raw": 15940182743400
+      },
+      "hop2": {
+        "queue_in_raw": 15940182843400,
+        "queue_out_raw": 15940194448207,
+        "tx_start_raw": 15940194448207,
+        "tx_end_raw": 15940195024207
+      },
+      "hop3": {
+        "queue_in_raw": 15940195124207,
+        "queue_out_raw": 15940195124207,
+        "tx_start_raw": 15940195124207,
+        "tx_end_raw": 15940200884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 159438,
+      "generation_raw": 15943802000000,
+      "hop1": {
+        "queue_in_raw": 15943802000000,
+        "queue_out_raw": 15943882256110,
+        "tx_start_raw": 15943882256110,
+        "tx_end_raw": 15943882832110
+      },
+      "hop2": {
+        "queue_in_raw": 15943882932110,
+        "queue_out_raw": 15943893476000,
+        "tx_start_raw": 15943893476000,
+        "tx_end_raw": 15943894052000
+      },
+      "hop3": {
+        "queue_in_raw": 15943894152000,
+        "queue_out_raw": 15943894152000,
+        "tx_start_raw": 15943894152000,
+        "tx_end_raw": 15943899912000
+      },
+      "generation_to_last_phy_tx_end_us": 97.912,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 159475,
+      "generation_raw": 15947502000000,
+      "hop1": {
+        "queue_in_raw": 15947502000000,
+        "queue_out_raw": 15947582344820,
+        "tx_start_raw": 15947582344820,
+        "tx_end_raw": 15947582920820
+      },
+      "hop2": {
+        "queue_in_raw": 15947583020820,
+        "queue_out_raw": 15947594276000,
+        "tx_start_raw": 15947594276000,
+        "tx_end_raw": 15947594852000
+      },
+      "hop3": {
+        "queue_in_raw": 15947594952000,
+        "queue_out_raw": 15947594952000,
+        "tx_start_raw": 15947594952000,
+        "tx_end_raw": 15947600712000
+      },
+      "generation_to_last_phy_tx_end_us": 98.712,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 159739,
+      "generation_raw": 15973902000000,
+      "hop1": {
+        "queue_in_raw": 15973902000000,
+        "queue_out_raw": 15973982977778,
+        "tx_start_raw": 15973982977778,
+        "tx_end_raw": 15973983553778
+      },
+      "hop2": {
+        "queue_in_raw": 15973983653778,
+        "queue_out_raw": 15973993316000,
+        "tx_start_raw": 15973993316000,
+        "tx_end_raw": 15973993892000
+      },
+      "hop3": {
+        "queue_in_raw": 15973993992000,
+        "queue_out_raw": 15973993992000,
+        "tx_start_raw": 15973993992000,
+        "tx_end_raw": 15973999752000
+      },
+      "generation_to_last_phy_tx_end_us": 97.752,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 159776,
+      "generation_raw": 15977602000000,
+      "hop1": {
+        "queue_in_raw": 15977602000000,
+        "queue_out_raw": 15977683066488,
+        "tx_start_raw": 15977683066488,
+        "tx_end_raw": 15977683642488
+      },
+      "hop2": {
+        "queue_in_raw": 15977683742488,
+        "queue_out_raw": 15977695349425,
+        "tx_start_raw": 15977695349425,
+        "tx_end_raw": 15977695925425
+      },
+      "hop3": {
+        "queue_in_raw": 15977696025425,
+        "queue_out_raw": 15977696025425,
+        "tx_start_raw": 15977696025425,
+        "tx_end_raw": 15977701785425
+      },
+      "generation_to_last_phy_tx_end_us": 99.785425,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 159813,
+      "generation_raw": 15981302000000,
+      "hop1": {
+        "queue_in_raw": 15981302000000,
+        "queue_out_raw": 15981383155198,
+        "tx_start_raw": 15981383155198,
+        "tx_end_raw": 15981383731198
+      },
+      "hop2": {
+        "queue_in_raw": 15981383831198,
+        "queue_out_raw": 15981394916000,
+        "tx_start_raw": 15981394916000,
+        "tx_end_raw": 15981395492000
+      },
+      "hop3": {
+        "queue_in_raw": 15981395592000,
+        "queue_out_raw": 15981395592000,
+        "tx_start_raw": 15981395592000,
+        "tx_end_raw": 15981401352000
+      },
+      "generation_to_last_phy_tx_end_us": 99.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 160003,
+      "generation_raw": 16000302000000,
+      "hop1": {
+        "queue_in_raw": 16000302000000,
+        "queue_out_raw": 16000383610735,
+        "tx_start_raw": 16000383610735,
+        "tx_end_raw": 16000384186735
+      },
+      "hop2": {
+        "queue_in_raw": 16000384286735,
+        "queue_out_raw": 16000393092000,
+        "tx_start_raw": 16000393092000,
+        "tx_end_raw": 16000393668000
+      },
+      "hop3": {
+        "queue_in_raw": 16000393768000,
+        "queue_out_raw": 16000393768000,
+        "tx_start_raw": 16000393768000,
+        "tx_end_raw": 16000399528000
+      },
+      "generation_to_last_phy_tx_end_us": 97.528,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 160040,
+      "generation_raw": 16004002000000,
+      "hop1": {
+        "queue_in_raw": 16004002000000,
+        "queue_out_raw": 16004083699445,
+        "tx_start_raw": 16004083699445,
+        "tx_end_raw": 16004084275445
+      },
+      "hop2": {
+        "queue_in_raw": 16004084375445,
+        "queue_out_raw": 16004093156000,
+        "tx_start_raw": 16004093156000,
+        "tx_end_raw": 16004093732000
+      },
+      "hop3": {
+        "queue_in_raw": 16004093832000,
+        "queue_out_raw": 16004093832000,
+        "tx_start_raw": 16004093832000,
+        "tx_end_raw": 16004099592000
+      },
+      "generation_to_last_phy_tx_end_us": 97.592,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 160077,
+      "generation_raw": 16007702000000,
+      "hop1": {
+        "queue_in_raw": 16007702000000,
+        "queue_out_raw": 16007783788155,
+        "tx_start_raw": 16007783788155,
+        "tx_end_raw": 16007784364155
+      },
+      "hop2": {
+        "queue_in_raw": 16007784464155,
+        "queue_out_raw": 16007794448207,
+        "tx_start_raw": 16007794448207,
+        "tx_end_raw": 16007795024207
+      },
+      "hop3": {
+        "queue_in_raw": 16007795124207,
+        "queue_out_raw": 16007795124207,
+        "tx_start_raw": 16007795124207,
+        "tx_end_raw": 16007800884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 160114,
+      "generation_raw": 16011402000000,
+      "hop1": {
+        "queue_in_raw": 16011402000000,
+        "queue_out_raw": 16011483876865,
+        "tx_start_raw": 16011483876865,
+        "tx_end_raw": 16011484452865
+      },
+      "hop2": {
+        "queue_in_raw": 16011484552865,
+        "queue_out_raw": 16011496165814,
+        "tx_start_raw": 16011496165814,
+        "tx_end_raw": 16011496741814
+      },
+      "hop3": {
+        "queue_in_raw": 16011496841814,
+        "queue_out_raw": 16011496841814,
+        "tx_start_raw": 16011496841814,
+        "tx_end_raw": 16011502601814
+      },
+      "generation_to_last_phy_tx_end_us": 100.601814,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 160151,
+      "generation_raw": 16015102000000,
+      "hop1": {
+        "queue_in_raw": 16015102000000,
+        "queue_out_raw": 16015183965575,
+        "tx_start_raw": 16015183965575,
+        "tx_end_raw": 16015184541575
+      },
+      "hop2": {
+        "queue_in_raw": 16015184641575,
+        "queue_out_raw": 16015195556000,
+        "tx_start_raw": 16015195556000,
+        "tx_end_raw": 16015196132000
+      },
+      "hop3": {
+        "queue_in_raw": 16015196232000,
+        "queue_out_raw": 16015196232000,
+        "tx_start_raw": 16015196232000,
+        "tx_end_raw": 16015201992000
+      },
+      "generation_to_last_phy_tx_end_us": 99.992,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 200734,
+      "generation_raw": 20073402000000,
+      "hop1": {
+        "queue_in_raw": 20073402000000,
+        "queue_out_raw": 20073481935643,
+        "tx_start_raw": 20073481935643,
+        "tx_end_raw": 20073482511643
+      },
+      "hop2": {
+        "queue_in_raw": 20073482611643,
+        "queue_out_raw": 20073492836000,
+        "tx_start_raw": 20073492836000,
+        "tx_end_raw": 20073493412000
+      },
+      "hop3": {
+        "queue_in_raw": 20073493512000,
+        "queue_out_raw": 20073493512000,
+        "tx_start_raw": 20073493512000,
+        "tx_end_raw": 20073499272000
+      },
+      "generation_to_last_phy_tx_end_us": 97.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 200771,
+      "generation_raw": 20077102000000,
+      "hop1": {
+        "queue_in_raw": 20077102000000,
+        "queue_out_raw": 20077182024353,
+        "tx_start_raw": 20077182024353,
+        "tx_end_raw": 20077182600353
+      },
+      "hop2": {
+        "queue_in_raw": 20077182700353,
+        "queue_out_raw": 20077193636000,
+        "tx_start_raw": 20077193636000,
+        "tx_end_raw": 20077194212000
+      },
+      "hop3": {
+        "queue_in_raw": 20077194312000,
+        "queue_out_raw": 20077194312000,
+        "tx_start_raw": 20077194312000,
+        "tx_end_raw": 20077200072000
+      },
+      "generation_to_last_phy_tx_end_us": 98.072,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201035,
+      "generation_raw": 20103502000000,
+      "hop1": {
+        "queue_in_raw": 20103502000000,
+        "queue_out_raw": 20103582657311,
+        "tx_start_raw": 20103582657311,
+        "tx_end_raw": 20103583233311
+      },
+      "hop2": {
+        "queue_in_raw": 20103583333311,
+        "queue_out_raw": 20103592676000,
+        "tx_start_raw": 20103592676000,
+        "tx_end_raw": 20103593252000
+      },
+      "hop3": {
+        "queue_in_raw": 20103593352000,
+        "queue_out_raw": 20103593352000,
+        "tx_start_raw": 20103593352000,
+        "tx_end_raw": 20103599112000
+      },
+      "generation_to_last_phy_tx_end_us": 97.112,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201109,
+      "generation_raw": 20110902000000,
+      "hop1": {
+        "queue_in_raw": 20110902000000,
+        "queue_out_raw": 20110982162731,
+        "tx_start_raw": 20110982162731,
+        "tx_end_raw": 20110982738731
+      },
+      "hop2": {
+        "queue_in_raw": 20110982838731,
+        "queue_out_raw": 20110994448207,
+        "tx_start_raw": 20110994448207,
+        "tx_end_raw": 20110995024207
+      },
+      "hop3": {
+        "queue_in_raw": 20110995124207,
+        "queue_out_raw": 20110995124207,
+        "tx_start_raw": 20110995124207,
+        "tx_end_raw": 20111000884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201373,
+      "generation_raw": 20137302000000,
+      "hop1": {
+        "queue_in_raw": 20137302000000,
+        "queue_out_raw": 20137382795689,
+        "tx_start_raw": 20137382795689,
+        "tx_end_raw": 20137383371689
+      },
+      "hop2": {
+        "queue_in_raw": 20137383471689,
+        "queue_out_raw": 20137394448207,
+        "tx_start_raw": 20137394448207,
+        "tx_end_raw": 20137395024207
+      },
+      "hop3": {
+        "queue_in_raw": 20137395124207,
+        "queue_out_raw": 20137395124207,
+        "tx_start_raw": 20137395124207,
+        "tx_end_raw": 20137400884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201410,
+      "generation_raw": 20141002000000,
+      "hop1": {
+        "queue_in_raw": 20141002000000,
+        "queue_out_raw": 20141082884399,
+        "tx_start_raw": 20141082884399,
+        "tx_end_raw": 20141083460399
+      },
+      "hop2": {
+        "queue_in_raw": 20141083560399,
+        "queue_out_raw": 20141095176176,
+        "tx_start_raw": 20141095176176,
+        "tx_end_raw": 20141095752176
+      },
+      "hop3": {
+        "queue_in_raw": 20141095852176,
+        "queue_out_raw": 20141095852176,
+        "tx_start_raw": 20141095852176,
+        "tx_end_raw": 20141101612176
+      },
+      "generation_to_last_phy_tx_end_us": 99.612176,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201447,
+      "generation_raw": 20144702000000,
+      "hop1": {
+        "queue_in_raw": 20144702000000,
+        "queue_out_raw": 20144782973109,
+        "tx_start_raw": 20144782973109,
+        "tx_end_raw": 20144783549109
+      },
+      "hop2": {
+        "queue_in_raw": 20144783649109,
+        "queue_out_raw": 20144794916000,
+        "tx_start_raw": 20144794916000,
+        "tx_end_raw": 20144795492000
+      },
+      "hop3": {
+        "queue_in_raw": 20144795592000,
+        "queue_out_raw": 20144795592000,
+        "tx_start_raw": 20144795592000,
+        "tx_end_raw": 20144801352000
+      },
+      "generation_to_last_phy_tx_end_us": 99.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201637,
+      "generation_raw": 20163702000000,
+      "hop1": {
+        "queue_in_raw": 20163702000000,
+        "queue_out_raw": 20163783428646,
+        "tx_start_raw": 20163783428646,
+        "tx_end_raw": 20163784004646
+      },
+      "hop2": {
+        "queue_in_raw": 20163784104646,
+        "queue_out_raw": 20163794448207,
+        "tx_start_raw": 20163794448207,
+        "tx_end_raw": 20163795024207
+      },
+      "hop3": {
+        "queue_in_raw": 20163795124207,
+        "queue_out_raw": 20163795124207,
+        "tx_start_raw": 20163795124207,
+        "tx_end_raw": 20163800884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201674,
+      "generation_raw": 20167402000000,
+      "hop1": {
+        "queue_in_raw": 20167402000000,
+        "queue_out_raw": 20167483517356,
+        "tx_start_raw": 20167483517356,
+        "tx_end_raw": 20167484093356
+      },
+      "hop2": {
+        "queue_in_raw": 20167484193356,
+        "queue_out_raw": 20167493156000,
+        "tx_start_raw": 20167493156000,
+        "tx_end_raw": 20167493732000
+      },
+      "hop3": {
+        "queue_in_raw": 20167493832000,
+        "queue_out_raw": 20167493832000,
+        "tx_start_raw": 20167493832000,
+        "tx_end_raw": 20167499592000
+      },
+      "generation_to_last_phy_tx_end_us": 97.592,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201711,
+      "generation_raw": 20171102000000,
+      "hop1": {
+        "queue_in_raw": 20171102000000,
+        "queue_out_raw": 20171183606066,
+        "tx_start_raw": 20171183606066,
+        "tx_end_raw": 20171184182066
+      },
+      "hop2": {
+        "queue_in_raw": 20171184282066,
+        "queue_out_raw": 20171193956000,
+        "tx_start_raw": 20171193956000,
+        "tx_end_raw": 20171194532000
+      },
+      "hop3": {
+        "queue_in_raw": 20171194632000,
+        "queue_out_raw": 20171194632000,
+        "tx_start_raw": 20171194632000,
+        "tx_end_raw": 20171200392000
+      },
+      "generation_to_last_phy_tx_end_us": 98.392,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201748,
+      "generation_raw": 20174802000000,
+      "hop1": {
+        "queue_in_raw": 20174802000000,
+        "queue_out_raw": 20174883694776,
+        "tx_start_raw": 20174883694776,
+        "tx_end_raw": 20174884270776
+      },
+      "hop2": {
+        "queue_in_raw": 20174884370776,
+        "queue_out_raw": 20174895978909,
+        "tx_start_raw": 20174895978909,
+        "tx_end_raw": 20174896554909
+      },
+      "hop3": {
+        "queue_in_raw": 20174896654909,
+        "queue_out_raw": 20174896654909,
+        "tx_start_raw": 20174896654909,
+        "tx_end_raw": 20174902414909
+      },
+      "generation_to_last_phy_tx_end_us": 100.414909,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 201785,
+      "generation_raw": 20178502000000,
+      "hop1": {
+        "queue_in_raw": 20178502000000,
+        "queue_out_raw": 20178583783486,
+        "tx_start_raw": 20178583783486,
+        "tx_end_raw": 20178584359486
+      },
+      "hop2": {
+        "queue_in_raw": 20178584459486,
+        "queue_out_raw": 20178595556000,
+        "tx_start_raw": 20178595556000,
+        "tx_end_raw": 20178596132000
+      },
+      "hop3": {
+        "queue_in_raw": 20178596232000,
+        "queue_out_raw": 20178596232000,
+        "tx_start_raw": 20178596232000,
+        "tx_end_raw": 20178601992000
+      },
+      "generation_to_last_phy_tx_end_us": 99.992,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 242368,
+      "generation_raw": 24236802000000,
+      "hop1": {
+        "queue_in_raw": 24236802000000,
+        "queue_out_raw": 24236881753554,
+        "tx_start_raw": 24236881753554,
+        "tx_end_raw": 24236882329554
+      },
+      "hop2": {
+        "queue_in_raw": 24236882429554,
+        "queue_out_raw": 24236892836000,
+        "tx_start_raw": 24236892836000,
+        "tx_end_raw": 24236893412000
+      },
+      "hop3": {
+        "queue_in_raw": 24236893512000,
+        "queue_out_raw": 24236893512000,
+        "tx_start_raw": 24236893512000,
+        "tx_end_raw": 24236899272000
+      },
+      "generation_to_last_phy_tx_end_us": 97.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 242706,
+      "generation_raw": 24270602000000,
+      "hop1": {
+        "queue_in_raw": 24270602000000,
+        "queue_out_raw": 24270682563932,
+        "tx_start_raw": 24270682563932,
+        "tx_end_raw": 24270683139932
+      },
+      "hop2": {
+        "queue_in_raw": 24270683239932,
+        "queue_out_raw": 24270693476000,
+        "tx_start_raw": 24270693476000,
+        "tx_end_raw": 24270694052000
+      },
+      "hop3": {
+        "queue_in_raw": 24270694152000,
+        "queue_out_raw": 24270694152000,
+        "tx_start_raw": 24270694152000,
+        "tx_end_raw": 24270699912000
+      },
+      "generation_to_last_phy_tx_end_us": 97.912,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 242743,
+      "generation_raw": 24274302000000,
+      "hop1": {
+        "queue_in_raw": 24274302000000,
+        "queue_out_raw": 24274382652642,
+        "tx_start_raw": 24274382652642,
+        "tx_end_raw": 24274383228642
+      },
+      "hop2": {
+        "queue_in_raw": 24274383328642,
+        "queue_out_raw": 24274394276000,
+        "tx_start_raw": 24274394276000,
+        "tx_end_raw": 24274394852000
+      },
+      "hop3": {
+        "queue_in_raw": 24274394952000,
+        "queue_out_raw": 24274394952000,
+        "tx_start_raw": 24274394952000,
+        "tx_end_raw": 24274400712000
+      },
+      "generation_to_last_phy_tx_end_us": 98.712,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 243007,
+      "generation_raw": 24300702000000,
+      "hop1": {
+        "queue_in_raw": 24300702000000,
+        "queue_out_raw": 24300782613599,
+        "tx_start_raw": 24300782613599,
+        "tx_end_raw": 24300783189599
+      },
+      "hop2": {
+        "queue_in_raw": 24300783289599,
+        "queue_out_raw": 24300793316000,
+        "tx_start_raw": 24300793316000,
+        "tx_end_raw": 24300793892000
+      },
+      "hop3": {
+        "queue_in_raw": 24300793992000,
+        "queue_out_raw": 24300793992000,
+        "tx_start_raw": 24300793992000,
+        "tx_end_raw": 24300799752000
+      },
+      "generation_to_last_phy_tx_end_us": 97.752,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 243044,
+      "generation_raw": 24304402000000,
+      "hop1": {
+        "queue_in_raw": 24304402000000,
+        "queue_out_raw": 24304482702309,
+        "tx_start_raw": 24304482702309,
+        "tx_end_raw": 24304483278309
+      },
+      "hop2": {
+        "queue_in_raw": 24304483378309,
+        "queue_out_raw": 24304494985333,
+        "tx_start_raw": 24304494985333,
+        "tx_end_raw": 24304495561333
+      },
+      "hop3": {
+        "queue_in_raw": 24304495661333,
+        "queue_out_raw": 24304495661333,
+        "tx_start_raw": 24304495661333,
+        "tx_end_raw": 24304501421333
+      },
+      "generation_to_last_phy_tx_end_us": 99.421333,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 243081,
+      "generation_raw": 24308102000000,
+      "hop1": {
+        "queue_in_raw": 24308102000000,
+        "queue_out_raw": 24308182791019,
+        "tx_start_raw": 24308182791019,
+        "tx_end_raw": 24308183367019
+      },
+      "hop2": {
+        "queue_in_raw": 24308183467019,
+        "queue_out_raw": 24308194916000,
+        "tx_start_raw": 24308194916000,
+        "tx_end_raw": 24308195492000
+      },
+      "hop3": {
+        "queue_in_raw": 24308195592000,
+        "queue_out_raw": 24308195592000,
+        "tx_start_raw": 24308195592000,
+        "tx_end_raw": 24308201352000
+      },
+      "generation_to_last_phy_tx_end_us": 99.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 243308,
+      "generation_raw": 24330802000000,
+      "hop1": {
+        "queue_in_raw": 24330802000000,
+        "queue_out_raw": 24330883335267,
+        "tx_start_raw": 24330883335267,
+        "tx_end_raw": 24330883911267
+      },
+      "hop2": {
+        "queue_in_raw": 24330884011267,
+        "queue_out_raw": 24330893156000,
+        "tx_start_raw": 24330893156000,
+        "tx_end_raw": 24330893732000
+      },
+      "hop3": {
+        "queue_in_raw": 24330893832000,
+        "queue_out_raw": 24330893832000,
+        "tx_start_raw": 24330893832000,
+        "tx_end_raw": 24330899592000
+      },
+      "generation_to_last_phy_tx_end_us": 97.592,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 243345,
+      "generation_raw": 24334502000000,
+      "hop1": {
+        "queue_in_raw": 24334502000000,
+        "queue_out_raw": 24334583423977,
+        "tx_start_raw": 24334583423977,
+        "tx_end_raw": 24334583999977
+      },
+      "hop2": {
+        "queue_in_raw": 24334584099977,
+        "queue_out_raw": 24334594448207,
+        "tx_start_raw": 24334594448207,
+        "tx_end_raw": 24334595024207
+      },
+      "hop3": {
+        "queue_in_raw": 24334595124207,
+        "queue_out_raw": 24334595124207,
+        "tx_start_raw": 24334595124207,
+        "tx_end_raw": 24334600884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 243382,
+      "generation_raw": 24338202000000,
+      "hop1": {
+        "queue_in_raw": 24338202000000,
+        "queue_out_raw": 24338283512687,
+        "tx_start_raw": 24338283512687,
+        "tx_end_raw": 24338284088687
+      },
+      "hop2": {
+        "queue_in_raw": 24338284188687,
+        "queue_out_raw": 24338295798067,
+        "tx_start_raw": 24338295798067,
+        "tx_end_raw": 24338296374067
+      },
+      "hop3": {
+        "queue_in_raw": 24338296474067,
+        "queue_out_raw": 24338296474067,
+        "tx_start_raw": 24338296474067,
+        "tx_end_raw": 24338302234067
+      },
+      "generation_to_last_phy_tx_end_us": 100.234067,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 243419,
+      "generation_raw": 24341902000000,
+      "hop1": {
+        "queue_in_raw": 24341902000000,
+        "queue_out_raw": 24341983601397,
+        "tx_start_raw": 24341983601397,
+        "tx_end_raw": 24341984177397
+      },
+      "hop2": {
+        "queue_in_raw": 24341984277397,
+        "queue_out_raw": 24341995556000,
+        "tx_start_raw": 24341995556000,
+        "tx_end_raw": 24341996132000
+      },
+      "hop3": {
+        "queue_in_raw": 24341996232000,
+        "queue_out_raw": 24341996232000,
+        "tx_start_raw": 24341996232000,
+        "tx_end_raw": 24342001992000
+      },
+      "generation_to_last_phy_tx_end_us": 99.992,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 284002,
+      "generation_raw": 28400202000000,
+      "hop1": {
+        "queue_in_raw": 28400202000000,
+        "queue_out_raw": 28400281571465,
+        "tx_start_raw": 28400281571465,
+        "tx_end_raw": 28400282147465
+      },
+      "hop2": {
+        "queue_in_raw": 28400282247465,
+        "queue_out_raw": 28400292836000,
+        "tx_start_raw": 28400292836000,
+        "tx_end_raw": 28400293412000
+      },
+      "hop3": {
+        "queue_in_raw": 28400293512000,
+        "queue_out_raw": 28400293512000,
+        "tx_start_raw": 28400293512000,
+        "tx_end_raw": 28400299272000
+      },
+      "generation_to_last_phy_tx_end_us": 97.272,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 284303,
+      "generation_raw": 28430302000000,
+      "hop1": {
+        "queue_in_raw": 28430302000000,
+        "queue_out_raw": 28430382293133,
+        "tx_start_raw": 28430382293133,
+        "tx_end_raw": 28430382869133
+      },
+      "hop2": {
+        "queue_in_raw": 28430382969133,
+        "queue_out_raw": 28430392676000,
+        "tx_start_raw": 28430392676000,
+        "tx_end_raw": 28430393252000
+      },
+      "hop3": {
+        "queue_in_raw": 28430393352000,
+        "queue_out_raw": 28430393352000,
+        "tx_start_raw": 28430393352000,
+        "tx_end_raw": 28430399112000
+      },
+      "generation_to_last_phy_tx_end_us": 97.112,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 284340,
+      "generation_raw": 28434002000000,
+      "hop1": {
+        "queue_in_raw": 28434002000000,
+        "queue_out_raw": 28434082381843,
+        "tx_start_raw": 28434082381843,
+        "tx_end_raw": 28434082957843
+      },
+      "hop2": {
+        "queue_in_raw": 28434083057843,
+        "queue_out_raw": 28434093476000,
+        "tx_start_raw": 28434093476000,
+        "tx_end_raw": 28434094052000
+      },
+      "hop3": {
+        "queue_in_raw": 28434094152000,
+        "queue_out_raw": 28434094152000,
+        "tx_start_raw": 28434094152000,
+        "tx_end_raw": 28434099912000
+      },
+      "generation_to_last_phy_tx_end_us": 97.912,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 284641,
+      "generation_raw": 28464102000000,
+      "hop1": {
+        "queue_in_raw": 28464102000000,
+        "queue_out_raw": 28464182431510,
+        "tx_start_raw": 28464182431510,
+        "tx_end_raw": 28464183007510
+      },
+      "hop2": {
+        "queue_in_raw": 28464183107510,
+        "queue_out_raw": 28464194448207,
+        "tx_start_raw": 28464194448207,
+        "tx_end_raw": 28464195024207
+      },
+      "hop3": {
+        "queue_in_raw": 28464195124207,
+        "queue_out_raw": 28464195124207,
+        "tx_start_raw": 28464195124207,
+        "tx_end_raw": 28464200884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 284678,
+      "generation_raw": 28467802000000,
+      "hop1": {
+        "queue_in_raw": 28467802000000,
+        "queue_out_raw": 28467882520220,
+        "tx_start_raw": 28467882520220,
+        "tx_end_raw": 28467883096220
+      },
+      "hop2": {
+        "queue_in_raw": 28467883196220,
+        "queue_out_raw": 28467894116000,
+        "tx_start_raw": 28467894116000,
+        "tx_end_raw": 28467894692000
+      },
+      "hop3": {
+        "queue_in_raw": 28467894792000,
+        "queue_out_raw": 28467894792000,
+        "tx_start_raw": 28467894792000,
+        "tx_end_raw": 28467900552000
+      },
+      "generation_to_last_phy_tx_end_us": 98.552,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 284715,
+      "generation_raw": 28471502000000,
+      "hop1": {
+        "queue_in_raw": 28471502000000,
+        "queue_out_raw": 28471582608930,
+        "tx_start_raw": 28471582608930,
+        "tx_end_raw": 28471583184930
+      },
+      "hop2": {
+        "queue_in_raw": 28471583284930,
+        "queue_out_raw": 28471594916000,
+        "tx_start_raw": 28471594916000,
+        "tx_end_raw": 28471595492000
+      },
+      "hop3": {
+        "queue_in_raw": 28471595592000,
+        "queue_out_raw": 28471595592000,
+        "tx_start_raw": 28471595592000,
+        "tx_end_raw": 28471601352000
+      },
+      "generation_to_last_phy_tx_end_us": 99.352,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 284905,
+      "generation_raw": 28490502000000,
+      "hop1": {
+        "queue_in_raw": 28490502000000,
+        "queue_out_raw": 28490583064468,
+        "tx_start_raw": 28490583064468,
+        "tx_end_raw": 28490583640468
+      },
+      "hop2": {
+        "queue_in_raw": 28490583740468,
+        "queue_out_raw": 28490594448207,
+        "tx_start_raw": 28490594448207,
+        "tx_end_raw": 28490595024207
+      },
+      "hop3": {
+        "queue_in_raw": 28490595124207,
+        "queue_out_raw": 28490595124207,
+        "tx_start_raw": 28490595124207,
+        "tx_end_raw": 28490600884207
+      },
+      "generation_to_last_phy_tx_end_us": 98.884207,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 284942,
+      "generation_raw": 28494202000000,
+      "hop1": {
+        "queue_in_raw": 28494202000000,
+        "queue_out_raw": 28494283153178,
+        "tx_start_raw": 28494283153178,
+        "tx_end_raw": 28494283729178
+      },
+      "hop2": {
+        "queue_in_raw": 28494283829178,
+        "queue_out_raw": 28494293156000,
+        "tx_start_raw": 28494293156000,
+        "tx_end_raw": 28494293732000
+      },
+      "hop3": {
+        "queue_in_raw": 28494293832000,
+        "queue_out_raw": 28494293832000,
+        "tx_start_raw": 28494293832000,
+        "tx_end_raw": 28494299592000
+      },
+      "generation_to_last_phy_tx_end_us": 97.592,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 284979,
+      "generation_raw": 28497902000000,
+      "hop1": {
+        "queue_in_raw": 28497902000000,
+        "queue_out_raw": 28497983241888,
+        "tx_start_raw": 28497983241888,
+        "tx_end_raw": 28497983817888
+      },
+      "hop2": {
+        "queue_in_raw": 28497983917888,
+        "queue_out_raw": 28497993956000,
+        "tx_start_raw": 28497993956000,
+        "tx_end_raw": 28497994532000
+      },
+      "hop3": {
+        "queue_in_raw": 28497994632000,
+        "queue_out_raw": 28497994632000,
+        "tx_start_raw": 28497994632000,
+        "tx_end_raw": 28498000392000
+      },
+      "generation_to_last_phy_tx_end_us": 98.392,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 285016,
+      "generation_raw": 28501602000000,
+      "hop1": {
+        "queue_in_raw": 28501602000000,
+        "queue_out_raw": 28501683330598,
+        "tx_start_raw": 28501683330598,
+        "tx_end_raw": 28501683906598
+      },
+      "hop2": {
+        "queue_in_raw": 28501684006598,
+        "queue_out_raw": 28501695618754,
+        "tx_start_raw": 28501695618754,
+        "tx_end_raw": 28501696194754
+      },
+      "hop3": {
+        "queue_in_raw": 28501696294754,
+        "queue_out_raw": 28501696294754,
+        "tx_start_raw": 28501696294754,
+        "tx_end_raw": 28501702054754
+      },
+      "generation_to_last_phy_tx_end_us": 100.054754,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 285053,
+      "generation_raw": 28505302000000,
+      "hop1": {
+        "queue_in_raw": 28505302000000,
+        "queue_out_raw": 28505383419308,
+        "tx_start_raw": 28505383419308,
+        "tx_end_raw": 28505383995308
+      },
+      "hop2": {
+        "queue_in_raw": 28505384095308,
+        "queue_out_raw": 28505395556000,
+        "tx_start_raw": 28505395556000,
+        "tx_end_raw": 28505396132000
+      },
+      "hop3": {
+        "queue_in_raw": 28505396232000,
+        "queue_out_raw": 28505396232000,
+        "tx_start_raw": 28505396232000,
+        "tx_end_raw": 28505401992000
+      },
+      "generation_to_last_phy_tx_end_us": 99.992,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 285243,
+      "generation_raw": 28524302000000,
+      "hop1": {
+        "queue_in_raw": 28524302000000,
+        "queue_out_raw": 28524383874846,
+        "tx_start_raw": 28524383874846,
+        "tx_end_raw": 28524384450846
+      },
+      "hop2": {
+        "queue_in_raw": 28524384550846,
+        "queue_out_raw": 28524392996000,
+        "tx_start_raw": 28524392996000,
+        "tx_end_raw": 28524393572000
+      },
+      "hop3": {
+        "queue_in_raw": 28524393672000,
+        "queue_out_raw": 28524393672000,
+        "tx_start_raw": 28524393672000,
+        "tx_end_raw": 28524399432000
+      },
+      "generation_to_last_phy_tx_end_us": 97.432,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    },
+    {
+      "flow": "F09",
+      "seq": 285280,
+      "generation_raw": 28528002000000,
+      "hop1": {
+        "queue_in_raw": 28528002000000,
+        "queue_out_raw": 28528083963556,
+        "tx_start_raw": 28528083963556,
+        "tx_end_raw": 28528084539556
+      },
+      "hop2": {
+        "queue_in_raw": 28528084639556,
+        "queue_out_raw": 28528093796000,
+        "tx_start_raw": 28528093796000,
+        "tx_end_raw": 28528094372000
+      },
+      "hop3": {
+        "queue_in_raw": 28528094472000,
+        "queue_out_raw": 28528094472000,
+        "tx_start_raw": 28528094472000,
+        "tx_end_raw": 28528100232000
+      },
+      "generation_to_last_phy_tx_end_us": 98.232,
+      "application_receive_raw": "not_recorded_in_source_trace"
+    }
+  ]
+}

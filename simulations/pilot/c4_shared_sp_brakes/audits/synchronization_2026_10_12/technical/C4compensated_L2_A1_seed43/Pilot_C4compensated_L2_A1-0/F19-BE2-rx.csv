@@ -1,0 +1,2 @@
+flow,node,role,packets,app_bytes,measured_packets,measured_app_bytes,first,last,min_gap,max_gap,min_size,max_size,sequence_sum,duplicates_or_reorder,deadline_s,deadline_misses,max_latency,measured_images,completed_images,image_deadline_misses
+F19,BE2,rx,12362,18196864,8309,12230848,0.000257183969,3.049969430529,0.000190479423,0.000305627983,1472,1472,76403341,0,0,0,0.000206087983,0,0,0

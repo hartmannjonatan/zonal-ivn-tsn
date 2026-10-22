@@ -1,0 +1,2 @@
+flow,node,role,packets,app_bytes,measured_packets,measured_app_bytes,first,last,min_gap,max_gap,min_size,max_size,sequence_sum,duplicates_or_reorder,deadline_s,deadline_misses,max_latency,measured_images,completed_images,image_deadline_misses
+F21,Z3.ZCPU,rx,2849,4192576,2849,4192576,1.005109303982,3.049896539685,0.000039442968,0.867623355105,528,1472,4056976,0,0.01,0,0.000153593018,0,0,0

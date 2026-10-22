@@ -1,0 +1,9 @@
+# Technical correction 1: missing audit probes in D1 attempt 1
+
+The first D1_TAS seed-41 run resolved all 24 CBS modules, the intended profile and GCL, and produced a queue trace, but the technical validator rejected it because `instrumentation_validation` reported `missing_or_empty_instrumentation_file` and `observed_gate_events` reported `gate_or_clock_trace_missing`.
+
+Cause: the runner selected the base `simulations.zonal.networks.ZonalIVN` instead of this pilot's isolated `c4_feasibility_decision.ZonalIVN` wrapper. The wrapper extends the same base network and adds only `RealClockTraceProbe` and `ClockPrecisionProbe`; no workload, traffic, route, CBS, gate, buffer, clock, or PHY setting changes. The failed attempt is retained as technical attempt 1, excluded from outcome comparisons and not counted as an accepted methodological treatment. Its available simulator measurements (4,716,467 packets, zero queue drops, P1 result nonviable) are preserved as diagnostics only.
+
+Authorized correction: select the isolated wrapper NED network; freeze a version-2 plan with the same candidate contracts and condition rules, record the previous plan/manifest, and run the zero-time preflight before the single permitted technical replacement. The preflight must create nonempty probe files and pass resolved CBS/GCL checks. If it fails, stop before another full run.
+
+A preflight after the network-selector correction verified nonempty `packet_events.csv` and `clock_precision.csv` outputs for all six TAS/noTAS runtime configurations. Before the replacement, a runner guard bug treated the retained failed-attempt `technical-validation.json` as an instruction to refuse any retry. The guard is corrected to permit exactly attempt 2 in a distinct `_technical_attempt_001` directory while continuing to refuse overwriting successful results or any further retries. A second versioned plan/manifest records this code correction; no measured result was used to make it.

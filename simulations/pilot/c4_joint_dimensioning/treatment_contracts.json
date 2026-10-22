@@ -1,0 +1,140 @@
+{
+  "expected_cbs": {
+    "accumulateCreditInGuardBand": false,
+    "extraDuration": "0 s",
+    "extraLength": "64 b",
+    "initialCredit": 0,
+    "maxCredit": "inf",
+    "maxInterferenceSize": "inf b",
+    "minCredit": "-inf",
+    "sendSlope_formula": "idleSlope - bitrate",
+    "transmitCreditLimit": 0,
+    "type": "inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper"
+  },
+  "expected_no_cbs": [
+    "Z1.ZCPU.eth[0]/TC4",
+    "Z2.ZCPU.eth[0]/TC4",
+    "Z3.ZSW.eth[1]/TC4"
+  ],
+  "exploratory": true,
+  "official_c4_frozen": false,
+  "profile_scope": "Exactly positive permanent-reservation CBS modules from the profile; no CBS on transient-only egresses with zero permanent reserve.",
+  "treatments": {
+    "B_local": {
+      "gates": {
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 9e-05,
+          "CSW.eth[2]": 9e-05,
+          "CSW.eth[3]": 9e-05,
+          "HPC.eth[0]": 9e-05
+        },
+        "class4_open_s": 7.7e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 0.0,
+          "CSW.eth[2]": 0.0,
+          "CSW.eth[3]": 0.0,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 1e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "kind": "reused_corrected_B_local",
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      },
+      "profile": "A005"
+    },
+    "C3_sync_control": {
+      "gates": "no_periodic_TAS",
+      "profile": "official_reduction_11_by_cell"
+    },
+    "D1_TAS": {
+      "gates": {
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 7.7564e-05,
+          "CSW.eth[2]": 7.7564e-05,
+          "CSW.eth[3]": 8.922800000000001e-05,
+          "HPC.eth[0]": 9e-05
+        },
+        "class4_open_s": 8.999999999999999e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 9.9228e-05,
+          "CSW.eth[2]": 9.9228e-05,
+          "CSW.eth[3]": 9.9228e-05,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 1.9999999999999998e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "kind": "D1_joint_GCL",
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      },
+      "profile": "D1_joint_profile"
+    },
+    "D1_noTAS": {
+      "gates": "no_periodic_TAS",
+      "profile": "D1_joint_profile"
+    },
+    "D2_TAS": {
+      "gates": {
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 7.2564e-05,
+          "CSW.eth[2]": 7.2564e-05,
+          "CSW.eth[3]": 8.422800000000001e-05,
+          "HPC.eth[0]": 8.5e-05
+        },
+        "class4_open_s": 8.499999999999999e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 9.9228e-05,
+          "CSW.eth[2]": 9.9228e-05,
+          "CSW.eth[3]": 9.9228e-05,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 2.4999999999999998e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "kind": "D2_joint_GCL",
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      },
+      "profile": "D2_joint_profile"
+    },
+    "D2_noTAS": {
+      "gates": "no_periodic_TAS",
+      "profile": "D2_joint_profile"
+    },
+    "D3_TAS": {
+      "gates": {
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 6.956400000000001e-05,
+          "CSW.eth[2]": 6.956400000000001e-05,
+          "CSW.eth[3]": 8.1228e-05,
+          "HPC.eth[0]": 8.2e-05
+        },
+        "class4_open_s": 8.2e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 9.9228e-05,
+          "CSW.eth[2]": 9.9228e-05,
+          "CSW.eth[3]": 9.9228e-05,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 2.9999999999999997e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "kind": "D3_joint_GCL",
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      },
+      "profile": "D3_joint_profile"
+    },
+    "D3_noTAS": {
+      "gates": "no_periodic_TAS",
+      "profile": "D3_joint_profile"
+    }
+  }
+}

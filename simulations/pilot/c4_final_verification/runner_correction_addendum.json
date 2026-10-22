@@ -1,0 +1,59 @@
+{
+  "active_attempt_outcome": {
+    "execution_id": "D3_fixed_TAS_L1_A1_seed43",
+    "methodological_result": false,
+    "no_replacement_launched": true,
+    "partial_artifacts_losslessly_compressed_and_hash_verified": true,
+    "result": "SIGINT sent to exact isolated OMNeT++ process group after the initial shell interrupt left the simulator detached; simulator stopped cleanly at 19.360009212 s.",
+    "started_with_runner_sha256": "f419afb535228f7f0ff18f3efe2306cf745bdb9d9f77006a1bc4b68fa9ac6ee7",
+    "compression_race_note": "An initial compression verification overlapped a still-writing vector and failed hash verification; no source file was removed. After the exact simulator process group stopped, all 57 retained artifacts were compressed and decompressed-hash verified.",
+    "simulation_time_s": 19.360009212,
+    "terminal_status": "clean finish after SIGINT; partial attempt retained; not a methodological result"
+  },
+  "candidate_parameters_changed": false,
+  "corrections": [
+    {
+      "fix": "Added L0/A1, L1/A0 and L2/A0 seed-41 crosschecks, then conditional remaining seed-43/47 pairs, with halt on application, stability, sampled-sync or technical failure.",
+      "issue": "Runner omitted the three authorized seed-41 crosscheck pairs after the first seed-43/47 batch and unconditionally paused instead of attempting the registered sequence subject to resource checks."
+    },
+    {
+      "fix": "Raised conservative pre-pair raw headroom to 11/14/18 GiB for L0/L1/L2, respectively. At the measured 50.0 GiB free, this prevents another run from starting.",
+      "issue": "Raw temporary output projection underestimated actual output; the L1/A1 seed-43 run had emitted 5.5 GiB at 51% simulation progress, making the original 5 GiB headroom unsafe."
+    },
+    {
+      "fix": "Added sampled-sync and simulation-validity gates to the pair-completion halt predicate.",
+      "issue": "The old stop predicate omitted sampled synchronization failure."
+    }
+  ],
+  "execution_identity": {
+    "completed_new_runs": [
+      "D3_TAS_L2_A1_seed41",
+      "D3_TAS_L2_A1_seed43",
+      "D3_TAS_L2_A1_seed47",
+      "D3_fixed_TAS_L0_A0_seed41",
+      "D3_fixed_TAS_L0_A0_seed43",
+      "D3_fixed_TAS_L0_A0_seed47",
+      "D3_fixed_TAS_L1_A1_seed41",
+      "D3_fixed_noTAS_L0_A0_seed41",
+      "D3_fixed_noTAS_L0_A0_seed43",
+      "D3_fixed_noTAS_L0_A0_seed47",
+      "D3_fixed_noTAS_L1_A1_seed41",
+      "D3_noTAS_L2_A1_seed41",
+      "D3_noTAS_L2_A1_seed43",
+      "D3_noTAS_L2_A1_seed47"
+    ],
+    "interrupted_attempts": [
+      "D3_fixed_TAS_L1_A1_seed43"
+    ]
+  },
+  "exploratory": true,
+  "frozen_manifest_sha256": "3e8d167f5e48f45c1136bef16d41b249e88ff65f67599abaeb355e97991017e2",
+  "next_action": "Do not resume until free disk space meets the corrected projection and a human reviews the available-space constraint. The current 50 GiB free is below the first remaining pair threshold.",
+  "official_c4_frozen": false,
+  "protocol_or_workload_changed": false,
+  "runner_sha256_at_freeze": "f419afb535228f7f0ff18f3efe2306cf745bdb9d9f77006a1bc4b68fa9ac6ee7",
+  "runner_sha256_corrected": "fc41a996c9519e19dc46198dbc4b9417e6d68b2962d6f0c703deb3a6450b072d",
+  "timestamp_utc": "2026-10-20T20:24:15Z",
+  "type": "post_freeze_technical_runner_correction",
+  "runner_runtime_note": "The active process had loaded the pre-correction runner. The correction was not exercised during this attempt; no simulations were launched after the patch."
+}

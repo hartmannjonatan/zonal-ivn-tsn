@@ -1,0 +1,49 @@
+load,aggregation,seed,treatment,position_status,source_execution,notes
+L0,A0,41,D3_fixed_TAS,reused,D3_fixed_TAS_L0_A0_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A0,41,D3_fixed_noTAS,reused,D3_fixed_noTAS_L0_A0_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A0,43,D3_fixed_TAS,completed_new,D3_fixed_TAS_L0_A0_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A0,43,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L0_A0_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A0,47,D3_fixed_TAS,completed_new,D3_fixed_TAS_L0_A0_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A0,47,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L0_A0_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A1,41,D3_fixed_TAS,completed_new,D3_fixed_TAS_L0_A1_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A1,41,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L0_A1_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A1,43,D3_fixed_TAS,completed_new,D3_fixed_TAS_L0_A1_seed43_technical_attempt_001,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A1,43,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L0_A1_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A1,47,D3_fixed_TAS,completed_new,D3_fixed_TAS_L0_A1_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L0,A1,47,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L0_A1_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A0,41,D3_fixed_TAS,completed_new,D3_fixed_TAS_L1_A0_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A0,41,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L1_A0_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A0,43,D3_fixed_TAS,completed_new,D3_fixed_TAS_L1_A0_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A0,43,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L1_A0_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A0,47,D3_fixed_TAS,completed_new,D3_fixed_TAS_L1_A0_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A0,47,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L1_A0_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A1,41,D3_fixed_TAS,reused,D3_fixed_TAS_L1_A1_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A1,41,D3_fixed_noTAS,reused,D3_fixed_noTAS_L1_A1_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A1,43,D3_fixed_TAS,completed_new,D3_fixed_TAS_L1_A1_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A1,43,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L1_A1_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A1,47,D3_fixed_TAS,completed_new,D3_fixed_TAS_L1_A1_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L1,A1,47,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L1_A1_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A0,41,D3_fixed_TAS,completed_new,D3_fixed_TAS_L2_A0_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A0,41,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L2_A0_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A0,43,D3_fixed_TAS,completed_new,D3_fixed_TAS_L2_A0_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A0,43,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L2_A0_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A0,47,D3_fixed_TAS,completed_new,D3_fixed_TAS_L2_A0_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A0,47,D3_fixed_noTAS,completed_new,D3_fixed_noTAS_L2_A0_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A1,41,D3_fixed_TAS,reused,D3_TAS_L2_A1_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A1,41,D3_fixed_noTAS,reused,D3_noTAS_L2_A1_seed41,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A1,43,D3_fixed_TAS,reused,D3_TAS_L2_A1_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A1,43,D3_fixed_noTAS,reused,D3_noTAS_L2_A1_seed43,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A1,47,D3_fixed_TAS,reused,D3_TAS_L2_A1_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L2,A1,47,D3_fixed_noTAS,reused,D3_noTAS_L2_A1_seed47,Post-run reconciled from the preserved report and direct native-tick audit; no simulation was rerun.
+L3,A0,41,D3_fixed_TAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A0,41,D3_fixed_noTAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A0,43,D3_fixed_TAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A0,43,D3_fixed_noTAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A0,47,D3_fixed_TAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A0,47,D3_fixed_noTAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A1,41,D3_fixed_TAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A1,41,D3_fixed_noTAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A1,43,D3_fixed_TAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A1,43,D3_fixed_noTAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A1,47,D3_fixed_TAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile
+L3,A1,47,D3_fixed_noTAS,triage_rejected_no_simulation,,Service upper bound below permanent demand at CSW.eth[0] for fixed profile

@@ -1,0 +1,21 @@
+{
+  "created_utc": "2026-10-21T00:30:52Z",
+  "immutable_manifest_sha256": "3e8d167f5e48f45c1136bef16d41b249e88ff65f67599abaeb355e97991017e2",
+  "no_parameter_changes": true,
+  "partial_interrupted_execution": {
+    "all_compressed_artifacts_roundtrip_verified": true,
+    "classification": "resource-interrupted, not methodological result, not technical replacement",
+    "logical_execution_id": "D3_fixed_TAS_L1_A1_seed43",
+    "preservation_manifest_sha256": "d2368388c7c0f2181e8f0ca298a181973cca2e018a76be0dcc107b04f40996af",
+    "preserved_directory": "simulations/pilot/c4_final_verification/results/runs/D3_fixed_TAS_L1_A1_seed43_resource_interrupted_001",
+    "simulated_to_s": 19.360009212
+  },
+  "profile_canonical_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+  "reason": "Resume after lossless historical-pilot raw-output cleanup recovered disk headroom.",
+  "resources_before_resume": {
+    "MemAvailable_GiB": 8.81949234008789,
+    "free_disk_GiB": 114.61335754394531
+  },
+  "resume_action": "Rerun same TAS logical position in L1/A1 seed43, then its paired noTAS; continue the registered order only if both pass valid gates.",
+  "runner_sha256": "d58311af957e1ab5031d737e21766f294f845fc66dc2c0cb8e6cae74b9bc1269"
+}

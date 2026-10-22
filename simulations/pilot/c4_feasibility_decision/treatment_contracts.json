@@ -1,0 +1,149 @@
+{
+  "expected_cbs": {
+    "accumulateCreditInGuardBand": false,
+    "extraDuration": "0 s",
+    "extraLength": "64 b",
+    "initialCredit": 0,
+    "maxCredit": "inf",
+    "maxInterferenceSize": "inf b",
+    "minCredit": "-inf",
+    "sendSlope_formula": "idleSlope - bitrate",
+    "transmitCreditLimit": 0,
+    "type": "inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper"
+  },
+  "expected_no_cbs": [
+    "Z1.ZCPU.eth[0]/TC4",
+    "Z2.ZCPU.eth[0]/TC4",
+    "Z3.ZSW.eth[1]/TC4"
+  ],
+  "exploratory": true,
+  "official_c4_frozen": false,
+  "profile_scope": "C3 reduction_11-derived candidates; paired TAS/noTAS; F21/F22 remain PCP4/TC4 and excluded from permanent CBS sums.",
+  "treatments": {
+    "B_local": {
+      "gates": {
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 9e-05,
+          "CSW.eth[2]": 9e-05,
+          "CSW.eth[3]": 9e-05,
+          "HPC.eth[0]": 9e-05
+        },
+        "class4_open_s": 7.7e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 0.0,
+          "CSW.eth[2]": 0.0,
+          "CSW.eth[3]": 0.0,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 1e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "kind": "reused_corrected_B_local",
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      },
+      "profile": "A005"
+    },
+    "C3_sync_control": {
+      "gates": "no_periodic_TAS",
+      "profile": "official_reduction_11_by_cell"
+    },
+    "D1_TAS": {
+      "CBS_profile": "D1_D3_GCL_service_corrected",
+      "gates": {
+        "candidate_name": "D1_D3_GCL_service_corrected",
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 6.956400000000001e-05,
+          "CSW.eth[2]": 6.956400000000001e-05,
+          "CSW.eth[3]": 8.1228e-05,
+          "HPC.eth[0]": 8.2e-05
+        },
+        "class4_open_s": 8.2e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 9.9228e-05,
+          "CSW.eth[2]": 9.9228e-05,
+          "CSW.eth[3]": 9.9228e-05,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 2.9999999999999997e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      }
+    },
+    "D1_noTAS": {
+      "CBS_profile": "D1_D3_GCL_service_corrected",
+      "gates": {
+        "CBS_profile_same_as_TAS": true,
+        "kind": "permanently_open"
+      }
+    },
+    "D2_TAS": {
+      "CBS_profile": "D2_coordinated_10pct",
+      "gates": {
+        "candidate_name": "D2_coordinated_10pct",
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 6.9324e-05,
+          "CSW.eth[2]": 6.9324e-05,
+          "CSW.eth[3]": 6.9324e-05,
+          "HPC.eth[0]": 7e-05
+        },
+        "class4_open_s": 4.9999999999999996e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 9.932399999999999e-05,
+          "CSW.eth[2]": 9.932399999999999e-05,
+          "CSW.eth[3]": 9.932399999999999e-05,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 2.9999999999999997e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      }
+    },
+    "D2_noTAS": {
+      "CBS_profile": "D2_coordinated_10pct",
+      "gates": {
+        "CBS_profile_same_as_TAS": true,
+        "kind": "permanently_open"
+      }
+    },
+    "D3_TAS": {
+      "CBS_profile": "D3_coordinated_20pct",
+      "gates": {
+        "candidate_name": "D3_coordinated_20pct",
+        "class4_offset_s_by_egress": {
+          "CSW.eth[1]": 6.9324e-05,
+          "CSW.eth[2]": 6.9324e-05,
+          "CSW.eth[3]": 6.9324e-05,
+          "HPC.eth[0]": 7e-05
+        },
+        "class4_open_s": 5.4999999999999995e-05,
+        "class7_offset_s_by_egress": {
+          "CSW.eth[1]": 9.932399999999999e-05,
+          "CSW.eth[2]": 9.932399999999999e-05,
+          "CSW.eth[3]": 9.932399999999999e-05,
+          "HPC.eth[0]": 0.0
+        },
+        "class7_open_s": 2.9999999999999997e-05,
+        "clockModule": "^.^.^.^.clock",
+        "implicit_guard_band": true,
+        "initiallyOpen": true,
+        "period_s": 0.0001,
+        "scheduleForAbsoluteTime": true
+      }
+    },
+    "D3_noTAS": {
+      "CBS_profile": "D3_coordinated_20pct",
+      "gates": {
+        "CBS_profile_same_as_TAS": true,
+        "kind": "permanently_open"
+      }
+    }
+  }
+}

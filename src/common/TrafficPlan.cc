@@ -3,6 +3,8 @@
 #include <filesystem>
 #include <iomanip>
 #include <cmath>
+#include <sstream>
+#include <map>
 using namespace omnetpp;
 Define_Module(TrafficPlan);
 
@@ -47,20 +49,70 @@ void TrafficPlan::initialize()
     for(auto e:root->getChildrenByTagName("signature"))
         signatures.push_back({e->getAttribute("name"),atof(e->getAttribute("duration")),atol(e->getAttribute("volume"))});
     if(signatures.size()!=10)throw cRuntimeError("Expected ten empirical signatures");
+    std::string calendarFile=par("transientCalendarFile").stdstringValue();
+    if(!calendarFile.empty()) {
+        std::map<std::string,int> signatureIndex;
+        for(int i=0;i<int(signatures.size());i++) signatureIndex[signatures[i].name]=i;
+        std::ifstream in(calendarFile);
+        if(!in) throw cRuntimeError("Cannot open paired transient calendar %s",calendarFile.c_str());
+        std::string line;
+        if(!std::getline(in,line) || line!="flow,block,signature,start,duration,volume_bytes,volume_layer")
+            throw cRuntimeError("Invalid paired transient calendar header in %s",calendarFile.c_str());
+        std::array<int,2> nextBlock{0,0};
+        while(std::getline(in,line)) {
+            if(line.empty()) continue;
+            std::stringstream row(line);
+            std::array<std::string,7> fields;
+            for(int i=0;i<7;i++) if(!std::getline(row,fields[i],','))
+                throw cRuntimeError("Malformed paired transient calendar row: %s",line.c_str());
+            int stream=fields[0]=="F21"?0:fields[0]=="F22"?1:-1;
+            if(stream<0) throw cRuntimeError("Unexpected flow in paired transient calendar: %s",fields[0].c_str());
+            int block=std::stoi(fields[1]);
+            if(block!=nextBlock[stream] || block>=int(measurement))
+                throw cRuntimeError("Non-contiguous block in paired transient calendar for %s",fields[0].c_str());
+            auto found=signatureIndex.find(fields[2]);
+            if(found==signatureIndex.end()) throw cRuntimeError("Unknown transient signature %s",fields[2].c_str());
+            int index=found->second;
+            const auto& s=signatures[index];
+            double start=std::stod(fields[3]);
+            double duration=std::stod(fields[4]);
+            long volume=std::stol(fields[5]);
+            if(fields[6]!=volumeLayer)
+                throw cRuntimeError("Unexpected volume layer in paired transient calendar for %s block %d",fields[0].c_str(),block);
+            if(std::abs(duration-s.duration)>1e-12 || volume!=s.volume)
+                throw cRuntimeError("Signature size mismatch in paired transient calendar for %s block %d",fields[0].c_str(),block);
+            double expectedStart=warmup+block+0.005;
+            if(stream==1 && !aligned) {
+                const auto& first=events[0].at(block);
+                expectedStart=first.start+first.duration+0.010;
+            }
+            if(std::abs(start-expectedStart)>1e-9 || start+duration>warmup+block+1)
+                throw cRuntimeError("Invalid timing in paired transient calendar for %s block %d",fields[0].c_str(),block);
+            events[stream].push_back({block,index,start,duration,volume,s.name});
+            nextBlock[stream]++;
+        }
+        for(int stream=0;stream<2;stream++) if(nextBlock[stream]!=int(measurement))
+            throw cRuntimeError("Paired transient calendar has %d of %d events for F%d",nextBlock[stream],int(measurement),21+stream);
+    }
+    else {
+        for(int block=0;block<int(measurement);block++) {
+            double firstEnd=0;
+            for(int stream=0;stream<2;stream++) {
+                int index=exhaustive?(block+5*stream)%10:intuniform(0,9,stream); // Dedicated RNG per transient flow.
+                auto& s=signatures[index];
+                double start=warmup+block+0.005;
+                if(stream==1 && !aligned)start=firstEnd+0.010;
+                if(stream==0)firstEnd=start+s.duration;
+                if(start+s.duration>warmup+block+1)throw cRuntimeError("Transient exceeds its one-second block");
+                events[stream].push_back({block,index,start,s.duration,s.volume,s.name});
+            }
+        }
+    }
     std::ofstream out(directory+"/events.csv");
     out<<"flow,block,signature,start,duration,volume_bytes,volume_layer\n"<<std::setprecision(15);
-    for(int block=0;block<int(measurement);block++) {
-        double firstEnd=0;
-        for(int stream=0;stream<2;stream++) {
-            int index=exhaustive?(block+5*stream)%10:intuniform(0,9,stream); // Dedicated RNG per transient flow.
-            auto& s=signatures[index];
-            double start=warmup+block+0.005;
-            if(stream==1 && !aligned)start=firstEnd+0.010;
-            if(stream==0)firstEnd=start+s.duration;
-            if(start+s.duration>warmup+block+1)throw cRuntimeError("Transient exceeds its one-second block");
-            events[stream].push_back({block,index,start,s.duration,s.volume,s.name});
-            out<<"F"<<21+stream<<','<<block<<','<<s.name<<','<<start<<','<<s.duration<<','<<s.volume<<','<<volumeLayer<<'\n';
-        }
+    for(int block=0;block<int(measurement);block++) for(int stream=0;stream<2;stream++) {
+        const auto& event=events[stream].at(block);
+        out<<"F"<<21+stream<<','<<event.block<<','<<event.name<<','<<event.start<<','<<event.duration<<','<<event.volume<<','<<volumeLayer<<'\n';
     }
     std::ofstream manifest(directory+"/run.csv");
     manifest<<"load,aggregation,factor,warmup,measurement,volume_layer,transients_only,exhaustive,source_pre_shaping,adas_spacing_limit,vision_spacing_limit\n"
