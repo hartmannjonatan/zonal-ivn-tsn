@@ -16,7 +16,7 @@ from pathlib import Path
 
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[2]
 C0_C3_RUNNER = HERE / "run_campaign.py"
 C4_RUNNER = HERE / "c4_official" / "run_c4_campaign.py"
 C3_RESULTS = HERE / "results"

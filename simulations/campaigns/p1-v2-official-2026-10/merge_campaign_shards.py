@@ -11,7 +11,7 @@ from pathlib import Path
 import sys
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[2]
 RESULTS = HERE / "results"
 LEDGER = RESULTS / "runs.jsonl"
 INDEX = RESULTS / "calendars/calendar_index.json"

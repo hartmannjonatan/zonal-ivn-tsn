@@ -22,7 +22,7 @@ import tempfile
 from pathlib import Path, PurePosixPath
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[2]
 RESULTS = HERE / "results"
 MANIFEST = HERE / "campaign_manifest.json"
 LEDGER = RESULTS / "runs.jsonl"
