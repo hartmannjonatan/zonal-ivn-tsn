@@ -3,6 +3,7 @@
 import argparse
 import csv
 import gzip
+import hashlib
 import heapq
 import json
 import math
@@ -27,6 +28,16 @@ STABILITY_FRACTION = 0.05
 def require(ok, message):
     if not ok:
         raise RuntimeError(message)
+
+
+def mem_available_gib():
+    try:
+        for line in Path("/proc/meminfo").read_text().splitlines():
+            if line.startswith("MemAvailable:"):
+                return int(line.split()[1]) / (1024 ** 2)
+    except (OSError, ValueError):
+        pass
+    return 0.0
 
 
 def reconcile_queue_overflow_scopes(config, per_queue, whole_run_drop_total):
@@ -147,12 +158,123 @@ def summarize_sca_metrics(params):
         utilization, key=lambda row: row["transmitter"])
 
 
+QUEUE_TRACE_MAGIC = b"P1QEVT1\n"
+QUEUE_TRACE_TICKS_PER_SECOND = 10**15
+
+
+def _write_uvarint(stream, value):
+    if value < 0:
+        raise ValueError("unsigned varint cannot encode a negative integer")
+    while value >= 0x80:
+        stream.write(bytes(((value & 0x7f) | 0x80,)))
+        value >>= 7
+    stream.write(bytes((value,)))
+
+
+def _read_uvarint(stream):
+    value = shift = 0
+    while True:
+        item = stream.read(1)
+        if not item:
+            if shift:
+                raise ValueError("truncated queue trace varint")
+            return None
+        byte = item[0]
+        value |= (byte & 0x7f) << shift
+        if not byte & 0x80:
+            return value
+        shift += 7
+        if shift > 70:
+            raise ValueError("queue trace varint is unreasonably long")
+
+
+def _zigzag_encode(value):
+    return value << 1 if value >= 0 else ((-value << 1) - 1)
+
+
+def _zigzag_decode(value):
+    return value >> 1 if not value & 1 else -((value >> 1) + 1)
+
+
+def _exact_timestamp_ticks(timestamp):
+    ticks = round(timestamp * QUEUE_TRACE_TICKS_PER_SECOND)
+    require(ticks / QUEUE_TRACE_TICKS_PER_SECOND == timestamp,
+            f"timestamp {timestamp!r} cannot be represented exactly at femtosecond resolution")
+    return ticks
+
+
+def compact_queue_occupancy_trace(csv_trace_path):
+    """Losslessly encode the exact CSV change-point trace as delta-varints.
+
+    Timestamps are represented in femtosecond ticks only when conversion back
+    to the original Python float is exact. Occupancy is stored as integer bits.
+    The source CSV and metadata remain untouched so callers can verify the
+    compact copy before removing the redundant CSV representation.
+    """
+    csv_trace_path = Path(csv_trace_path)
+    metadata_path = Path(str(csv_trace_path) + ".meta.json.gz")
+    output_path = csv_trace_path.with_name("queue_occupancy_events.p1q.gz")
+    output_metadata = Path(str(output_path) + ".meta.json.gz")
+    with gzip.open(metadata_path, "rt", encoding="utf-8") as stream:
+        metadata = json.load(stream)
+    require(metadata.get("format") == "p1-queue-occupancy-events-v1",
+            f"{csv_trace_path}: cannot compact unsupported metadata format")
+    previous_tick, previous_value = {}, {}
+    row_count = 0
+    temporary = Path(str(output_path) + ".tmp")
+    with gzip.open(csv_trace_path, "rt", encoding="utf-8", newline="") as source, \
+            gzip.open(temporary, "wb", compresslevel=6) as destination:
+        destination.write(QUEUE_TRACE_MAGIC)
+        reader = csv.DictReader(source)
+        require(reader.fieldnames == ["queue_index", "timestamp_s", "occupancy_bits"],
+                f"{csv_trace_path}: unexpected queue trace columns")
+        for row in reader:
+            qid = int(row["queue_index"])
+            timestamp = float(row["timestamp_s"])
+            value = float(row["occupancy_bits"])
+            try:
+                ticks = _exact_timestamp_ticks(timestamp)
+            except RuntimeError as exc:
+                raise RuntimeError(f"{csv_trace_path}: timestamp cannot be represented exactly at row {row_count}") from exc
+            occupancy = round(value)
+            require(float(occupancy) == value,
+                    f"{csv_trace_path}: occupancy is not integral bits at row {row_count}")
+            tick_delta = ticks - previous_tick.get(qid, 0)
+            require(tick_delta >= 0, f"{csv_trace_path}: nonmonotonic timestamp for queue {qid}")
+            occupancy_delta = occupancy - previous_value.get(qid, 0)
+            _write_uvarint(destination, qid)
+            _write_uvarint(destination, tick_delta)
+            _write_uvarint(destination, _zigzag_encode(occupancy_delta))
+            previous_tick[qid] = ticks
+            previous_value[qid] = occupancy
+            row_count += 1
+    temporary.replace(output_path)
+    metadata = dict(metadata)
+    source_hash = hashlib.sha256()
+    with csv_trace_path.open("rb") as source_bytes:
+        for block in iter(lambda: source_bytes.read(1024 * 1024), b""):
+            source_hash.update(block)
+    metadata.update({
+        "format": "p1-queue-occupancy-events-v2-varint",
+        "encoding": "gzip of records (queue_index uvarint, per-queue timestamp delta in 1e-15 s ticks uvarint, per-queue occupancy delta in integer bits zigzag-uvarint)",
+        "time_tick_hz": QUEUE_TRACE_TICKS_PER_SECOND,
+        "source_csv_sha256": source_hash.hexdigest(),
+        "encoded_event_rows": row_count,
+        "lossless_conversion": True,
+    })
+    with gzip.open(str(output_metadata) + ".tmp", "wt", encoding="utf-8", compresslevel=6) as stream:
+        json.dump(metadata, stream, separators=(",", ":"))
+    Path(str(output_metadata) + ".tmp").replace(output_metadata)
+    return output_path
+
+
 def recompute_queue_occupancy_trace(trace_path):
     """Independently reconstruct measurement occupancy metrics from retained event changes."""
     trace_path = Path(trace_path)
     with gzip.open(str(trace_path) + ".meta.json.gz", "rt", encoding="utf-8") as stream:
         meta = json.load(stream)
-    require(meta.get("format") == "p1-queue-occupancy-events-v1",
+    trace_format = meta.get("format")
+    require(trace_format in ("p1-queue-occupancy-events-v1", "p1-queue-occupancy-events-v2-varint"),
             f"{trace_path}: unsupported queue trace format")
     start, stop = meta["measurement_window_s"]
     observation_stop = meta["observation_window_s"][1]
@@ -178,24 +300,41 @@ def recompute_queue_occupancy_trace(trace_path):
                 state["near_capacity_s"] += end - left
             left = end
 
-    with gzip.open(trace_path, "rt", encoding="utf-8", newline="") as stream:
-        reader = csv.DictReader(stream)
-        require(reader.fieldnames == ["queue_index", "timestamp_s", "occupancy_bits"],
-                f"{trace_path}: unexpected queue trace columns")
-        for row in reader:
-            qi = int(row["queue_index"])
-            require(qi in states, f"{trace_path}: unknown queue index {qi}")
-            timestamp = float(row["timestamp_s"])
-            value = float(row["occupancy_bits"])
-            state = states[qi]
-            previous_time, previous_value = state["previous_time"], state["previous_value"]
-            if timestamp >= previous_time:
-                integrate(state, previous_time, timestamp, previous_value)
-                if timestamp > start and previous_time < stop:
-                    state["max_occupancy_bits"] = max(state["max_occupancy_bits"], previous_value)
-                state["previous_time"], state["previous_value"] = timestamp, value
-                if start <= timestamp < stop:
-                    state["max_occupancy_bits"] = max(state["max_occupancy_bits"], value)
+    def consume(qi, timestamp, value):
+        require(qi in states, f"{trace_path}: unknown queue index {qi}")
+        state = states[qi]
+        previous_time, previous_value = state["previous_time"], state["previous_value"]
+        if timestamp >= previous_time:
+            integrate(state, previous_time, timestamp, previous_value)
+            if timestamp > start and previous_time < stop:
+                state["max_occupancy_bits"] = max(state["max_occupancy_bits"], previous_value)
+            state["previous_time"], state["previous_value"] = timestamp, value
+            if start <= timestamp < stop:
+                state["max_occupancy_bits"] = max(state["max_occupancy_bits"], value)
+    if trace_format == "p1-queue-occupancy-events-v1":
+        with gzip.open(trace_path, "rt", encoding="utf-8", newline="") as stream:
+            reader = csv.DictReader(stream)
+            require(reader.fieldnames == ["queue_index", "timestamp_s", "occupancy_bits"],
+                    f"{trace_path}: unexpected queue trace columns")
+            for row in reader:
+                consume(int(row["queue_index"]), float(row["timestamp_s"]), float(row["occupancy_bits"]))
+    else:
+        with gzip.open(trace_path, "rb") as stream:
+            require(stream.read(len(QUEUE_TRACE_MAGIC)) == QUEUE_TRACE_MAGIC,
+                    f"{trace_path}: compact queue trace magic mismatch")
+            previous_ticks, previous_values = {}, {}
+            while True:
+                qi = _read_uvarint(stream)
+                if qi is None:
+                    break
+                tick_delta = _read_uvarint(stream)
+                value_delta = _read_uvarint(stream)
+                require(tick_delta is not None and value_delta is not None,
+                        f"{trace_path}: truncated compact queue event")
+                ticks = previous_ticks.get(qi, 0) + tick_delta
+                value = previous_values.get(qi, 0) + _zigzag_decode(value_delta)
+                previous_ticks[qi], previous_values[qi] = ticks, value
+                consume(qi, ticks / QUEUE_TRACE_TICKS_PER_SECOND, float(value))
     result = []
     for qi, state in sorted(states.items()):
         integrate(state, state["previous_time"], stop, state["previous_value"])
@@ -753,7 +892,8 @@ def assess_qos(summary, latencies, image_latencies):
 
 
 def run_cell(config, output, env=None, inet=None, execute=True, result_dir_override=None,
-             extra_args=(), allow_gptp_control=False, allow_scheduled_gates=False):
+             extra_args=(), allow_gptp_control=False, allow_scheduled_gates=False,
+             resource_mem_floor_gib=None):
     if execute:
         command = [str(ROOT / "src/zonal-ivn-tsn"), "-u", "Cmdenv",
                    "-n", f".:{ROOT / 'src'}:{ROOT / 'tests'}:{inet / 'src'}",
@@ -771,7 +911,27 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
         command.extend(extra_args)
         log = output / f"{config}.log"
         with log.open("w") as stream:
-            result = subprocess.run(command, cwd=SIM, env=env, stdout=stream, stderr=subprocess.STDOUT)
+            if resource_mem_floor_gib is None:
+                result = subprocess.run(command, cwd=SIM, env=env, stdout=stream, stderr=subprocess.STDOUT)
+            else:
+                process = subprocess.Popen(command, cwd=SIM, env=env, stdout=stream, stderr=subprocess.STDOUT)
+                while process.poll() is None:
+                    available = mem_available_gib()
+                    if available < resource_mem_floor_gib:
+                        process.terminate()
+                        try:
+                            process.wait(timeout=10)
+                        except subprocess.TimeoutExpired:
+                            process.kill()
+                            process.wait()
+                        raise RuntimeError(
+                            f"{config} stopped as a technical attempt: MemAvailable fell to "
+                            f"{available:.2f} GiB, below the {resource_mem_floor_gib:.2f} GiB safety floor")
+                    try:
+                        process.wait(timeout=5)
+                    except subprocess.TimeoutExpired:
+                        pass
+                result = subprocess.CompletedProcess(command, process.returncode)
         contents = log.read_text(errors="replace")
         require(result.returncode == 0 and "<!> Error:" not in contents and
                 "Simulation time limit reached" in contents, f"{config} failed; inspect {log}")

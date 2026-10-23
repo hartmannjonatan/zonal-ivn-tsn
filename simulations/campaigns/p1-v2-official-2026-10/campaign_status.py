@@ -8,6 +8,7 @@ import json
 import gzip
 import os
 import re
+import shutil
 import sys
 import time
 from collections import defaultdict
@@ -21,6 +22,11 @@ CHECKPOINT = RESULTS / "checkpoint.json"
 PROGRESS = RESULTS / "progress.json"
 CALIBRATION = RESULTS / "calibration" / "C3_calibration.json"
 FINAL = RESULTS / "campaign_results.json"
+C4_DIR = HERE / "c4_official"
+C4_RESULTS = C4_DIR / "results" / "C4"
+C4_LEDGER = C4_RESULTS / "ledger.jsonl"
+C4_CHECKPOINT = C4_RESULTS / "checkpoint.json"
+C4_CHECKPOINT_TEMPLATE = C4_DIR / "checkpoint_template.json"
 SEEDS_PER_CELL = 30
 PERCENT_RE = re.compile(r"\b(\d{1,3})% completed\s+\(\d{1,3}% total\)")
 
@@ -46,6 +52,59 @@ def read_ledger():
     except OSError:
         pass
     return rows
+
+
+def c4_runner_alive() -> bool:
+    """Check the C4 runner's independent lock without touching its state."""
+    lock_path = C4_RESULTS / ".c4_campaign.lock"
+    try:
+        fd = os.open(lock_path, os.O_RDONLY)
+    except OSError:
+        return False
+    try:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return True
+        else:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+            return False
+    finally:
+        os.close(fd)
+
+
+def read_c4_state():
+    """Read C4's separate checkpoint and ledger for this unified display."""
+    checkpoint = read_json(C4_CHECKPOINT)
+    if checkpoint is None:
+        checkpoint = read_json(C4_CHECKPOINT_TEMPLATE, {}) or {}
+    rows = []
+    try:
+        with C4_LEDGER.open(encoding="utf-8") as stream:
+            for line in stream:
+                try:
+                    if line.strip():
+                        rows.append(json.loads(line))
+                except json.JSONDecodeError:
+                    # Ignore a potentially partial last append while it is being written.
+                    continue
+    except OSError:
+        pass
+    ids = [row.get("execution_id") for row in rows]
+    if len(ids) != len(set(ids)):
+        raise RuntimeError("duplicate C4 execution IDs; audit its ledger before resume")
+    valid = [row for row in rows if row.get("status") == "completed_valid"]
+    failed = [row for row in valid if row.get("result_viable") is False]
+    technical_attempts = 0
+    attempts_path = C4_RESULTS / "technical_attempts.jsonl"
+    try:
+        with attempts_path.open(encoding="utf-8") as stream:
+            technical_attempts = sum(1 for line in stream if line.strip())
+    except OSError:
+        pass
+    return {"checkpoint": checkpoint, "rows": valid, "valid": len(valid),
+            "failed": len(failed), "technical_attempts": technical_attempts,
+            "runner_alive": c4_runner_alive()}
 
 
 def log_progress(path: Path):
@@ -168,6 +227,8 @@ def render_once():
     progress = read_json(PROGRESS, {}) or {}
     calibration = read_json(CALIBRATION, {}) or {}
     final = read_json(FINAL, {}) or {}
+    shard = read_json(RESULTS / "shard_manifest.json", {}) or {}
+    merge_record = read_json(RESULTS / "parallel_campaign_merge.json", {}) or {}
     executor_alive = campaign_executor_alive(checkpoint)
     active = active_logs(rows, checkpoint)
     now = time.strftime("%Y-%m-%d %H:%M:%S %Z")
@@ -202,6 +263,7 @@ def render_once():
     if not CALIBRATION.exists():
         accepted = bool(progress.get("calibration_profile_accepted", False))
     final_rows = [r for r in rows if r.get("stage") == "final"]
+    local_final_treatments = {r.get("campaign_treatment") for r in final_rows}
     by_cell = defaultdict(list)
     for r in final_rows:
         by_cell[(r.get("campaign_treatment"), r.get("load_name"), r.get("aggregation_name"))].append(r)
@@ -245,6 +307,11 @@ def render_once():
         if not executor_alive:
             lines.append(f"Executor indicado no checkpoint (PID {checkpoint_pid}) não está ativo; estado anterior pode ser de uma interrupção.")
     lines.append("=" * 94)
+    if shard:
+        lines.append(f"SHARD LOCAL — {shard.get('shard_id', 'sem ID')} | tratamentos: {','.join(shard.get('treatments', []))} | estado: {shard.get('status', 'n/d')}")
+        lines.append("  Este painel lê apenas ledgers locais; demais tratamentos rodam no outro host até a consolidação por hash.")
+    if merge_record:
+        lines.append(f"CONSOLIDAÇÃO MULTI-HOST: C0-C3 {merge_record.get('C0_C3_completed', '?')}/{merge_record.get('C0_C3_expected', '?')} | C4 {merge_record.get('C4_completed', '?')}/{merge_record.get('C4_expected', '?')}")
     lines.append("CALIBRAÇÃO C3 — L2/A1, seed 41")
     lines.append(f"  Candidatos históricos reprovados/incompatíveis: {', '.join(hist_failed) or 'nenhum registrado'}")
     lines.append(f"  Busca corrigida reprovada: {', '.join(corrected_failed) or 'nenhum registrado'}")
@@ -294,6 +361,9 @@ def render_once():
             cells = []
             for align in ("A0", "A1"):
                 key = (treatment, load, align)
+                if shard and treatment not in set(shard.get("treatments", [])) and treatment not in local_final_treatments:
+                    cells.append("no local ledger")
+                    continue
                 if treatment == "C3" and load == "L3":
                     cells.append("inadmissível P1")
                     continue
@@ -323,13 +393,49 @@ def render_once():
         expected = 720 + (180 if accepted else 0)
         lines.append(f"  Total registrado: {completed_final}/{expected if accepted else '720 (+ C3 se aceito)'}; resumo final ainda não gerado")
 
+    # C4 intentionally keeps its own runner, lock, manifest, ledger and results.
+    # This read-only section combines visibility, not campaign state or execution.
+    lines.append("")
+    lines.append("C4 OFICIAL — perfil D3 congelado (ledger/checkpoint independente)")
+    try:
+        c4 = read_c4_state()
+        c4cp = c4["checkpoint"]
+        c4done = c4["valid"]
+        c4expected = int(c4cp.get("expected", 180))
+        c4active = c4cp.get("active") or {}
+        c4status = c4cp.get("status", "frozen_not_started")
+        if c4["runner_alive"] and c4active:
+            c4active_text = (f"{c4active.get('execution_id', '?')} — "
+                             f"{fmt_percent(c4active.get('percent'))}; PID {c4active.get('pid', '?')}")
+        elif c4["runner_alive"]:
+            c4active_text = "executor ativo; entre execuções/checkpoint"
+        else:
+            c4active_text = "nenhuma simulação C4 ativa"
+        lines.append(f"  Estado: {c4status} | {c4done}/{c4expected} válidas ({100*c4done/c4expected if c4expected else 100:.1f}%) | reprovações válidas: {c4['failed']}")
+        lines.append(f"  Ativa: {c4active_text} | tentativas técnicas: {c4['technical_attempts']}")
+        lines.append(f"  Snapshot: {c4cp.get('snapshot_id', 'n/d')} | C4 validado oficialmente: {c4cp.get('official_c4_validated', False)}")
+        c4bycell = defaultdict(set)
+        for row in c4["rows"]:
+            c4bycell[(row.get("load"), row.get("alignment"))].add(int(row.get("seed")))
+        lines.append("  Progresso por célula (seeds válidas/30):")
+        for load in ("L0", "L1", "L2"):
+            cells = [f"{align} {len(c4bycell[(load, align)]):02d}/30" for align in ("A0", "A1")]
+            lines.append(f"    {load}: " + " | ".join(cells))
+    except (RuntimeError, OSError, json.JSONDecodeError) as exc:
+        lines.append(f"  Não foi possível ler o estado C4: {exc}")
+
     lines.append("")
     checkpoint_execution = checkpoint.get("active_execution_id") if executor_alive else None
     last_execution = checkpoint.get("latest_execution_id", checkpoint.get("active_execution_id", "—"))
     executor_state = (f"ativo: {checkpoint.get('stage', '—')} / {checkpoint_execution or 'inicializando'}"
                       if executor_alive else f"inativo; último checkpoint: {last_execution}")
     lines.append(f"Estado do executor: {executor_state}")
-    lines.append(f"Espaço livre: {checkpoint.get('free_gb', progress.get('free_disk_gib', '—'))} GB (aprox.)")
+    live_free_gib=shutil.disk_usage(HERE).free/(1024**3)
+    checkpoint_free=checkpoint.get('free_gb', progress.get('free_disk_gib'))
+    if checkpoint_free is None:
+        lines.append(f"Espaço livre no disco (agora): {live_free_gib:.1f} GiB")
+    else:
+        lines.append(f"Espaço livre no disco (agora): {live_free_gib:.1f} GiB | último checkpoint: {checkpoint_free} GB")
     lines.append("Ctrl+C encerra somente este painel; não interrompe a campanha.")
     return "\n".join(lines)
 

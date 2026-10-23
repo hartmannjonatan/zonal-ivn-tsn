@@ -8,11 +8,13 @@ sys.path[:0]=[str(ROOT/'scripts/run'),str(ROOT/'scripts/catalog')]
 import validate_c0 as validator, generate_cbs as cbs
 from calibration_search import profile_signature, ordered_candidates, propose_increment, reduction_target
 SEEDS=range(1001,1031); LOADS=('L0','L1','L2','L3'); FREE_FLOOR_GB=45
+MEMORY_RESERVE_GIB=4.0; MEMORY_PER_JOB_GIB=2.5
 # Keep the preregistered operational limit in the immutable protocol snapshot,
 # while enforcing the user's current four-job runtime cap in this executor.
 PREREGISTERED_MAX_WORKERS=8; RUNTIME_MAX_WORKERS=4
 RESUME=False; MAX_WORKERS=PREREGISTERED_MAX_WORKERS; RUNTIME_WORKERS=RUNTIME_MAX_WORKERS
 STOP_AFTER_CELL=None; LOCK=threading.RLock()
+SELECTED_TREATMENTS=None; SHARD_ID=None
 LOCK_FD=None; LEDGER_INDEX={}; ACTIVE_EXECUTIONS=set()
 def req(ok,msg):
     if not ok: raise RuntimeError(msg)
@@ -66,6 +68,18 @@ def source_hashes_reusable(old,current):
 def outdir(*parts):
     p=OUT.joinpath(*parts);p.mkdir(parents=True,exist_ok=True);return p
 def free_gb(): return shutil.disk_usage(ROOT).free/1e9
+def mem_available_gib():
+    for line in Path('/proc/meminfo').read_text().splitlines():
+        if line.startswith('MemAvailable:'): return int(line.split()[1])/(1024**2)
+    return 0.0
+def check_resources_for_jobs(jobs):
+    available=mem_available_gib()
+    req(available >= MEMORY_RESERVE_GIB + MEMORY_PER_JOB_GIB*jobs,
+        f'insufficient available memory for {jobs} jobs: {available:.2f} GiB available; '
+        f'requires {MEMORY_RESERVE_GIB + MEMORY_PER_JOB_GIB*jobs:.2f} GiB and leaves '
+        f'{MEMORY_RESERVE_GIB:.1f} GiB for the OS')
+    req(free_gb() > FREE_FLOOR_GB,
+        f'low-space checkpoint before launching jobs: {free_gb():.1f} GB free; floor is {FREE_FLOOR_GB} GB')
 def acquire_campaign_lock():
     global LOCK_FD
     LOCK_FD=os.open(OUT/'.campaign.lock',os.O_CREAT|os.O_RDWR,0o644)
@@ -190,6 +204,10 @@ def compress_result_files(dest,config,run_dir):
             fsync_file(tmp);tmp.replace(target);fsync_dir(target.parent);p.unlink();fsync_dir(p.parent)
     for p in dest.glob(f'{config}-#*.vec'):
         p.unlink()
+    # A vector index has no audit value after its corresponding raw vector has
+    # been removed; it cannot be used to query or reconstruct data by itself.
+    for p in dest.glob(f'{config}-#*.vci'):
+        if not (dest / p.name.replace('.vci','.vec')).exists(): p.unlink()
     fsync_dir(dest)
     for name in ('releases.csv','queues.csv','drops.csv','wire.csv','events.csv'):
         p=run_dir/name
@@ -237,13 +255,31 @@ def sim(t,l,a,seed,profile=None,stage='final',label=None):
           'max_parallel_runs':RUNTIME_WORKERS,'active_execution_id':exec_id,'free_gb':free_gb(),
           'timestamp':time.time(),'checkpoint_note':'raw output is retained until metrics and compact temporal evidence reconcile'})
     extras=[f'--seed-set={seed}']
+    calendar_key=f'{LOADS[l]}/A{a}/seed{seed}'
+    calendar_index=OUT/'calendars/calendar_index.json'
+    if stage=='final' and t!='C0':
+        req(calendar_index.is_file(),f'{key}: paired C0 calendar index missing')
+        calendar_entries=readj(calendar_index)
+        req(calendar_key in calendar_entries,f'{key}: paired C0 calendar missing: {calendar_key}')
+        calendar_entry=calendar_entries[calendar_key]
+        calendar_path=HERE/calendar_entry['file']
+        req(calendar_path.is_file(),f'{key}: paired C0 calendar file missing: {calendar_path}')
+        calendar_sig_existing,calendar_events_existing=calendar_sig(calendar_path)
+        req(calendar_sig_existing==calendar_entry['sha256'] and
+            len(calendar_events_existing)==int(calendar_entry['event_count']),
+            f'{key}: paired C0 calendar does not match its index: {calendar_key}')
+        calendar_from_sim=calendar_path.relative_to(SIM).as_posix()
+        extras.append(f'--*.trafficPlan.transientCalendarFile={calendar_from_sim}')
     if t in ('C2','C3'):extras.append('--**.numCredits.result-recording-modes=vector,max,min,timeavg')
     if profile: extras += [f'--*.{e}.macLayer.queue.transmissionSelectionAlgorithm[{tc}].idleSlope={r}bps' for (e,tc),r in sorted(profile.items())]
-    report,rd=validator.run_cell(config,dest,ENV,INET,execute=not reprocess_existing,result_dir_override=str(dest.relative_to(SIM)),extra_args=tuple(extras))
+    report,rd=validator.run_cell(config,dest,ENV,INET,execute=not reprocess_existing,
+       result_dir_override=str(dest.relative_to(SIM)),extra_args=tuple(extras),
+       resource_mem_floor_gib=3.0)
     rd=Path(rd);sig,events=calendar_sig(rd); ckey=f'{LOADS[l]}/A{a}/seed{seed}'
-    trace=rd/'queue_occupancy_events.csv.gz'
-    req(trace.is_file() and Path(str(trace)+'.meta.json.gz').is_file(),
+    csv_trace=rd/'queue_occupancy_events.csv.gz'
+    req(csv_trace.is_file() and Path(str(csv_trace)+'.meta.json.gz').is_file(),
         f'{exec_id}: compact queue occupancy event trace missing')
+    trace=validator.compact_queue_occupancy_trace(csv_trace)
     recomputed=validator.recompute_queue_occupancy_trace(trace)
     recorded={x['queue']:x for x in report.get('queue_stability',[])}
     req(len(recomputed)==len(recorded),f'{exec_id}: queue trace population mismatch')
@@ -260,6 +296,9 @@ def sim(t,l,a,seed,profile=None,stage='final',label=None):
                 req(math.isclose(x,y,rel_tol=1e-10,abs_tol=1e-9),
                     f'{exec_id}: independently recomputed {field} mismatch at {q["queue"]}')
             else:req(x==y,f'{exec_id}: independently recomputed {field} mismatch at {q["queue"]}')
+    # The compact delta trace has now been independently decoded and compared
+    # against every reported queue metric; only now discard the CSV duplicate.
+    csv_trace.unlink();Path(str(csv_trace)+'.meta.json.gz').unlink()
     with LOCK:
         index=outdir('calendars')/'calendar_index.json';idx=readj(index) if index.exists() else {}
         if ckey in idx:req(idx[ckey]['sha256']==sig,f'{key}: transient calendar not paired')
@@ -296,6 +335,7 @@ def sim(t,l,a,seed,profile=None,stage='final',label=None):
        'reservation_profile_bps':{f'{e}/TC{tc}':r for (e,tc),r in (profile or {}).items()},
        'resolved_profile_verified':bool(profile),'resolved_sca_sha256':digest(sca),
        'configuration_source_hashes':MANIFEST['source_hashes'],'command':{'config':config,'seed_set':seed,'result_dir':str(dest.relative_to(SIM)),'overrides':extras},
+       'shard_id':SHARD_ID,
        'retained':{'packet_image_quantile_samples':str((rd/'latency_upper_tails.json.gz').relative_to(HERE)),
           'queue_occupancy_events':str(trace.relative_to(HERE)),
           'queue_occupancy_metadata':str(Path(str(trace)+'.meta.json.gz').relative_to(HERE)),
@@ -681,9 +721,12 @@ def calibration(resume=False):
       'claim':'No global optimum is implied by the bounded search.'}
     writej(OUT/'calibration/C3_calibration.json',record);return record
 
-def final_campaign(cal):
+def final_campaign(cal, execute_treatments=None):
+    execute_treatments=set(execute_treatments if execute_treatments is not None else ('C0','C1','C2','C3'))
     accepted=cal['status']=='frozen_and_accepted'; by=nominal_by_load();inadmissible=[]
     for t in ('C0','C1','C2','C3'):
+      if t not in execute_treatments:
+        continue
       for l in range(4):
        for a in range(2):
         if t=='C3' and (not accepted or l==3):
@@ -701,11 +744,13 @@ def final_campaign(cal):
         # limits memory retained by the Python executor and makes cell-boundary
         # pausing/recovery explicit while preserving the preregistered order.
         completed=0;seeds=iter(SEEDS)
+        check_resources_for_jobs(RUNTIME_WORKERS)
         with ThreadPoolExecutor(max_workers=RUNTIME_WORKERS) as pool:
             pending={}
             for _ in range(RUNTIME_WORKERS):
                 try:seed=next(seeds)
                 except StopIteration:break
+                check_resources_for_jobs(len(pending)+1)
                 future=pool.submit(sim,t,l,a,seed,profile,'final');pending[future]=seed
             while pending:
                 done,_=wait(pending,return_when=FIRST_COMPLETED)
@@ -713,6 +758,7 @@ def final_campaign(cal):
                     seed=pending.pop(future);future.result();completed+=1
                     try:next_seed=next(seeds)
                     except StopIteration:continue
+                    check_resources_for_jobs(len(pending)+1)
                     new_future=pool.submit(sim,t,l,a,next_seed,profile,'final');pending[new_future]=next_seed
         cell=f'{t}_{LOADS[l]}_A{a}'
         ledger_count=len(LEDGER_INDEX)
@@ -743,9 +789,32 @@ def final_campaign(cal):
     if (OUT/'runs.jsonl').exists():
         ledger=[json.loads(x) for x in (OUT/'runs.jsonl').read_text().splitlines() if x.strip()]
         reports=[r for r in ledger if r.get('stage')=='final']
+    if SELECTED_TREATMENTS is not None:
+      shard_path=OUT/'shard_manifest.json'
+      shard=readj(shard_path)
+      expected_ids=set()
+      for treatment in SELECTED_TREATMENTS:
+        loads_for_treatment=('L0','L1','L2') if treatment=='C3' else LOADS
+        for load_name in loads_for_treatment:
+          for alignment in ('A0','A1'):
+            for seed in SEEDS:
+              expected_ids.add(f'{treatment}_{load_name}_{alignment}_seed{seed}')
+      shard_rows=[r for r in reports if r.get('campaign_treatment') in SELECTED_TREATMENTS]
+      actual_ids=[r.get('execution_id') for r in shard_rows]
+      req(len(actual_ids)==len(set(actual_ids)), 'duplicate final IDs in this shard ledger')
+      require_ids=set(actual_ids)
+      shard['expected_final_records']=len(expected_ids)
+      shard['completed_final_records']=len(require_ids & expected_ids)
+      shard['missing_final_ids']=sorted(expected_ids-require_ids)
+      shard['unexpected_final_ids']=sorted(require_ids-expected_ids)
+      shard['all_records_technically_valid']=all(r.get('simulation_valid') is True for r in shard_rows)
+      shard['status']='completed' if (require_ids==expected_ids and shard['all_records_technically_valid']) else 'incomplete_resumable'
+      shard['final_ledger_sha256']=digest(OUT/'runs.jsonl')
+      shard['updated_utc']=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())
+      writej(shard_path,shard)
     expected=3 * 8 * len(SEEDS)
     if accepted:
-      expected += 2 * len(SEEDS) # C3/L0-L2/A0-A1, screened below for inadmissibility.
+      expected += 6 * len(SEEDS) # C3/L0-L2/A0-A1, screened below for inadmissibility.
       bad_cells={(x['load'],x['aggregation']) for x in inadmissible
                  if x['treatment']=='C3' and x['load']!='L3'}
       expected -= len(bad_cells)*len(SEEDS)
@@ -853,6 +922,9 @@ def make_comparison(data):
 
 def metadata():
     files=['simulations/campaigns/p1-v2-official-2026-10/run_campaign.py',
+      'simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py',
+      'simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py',
+      'simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py',
       'simulations/campaigns/p1-v2-official-2026-10/calibration_search.py',
       'simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json',
       'simulations/campaigns/p1-v2-official-2026-10/flow_mapping.csv',
@@ -870,10 +942,11 @@ def metadata():
           files.append(str(path.relative_to(ROOT)))
     files=sorted(set(files))
     status=subprocess.check_output(['git','status','--short'],cwd=ROOT,text=True)
-    return {'campaign_id':'p1-v2-official-2026-10','p1_pdf':str(Path('/home/jonatan/Downloads/P1 (4).pdf')),
-      'p1_pdf_sha256':digest('/home/jonatan/Downloads/P1 (4).pdf'),
-      'previous_p1_pdf':str(Path('/home/jonatan/Downloads/P1 (3).pdf')),
-      'previous_p1_pdf_sha256':digest('/home/jonatan/Downloads/P1 (3).pdf'),
+    current_p1=ROOT/'docs/design/P1-final.pdf';previous_p1=ROOT/'docs/design/P1-v4.pdf'
+    return {'campaign_id':'p1-v2-official-2026-10','p1_pdf':str(current_p1.relative_to(ROOT)),
+      'p1_pdf_sha256':digest(current_p1),
+      'previous_p1_pdf':str(previous_p1.relative_to(ROOT)),
+      'previous_p1_pdf_sha256':digest(previous_p1),
       'p1_clarification':{'transient_only_TC4_egresses':['Z1.ZCPU.eth[0]','Z2.ZCPU.eth[0]','Z3.ZSW.eth[1]'],
         'mechanism':'SP when permanent nominal reservation is zero; F21/F22 remain PCP4/TC4 and share CBS only on egresses with positive permanent TC4 reservation',
         'configuration_matches_audited_runs_and_pilot':True},
@@ -898,15 +971,51 @@ def metadata():
         'transient_only_TC4_uses_SP':['Z1.ZCPU.eth[0]','Z2.ZCPU.eth[0]','Z3.ZSW.eth[1]'],
         'standard_SR_contracts_claimed':False,'buffer_bytes_per_class':{'camera_talker_ports':65536,'G1_G4':131072,'others':32768}}}
 
+def parse_treatments(value):
+    if value is None:return None
+    selected=tuple(x.strip() for x in value.split(',') if x.strip())
+    require(selected and len(selected)==len(set(selected)), '--treatments must be a nonempty comma-separated unique list')
+    require(set(selected)<= {'C0','C1','C2','C3'}, '--treatments may contain only C0,C1,C2,C3')
+    return selected
+
+def calendar_contract_digest(index_path):
+    index=readj(index_path)
+    contract={}
+    for key,row in sorted(index.items()):
+        path=HERE/row['file']
+        req(path.is_file(),f'calendar contract references missing file: {path}')
+        signature,event_rows=calendar_sig(path)
+        req(signature==row.get('sha256') and len(event_rows)==int(row.get('event_count',-1)),
+            f'calendar contract mismatch for {key}')
+        contract[key]={'sha256':signature,'event_count':len(event_rows),'file_sha256':digest(path)}
+    return hashlib.sha256(json.dumps(contract,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+def campaign_contract_digest(manifest):
+    fields=('campaign_id','commit','source_hashes','binary_sha256','omnetpp','inet',
+            'inet_version_token','inet_version_file_sha256','omnetpp_runtime_version',
+            'p1_pdf_sha256','previous_p1_pdf_sha256','matrix','mapping','queueing')
+    payload={key:manifest.get(key) for key in fields}
+    return hashlib.sha256(json.dumps(payload,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
 def main():
-    global ENV,INET,OMNETPP,MANIFEST,RESUME,RUNTIME_WORKERS,STOP_AFTER_CELL
+    global ENV,INET,OMNETPP,MANIFEST,RESUME,RUNTIME_WORKERS,STOP_AFTER_CELL,SELECTED_TREATMENTS,SHARD_ID
     p=argparse.ArgumentParser();p.add_argument('--inet-root',default=os.environ.get('INET_ROOT'));p.add_argument('--omnetpp-root',default=os.environ.get('OMNETPP_ROOT'))
     p.add_argument('--phase',choices=['calibration','final','all'],default='all');p.add_argument('--resume',action='store_true')
-    p.add_argument('--jobs',type=int,default=RUNTIME_MAX_WORKERS,help=f'parallel simulations (1..{RUNTIME_MAX_WORKERS}, current operational cap)')
+    p.add_argument('--jobs',type=int,default=1,help=f'parallel simulations (1..{RUNTIME_MAX_WORKERS}, additionally capped by available memory)')
     p.add_argument('--stop-after-cell',help='finish and checkpoint this cell, then exit cleanly (e.g. C0_L3_A1)')
+    p.add_argument('--treatments',help='final-matrix subset, comma separated (e.g. C1,C2); requires --shard-id')
+    p.add_argument('--shard-id',help='stable identifier for this machine-local result shard')
     a=p.parse_args();RESUME=a.resume;RUNTIME_WORKERS=a.jobs;STOP_AFTER_CELL=a.stop_after_cell
+    SELECTED_TREATMENTS=parse_treatments(a.treatments);SHARD_ID=a.shard_id
+    if SELECTED_TREATMENTS is not None:
+        req(a.phase=='final','--treatments is supported only with --phase final')
+        req(SHARD_ID and re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,63}',SHARD_ID),
+            'a safe --shard-id is required with --treatments')
+    else:
+        req(SHARD_ID is None,'--shard-id requires --treatments')
     req(1<=RUNTIME_WORKERS<=RUNTIME_MAX_WORKERS,
         f'--jobs must be between 1 and {RUNTIME_MAX_WORKERS} under the current runtime cap')
+    check_resources_for_jobs(RUNTIME_WORKERS)
     req(a.inet_root,'Set INET_ROOT')
     INET=Path(a.inet_root).resolve();OMNETPP=Path(a.omnetpp_root).resolve() if a.omnetpp_root else Path(shutil.which('opp_run')).resolve().parent.parent
     ENV=os.environ.copy();ENV['LD_LIBRARY_PATH']=':'.join(filter(None,[str(OMNETPP/'lib'),str(INET/'src'),ENV.get('LD_LIBRARY_PATH','')]))
@@ -938,24 +1047,40 @@ def main():
         req(source_hashes_reusable(old.get('source_hashes',{}),current['source_hashes']),
             'source hash mismatch outside documented orchestration/retention/presentation fixes')
         archive=HERE/'protocol_history';archive.mkdir(exist_ok=True)
-        old_manifest=archive/'campaign_manifest_p1-v3.json'
-        old_protocol=archive/'calibration_protocol_preregistered.json'
-        if not old_manifest.exists():shutil.copy2(mp,old_manifest)
-        if not old_protocol.exists():shutil.copy2(protocol_path,old_protocol)
-        current['previous_manifest_sha256']=digest(old_manifest)
-        current['previous_manifest_path']=str(old_manifest.relative_to(HERE))
-        current['preregistered_protocol_sha256']=digest(protocol_path)
-        current['preregistered_protocol_archive']=str(old_protocol.relative_to(HERE))
-        MANIFEST=current;writej(mp,MANIFEST)
-        addendum={'created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),
-          'status':'P1 v4 clarification and technical execution addendum; preregistered search rules unchanged',
-          'p1_pdf':current['p1_pdf'],'p1_pdf_sha256':current['p1_pdf_sha256'],
-          'previous_p1_pdf':current['previous_p1_pdf'],'previous_p1_pdf_sha256':current['previous_p1_pdf_sha256'],
-          'preregistered_protocol_sha256':digest(protocol_path),
-          'clarification':'CBS TC4/TC6 only where permanent nominal reservation is positive. Transit-only TC4 egresses remain SP; F21/F22 retain PCP4/TC4 and share CBS only on egresses with positive permanent TC4 load.',
-          'technical_fixes':['full 10% line-rate increments with pre-execution 75% rejection','deterministic full-vector signatures and duplicate proposal rejection','no permanent ban on previously changed queues','explicit candidate/reduction IDs and termination when no admissible novel proposal remains','exact queue occupancy change-point trace independently verified before raw vector deletion'],
-          'search_method_changed':False}
-        writej(archive/'p1-v4-technical-addendum.json',addendum)
+        if old.get('continuation'):
+            # A two-host contract pins this manifest byte-for-byte. Rewriting it
+            # on each resume would invalidate the peer's contract and could also
+            # mislabel the migrated snapshot as the original P1-v3 manifest.
+            parent_path=HERE/old['continuation']['parent_manifest_path']
+            req(parent_path.is_file() and digest(parent_path)==old['continuation']['parent_manifest_sha256'],
+                'parallel continuation parent manifest archive is missing or changed')
+            protocol_archive=HERE/old.get('preregistered_protocol_archive','__missing__')
+            req(protocol_archive.is_file() and digest(protocol_archive)==old.get('preregistered_protocol_sha256'),
+                'parallel continuation protocol archive is missing or changed')
+            for field in ('previous_manifest_sha256','previous_manifest_path',
+                          'preregistered_protocol_sha256','preregistered_protocol_archive'):
+                current[field]=old[field]
+            current['continuation']=old['continuation']
+            MANIFEST=old
+        else:
+            old_manifest=archive/'campaign_manifest_p1-v3.json'
+            old_protocol=archive/'calibration_protocol_preregistered.json'
+            if not old_manifest.exists():shutil.copy2(mp,old_manifest)
+            if not old_protocol.exists():shutil.copy2(protocol_path,old_protocol)
+            current['previous_manifest_sha256']=digest(old_manifest)
+            current['previous_manifest_path']=str(old_manifest.relative_to(HERE))
+            current['preregistered_protocol_sha256']=digest(protocol_path)
+            current['preregistered_protocol_archive']=str(old_protocol.relative_to(HERE))
+            MANIFEST=current;writej(mp,MANIFEST)
+            addendum={'created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),
+              'status':'P1 v4 clarification and technical execution addendum; preregistered search rules unchanged',
+              'p1_pdf':current['p1_pdf'],'p1_pdf_sha256':current['p1_pdf_sha256'],
+              'previous_p1_pdf':current['previous_p1_pdf'],'previous_p1_pdf_sha256':current['previous_p1_pdf_sha256'],
+              'preregistered_protocol_sha256':digest(protocol_path),
+              'clarification':'CBS TC4/TC6 only where permanent nominal reservation is positive. Transit-only TC4 egresses remain SP; F21/F22 retain PCP4/TC4 and share CBS only on egresses with positive permanent TC4 load.',
+              'technical_fixes':['full 10% line-rate increments with pre-execution 75% rejection','deterministic full-vector signatures and duplicate proposal rejection','no permanent ban on previously changed queues','explicit candidate/reduction IDs and termination when no admissible novel proposal remains','exact queue occupancy change-point trace independently verified before raw vector deletion'],
+              'search_method_changed':False}
+            writej(archive/'p1-v4-technical-addendum.json',addendum)
     else:MANIFEST=current;writej(mp,MANIFEST)
     subprocess.run([sys.executable,str(ROOT/'scripts/catalog/generate.py'),'--check'],check=True)
     subprocess.run([sys.executable,str(ROOT/'scripts/catalog/generate_cbs.py'),'--check'],check=True)
@@ -972,7 +1097,23 @@ def main():
             'expected_final_runs':900 if cal.get('status')=='frozen_and_accepted' else 720,
             'updated_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())})
         writej(OUT/'progress.json',progress)
-        final_campaign(cal)
+        if SELECTED_TREATMENTS is not None:
+            shard_path=OUT/'shard_manifest.json'
+            shard={'schema_version':1,'campaign_id':'p1-v2-official-2026-10',
+                   'shard_id':SHARD_ID,'treatments':list(SELECTED_TREATMENTS),
+                   'commit':MANIFEST['commit'],'binary_sha256':MANIFEST['binary_sha256'],
+                   'campaign_contract_sha256':campaign_contract_digest(MANIFEST),
+                   'calibration_sha256':digest(OUT/'calibration/C3_calibration.json'),
+                   'calendar_contract_sha256':calendar_contract_digest(OUT/'calendars/calendar_index.json'),
+                   'status':'running_or_resumable'}
+            if shard_path.exists():
+                old_shard=readj(shard_path)
+                for field in ('schema_version','campaign_id','shard_id','treatments','commit','binary_sha256',
+                              'campaign_contract_sha256','calibration_sha256','calendar_contract_sha256'):
+                    req(old_shard.get(field)==shard.get(field),
+                        f'shard manifest mismatch in {field}; use the original shard identity/artifacts')
+            else:writej(shard_path,shard)
+        final_campaign(cal,execute_treatments=SELECTED_TREATMENTS)
     # A normal process exit is also reflected durably for the SSH dashboard.
     progress=readj(OUT/'progress.json') if (OUT/'progress.json').exists() else {}
     if progress.get('status')!='paused_at_cell_boundary':

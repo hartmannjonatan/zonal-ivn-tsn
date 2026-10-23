@@ -1,0 +1,25 @@
+egress,TC,type,idleSlope_bps,sendSlope_bps,bitrate_bps,initialCredit,transmitCreditLimit,minCredit,maxCredit,accumulateCreditInGuardBand,extraLength,extraDuration
+CAM1.eth[0],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,56850000,-943150000,1000000000,0,0,-inf,inf,False,64 b,0 s
+CAM2.eth[0],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,56850000,-943150000,1000000000,0,0,-inf,inf,False,64 b,0 s
+CAM3.eth[0],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,56850000,-943150000,1000000000,0,0,-inf,inf,False,64 b,0 s
+CAM4.eth[0],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,56850000,-943150000,1000000000,0,0,-inf,inf,False,64 b,0 s
+CSW.eth[0],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,227400000,-772600000,1000000000,0,0,-inf,inf,False,64 b,0 s
+CSW.eth[0],6,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,311760000,-688240000,1000000000,0,0,-inf,inf,False,64 b,0 s
+CSW.eth[1],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,251115695,-748884305,1000000000,0,0,-inf,inf,False,64 b,0 s
+CSW.eth[2],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,251115695,-748884305,1000000000,0,0,-inf,inf,False,64 b,0 s
+CSW.eth[3],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,707606774,-292393226,1000000000,0,0,-inf,inf,False,64 b,0 s
+HPC.eth[0],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,406375399,-593624601,1000000000,0,0,-inf,inf,False,64 b,0 s
+LiDAR1.eth[0],6,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,308400000,-691600000,1000000000,0,0,-inf,inf,False,64 b,0 s
+RADAR1.eth[0],6,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,1680000,-98320000,100000000,0,0,-inf,inf,False,64 b,0 s
+RADAR2.eth[0],6,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,1680000,-98320000,100000000,0,0,-inf,inf,False,64 b,0 s
+Z1.ZSW.eth[0],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,236850000,-763150000,1000000000,0,0,-inf,inf,False,64 b,0 s
+Z1.ZSW.eth[0],6,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,308400000,-691600000,1000000000,0,0,-inf,inf,False,64 b,0 s
+Z1.ZSW.eth[6],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,27600000,-72400000,100000000,0,0,-inf,inf,False,64 b,0 s
+Z1.ZSW.eth[7],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,61680000,-38320000,100000000,0,0,-inf,inf,False,64 b,0 s
+Z2.ZSW.eth[0],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,216850000,-783150000,1000000000,0,0,-inf,inf,False,64 b,0 s
+Z2.ZSW.eth[0],6,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,1680000,-998320000,1000000000,0,0,-inf,inf,False,64 b,0 s
+Z2.ZSW.eth[6],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,27600000,-72400000,100000000,0,0,-inf,inf,False,64 b,0 s
+Z2.ZSW.eth[7],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,61680000,-38320000,100000000,0,0,-inf,inf,False,64 b,0 s
+Z3.ZSW.eth[0],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,113700000,-886300000,1000000000,0,0,-inf,inf,False,64 b,0 s
+Z3.ZSW.eth[0],6,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,1680000,-998320000,1000000000,0,0,-inf,inf,False,64 b,0 s
+Z3.ZSW.eth[7],4,inet.linklayer.ieee8021q.Ieee8021qCreditBasedShaper,28152000,-71848000,100000000,0,0,-inf,inf,False,64 b,0 s

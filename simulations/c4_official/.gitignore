@@ -1,0 +1,3 @@
+plugin/build/
+__pycache__/
+!plugin/libc4realclockprobe.so

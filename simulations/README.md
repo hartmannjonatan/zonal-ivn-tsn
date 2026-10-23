@@ -1,7 +1,92 @@
 # Simulations
 
-`zonal/` contains the P1 network model, traffic configuration, and treatment definitions. `campaigns/p1-v2-official-2026-10/` contains the isolated official runner, calibration protocol, checkpoints, and campaign results. Its results are separate from all historical runs.
+`zonal/` contains the OMNeT++ model and generated traffic configuration. `campaigns/p1-v2-official-2026-10/` contains the official C0–C3 runner and calibration record; `campaigns/p1-v2-official-2026-10/c4_official/` contains the frozen C4 treatment and its separate ledger. Historical and exploratory outputs remain outside official aggregates.
 
-`pilot/reclassification/` preserves the exploratory old-versus-revised mapping study and the evidence behind the mapping formalized in the final P1. It is not part of the official aggregates. The [pilot index](pilot/README.md) links to the consolidated, closed C4 CBS/TAS exploration. `tsn_validation/` contains small INET mechanism scenarios retained for reference and visual inspection.
+The final matrix is split across two machines to avoid copying the large C0 baseline:
 
-The official runner supports resume from audited records and currently limits execution to four parallel jobs. Run `python3 simulations/campaigns/p1-v2-official-2026-10/run_campaign.py --help` for options. Do not mix files under `simulations/results/` or the pilot results with the official campaign output.
+- **Machine A (the checkout with the completed C0 results):** run C3 and then C4. It retains C0, C3, and C4 and is the final merge host.
+- **Machine B:** import the small runtime bundle from A and run C1 and C2. It does not need C0 result files; it needs the same committed checkout, OMNeT++ 6.4.0, INET 4.7.0, compiled model, and imported calendars/profile.
+
+Both machines must use the same committed code snapshot and matching runtime versions. Do not run two campaign workers on the same machine. The commands below use one simulation job per host, keep each simulator serialized, and stop safely if available memory or disk crosses the configured floor. The campaign is resumable; always reuse the same shard ID on restart.
+
+## Prepare the two machines
+
+Commit and push the implementation first. On Machine A, source the installed OMNeT++ environment and check the host has adequate free space (the C0–C3 runner requires more than 45 GB; C4 requires at least 40 GiB and 6 GiB available memory):
+
+```bash
+source /home/jonatan/omnetpp-env.sh
+export INET_ROOT=/home/jonatan/omnetpp/samples/inet-4.7.0
+export OMNETPP_ROOT=/home/jonatan/omnetpp
+python3 simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py --prepare-primary
+python3 simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py --export-secondary-bundle /tmp/p1-c1c2-runtime-bundle.tar.gz
+```
+
+Transfer that bundle to Machine B. Clone/pull the exact commit printed by A, install the matching OMNeT++/INET versions, source their environment, then import the bundle. The import verifies hashes and copies only calendars, the accepted C3 profile, and required runtime/configuration files—not C0 result data.
+
+```bash
+source /home/jonatan/omnetpp-env.sh
+export INET_ROOT=/home/jonatan/omnetpp/samples/inet-4.7.0
+export OMNETPP_ROOT=/home/jonatan/omnetpp
+python3 simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py --import-secondary-bundle /path/to/p1-c1c2-runtime-bundle.tar.gz
+```
+
+Run both static preflights before starting either matrix:
+
+```bash
+# Machine A: C3 then C4
+python3 simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py --preflight-c3-c4-shard
+
+# Machine B: C1 and C2
+python3 simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py --preflight-c1-c2-shard
+```
+
+These preflights do not start OMNeT++. Resolve any failure before launching the long runs.
+
+## Run and monitor
+
+Start the following commands on their assigned hosts. They may run at the same time because they use disjoint result trees and separate locks; each host runs one simulator at a time.
+
+```bash
+# Machine A (the C0-owning checkout)
+python3 simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py --c3-c4-shard --resume --shard-id machine-a-c3c4 --jobs 1
+
+# Machine B
+python3 simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py --c1-c2-shard --resume --shard-id machine-b-c1c2 --jobs 1
+```
+
+In another terminal on each host, run the dashboard:
+
+```bash
+python3 simulations/campaigns/p1-v2-official-2026-10/campaign_status.py
+```
+
+Machine A executes all admissible C3 cells before starting C4. C4 does not wait for the C1/C2 shard. If a process exits due to a resource floor or technical error, inspect the dashboard/checkpoint, address the reported constraint, and rerun the identical command with the same shard ID. Valid completed ledger entries are reused; performance failures remain results and are not replaced.
+
+## Return and merge C1/C2
+
+After Machine B reports its C1/C2 shard complete, create a hash inventory there:
+
+```bash
+python3 simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py --write-transfer-manifest /tmp/p1-c1c2-transfer.json
+```
+
+Transfer the manifest, `results/runs.jsonl`, `results/shard_manifest.json`, and these two result trees from B to the same relative locations on A:
+
+- `simulations/campaigns/p1-v2-official-2026-10/results/final/C1/`
+- `simulations/campaigns/p1-v2-official-2026-10/results/final/C2/`
+- B `results/runs.jsonl` → A `results/parallel-transfer/C1C2_source_runs.jsonl`
+- B `results/shard_manifest.json` → A `results/parallel-transfer/C1C2_shard_manifest.json`
+- transfer manifest → A `results/parallel-transfer/C1C2_transfer_manifest.json`
+
+Use `rsync -a` for the result trees; it can resume interrupted copies. Then, on A, run the offline merger:
+
+```bash
+python3 simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py \
+  --merge-transferred \
+  --manifest simulations/campaigns/p1-v2-official-2026-10/results/parallel-transfer/C1C2_transfer_manifest.json \
+  --source-ledger simulations/campaigns/p1-v2-official-2026-10/results/parallel-transfer/C1C2_source_runs.jsonl
+```
+
+The merger verifies every transferred file hash, the shard/ledger identities, calendar signatures, local C3 and C4 completion, and the shared campaign contract. It then rebuilds the C0–C3 aggregate without simulations. The C4 ledger remains separate and is shown by the dashboard. Do not manually concatenate JSONL ledgers or edit checkpoints.
+
+`campaign_status.py` shows the local host's shard during execution; after merge on A it shows the consolidated C0–C4 status. The authoritative C0 results and calendars remain on A. No results from pilots or historical campaigns are included.
