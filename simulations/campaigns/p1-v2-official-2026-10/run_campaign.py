@@ -281,7 +281,11 @@ def sim(t,l,a,seed,profile=None,stage='final',label=None):
             len(calendar_events_existing)==int(calendar_entry['event_count']),
             f'{key}: paired C0 calendar does not match its index: {calendar_key}')
         calendar_from_sim=calendar_path.relative_to(SIM).as_posix()
-        extras.append(f'--*.trafficPlan.transientCalendarFile={calendar_from_sim}')
+        # OMNeT++ parses command-line overrides with the same value grammar as
+        # omnetpp.ini; paths must be quoted so the slash is not parsed as an
+        # expression/property path (which otherwise treats "campaigns" as a
+        # nested parameter name).
+        extras.append(f'--*.trafficPlan.transientCalendarFile="{calendar_from_sim}"')
     if t in ('C2','C3'):extras.append('--**.numCredits.result-recording-modes=vector,max,min,timeavg')
     if profile: extras += [f'--*.{e}.macLayer.queue.transmissionSelectionAlgorithm[{tc}].idleSlope={r}bps' for (e,tc),r in sorted(profile.items())]
     report,rd=validator.run_cell(config,dest,ENV,INET,execute=not reprocess_existing,
