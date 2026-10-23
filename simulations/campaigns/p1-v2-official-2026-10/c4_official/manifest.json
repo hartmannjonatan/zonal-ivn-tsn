@@ -1,5 +1,5 @@
 {
-  "base_commit": "717e0c5acec6509eca53daa732d74a7f72f156fe",
+  "base_commit": "54587db7a2e50c8c2ec2731a96f6028bcee6387c",
   "buffers": {
     "CSW_and_switch_bottleneck_queues": {
       "bits": 1048576,
@@ -26,7 +26,7 @@
     "c2_calibration_records_not_final": 27,
     "campaign_active": false,
     "campaign_id": "p1-v2-official-2026-10",
-    "campaign_manifest_sha256": "c234bb6d679216f3c947db4cef3c6e7cffe30397570635ee1c5917a7e15ae454",
+    "campaign_manifest_sha256": "7fd994de6cafca8544fd4944b582dbfcbf06eb8ad8963b292bc81eee0826075e",
     "checkpoint_file_sha256_at_freeze": "16dc2d966bfbf56c3ec5e6802e867ffc631a5f1557699acdf9e59c0d8ecb34c9",
     "checkpoint_status_at_freeze": "paused_at_cell_boundary",
     "final_positions": {
@@ -838,7 +838,7 @@
     "docs/design/P1-final.pdf": "2c26a823006a3122692fdcbae931a10af12b10bd10b67375e7bf4969bec59e7f",
     "scripts/catalog/generate.py": "079df8d6fb16f6a105ae382f3a1cdf704104a2d2437f6c92c95613839671e74e",
     "scripts/run/validate_c0.py": "205d74002532448b4a89140bddec58b16cb3521592fb75cdeeff7140a5a33eb8",
-    "simulations/README.md": "a9b319e752a943effa9830edc45af95696bc8086699942821c5de2a4600494f4",
+    "simulations/README.md": "1ecaaa99646beb24bb3dbe2df993ccb4d527c64779e6bfa21dd526735bfeabcb",
     "simulations/c4_official/.gitignore": "1d56ec6ad8d41fb3be05785fab5a36fdd8be4e0e76a1d77ae7139f7c01bffd9a",
     "simulations/c4_official/C4Instrumented.ned": "80ee04827211d3049603d3bd2ea95a648f424621a6ed1c2da3622dd3d810d573",
     "simulations/c4_official/C4_D3_absolute_profile.ini": "67276ce160763338431f3a2aa1bdddf4b752384600ace3652bdfe3c27eee9570",
@@ -862,7 +862,7 @@
     "simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
     "simulations/campaigns/p1-v2-official-2026-10/campaign_status.py": "bb37d7f6806a50eb2e4c5a6d515f0790d4edd7eeeef4a798d6729f7f20a8ffa4",
     "simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py": "85db62001cba6566ee1943293927a29c3ea40190ce956714c349c0d2c97b6000",
-    "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py": "9f9cf3823dc20f485cb7704a9442ebd260d6c5d2815e5b1c090fc819e30e79ad",
+    "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py": "2c2753c06b3c390b9271c02baa0be3a43d0b0c2bdee63a1514cb52d246a66d47",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1001_events.csv": "2a54ec22353dfb6426efdc57d6e3c768fa435b140817d97718675b3d4fbd4309",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1002_events.csv": "352b0cea17678f94c54ff6632289213d3241cc67933bb8b82ae5f527f694c606",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1003_events.csv": "3847aa6c06713bd100fcf7d24dfb2fe8110fbaa5ec15127308d0a977d2f93011",
@@ -1664,8 +1664,8 @@
   "selected_exploratory_execution": "D3_TAS_L2_A1_seed41",
   "simulation_started_by_freeze_step": false,
   "snapshot_created_local": "2026-10-22",
-  "snapshot_id": "c4-d3-c092975082a07d76",
-  "snapshot_sha256": "c092975082a07d763da9a2373a461de900b63f968f820c3337178234b4adafc5",
+  "snapshot_id": "c4-d3-93a8f5c69913910e",
+  "snapshot_sha256": "93a8f5c69913910e6ffa0fcaf2663a86e5d198eac9227e2084733962b78cb39d",
   "storage_policy": {
     "drop_full_vectors_only_after_filtered_evidence_and_all_gates_reconcile": true,
     "jobs": 1,
@@ -1689,5 +1689,5 @@
     "all_port_reservation_caps_pass": true
   },
   "working_tree_clean": false,
-  "working_tree_status_at_freeze": ""
+  "working_tree_status_at_freeze": "M simulations/campaigns/p1-v2-official-2026-10/campaign_manifest.json\n?? simulations/campaigns/p1-v2-official-2026-10/parallel_campaign_contract.json\n?? simulations/campaigns/p1-v2-official-2026-10/protocol_history/calibration_protocol_before_parallel.json\n?? simulations/campaigns/p1-v2-official-2026-10/protocol_history/campaign_manifest_before_parallel_41d558c005f3.json"
 }
