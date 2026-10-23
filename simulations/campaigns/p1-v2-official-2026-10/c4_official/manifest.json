@@ -1,5 +1,5 @@
 {
-  "base_commit": "54587db7a2e50c8c2ec2731a96f6028bcee6387c",
+  "base_commit": "0b44886fa4a4d0f9fc45d035f659821bab76ba5f",
   "buffers": {
     "CSW_and_switch_bottleneck_queues": {
       "bits": 1048576,
@@ -26,7 +26,7 @@
     "c2_calibration_records_not_final": 27,
     "campaign_active": false,
     "campaign_id": "p1-v2-official-2026-10",
-    "campaign_manifest_sha256": "7fd994de6cafca8544fd4944b582dbfcbf06eb8ad8963b292bc81eee0826075e",
+    "campaign_manifest_sha256": "a29838da58342a6a8acc1063872f6e24877db57f522a87d335137b295b4b0dd6",
     "checkpoint_file_sha256_at_freeze": "16dc2d966bfbf56c3ec5e6802e867ffc631a5f1557699acdf9e59c0d8ecb34c9",
     "checkpoint_status_at_freeze": "paused_at_cell_boundary",
     "final_positions": {
@@ -862,7 +862,7 @@
     "simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
     "simulations/campaigns/p1-v2-official-2026-10/campaign_status.py": "bb37d7f6806a50eb2e4c5a6d515f0790d4edd7eeeef4a798d6729f7f20a8ffa4",
     "simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py": "85db62001cba6566ee1943293927a29c3ea40190ce956714c349c0d2c97b6000",
-    "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py": "2c2753c06b3c390b9271c02baa0be3a43d0b0c2bdee63a1514cb52d246a66d47",
+    "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py": "5d05148223b817340819b5e433e57a9b2661f886fe83bd319fd62441fdb9c025",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1001_events.csv": "2a54ec22353dfb6426efdc57d6e3c768fa435b140817d97718675b3d4fbd4309",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1002_events.csv": "352b0cea17678f94c54ff6632289213d3241cc67933bb8b82ae5f527f694c606",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1003_events.csv": "3847aa6c06713bd100fcf7d24dfb2fe8110fbaa5ec15127308d0a977d2f93011",
@@ -1664,8 +1664,8 @@
   "selected_exploratory_execution": "D3_TAS_L2_A1_seed41",
   "simulation_started_by_freeze_step": false,
   "snapshot_created_local": "2026-10-22",
-  "snapshot_id": "c4-d3-93a8f5c69913910e",
-  "snapshot_sha256": "93a8f5c69913910e6ffa0fcaf2663a86e5d198eac9227e2084733962b78cb39d",
+  "snapshot_id": "c4-d3-be930d8538097223",
+  "snapshot_sha256": "be930d8538097223ee4726953d24cd8d982e126600d15b9c59dd0daa9d67861d",
   "storage_policy": {
     "drop_full_vectors_only_after_filtered_evidence_and_all_gates_reconcile": true,
     "jobs": 1,
