@@ -11,7 +11,7 @@ Both machines must use the same committed code snapshot and matching runtime ver
 
 ## Prepare the two machines
 
-Commit and push the implementation first. On Machine A, source the installed OMNeT++ environment and check the host has adequate free space (the C0–C3 runner requires more than 45 GB; C4 requires at least 40 GiB and 6 GiB available memory):
+First make the implementation commit available on Machine B. If pushing this repository is blocked by GitHub's pack-size limit, transfer an incremental Git bundle from A; the commands are shown below. On Machine A, source the installed OMNeT++ environment and check the host has adequate free space (the C0–C3 runner requires more than 45 GB; C4 requires at least 40 GiB and 6 GiB available memory):
 
 ```bash
 source /home/jonatan/omnetpp-env.sh
@@ -21,7 +21,23 @@ python3 simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.p
 python3 simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py --export-secondary-bundle /tmp/p1-c1c2-runtime-bundle.tar.gz
 ```
 
-Transfer that bundle to Machine B. Clone/pull the exact commit printed by A, install the matching OMNeT++/INET versions, source their environment, then import the bundle. The import verifies hashes and copies only calendars, the accepted C3 profile, and required runtime/configuration files—not C0 result data.
+The `p1-c1c2-runtime-bundle.tar.gz` contains calendars, the accepted C3 profile, the paired campaign contract, and the compiled model needed by C1/C2. It does not contain C0 results or historical C4 pilot data. Full C4 snapshot verification is performed by Machine A's C3/C4 preflight.
+
+To transfer the source commits without pushing the repository's full object pack, on A create an incremental bundle from the shared remote base:
+
+```bash
+git bundle create /tmp/p1-two-host-source.bundle origin/main..HEAD
+git bundle verify /tmp/p1-two-host-source.bundle
+```
+
+Copy both `/tmp/p1-two-host-source.bundle` and `/tmp/p1-c1c2-runtime-bundle.tar.gz` to B. In B's existing clone, fetch the incremental bundle and check out the exact commit printed by A:
+
+```bash
+git fetch /path/to/p1-two-host-source.bundle HEAD:refs/heads/p1-two-host-ready
+git checkout --detach p1-two-host-ready
+```
+
+Then install matching OMNeT++/INET versions, source the environment, and import the runtime bundle. The importer verifies the source commit, runtime contract, calendar signatures, and file hashes before allowing the C1/C2 preflight.
 
 ```bash
 source /home/jonatan/omnetpp-env.sh

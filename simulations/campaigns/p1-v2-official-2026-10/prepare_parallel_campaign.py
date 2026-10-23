@@ -324,11 +324,6 @@ def bundle_files() -> list[Path]:
     index = read_json(INDEX)
     files = [MANIFEST, HERE / "calibration_protocol.json", CALIBRATION, INDEX,
              ROOT / "src/zonal-ivn-tsn",
-             ROOT / "simulations/c4_official/frozen_d3_l2_profile.json",
-             ROOT / "simulations/c4_official/frozen_profile_table.csv",
-             ROOT / "simulations/c4_official/C4_D3_absolute_profile.ini",
-             ROOT / "simulations/c4_official/plugin/libc4realclockprobe.so",
-             C4_DIR / "manifest.json", C4_DIR / "matrix.csv", C4_DIR / "checkpoint_template.json",
              HERE / "parallel_campaign_contract.json"]
     for entry in index.values():
         files.append(HERE / entry["file"])
@@ -428,15 +423,16 @@ def import_bundle(bundle: Path) -> dict:
     require(sha(CALIBRATION) == package["calibration_sha256"], "Imported C3 calibration profile hash mismatch")
     digest, _ = calendar_contract()
     require(digest == package["calendar_contract_sha256"], "Imported paired calendar set mismatch")
-    c4 = c4_runner()
-    verified = c4.verify_snapshot()
-    require(verified["snapshot_id"] == package["c4_snapshot_id"], "Imported C4 snapshot mismatch")
-    rows = c4.verify_calendars()
+    c4_manifest = read_json(C4_DIR / "manifest.json")
+    require(c4_manifest.get("snapshot_id") == package["c4_snapshot_id"],
+            "Committed C4 snapshot identity differs from the bundle contract")
+    # The remote host only executes C1/C2. Its bundle intentionally excludes
+    # historical C4 pilot artifacts; full C4 input verification runs on host A.
     return {"status": "bundle_imported_and_verified", "simulation_started": False,
             "commit": current_commit, "campaign_contract_sha256": fingerprint,
-            "calendar_entries": len(read_json(INDEX)), "c4_positions": len(rows),
-            "c4_snapshot_id": verified["snapshot_id"],
-            "external_runtime_hashes_verified": len(package.get("external_file_hashes", {}))}
+            "calendar_entries": len(read_json(INDEX)),
+            "c4_snapshot_id": c4_manifest["snapshot_id"],
+            "C4_full_snapshot_verification": "performed on the assigned C3/C4 host; not needed for this C1/C2 replica"}
 
 
 def verify_shard(kind: str) -> dict:
