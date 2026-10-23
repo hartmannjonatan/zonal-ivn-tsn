@@ -42,6 +42,11 @@ MIGRATION_SOURCE_CHANGES = {
     # explicitly authorized calendar replay path implemented in TrafficPlan.
     "src/zonal-ivn-tsn",
 }
+KNOWN_C0_RUNNER_SOURCE_VARIANTS = {
+    "scripts/run/validate_c0.py": "f26d325bea9ceaca473b3564d851236e0134bba07579c67060f0d7ac33cf5098",
+    "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": "3b4ae38ee0ce56654b672a4202d60d22970016c04dbb739f1a38bdf95bcab3a5",
+    "simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json": "306e2c5fcd8c66b2e097c5b50e90be1700b808685635828aec40b720717641cd",
+}
 
 
 def require(condition: bool, message: str) -> None:
@@ -158,14 +163,28 @@ def c0_rows_and_artifacts(parent_manifest: dict) -> tuple[list[dict], dict]:
     require(len(ids) == len(set(ids)), "Duplicate C0 execution IDs in the existing ledger")
     require(set(ids) == expected,
             f"C0 baseline must contain exactly 240 final IDs; found {len(ids)}, missing {len(expected-set(ids))}, extra {len(set(ids)-expected)}")
+    provenance_counts = {path: {"parent_manifest": 0, "known_earlier_variant": 0}
+                         for path in KNOWN_C0_RUNNER_SOURCE_VARIANTS}
     for row in c0:
         require(row.get("campaign_id") == parent_manifest.get("campaign_id"),
                 f"C0 row belongs to another campaign: {row.get('execution_id')}")
         old_sources = row.get("configuration_source_hashes", {})
         for source, old_hash in parent_manifest.get("source_hashes", {}).items():
-            if source in old_sources:
-                require(old_sources[source] == old_hash,
-                        f"C0 source provenance differs from its parent manifest: {row.get('execution_id')} {source}")
+            require(source in old_sources,
+                    f"C0 source provenance is incomplete: {row.get('execution_id')} {source}")
+            if old_sources[source] == old_hash:
+                if source in provenance_counts:
+                    provenance_counts[source]["parent_manifest"] += 1
+            else:
+                known = KNOWN_C0_RUNNER_SOURCE_VARIANTS.get(source)
+                require(known is not None and old_sources[source] == known,
+                        f"Unrecognized C0 source provenance variant: {row.get('execution_id')} {source}={old_sources[source]}")
+                provenance_counts[source]["known_earlier_variant"] += 1
+        # All C0 runs used the committed parent executable and traffic model;
+        # only orchestration, extraction, and protocol-document hashes differ.
+        for invariant in ("src/zonal-ivn-tsn", "src/common/TrafficPlan.cc", "src/common/TrafficPlan.ned"):
+            require(old_sources.get(invariant) == parent_manifest.get("source_hashes", {}).get(invariant),
+                    f"C0 simulation model/binary provenance mismatch: {row.get('execution_id')} {invariant}")
         retained = row.get("retained", {})
         for field in ("packet_image_quantile_samples", "queue_occupancy_events", "queue_occupancy_metadata"):
             rel = retained.get(field)
@@ -173,9 +192,14 @@ def c0_rows_and_artifacts(parent_manifest: dict) -> tuple[list[dict], dict]:
                     f"C0 audit artifact missing for {row.get('execution_id')}: {field}={rel}")
         result_rel = row.get("command", {}).get("result_dir")
         require(result_rel, f"C0 command result_dir missing: {row.get('execution_id')}")
-        run_dir = ROOT / "simulations" / result_rel / (row.get("config", "") + "-0")
-        require((run_dir / (row.get("config", "") + "-#0.sca.gz")).is_file(),
+        result_dir = ROOT / "simulations" / result_rel
+        require((result_dir / (row.get("config", "") + "-#0.sca.gz")).is_file(),
                 f"C0 compressed SCA evidence missing for {row.get('execution_id')}")
+    for source, counts in provenance_counts.items():
+        require(sum(counts.values()) == 240,
+                f"C0 provenance count is incomplete for {source}: {counts}")
+        require(counts == {"parent_manifest": 30, "known_earlier_variant": 210},
+                f"C0 provenance distribution differs from the audited 30/210 split for {source}: {counts}")
     index = read_json(INDEX)
     required_keys = {f"{load}/{alignment}/seed{seed}" for load in OFFICIAL_LOADS
                      for alignment in OFFICIAL_ALIGNMENTS for seed in OFFICIAL_SEEDS}
@@ -186,7 +210,10 @@ def c0_rows_and_artifacts(parent_manifest: dict) -> tuple[list[dict], dict]:
         key = f"{row['load_name']}/{row['aggregation_name']}/seed{row['seed']}"
         require(row.get("calendar_sha256") == contract[key]["sha256"],
                 f"C0 run/calendar mismatch for {row.get('execution_id')}")
-    return c0, {"sha256": digest, "entries": len(contract), "contract": contract}
+    return c0, {"sha256": digest, "entries": len(contract), "contract": contract,
+                "source_provenance": provenance_counts,
+                "source_limitation": "The exact earlier Python runner/extractor/protocol bytes for 210 C0 runs are identified by recorded hashes but are not archived in Git; every C0 run's executable, TrafficPlan.cc/.ned, and all other model-source hashes match the parent campaign manifest. C0 SCA, reports, calendars and compact evidence remain preserved.",
+                "C0_model_binary_matches_parent_manifest": True}
 
 
 def acquire_lock_check() -> None:
@@ -265,6 +292,8 @@ def prepare_primary() -> dict:
         "legacy_C0_final_records": len(c0),
         "legacy_C0_source_change_allowlist": sorted(MIGRATION_SOURCE_CHANGES),
         "legacy_C0_calendar_contract_sha256": calendars["sha256"],
+        "legacy_C0_source_provenance": calendars["source_provenance"],
+        "legacy_C0_source_limitation": calendars["source_limitation"],
         "C3_calibration_sha256": sha(CALIBRATION),
         "C3_profile_id": calibration["final_profile_id"],
         "future_transient_policy": "C1/C2/C3 explicitly replay C0 calendar files; C4 already consumes the same frozen calendar rows",
