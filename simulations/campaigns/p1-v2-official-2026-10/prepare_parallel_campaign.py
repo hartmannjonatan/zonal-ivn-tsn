@@ -38,6 +38,9 @@ MIGRATION_SOURCE_CHANGES = {
     "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py",
     "src/common/TrafficPlan.cc",
     "src/common/TrafficPlan.ned",
+    # C0 was produced by the prior local binary; this compiled binary adds the
+    # explicitly authorized calendar replay path implemented in TrafficPlan.
+    "src/zonal-ivn-tsn",
 }
 
 
@@ -256,6 +259,8 @@ def prepare_primary() -> dict:
         "parent_manifest_sha256": parent_hash,
         "parent_commit": parent["commit"],
         "parent_binary_sha256": parent["binary_sha256"],
+        "continuation_binary_sha256": current["binary_sha256"],
+        "binary_transition": "C0 retains its original executable/results; C1-C4 use the current binary containing only the audited optional F21/F22 calendar replay change in TrafficPlan.cc/.ned, and replay the exact C0 event calendars",
         "parent_p1_sha256": parent["p1_pdf_sha256"],
         "legacy_C0_final_records": len(c0),
         "legacy_C0_source_change_allowlist": sorted(MIGRATION_SOURCE_CHANGES),
