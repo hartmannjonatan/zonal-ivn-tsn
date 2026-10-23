@@ -8,7 +8,12 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import io
+import shutil
 import sys
+import tarfile
+import tempfile
+from pathlib import PurePosixPath
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -19,6 +24,16 @@ CALIBRATION = RESULTS / "calibration/C3_calibration.json"
 EXPECTED = {t: {f"{t}_{load}_A{alignment}_seed{seed}"
                 for load in ("L0", "L1", "L2", "L3") for alignment in ("A0", "A1")
                 for seed in range(1001, 1031)} for t in ("C1", "C2")}
+TRANSFER_BUNDLE_SCHEMA = 1
+TRANSFER_BUNDLE_INDEX = "p1-c1c2-transfer-bundle.json"
+TRANSFER_MANIFEST_MEMBER = "p1-c1c2-transfer.json"
+TRANSFER_SHARD_MEMBER = str((RESULTS / "shard_manifest.json").relative_to(ROOT))
+TRANSFER_LEDGER_MEMBER = str(LEDGER.relative_to(ROOT))
+TRANSFER_DESTINATIONS = {
+    TRANSFER_MANIFEST_MEMBER: RESULTS / "parallel-transfer/C1C2_transfer_manifest.json",
+    TRANSFER_SHARD_MEMBER: RESULTS / "parallel-transfer/C1C2_shard_manifest.json",
+    TRANSFER_LEDGER_MEMBER: RESULTS / "parallel-transfer/C1C2_source_runs.jsonl",
+}
 
 
 def require(ok: bool, message: str) -> None:
@@ -32,6 +47,18 @@ def sha(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def hash_stream(stream) -> tuple[str, int]:
+    digest = hashlib.sha256()
+    size = 0
+    while True:
+        block = stream.read(1024 * 1024)
+        if not block:
+            break
+        digest.update(block)
+        size += len(block)
+    return digest.hexdigest(), size
 
 
 def read_json(path: Path) -> dict:
@@ -130,6 +157,234 @@ def write_transfer_manifest(destination: Path) -> dict:
             "bytes_to_transfer": sum(info["bytes"] for values in inventories.values()
                                      for info in values.values()),
             "simulation_started": False}
+
+
+def write_transfer_bundle(destination: Path) -> dict:
+    """Package a completed C1/C2 shard and its hash inventory as one archive."""
+    with tempfile.TemporaryDirectory(prefix="p1-c1c2-transfer-") as temporary_dir:
+        transfer_path = Path(temporary_dir) / TRANSFER_MANIFEST_MEMBER
+        summary = write_transfer_manifest(transfer_path)
+        transfer_manifest = read_json(transfer_path)
+        result_files = {relative: facts
+                        for group in transfer_manifest["treatment_files"].values()
+                        for relative, facts in group.items()}
+        package_files = dict(result_files)
+        for local_path in (LEDGER, RESULTS / "shard_manifest.json"):
+            package_files[str(local_path.relative_to(ROOT))] = {
+                "bytes": local_path.stat().st_size,
+                "sha256": sha(local_path),
+            }
+        transfer_bytes = transfer_path.read_bytes()
+        package_files[TRANSFER_MANIFEST_MEMBER] = {
+            "bytes": len(transfer_bytes),
+            "sha256": hashlib.sha256(transfer_bytes).hexdigest(),
+        }
+        bundle_index = {
+            "schema_version": TRANSFER_BUNDLE_SCHEMA,
+            "campaign_id": transfer_manifest["campaign_id"],
+            "source_commit": transfer_manifest["source_commit"],
+            "campaign_contract_sha256": transfer_manifest["campaign_contract_sha256"],
+            "members": dict(sorted(package_files.items())),
+        }
+        destination = destination.resolve()
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        uncompressed_bytes = sum(facts["bytes"] for facts in package_files.values())
+        free_bytes = shutil.disk_usage(destination.parent).free
+        require(free_bytes >= uncompressed_bytes + 1024**3,
+                f"Insufficient disk space to build transfer bundle: {free_bytes} bytes free, "
+                f"{uncompressed_bytes} bytes of input plus 1 GiB safety margin")
+        temporary_bundle = destination.with_name(destination.name + ".tmp")
+        try:
+            with tarfile.open(temporary_bundle, "w:gz", compresslevel=1) as archive:
+                for relative in sorted(result_files):
+                    archive.add(ROOT / relative, arcname=relative, recursive=False)
+                archive.add(LEDGER, arcname=str(LEDGER.relative_to(ROOT)), recursive=False)
+                archive.add(RESULTS / "shard_manifest.json",
+                            arcname=str((RESULTS / "shard_manifest.json").relative_to(ROOT)),
+                            recursive=False)
+                info = tarfile.TarInfo(TRANSFER_MANIFEST_MEMBER)
+                info.size = len(transfer_bytes)
+                info.mode = 0o644
+                archive.addfile(info, io.BytesIO(transfer_bytes))
+                index_bytes = (json.dumps(bundle_index, indent=2, sort_keys=True) + "\n").encode()
+                info = tarfile.TarInfo(TRANSFER_BUNDLE_INDEX)
+                info.size = len(index_bytes)
+                info.mode = 0o644
+                archive.addfile(info, io.BytesIO(index_bytes))
+            os.replace(temporary_bundle, destination)
+        except Exception:
+            temporary_bundle.unlink(missing_ok=True)
+            raise
+        # Read back the finished archive and stream-check every member before
+        # telling the user it is ready to copy to machine A.
+        inspect_transfer_bundle(destination)
+    return {"status": "transfer_bundle_written", "path": str(destination),
+            "sha256": sha(destination), "bytes": destination.stat().st_size,
+            "uncompressed_bytes": uncompressed_bytes,
+            "C1C2_records": summary["C1C2_records"],
+            "files": len(package_files), "simulation_started": False}
+
+
+def safe_tar_members(archive: tarfile.TarFile) -> dict[str, tarfile.TarInfo]:
+    members: dict[str, tarfile.TarInfo] = {}
+    for item in archive.getmembers():
+        name = PurePosixPath(item.name)
+        require(not name.is_absolute() and ".." not in name.parts and
+                all(part not in ("", ".") for part in name.parts),
+                f"Unsafe path in transfer bundle: {item.name}")
+        require(item.isfile(), f"Transfer bundle contains a non-regular file: {item.name}")
+        require(item.size <= 2_000_000_000,
+                f"Transfer bundle member is unexpectedly large: {item.name}")
+        require(item.name not in members, f"Duplicate transfer bundle member: {item.name}")
+        members[item.name] = item
+    return members
+
+
+def inspect_transfer_bundle(bundle_path: Path) -> tuple[dict, dict[str, tarfile.TarInfo], dict]:
+    """Stream-check every member against the embedded transfer inventory."""
+    try:
+        archive = tarfile.open(bundle_path, "r:gz")
+    except (OSError, tarfile.TarError) as exc:
+        raise SystemExit(f"Cannot read C1/C2 transfer bundle: {exc}") from exc
+    with archive:
+        members = safe_tar_members(archive)
+        require(TRANSFER_BUNDLE_INDEX in members, "Transfer bundle index is missing")
+        stream = archive.extractfile(members[TRANSFER_BUNDLE_INDEX])
+        assert stream
+        bundle_index = json.load(stream)
+        require(bundle_index.get("schema_version") == TRANSFER_BUNDLE_SCHEMA and
+                bundle_index.get("campaign_id") == "p1-v2-official-2026-10",
+                "Unsupported transfer bundle identity or schema")
+        expected_names = set(bundle_index.get("members", {})) | {TRANSFER_BUNDLE_INDEX}
+        require(set(members) == expected_names,
+                "Transfer bundle members differ from the declared inventory")
+        for name, facts in bundle_index["members"].items():
+            stream = archive.extractfile(members[name])
+            assert stream
+            with stream:
+                digest, size = hash_stream(stream)
+            require(size == facts.get("bytes") and digest == facts.get("sha256"),
+                    f"Transfer bundle member failed hash/size validation: {name}")
+        stream = archive.extractfile(members[TRANSFER_MANIFEST_MEMBER])
+        assert stream
+        transfer_manifest = json.load(stream)
+        require(transfer_manifest.get("shard") == "C1C2" and
+                transfer_manifest.get("merge_started") is False and
+                transfer_manifest.get("simulation_started") is False,
+                "Bundle does not contain a fresh completed C1/C2 transfer manifest")
+        require(bundle_index.get("source_commit") == transfer_manifest.get("source_commit") and
+                bundle_index.get("campaign_contract_sha256") ==
+                transfer_manifest.get("campaign_contract_sha256"),
+                "Bundle index and transfer manifest identify different campaign states")
+        for member, key in ((TRANSFER_LEDGER_MEMBER, "source_ledger_sha256"),
+                            (TRANSFER_SHARD_MEMBER, "shard_manifest_sha256")):
+            require(member in bundle_index["members"] and
+                    bundle_index["members"][member]["sha256"] == transfer_manifest.get(key),
+                    f"Transfer manifest does not certify {member}")
+        expected_results = {relative: facts
+                            for group in transfer_manifest.get("treatment_files", {}).values()
+                            for relative, facts in group.items()}
+        require(all(bundle_index["members"].get(name) == facts
+                    for name, facts in expected_results.items()),
+                "Bundle result files do not match the transfer manifest inventory")
+        allowed = set(expected_results) | {TRANSFER_LEDGER_MEMBER, TRANSFER_SHARD_MEMBER,
+                                           TRANSFER_MANIFEST_MEMBER}
+        require(set(bundle_index["members"]) == allowed,
+                "Transfer bundle contains files outside the C1/C2 shard inventory")
+        return transfer_manifest, members, bundle_index
+
+
+def merge_transfer_bundle(bundle_path: Path) -> dict:
+    """Install a verified bundle into the coordinator layout and merge it."""
+    transfer_manifest, member_infos, bundle_index = inspect_transfer_bundle(bundle_path)
+    campaign = read_json(HERE / "campaign_manifest.json")
+    split = read_json(HERE / "parallel_campaign_contract.json")
+    require(campaign.get("commit") == transfer_manifest.get("source_commit") == split.get("commit"),
+            "Bundle source commit differs from machine A campaign commit")
+    require(split.get("campaign_contract_sha256") ==
+            transfer_manifest.get("campaign_contract_sha256"),
+            "Bundle campaign/runtime contract differs from machine A")
+    require(sha(HERE / "campaign_manifest.json") ==
+            transfer_manifest.get("campaign_manifest_sha256"),
+            "Bundle campaign manifest differs from machine A")
+    require(split.get("C0_calendar_contract_sha256") ==
+            transfer_manifest.get("calendar_contract_sha256"),
+            "Bundle paired calendars differ from machine A")
+    require_merge_readiness()
+    # The coordinator may already have imported an identical bundle. Conflicting
+    # files are refused before extraction; identical files make the operation resumable.
+    result_names = {relative for group in transfer_manifest["treatment_files"].values()
+                    for relative in group}
+    install_map = {name: ROOT / name for name in result_names}
+    install_map.update(TRANSFER_DESTINATIONS)
+    package_members = bundle_index["members"]
+    total_bytes = sum(member_infos[name].size for name in install_map)
+    free_bytes = shutil.disk_usage(RESULTS).free
+    require(free_bytes >= total_bytes + 1024**3,
+            f"Insufficient disk space to import the bundle: {free_bytes} bytes free, "
+            f"{total_bytes} bytes to install plus 1 GiB safety margin")
+    for member_name, destination in install_map.items():
+        if destination.exists():
+            expected = package_members[member_name]
+            require(destination.is_file() and destination.stat().st_size == expected["bytes"] and
+                    sha(destination) == expected["sha256"],
+                    f"Refusing to overwrite a non-identical file: {destination}")
+    with tarfile.open(bundle_path, "r:gz") as archive:
+        members = safe_tar_members(archive)
+        for member_name, destination in install_map.items():
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            if destination.exists():
+                continue
+            stream = archive.extractfile(members[member_name])
+            assert stream
+            temporary = destination.with_name(destination.name + ".transfer.tmp")
+            try:
+                with stream, temporary.open("wb") as output:
+                    shutil.copyfileobj(stream, output, 1024 * 1024)
+                    output.flush()
+                    os.fsync(output.fileno())
+                require(temporary.stat().st_size == package_members[member_name]["bytes"] and
+                        sha(temporary) == package_members[member_name]["sha256"],
+                        f"Extracted transfer member failed verification: {member_name}")
+                os.replace(temporary, destination)
+            except Exception:
+                temporary.unlink(missing_ok=True)
+                raise
+    completion = merge_transferred(
+        TRANSFER_DESTINATIONS[TRANSFER_MANIFEST_MEMBER],
+        TRANSFER_DESTINATIONS[TRANSFER_LEDGER_MEMBER],
+    )
+    return {"status": "transfer_bundle_merged", "bundle": str(bundle_path),
+            "sha256": sha(bundle_path), "installed_files": len(install_map),
+            "completion": completion, "simulation_started": False}
+
+
+def require_merge_readiness() -> None:
+    """Check campaign prerequisites before unpacking a potentially large shard."""
+    rows = read_rows(LEDGER)
+    c3_ids = {row.get("execution_id") for row in rows if row.get("stage") == "final" and
+              row.get("campaign_treatment") == "C3"}
+    expected_c3 = {f"C3_{load}_A{alignment}_seed{seed}"
+                   for load in ("L0", "L1", "L2") for alignment in ("A0", "A1")
+                   for seed in range(1001, 1031)}
+    require(c3_ids == expected_c3 and len(c3_ids) == 180,
+            "Finish the C3 shard on machine A before importing the C1/C2 bundle")
+    c3_manifest = RESULTS / "shard_manifest.json"
+    require(c3_manifest.is_file(), "Machine A C3 shard manifest is missing")
+    c3_shard = read_json(c3_manifest)
+    require(c3_shard.get("status") == "completed" and c3_shard.get("treatments") == ["C3"],
+            "Machine A C3 shard is not marked completed")
+    c4 = c4_runner()
+    c4_snapshot = c4.verify_snapshot()
+    c4_rows = c4.read_ledger()
+    expected_c4 = {f"C4_{load}_A{alignment}_seed{seed}"
+                   for load in ("L0", "L1", "L2") for alignment in ("A0", "A1")
+                   for seed in range(1001, 1031)}
+    require({row.get("execution_id") for row in c4_rows} == expected_c4 and len(c4_rows) == 180,
+            "Finish the C4 shard on machine A before importing the C1/C2 bundle")
+    split = read_json(HERE / "parallel_campaign_contract.json")
+    require(c4_snapshot.get("snapshot_id") == split.get("C4_snapshot_id"),
+            "Machine A C4 frozen snapshot differs from the campaign contract")
 
 
 def verify_inventory(inventory: dict[str, dict]) -> None:
@@ -246,13 +501,21 @@ def main() -> int:
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--write-transfer-manifest", metavar="PATH",
                        help="on the remote C1/C2 host, inventory a completed shard without duplicating it")
+    group.add_argument("--write-transfer-bundle", metavar="PATH",
+                       help="on machine B, create one verified .tar.gz containing C1/C2 results and transfer metadata")
     group.add_argument("--merge-transferred", action="store_true",
                        help="on the C0/C3/C4 host, verify and merge the returned C1/C2 shard offline")
+    group.add_argument("--merge-transfer-bundle", metavar="PATH",
+                       help="on machine A, verify, install, and merge a C1/C2 transfer .tar.gz")
     parser.add_argument("--manifest", type=Path, help="transfer-manifest path on the C0-owning host")
     parser.add_argument("--source-ledger", type=Path, help="copied remote runs.jsonl on the coordinator")
     args = parser.parse_args()
     if args.write_transfer_manifest:
         result = write_transfer_manifest(Path(args.write_transfer_manifest))
+    elif args.write_transfer_bundle:
+        result = write_transfer_bundle(Path(args.write_transfer_bundle))
+    elif args.merge_transfer_bundle:
+        result = merge_transfer_bundle(Path(args.merge_transfer_bundle))
     else:
         require(args.manifest is not None and args.source_ledger is not None,
                 "--merge-transferred requires --manifest and --source-ledger")

@@ -36,6 +36,10 @@ OFFICIAL_ALIGNMENTS = ("A0", "A1")
 MIGRATION_SOURCE_CHANGES = {
     "scripts/run/validate_c0.py",
     "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py",
+    # Audited post-C0 orchestration changes: hash-verified single-archive
+    # exchange for the already assigned C1/C2 shard and its migration allowlist.
+    "simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py",
+    "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py",
     "src/common/TrafficPlan.cc",
     "src/common/TrafficPlan.ned",
     # C0 was produced by the prior local binary; this compiled binary adds the

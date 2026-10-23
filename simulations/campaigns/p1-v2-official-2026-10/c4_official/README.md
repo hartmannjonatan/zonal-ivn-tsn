@@ -45,7 +45,21 @@ python3 simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py --
 
 After an interruption, inspect the dashboard and checkpoint, then rerun the assigned shard command with its original `--shard-id`. Machine A runs C3 and C4 sequentially; Machine B runs C1/C2. Each runner reuses only complete ledger rows matching its contract and calendar signatures. Both use one job. The C0–C3 runner requires more than 45 GB free disk and leaves at least 4 GiB of available memory plus 2.5 GiB per active job. C4 is serialized and stops before launch below 40 GiB free disk or 6 GiB available memory; during a C4 run it sends SIGTERM below 40 GiB or 4 GiB available memory. Technical attempts are preserved separately; performance failures remain valid results and are not replaced.
 
-The C3/C4 machine keeps its own C0 result tree and does not transfer it to Machine B. After both shards finish, transfer only the C1/C2 result trees, source ledger, shard manifest, and hash inventory back to Machine A. The offline merger verifies those files and reconstructs the C0–C3 aggregate without starting simulations. Do not manually concatenate ledgers or edit checkpoints.
+The C3/C4 machine keeps its own C0 result tree and does not transfer it to Machine B. After both shards finish, Machine B can package its completed C1/C2 shard into one verified archive:
+
+```bash
+python3 simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py \
+  --write-transfer-bundle /tmp/p1-c1c2-results.tar.gz
+```
+
+Copy that `.tar.gz` to Machine A. After C3 and C4 are complete there, run:
+
+```bash
+python3 simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py \
+  --merge-transfer-bundle /path/to/p1-c1c2-results.tar.gz
+```
+
+The receiver checks the archive inventory, every member hash, available disk space, paired calendars, and the completed C3/C4 shards before installing files into their expected paths and running the existing audited merge. Repeating the import is safe for identical files; conflicting files are rejected. The archive contains only C1/C2 results, their source ledger, shard manifest, and transfer manifest. Do not manually concatenate ledgers or edit checkpoints. The original multi-file manifest/merge commands remain available as a fallback.
 
 ## Matrix and retained evidence
 
