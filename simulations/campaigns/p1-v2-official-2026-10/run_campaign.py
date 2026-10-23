@@ -172,8 +172,18 @@ def port_rates(profile):
     return totals
 def capcheck(profile): return [e for e,x in port_rates(profile).items() if x>.75*cbs.capacity_bps(e)]
 def runid(t,l,a,s): return f'{t}_{LOADS[l]}_A{a}_seed{s}'
-def calendar_sig(run_dir):
-    rows=list(csv.DictReader((run_dir/'events.csv').open()))
+def calendar_sig(source):
+    """Return the canonical event signature for a calendar file or run directory.
+
+    The campaign index points directly to CSV files, while simulation result
+    directories contain an ``events.csv`` child. Accept both forms explicitly
+    so the same signature routine can validate either representation.
+    """
+    source=Path(source)
+    events_path=source/'events.csv' if source.is_dir() else source
+    req(events_path.is_file(),f'calendar events file is missing: {events_path}')
+    with events_path.open(newline='',encoding='utf-8') as stream:
+        rows=list(csv.DictReader(stream))
     payload=[{k:r[k] for k in ('flow','block','signature','start','duration','volume_bytes')} for r in rows]
     return hashlib.sha256(json.dumps(payload,separators=(',',':')).encode()).hexdigest(),rows
 def completed_raw_run_matches(dest,config,seed):
@@ -992,6 +1002,32 @@ def calendar_contract_digest(index_path):
         contract[key]={'sha256':signature,'event_count':len(event_rows),'file_sha256':digest(path)}
     return hashlib.sha256(json.dumps(contract,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 
+def record_runner_failure(exc):
+    """Leave an explicit inactive/error checkpoint when the runner exits abnormally."""
+    # Never rewrite shared status when argument/resource validation failed or
+    # this process did not acquire the campaign lock; another runner may own it.
+    if LOCK_FD is None:
+        return
+    stamp=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())
+    detail=f'{type(exc).__name__}: {exc}'
+    checkpoint_path=OUT/'checkpoint.json'
+    checkpoint=readj(checkpoint_path) if checkpoint_path.is_file() else {}
+    started=bool(checkpoint.get('active_execution_ids'))
+    progress_path=OUT/'progress.json'
+    if progress_path.is_file():
+        progress=readj(progress_path)
+        progress.update({'status':'runner_failed','active_process':False,
+                         'failure':detail,'failure_utc':stamp,
+                         'simulations_started_in_failed_attempt':started,
+                         'updated_utc':stamp})
+        writej(progress_path,progress)
+    if checkpoint:
+        checkpoint.update({'status':'runner_failed','active_process':False,
+                           'executor_pid':None,'failure':detail,'failure_utc':stamp,
+                           'completed_ledger_records':len(LEDGER_INDEX),
+                           'free_gb':free_gb(),'timestamp':time.time()})
+        writej(checkpoint_path,checkpoint)
+
 def campaign_contract_digest(manifest):
     fields=('campaign_id','commit','source_hashes','binary_sha256','omnetpp','inet',
             'inet_version_token','inet_version_file_sha256','omnetpp_runtime_version',
@@ -1093,14 +1129,9 @@ def main():
         cal_path=OUT/'calibration/C3_calibration.json';req(cal_path.is_file(),'C3 calibration result missing; run --phase calibration first')
         cal=readj(cal_path)
     if a.phase in ('final','all'):
-        progress=readj(OUT/'progress.json') if (OUT/'progress.json').exists() else {}
-        progress.update({'status':'final_campaign_running','phase':'C0-C3 official matrix running',
-            'active_process':True,'final_campaign_started':True,
-            'expected_final_runs':900 if cal.get('status')=='frozen_and_accepted' else 720,
-            'updated_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())})
-        writej(OUT/'progress.json',progress)
+        shard_path=OUT/'shard_manifest.json'
+        shard=None
         if SELECTED_TREATMENTS is not None:
-            shard_path=OUT/'shard_manifest.json'
             shard={'schema_version':1,'campaign_id':'p1-v2-official-2026-10',
                    'shard_id':SHARD_ID,'treatments':list(SELECTED_TREATMENTS),
                    'commit':MANIFEST['commit'],'binary_sha256':MANIFEST['binary_sha256'],
@@ -1114,7 +1145,17 @@ def main():
                               'campaign_contract_sha256','calibration_sha256','calendar_contract_sha256'):
                     req(old_shard.get(field)==shard.get(field),
                         f'shard manifest mismatch in {field}; use the original shard identity/artifacts')
-            else:writej(shard_path,shard)
+        # Complete every shard-specific contract check before advertising the
+        # campaign as running. A malformed calendar index must fail preflight,
+        # not leave the dashboard/checkpoint looking like simulations started.
+        if SELECTED_TREATMENTS is not None and not shard_path.exists():
+            writej(shard_path,shard)
+        progress=readj(OUT/'progress.json') if (OUT/'progress.json').exists() else {}
+        progress.update({'status':'final_campaign_running','phase':'C0-C3 official matrix running',
+            'active_process':True,'final_campaign_started':True,
+            'expected_final_runs':900 if cal.get('status')=='frozen_and_accepted' else 720,
+            'updated_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())})
+        writej(OUT/'progress.json',progress)
         final_campaign(cal,execute_treatments=SELECTED_TREATMENTS)
     # A normal process exit is also reflected durably for the SSH dashboard.
     progress=readj(OUT/'progress.json') if (OUT/'progress.json').exists() else {}
@@ -1127,4 +1168,18 @@ def main():
     writej(OUT/'checkpoint.json',checkpoint)
     if LOCK_FD is not None:
         fcntl.flock(LOCK_FD,fcntl.LOCK_UN);os.close(LOCK_FD);LOCK_FD=None
-if __name__=='__main__':main()
+if __name__=='__main__':
+    try:
+        main()
+    except BaseException as exc:
+        try:
+            record_runner_failure(exc)
+        except Exception:
+            # Preserve the original runner exception; checkpoint repair is best effort.
+            pass
+        finally:
+            if LOCK_FD is not None:
+                fcntl.flock(LOCK_FD,fcntl.LOCK_UN)
+                os.close(LOCK_FD)
+                LOCK_FD=None
+        raise
