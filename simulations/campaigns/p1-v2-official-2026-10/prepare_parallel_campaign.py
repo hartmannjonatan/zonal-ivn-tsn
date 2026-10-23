@@ -463,7 +463,9 @@ def verify_shard(kind: str) -> dict:
         parent_path = HERE / continuation.get("parent_manifest_path", "__missing__")
         require(parent_path.is_file() and sha(parent_path) == continuation.get("parent_manifest_sha256"),
                 "Imported C1/C2 host is missing the audited parent-manifest archive")
-        rows = read_ledger(LEDGER)
+        # A newly prepared replica has no results ledger yet. Treat that as
+        # an empty shard; once created, all rows remain subject to the checks.
+        rows = read_ledger(LEDGER) if LEDGER.is_file() else []
         unexpected = [row.get("execution_id") for row in rows if row.get("stage") == "final" and
                       row.get("campaign_treatment") not in ("C1", "C2")]
         require(not unexpected, f"C1/C2 replica contains final rows outside its assigned shard: {unexpected[:5]}")
