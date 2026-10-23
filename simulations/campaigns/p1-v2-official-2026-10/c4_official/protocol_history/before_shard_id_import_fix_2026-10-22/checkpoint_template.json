@@ -1,0 +1,11 @@
+{
+  "active": null,
+  "campaign_id": "p1-v2-official-2026-10-C4",
+  "completed": 0,
+  "expected": 180,
+  "official_c4_validated": false,
+  "phase": "preflight_pending",
+  "snapshot_id": "c4-d3-c345037919cb0007",
+  "status": "frozen_not_started",
+  "updated_local": "2026-10-22"
+}

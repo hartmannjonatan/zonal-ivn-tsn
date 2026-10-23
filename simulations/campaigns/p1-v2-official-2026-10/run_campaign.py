@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Isolated, checkpointed official C0-C3 campaign runner for the current P1."""
-import argparse,csv,fcntl,gzip,hashlib,json,math,os,shutil,statistics,subprocess,sys,time,threading
+import argparse,csv,fcntl,gzip,hashlib,json,math,os,re,shutil,statistics,subprocess,sys,time,threading
 from concurrent.futures import FIRST_COMPLETED,ThreadPoolExecutor,wait
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3]; SIM=ROOT/'simulations'; HERE=Path(__file__).resolve().parent; OUT=HERE/'results'

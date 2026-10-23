@@ -1,7 +1,7 @@
 {
   "binary_sha256": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7",
   "campaign_id": "p1-v2-official-2026-10",
-  "commit": "f0f4e423c6f926cc0b7a46760eaa6d944f45f3e0",
+  "commit": "bc0769f77f0bd89fb76f4ab248ea46c234220dbf",
   "continuation": {
     "C3_calibration_sha256": "b669e3f54725f8c68dc10e9ba54a3c99694e7cb0514dbe21d1e5a38c50d47c22",
     "C3_profile_id": "reduction_11",
@@ -46,7 +46,7 @@
   "inet": "4.7.0",
   "inet_version_file_sha256": "4f1e01b6ac1a44aa42ede509bf88b57697f4c4fcfa9b83959f57944c1079230f",
   "inet_version_token": "inet-4.7.0-dfe270b21f",
-  "local_changes": "",
+  "local_changes": "Post-commit split-contract refresh: campaign_manifest.json and parallel_campaign_contract.json are bundled with their current hashes.",
   "mapping": {
     "PCP0_TC0": [
       "F18",
@@ -235,5 +235,6 @@
     "src/zonal-ivn-tsn": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7",
     "tests/validation/traffic/check_traffic.py": "09d0f752ddc3edccf1801189251862a60cbcc0a2a266c607e13f72aa4bd5c1de"
   },
-  "working_tree_clean": true
+  "working_tree_clean": false,
+  "working_tree_status_at_freeze": "Post-commit split-contract metadata refresh is carried by the verified runtime bundle."
 }

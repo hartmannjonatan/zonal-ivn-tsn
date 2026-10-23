@@ -3,7 +3,7 @@
   "C0_legacy_records": 240,
   "C3_calibration_sha256": "b669e3f54725f8c68dc10e9ba54a3c99694e7cb0514dbe21d1e5a38c50d47c22",
   "C3_profile_id": "reduction_11",
-  "C4_snapshot_id": "c4-d3-c345037919cb0007",
+  "C4_snapshot_id": "c4-d3-b1f20f4019951e72",
   "assignments": {
     "C0_primary_host": [
       "C3",
@@ -15,9 +15,9 @@
     ]
   },
   "binary_sha256": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7",
-  "campaign_contract_sha256": "96f79e92bccfc2d79b967224cbe30aa84d011288b53b857be1e27cfef19bd3c6",
-  "campaign_manifest_sha256": "69684151962ec965bf3d10bbba8889724fafe546cae0f59f47efb5c6bc7101b5",
-  "commit": "f0f4e423c6f926cc0b7a46760eaa6d944f45f3e0",
+  "campaign_contract_sha256": "1ddbe0be9a4c70da2232d27dbfec35d0054c683262dee1b3a27ba0d034759f3d",
+  "campaign_manifest_sha256": "96307a59b251d632011d461a39b1b3d442d3a1f9f7839317a9a6294d4f8fab2b",
+  "commit": "bc0769f77f0bd89fb76f4ab248ea46c234220dbf",
   "official_C4_open": false,
   "schema_version": 1,
   "simulation_started": false
