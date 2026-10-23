@@ -1,5 +1,5 @@
 {
-  "base_commit": "bf9166f5569cb8d1bacbddf7adbe06bc6a4bf2b8",
+  "base_commit": "832e8c070116b0702c8f6ff4bcc7f50f64f6d378",
   "buffers": {
     "CSW_and_switch_bottleneck_queues": {
       "bits": 1048576,
@@ -732,15 +732,15 @@
   "campaign_started": false,
   "exploratory": false,
   "external_file_hashes": {
-    "/home/jonatan/omnetpp/bin/opp_run": "e6f68bb7b460e963e936ab0960e8baf9d3883377bb61d7d7e1b79a42ebc9f4bb",
-    "/home/jonatan/omnetpp/lib/liboppsim.so": "72a86224f40ae6df55cad64a554f0dc15a64b00e3598e664fe8d880933684ff5",
-    "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/linklayer/ieee8021q/Ieee8021qCreditBasedGate.ned": "c9c26154a31ee417fcbcbead19db1af626fa553ae21128a2bf11cc8aadac2ff5",
-    "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/linklayer/ieee8021q/Ieee8021qCreditBasedShaper.ned": "d1f78084da1729da13ed629dc8cc81b18d348b3f8bbdff3f44047c674f14c88c",
-    "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/queueing/gate/CreditBasedGate.cc": "df935d721f67e8a0c3f2f4f0483f37e0799ae1a8171889955080a32514143fdc",
-    "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/queueing/gate/CreditBasedGate.h": "6a7ea8b47aa097afad03ab9122284d691cf6dfdb81a7f87472b0024df4e01845",
-    "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/queueing/gate/PeriodicGate.cc": "27dd3d0b8c44e7f9f2b1429309167f12f5d102f31ceeb8a01f69def233001e99",
-    "/home/jonatan/omnetpp/samples/inet-4.7.0/src/inet/queueing/gate/PeriodicGate.h": "ecb14a973f6786fb9281dc9327389696d172f281698fd1be2c5406b14ee3c7c6",
-    "/home/jonatan/omnetpp/samples/inet-4.7.0/src/libINET.so": "5beee4b431f2e685e1bb9664bcc4a8a9f5b4123704b7da081d7017be1c58f3e1"
+    "@INET_ROOT/src/inet/linklayer/ieee8021q/Ieee8021qCreditBasedGate.ned": "c9c26154a31ee417fcbcbead19db1af626fa553ae21128a2bf11cc8aadac2ff5",
+    "@INET_ROOT/src/inet/linklayer/ieee8021q/Ieee8021qCreditBasedShaper.ned": "d1f78084da1729da13ed629dc8cc81b18d348b3f8bbdff3f44047c674f14c88c",
+    "@INET_ROOT/src/inet/queueing/gate/CreditBasedGate.cc": "df935d721f67e8a0c3f2f4f0483f37e0799ae1a8171889955080a32514143fdc",
+    "@INET_ROOT/src/inet/queueing/gate/CreditBasedGate.h": "6a7ea8b47aa097afad03ab9122284d691cf6dfdb81a7f87472b0024df4e01845",
+    "@INET_ROOT/src/inet/queueing/gate/PeriodicGate.cc": "27dd3d0b8c44e7f9f2b1429309167f12f5d102f31ceeb8a01f69def233001e99",
+    "@INET_ROOT/src/inet/queueing/gate/PeriodicGate.h": "ecb14a973f6786fb9281dc9327389696d172f281698fd1be2c5406b14ee3c7c6",
+    "@INET_ROOT/src/libINET.so": "5beee4b431f2e685e1bb9664bcc4a8a9f5b4123704b7da081d7017be1c58f3e1",
+    "@OMNETPP_ROOT/bin/opp_run": "e6f68bb7b460e963e936ab0960e8baf9d3883377bb61d7d7e1b79a42ebc9f4bb",
+    "@OMNETPP_ROOT/lib/liboppsim.so": "72a86224f40ae6df55cad64a554f0dc15a64b00e3598e664fe8d880933684ff5"
   },
   "gcl": {
     "candidate_name": "D3_coordinated_20pct",
@@ -837,8 +837,8 @@
   "input_file_hashes": {
     "docs/design/P1-final.pdf": "2c26a823006a3122692fdcbae931a10af12b10bd10b67375e7bf4969bec59e7f",
     "scripts/catalog/generate.py": "079df8d6fb16f6a105ae382f3a1cdf704104a2d2437f6c92c95613839671e74e",
-    "scripts/run/validate_c0.py": "232f97adef3c9a332f03a82dfd150abbbfa07dd08e5fad328233e0f85e7c49c9",
-    "simulations/README.md": "aaf66f38ee0b0232f64f28104c22ed46a36274d4a02b5680cddf073d3750509d",
+    "scripts/run/validate_c0.py": "205d74002532448b4a89140bddec58b16cb3521592fb75cdeeff7140a5a33eb8",
+    "simulations/README.md": "a9b319e752a943effa9830edc45af95696bc8086699942821c5de2a4600494f4",
     "simulations/c4_official/.gitignore": "1d56ec6ad8d41fb3be05785fab5a36fdd8be4e0e76a1d77ae7139f7c01bffd9a",
     "simulations/c4_official/C4Instrumented.ned": "80ee04827211d3049603d3bd2ea95a648f424621a6ed1c2da3622dd3d810d573",
     "simulations/c4_official/C4_D3_absolute_profile.ini": "67276ce160763338431f3a2aa1bdddf4b752384600ace3652bdfe3c27eee9570",
@@ -853,14 +853,16 @@
     "simulations/c4_official/plugin/libc4realclockprobe.so": "db6b673fb26eb008f04bf3001e8b7fac2297eb8f8ded538ba36a351a26717af8",
     "simulations/c4_official/validate_c4_contract.py": "cd69a4b1d888e3519d0fbc34d21c348b8bfbc59825933bb40bdfa9c9c6c04752",
     "simulations/campaigns/p1-v2-official-2026-10/c4_official/.gitignore": "6a8882692c1cb3aed24d9b00b43865e0a08728d4fe3772761a4ae575a1eaab39",
-    "simulations/campaigns/p1-v2-official-2026-10/c4_official/README.md": "573fe67e6b51d56dff89589f586592eb5f026fc9d70abf4c45e13e4c5e2dfaf1",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/README.md": "fae828d86d80c507fc6d515da5f7aaa4a5513bd850fa86aee48a6984761fb953",
     "simulations/campaigns/p1-v2-official-2026-10/c4_official/c4_official.ini": "912a56b547ca28b1f25f2224d80f8fc252f97347dd88d48437d0c63252afbdf4",
     "simulations/campaigns/p1-v2-official-2026-10/c4_official/c4_status.py": "7d5e5aaf16d513c7e459d242a423915f3efab6d612f6bfe4518538a2d4a90390",
-    "simulations/campaigns/p1-v2-official-2026-10/c4_official/freeze_c4_snapshot.py": "0ccf6a25b75d8dd2ff998cc9267eb06b13e95a61b352813e81329f0c035119fd",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/freeze_c4_snapshot.py": "4c729809770b1871ca278c671854ddfa05eee003cb575cedbb6a0effe09a6567",
     "simulations/campaigns/p1-v2-official-2026-10/c4_official/matrix.csv": "85c98aa82383db1fe72dcfc90835100e44cd5400ec66015b8ef3f619168a127d",
-    "simulations/campaigns/p1-v2-official-2026-10/c4_official/run_c4_campaign.py": "72e8563ed3ed872f9bf1c85297cba1175b2a0354954fa15faedd3695892b3e64",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/run_c4_campaign.py": "113d9331e4b3848672259d3558ebf26194dc0bdf51e7375938c59719f99a145b",
     "simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
-    "simulations/campaigns/p1-v2-official-2026-10/campaign_status.py": "cc98e6f03d4bdea3e584495c69cd4a562516aeec8cad4f03d6f3a7535ae42d01",
+    "simulations/campaigns/p1-v2-official-2026-10/campaign_status.py": "bb37d7f6806a50eb2e4c5a6d515f0790d4edd7eeeef4a798d6729f7f20a8ffa4",
+    "simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py": "8365f7e64fdf0285af158a9c635cab2c9b94732bbe1abc74b69cce99d3ee04a4",
+    "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py": "6d6f53a8b58e23bd2a04a56a8e65d9fb6b5f90a62d3d1e7203470db0112d3693",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1001_events.csv": "2a54ec22353dfb6426efdc57d6e3c768fa435b140817d97718675b3d4fbd4309",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1002_events.csv": "352b0cea17678f94c54ff6632289213d3241cc67933bb8b82ae5f527f694c606",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1003_events.csv": "3847aa6c06713bd100fcf7d24dfb2fe8110fbaa5ec15127308d0a977d2f93011",
@@ -1041,8 +1043,8 @@
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L2/A1/seed1028_events.csv": "75a44cf68e7e5308d868684345d40c87c4beef8af422cd497adee6b841b26729",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L2/A1/seed1029_events.csv": "f6036c36a4301872fa60efbbe059d3777be6aa71326d15797a0582e8487f1980",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L2/A1/seed1030_events.csv": "91ed079b503c93630790f3b7616a6691606100b93c5dc4ad0f94d7e77d50596b",
-    "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": "b1904a233f0e7b67a6f4c3c7077db72f20a55fad4afbc98c6aa6581fc5877d9f",
-    "simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py": "f9ec46e2f4b954b1105233d96e42e0088b1fefd18d293178336bef723febfa22",
+    "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": "862d7d37f3cd5dc073353166a7ca8804abe12c687e6530e5e68b954af6e43cbf",
+    "simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py": "6daa04bc39ced21142f837dc32ff357ab1cc2fcbb2020cae2265f89781720169",
     "simulations/omnetpp.ini": "ccb2660dc084be88e5d2fb1f156f63e5aedbb4c216f38d473cac9bcd910ee339",
     "simulations/pilot/c4_feasibility_decision/conditional_phase_preregistration_2026-10-20.md": "979cb9c2f6280c5bcac5dadb1d9275e22548a0dfb8d2d909a3c25cd6155fa781",
     "simulations/pilot/c4_feasibility_decision/results/final_results_2026-10-20.json": "2877ba2704e026477aae87f1a6019257ad012c97d25c7c4ffbd8cb1b1d234f78",
@@ -1662,14 +1664,16 @@
   "selected_exploratory_execution": "D3_TAS_L2_A1_seed41",
   "simulation_started_by_freeze_step": false,
   "snapshot_created_local": "2026-10-22",
-  "snapshot_id": "c4-d3-cde27a7b1635c501",
-  "snapshot_sha256": "cde27a7b1635c5011df01bbbc5bdbb1898ce6cd31f8ef03c5ea440d61ffdfbd7",
+  "snapshot_id": "c4-d3-4f247fd34bb81505",
+  "snapshot_sha256": "4f247fd34bb81505c7de4cd004f10795bcc67c8820b4b5a09e084e8ee8eb8c1a",
   "storage_policy": {
-    "compress_raw_outputs_losslessly_after_metric_validation": true,
+    "drop_full_vectors_only_after_filtered_evidence_and_all_gates_reconcile": true,
     "jobs": 1,
     "min_free_gib_before_and_during_run": 40,
     "never_delete_historical_pilot_or_C0_C3_results": true,
-    "preserve_reports_calendars_and_compact_recalculable_metrics": true
+    "retain_exact_credit_gate_guard_band_and_gptp_vectors_only": true,
+    "retain_exact_packet_image_quantile_tails_and_native_clock_samples": true,
+    "retain_exact_queue_change_points_in_lossless_delta_varint_format": true
   },
   "triage": {
     "L0_L2": "reservation sums are under cap. Empirical reuse supports the candidate in L0/A0 seed41, L1/A1 seed41 and L2/A1 seeds41/43/47. Other cells remain empirical gaps; a static reserve sum alone is not a gate-aware service guarantee.",
@@ -1685,5 +1689,5 @@
     "all_port_reservation_caps_pass": true
   },
   "working_tree_clean": false,
-  "working_tree_status_at_freeze": "M simulations/README.md\n M simulations/campaigns/p1-v2-official-2026-10/campaign_status.py\n?? simulations/c4_official/\n?? simulations/campaigns/p1-v2-official-2026-10/c4_official/\n?? simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py"
+  "working_tree_status_at_freeze": ""
 }
