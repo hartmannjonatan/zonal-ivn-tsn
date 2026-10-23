@@ -1,5 +1,5 @@
 {
-  "base_commit": "832e8c070116b0702c8f6ff4bcc7f50f64f6d378",
+  "base_commit": "ec50936ecd49f14fc25baf2ecac3d05839011411",
   "buffers": {
     "CSW_and_switch_bottleneck_queues": {
       "bits": 1048576,
@@ -861,8 +861,8 @@
     "simulations/campaigns/p1-v2-official-2026-10/c4_official/run_c4_campaign.py": "113d9331e4b3848672259d3558ebf26194dc0bdf51e7375938c59719f99a145b",
     "simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
     "simulations/campaigns/p1-v2-official-2026-10/campaign_status.py": "bb37d7f6806a50eb2e4c5a6d515f0790d4edd7eeeef4a798d6729f7f20a8ffa4",
-    "simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py": "8365f7e64fdf0285af158a9c635cab2c9b94732bbe1abc74b69cce99d3ee04a4",
-    "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py": "6d6f53a8b58e23bd2a04a56a8e65d9fb6b5f90a62d3d1e7203470db0112d3693",
+    "simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py": "85db62001cba6566ee1943293927a29c3ea40190ce956714c349c0d2c97b6000",
+    "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py": "f02acaabd39fbf5874c7ddb28066f76e9f4aa5a45e239753796868c336fcb586",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1001_events.csv": "2a54ec22353dfb6426efdc57d6e3c768fa435b140817d97718675b3d4fbd4309",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1002_events.csv": "352b0cea17678f94c54ff6632289213d3241cc67933bb8b82ae5f527f694c606",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L0/A0/seed1003_events.csv": "3847aa6c06713bd100fcf7d24dfb2fe8110fbaa5ec15127308d0a977d2f93011",
@@ -1044,7 +1044,7 @@
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L2/A1/seed1029_events.csv": "f6036c36a4301872fa60efbbe059d3777be6aa71326d15797a0582e8487f1980",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L2/A1/seed1030_events.csv": "91ed079b503c93630790f3b7616a6691606100b93c5dc4ad0f94d7e77d50596b",
     "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": "862d7d37f3cd5dc073353166a7ca8804abe12c687e6530e5e68b954af6e43cbf",
-    "simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py": "6daa04bc39ced21142f837dc32ff357ab1cc2fcbb2020cae2265f89781720169",
+    "simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py": "5f8200d483d938d47ea4290c4a529ef115b239823641c4e5577698596a54c237",
     "simulations/omnetpp.ini": "ccb2660dc084be88e5d2fb1f156f63e5aedbb4c216f38d473cac9bcd910ee339",
     "simulations/pilot/c4_feasibility_decision/conditional_phase_preregistration_2026-10-20.md": "979cb9c2f6280c5bcac5dadb1d9275e22548a0dfb8d2d909a3c25cd6155fa781",
     "simulations/pilot/c4_feasibility_decision/results/final_results_2026-10-20.json": "2877ba2704e026477aae87f1a6019257ad012c97d25c7c4ffbd8cb1b1d234f78",
@@ -1664,8 +1664,8 @@
   "selected_exploratory_execution": "D3_TAS_L2_A1_seed41",
   "simulation_started_by_freeze_step": false,
   "snapshot_created_local": "2026-10-22",
-  "snapshot_id": "c4-d3-4f247fd34bb81505",
-  "snapshot_sha256": "4f247fd34bb81505c7de4cd004f10795bcc67c8820b4b5a09e084e8ee8eb8c1a",
+  "snapshot_id": "c4-d3-2f3bb37f5605f3a8",
+  "snapshot_sha256": "2f3bb37f5605f3a83bfe6ba8cea038cf6351ad3e859b05945c808ba1195a79f3",
   "storage_policy": {
     "drop_full_vectors_only_after_filtered_evidence_and_all_gates_reconcile": true,
     "jobs": 1,
