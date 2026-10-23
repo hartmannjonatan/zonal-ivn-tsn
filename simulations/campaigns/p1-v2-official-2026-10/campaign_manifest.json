@@ -1,11 +1,52 @@
 {
-  "binary_sha256": "682070643132e54b0fdd46093aa3a30725be5d8aea9597f64336311148ffc074",
+  "binary_sha256": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7",
   "campaign_id": "p1-v2-official-2026-10",
-  "commit": "41d558c005f3c4740f1e4aa79fddca5479900bac",
+  "commit": "f0f4e423c6f926cc0b7a46760eaa6d944f45f3e0",
+  "continuation": {
+    "C3_calibration_sha256": "b669e3f54725f8c68dc10e9ba54a3c99694e7cb0514dbe21d1e5a38c50d47c22",
+    "C3_profile_id": "reduction_11",
+    "binary_transition": "C0 retains its original executable/results; C1-C4 use the current binary containing only the audited optional F21/F22 calendar replay change in TrafficPlan.cc/.ned, and replay the exact C0 event calendars",
+    "continuation_binary_sha256": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7",
+    "future_transient_policy": "C1/C2/C3 explicitly replay C0 calendar files; C4 already consumes the same frozen calendar rows",
+    "legacy_C0_calendar_contract_sha256": "bab62b3f75e17b7b351669cf5ae5f15cdc2f5c2dc3fd0596134b5b93959c545b",
+    "legacy_C0_final_records": 240,
+    "legacy_C0_source_change_allowlist": [
+      "scripts/run/validate_c0.py",
+      "simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py",
+      "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py",
+      "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py",
+      "src/common/TrafficPlan.cc",
+      "src/common/TrafficPlan.ned",
+      "src/zonal-ivn-tsn"
+    ],
+    "legacy_C0_source_limitation": "The exact earlier Python runner/extractor/protocol bytes for 210 C0 runs are identified by recorded hashes but are not archived in Git; every C0 run's executable, TrafficPlan.cc/.ned, and all other model-source hashes match the parent campaign manifest. C0 SCA, reports, calendars and compact evidence remain preserved.",
+    "legacy_C0_source_provenance": {
+      "scripts/run/validate_c0.py": {
+        "known_earlier_variant": 210,
+        "parent_manifest": 30
+      },
+      "simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json": {
+        "known_earlier_variant": 210,
+        "parent_manifest": 30
+      },
+      "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": {
+        "known_earlier_variant": 210,
+        "parent_manifest": 30
+      }
+    },
+    "migration_does_not_rewrite_C0_ledger_or_reports": true,
+    "parent_binary_sha256": "682070643132e54b0fdd46093aa3a30725be5d8aea9597f64336311148ffc074",
+    "parent_commit": "41d558c005f3c4740f1e4aa79fddca5479900bac",
+    "parent_manifest_path": "protocol_history/campaign_manifest_before_parallel_41d558c005f3.json",
+    "parent_manifest_sha256": "c234bb6d679216f3c947db4cef3c6e7cffe30397570635ee1c5917a7e15ae454",
+    "parent_p1_sha256": "87809f1b5e22f72e7c58ad2f3a90aab8476e58a80e7417b82f47897af66235f5",
+    "schema_version": 1,
+    "status": "audited_two_host_continuation; prior C0 rows retain their original provenance"
+  },
   "inet": "4.7.0",
   "inet_version_file_sha256": "4f1e01b6ac1a44aa42ede509bf88b57697f4c4fcfa9b83959f57944c1079230f",
   "inet_version_token": "inet-4.7.0-dfe270b21f",
-  "local_changes": " M simulations/campaigns/p1-v2-official-2026-10/campaign_manifest.json\n",
+  "local_changes": "",
   "mapping": {
     "PCP0_TC0": [
       "F18",
@@ -106,14 +147,14 @@
       "Z3.ZSW.eth[1]"
     ]
   },
-  "p1_pdf": "/home/jonatan/Downloads/P1 (4).pdf",
-  "p1_pdf_sha256": "87809f1b5e22f72e7c58ad2f3a90aab8476e58a80e7417b82f47897af66235f5",
-  "preregistered_protocol_archive": "protocol_history/calibration_protocol_preregistered.json",
+  "p1_pdf": "docs/design/P1-final.pdf",
+  "p1_pdf_sha256": "2c26a823006a3122692fdcbae931a10af12b10bd10b67375e7bf4969bec59e7f",
+  "preregistered_protocol_archive": "protocol_history/calibration_protocol_before_parallel.json",
   "preregistered_protocol_sha256": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
-  "previous_manifest_path": "protocol_history/campaign_manifest_p1-v3.json",
-  "previous_manifest_sha256": "72f77d23b430706e7346eb216c054f19468c2550eb36d3ccfb65cc6beb1076e6",
-  "previous_p1_pdf": "/home/jonatan/Downloads/P1 (3).pdf",
-  "previous_p1_pdf_sha256": "6ef53c6508847a2a895ba2bccd0add661eed5a4912527a4c119d245fbff08390",
+  "previous_manifest_path": "protocol_history/campaign_manifest_before_parallel_41d558c005f3.json",
+  "previous_manifest_sha256": "c234bb6d679216f3c947db4cef3c6e7cffe30397570635ee1c5917a7e15ae454",
+  "previous_p1_pdf": "docs/design/P1-v4.pdf",
+  "previous_p1_pdf_sha256": "87809f1b5e22f72e7c58ad2f3a90aab8476e58a80e7417b82f47897af66235f5",
   "queueing": {
     "CBS_custom_TCs": [
       6,
@@ -144,13 +185,16 @@
   "source_hashes": {
     "scripts/catalog/generate.py": "079df8d6fb16f6a105ae382f3a1cdf704104a2d2437f6c92c95613839671e74e",
     "scripts/catalog/generate_cbs.py": "fb4bfc9d37dfdc9726b1494da8c6fd8bc5854a035e3c0023891bb83450c6e5be",
-    "scripts/run/validate_c0.py": "a734371f539982f775642775975e430e392cb5da83879326a604ada93dff7170",
+    "scripts/run/validate_c0.py": "205d74002532448b4a89140bddec58b16cb3521592fb75cdeeff7140a5a33eb8",
     "scripts/run/validate_c2.py": "7bb320aa3bb8033dc551787419ff41d63bcf16108e150aea92d9259fa896560f",
     "scripts/run/validate_c3.py": "cc64e93ad144d9f6a1f0a2360ce6d360698a045316641ddd40e832e7c89cf4f6",
     "simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
     "simulations/campaigns/p1-v2-official-2026-10/calibration_search.py": "d9c285bdbd308c8d1e0206d326c62911c01116029ce6c5ffb3f431dad6b347b7",
     "simulations/campaigns/p1-v2-official-2026-10/flow_mapping.csv": "725165005febef1a3b487cb8d69ae2fbbbf66da9352074e5e441109d9ceffdd8",
-    "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": "b1904a233f0e7b67a6f4c3c7077db72f20a55fad4afbc98c6aa6581fc5877d9f",
+    "simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py": "b911a152d7ac8942149d282f402d61d47b865dcbe05ec0ac03a9b25cf33c764a",
+    "simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py": "7179760bf4031408d88b3253a75a725815c57d4f70ef95feeedd7bdef2e061e3",
+    "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": "862d7d37f3cd5dc073353166a7ca8804abe12c687e6530e5e68b954af6e43cbf",
+    "simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py": "5f8200d483d938d47ea4290c4a529ef115b239823641c4e5577698596a54c237",
     "simulations/omnetpp.ini": "ccb2660dc084be88e5d2fb1f156f63e5aedbb4c216f38d473cac9bcd910ee339",
     "simulations/zonal/configs/aggregation.ini": "15090e7e99fccbcdee1dc9d24e6f842dc9581aaa611ad8d7a7019c0774463e9f",
     "simulations/zonal/configs/base.ini": "2a29d562a899fdd075270ff9efda5097c0dd1f5084a7bc9c01a811d5d205a7e8",
@@ -179,17 +223,17 @@
     "src/applications/package.ned": "f7a34d334a2ac3095bbc75835e39de3abfcd2e1a3ad086201396bd113ed4940e",
     "src/common/TrafficAudit.cc": "bd7f67f06e55147e236be6670c4d1a431f0d1546c4dd300e8e3fc22bfb96ba4c",
     "src/common/TrafficAudit.ned": "a0aa2ff6f1cc220c2ce4b81a955d2c851f831a18562c7df7b4e15a16a1aa280c",
-    "src/common/TrafficPlan.cc": "5f7cc24c1190e45898fcb89a54f03cd5aecf4419de1cd5b0ef4cfa2033861af4",
+    "src/common/TrafficPlan.cc": "e900b7b0ea165a5f7202ba5e2715860c6020bca5963e68c25b8db7d1e49af48e",
     "src/common/TrafficPlan.h": "4eae92d33a5c4af2eb9f6edd3edce1ba4dec5c637c2b6faad3888165a97ac0d2",
-    "src/common/TrafficPlan.ned": "5a74826422eadfb4ff905fddc65cc7fff513f2eaa9b6a959f04f4e31c75cc39d",
+    "src/common/TrafficPlan.ned": "39959c40b3792dfa84d7090fb950336ffe01d93668878549c070b428bf16bb37",
     "src/common/ZonalEthernetLink.ned": "ad59840d331015f909fd6048eb52b3f7baba153adbd02e7cd20f046206624eb6",
     "src/common/package.ned": "0e509ca609f4aa279a9249d72358ac39f05e6344629bf5870a665a4d7e20e2bc",
     "src/nodes/ZonalController.ned": "ef44058fa53066c116d8d6893df40fd4ea49a1e760a260341d8c97c94f99e1f0",
     "src/nodes/package.ned": "88aa94b1567608aec650ce5cd255bbb5fae36d274d6d224dd017fb05de448e7d",
     "src/package.ned": "a318f926ccd99afd0db3a68c531825763e64046aba55700e4640740f1cf3aebd",
     "src/queueing/package.ned": "9eeb1a2928341a9d9a8b4c3c64273191d746ec4d0d288a38ccaf88917efeaa97",
-    "src/zonal-ivn-tsn": "682070643132e54b0fdd46093aa3a30725be5d8aea9597f64336311148ffc074",
+    "src/zonal-ivn-tsn": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7",
     "tests/validation/traffic/check_traffic.py": "09d0f752ddc3edccf1801189251862a60cbcc0a2a266c607e13f72aa4bd5c1de"
   },
-  "working_tree_clean": false
+  "working_tree_clean": true
 }

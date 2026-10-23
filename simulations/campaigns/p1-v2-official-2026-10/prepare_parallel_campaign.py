@@ -158,6 +158,24 @@ def current_identity() -> tuple[object, dict, str]:
     return runner, identity, runner.campaign_contract_digest(identity)
 
 
+def prepared_contract_fingerprint(runner, identity: dict) -> str:
+    """Keep the split contract stable across explicitly allowed runner-only fixes.
+
+    The campaign manifest is the frozen baseline. Changes to orchestration files
+    on the documented migration allowlist are checked by the runner, while the
+    digest used to pair the two machine-local shards is calculated from the
+    baseline source hashes. Model, binary, workload, and commit changes still
+    alter or invalidate that contract.
+    """
+    baseline = read_json(MANIFEST).get("source_hashes", {})
+    current = identity.get("source_hashes", {})
+    require(runner.source_hashes_reusable(baseline, current),
+            "Current source changes exceed the documented orchestration allowlist")
+    normalized = dict(identity)
+    normalized["source_hashes"] = baseline
+    return runner.campaign_contract_digest(normalized)
+
+
 def c0_rows_and_artifacts(parent_manifest: dict) -> tuple[list[dict], dict]:
     rows = read_ledger(LEDGER)
     c0 = [row for row in rows if row.get("stage") == "final" and
@@ -346,7 +364,8 @@ def bundle_files() -> list[Path]:
 def export_bundle(destination: Path) -> dict:
     contract = read_json(HERE / "parallel_campaign_contract.json")
     require(contract.get("simulation_started") is False, "Invalid parallel campaign contract")
-    runner, identity, fingerprint = current_identity()
+    runner, identity, _ = current_identity()
+    fingerprint = prepared_contract_fingerprint(runner, identity)
     require(fingerprint == contract["campaign_contract_sha256"], "Current source/runtime no longer matches prepared contract")
     require(identity.get("commit") == contract["commit"], "Repository commit differs from prepared contract")
     files = bundle_files()
@@ -421,7 +440,8 @@ def import_bundle(bundle: Path) -> dict:
                 out.flush(); os.fsync(out.fileno())
             require(sha(tmp) == expected_hash, f"Bundle hash mismatch: {rel}")
             os.replace(tmp, target)
-    runner, identity, fingerprint = current_identity()
+    runner, identity, _ = current_identity()
+    fingerprint = prepared_contract_fingerprint(runner, identity)
     require(fingerprint == package["campaign_contract_sha256"], "Machine-local code/runtime differs from bundle contract")
     require(sha(MANIFEST) == package["campaign_manifest_sha256"], "Imported campaign manifest hash mismatch")
     require(sha(CALIBRATION) == package["calibration_sha256"], "Imported C3 calibration profile hash mismatch")
@@ -441,7 +461,8 @@ def import_bundle(bundle: Path) -> dict:
 
 def verify_shard(kind: str) -> dict:
     contract = read_json(HERE / "parallel_campaign_contract.json")
-    runner, identity, fingerprint = current_identity()
+    runner, identity, _ = current_identity()
+    fingerprint = prepared_contract_fingerprint(runner, identity)
     require(fingerprint == contract["campaign_contract_sha256"], "Current runtime/source contract mismatch")
     require(sha(MANIFEST) == contract["campaign_manifest_sha256"], "Campaign manifest differs from split contract")
     digest, entries = calendar_contract()

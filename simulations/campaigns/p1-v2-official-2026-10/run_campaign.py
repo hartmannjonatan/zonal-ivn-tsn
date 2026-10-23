@@ -54,6 +54,8 @@ def predeclared_protocol():
 def digest(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 REUSE_WITH_DOCUMENTED_AMENDMENT={
   'simulations/campaigns/p1-v2-official-2026-10/run_campaign.py',
+  # Two-host preflight/parser corrections do not alter the simulation model.
+  'simulations/campaigns/p1-v2-official-2026-10/prepare_parallel_campaign.py',
   'simulations/campaigns/p1-v2-official-2026-10/flow_mapping.csv',
   'scripts/run/validate_c0.py',
   # User-authorized runtime-only increase from four to eight concurrent jobs;
@@ -974,8 +976,8 @@ def metadata():
 def parse_treatments(value):
     if value is None:return None
     selected=tuple(x.strip() for x in value.split(',') if x.strip())
-    require(selected and len(selected)==len(set(selected)), '--treatments must be a nonempty comma-separated unique list')
-    require(set(selected)<= {'C0','C1','C2','C3'}, '--treatments may contain only C0,C1,C2,C3')
+    req(selected and len(selected)==len(set(selected)), '--treatments must be a nonempty comma-separated unique list')
+    req(set(selected)<= {'C0','C1','C2','C3'}, '--treatments may contain only C0,C1,C2,C3')
     return selected
 
 def calendar_contract_digest(index_path):
