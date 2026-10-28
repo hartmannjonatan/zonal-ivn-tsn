@@ -1,0 +1,4 @@
+load,n_common_pairs,n_calendar_and_population_verified,C2_approved_pairs,C3_approved_pairs,C2_fail_C3_pass,C2_pass_C3_fail,both_pass,both_fail
+L0,60,60,0,60,60,0,0,0
+L1,24,24,0,24,24,0,0,0
+L2,6,6,6,6,0,0,6,0

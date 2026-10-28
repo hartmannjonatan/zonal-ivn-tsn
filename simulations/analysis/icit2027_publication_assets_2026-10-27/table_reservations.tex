@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\caption{Configured CBS idleSlope per egress and class (Mb/s). C2 scales reservations with load; C3 uses the fixed, redesigned profile across L0--L2.}
+\label{tab:compact-reservations}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Egress / class & C2/L0 & C2/L1 & C2/L2 & C3 fixed \\
+\midrule
+CSW$\rightarrow$HPC / TC6 & 62.352 & 124.704 & 311.760 & 311.760 \\
+HPC$\rightarrow$CSW / TC4 & 78.240 & 94.800 & 144.480 & 406.375 \\
+Z1$\rightarrow$CSW / TC4 & 47.370 & 94.740 & 236.850 & 236.850 \\
+CSW$\rightarrow$Z3 / TC4 & 49.520 & 99.040 & 247.600 & 707.607 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}
+\begin{minipage}{\columnwidth}\footnotesize
+Values are configured idleSlope rates, not measured utilization. Full precision in bit/s and per-port totals/headroom are in \texttt{table\_reservations\_compact.csv}; do not sum different egresses as bandwidth consumed on one link.
+\end{minipage}
+\end{table}

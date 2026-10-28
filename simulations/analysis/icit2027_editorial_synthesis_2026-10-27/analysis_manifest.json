@@ -1,0 +1,183 @@
+{
+  "created_at": "2026-10-27T16:56:45-03:00",
+  "analysis_cutoff": "2026-10-27T16:43:14-03:00",
+  "paper_file": "/home/jonatan/Downloads/paper.tex",
+  "paper_sha256": "e92ca675ad3112f44bc3bbb339c2f43a0f411214b798d304d3412f23288b33f1",
+  "treatment_mapping": {
+    "paper_C0": "campaign C0",
+    "paper_C1": "campaign C1",
+    "paper_C2": "historic campaign C3 (calibrated CBS)",
+    "paper_C3": "historic campaign C4 (joint CBS/TAS)"
+  },
+  "campaign_commit": "62664fb9f9e751dfd9813c4ca49eec494b8990a0",
+  "official_p1_path": "docs/design/P1-final.pdf",
+  "official_p1_sha256": "2c26a823006a3122692fdcbae931a10af12b10bd10b67375e7bf4969bec59e7f",
+  "c4_snapshot_id": "c4-d3-fee029e1ee116b48",
+  "c4_snapshot_sha256": "fee029e1ee116b4862ccb17cba48f1f5c9110c6d68e7b632d663670d026d138f",
+  "c1_archive": {
+    "path": "/home/jonatan/Downloads/p1-c1-results-partial.tar.gz",
+    "sha256": "350efd7503556e287af0441881beb0028cb98ab8c4bcdfda11964b48c4e68288",
+    "bytes": 6114344088,
+    "preserved_original": true,
+    "archive_member_count": 14914,
+    "uncompressed_regular_file_bytes": 6708329030,
+    "unsafe_paths": 0,
+    "symlinks": 0,
+    "source_ledger_rows": 249,
+    "source_ledger_other_rows_excluded": 9,
+    "imported_final_c1_rows": 240,
+    "duplicate_execution_ids": 0,
+    "report_calendar_ledger_mismatches": 0,
+    "conflicts_at_target": 0,
+    "integration": "atomic rename of extracted results/final/C1 into campaign results/final/C1; no campaign ledger/calendar/manifest overwritten",
+    "source_campaign_commit": "62664fb9f9e751dfd9813c4ca49eec494b8990a0",
+    "archive_parallel_contract_c4_snapshot_id": "c4-d3-b1f20f4019951e72",
+    "current_c4_snapshot_id": "c4-d3-fee029e1ee116b48",
+    "contract_difference_interpretation": "the shard package names the preceding C4 snapshot; this is a campaign-package provenance mismatch, not a C1 runtime-profile input because C1 does not instantiate/use C4"
+  },
+  "counts_by_campaign_treatment": {
+    "C0": 240,
+    "C1": 240,
+    "C3": 180,
+    "C4": 90
+  },
+  "c4_cutoff_rows": 90,
+  "sources": [
+    {
+      "path": "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/analysis/icit2027_editorial_synthesis_2026-10-27/results_summary.json",
+      "sha256": "a66952709bd7997fcba2c2878f3ffc69ddbeb40445d5a780163463758e17ca68",
+      "bytes": 43093984
+    },
+    {
+      "path": "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/analysis/icit2027_editorial_synthesis_2026-10-27/execution_metrics.csv",
+      "sha256": "af145f10e63c6728165590cb25430e19cb5d6c3b8fa12c7ed15799bbfa5b84df",
+      "bytes": 569179
+    },
+    {
+      "path": "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/analysis/icit2027_editorial_synthesis_2026-10-27/paired_comparisons.csv",
+      "sha256": "d0e08a235d9f15ddaa5d38b30c2d839ed41225e74b2fcf3c0e77be468afa92a5",
+      "bytes": 13757667
+    },
+    {
+      "path": "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/analysis/icit2027_editorial_synthesis_2026-10-27/provenance_manifest.json",
+      "sha256": "c45c829342671d3d4d75c39be44b574bb7c385eda1f866525c61e043b8dfb522",
+      "bytes": 463382
+    },
+    {
+      "path": "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/analysis/icit2027_editorial_synthesis_2026-10-27/c4_cutoff.json",
+      "sha256": "f9e6f0283cd30b463aea8bd4ca2954dca4f5b7c9514f25ddef6a794f4e3e5021",
+      "bytes": 51994
+    },
+    {
+      "path": "/home/jonatan/Downloads/paper.tex",
+      "sha256": "e92ca675ad3112f44bc3bbb339c2f43a0f411214b798d304d3412f23288b33f1",
+      "bytes": 26984
+    }
+  ],
+  "included_execution_metrics": "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/analysis/icit2027_editorial_synthesis_2026-10-27/execution_metrics.csv",
+  "paired_metric_source": "/home/jonatan/Documentos/UFSC/IVN/zonal-ivn-tsn/simulations/analysis/icit2027_editorial_synthesis_2026-10-27/paired_comparisons.csv",
+  "regeneration_command": "python3 simulations/analysis/icit2027_editorial_synthesis_2026-10-27/analyze_results.py && python3 simulations/analysis/icit2027_editorial_synthesis_2026-10-27/build_editorial_outputs.py",
+  "no_simulations_started": true,
+  "limitations": [
+    "C4 is the frozen 90-run cutoff and should not be silently refreshed.",
+    "C2 closure/shard manifest has a schema/provenance inconsistency documented in the synthesis.",
+    "Bibliography file was not available; exact identities behind some citekeys need confirmation."
+  ],
+  "artifacts": [
+    {
+      "path": "icit_results_synthesis.md",
+      "sha256": "79583b56a9a098a34525034b73a959a998a2456ea11c022fc6c37f0f07067543",
+      "bytes": 18364
+    },
+    {
+      "path": "manuscript_claims_audit.csv",
+      "sha256": "4ad834a80fe1d8302813de4299cfb658724441b86dcd4cb6e8fb132f1a8bf29f",
+      "bytes": 3543
+    },
+    {
+      "path": "key_findings.csv",
+      "sha256": "df076e5a091fc99a1e3d64fe1cd353d3e942f3c7f5d49f6bc6aefc730cca6995",
+      "bytes": 1876
+    },
+    {
+      "path": "visual_evidence_plan.md",
+      "sha256": "dc5ae884529762d4994f82041e11650ae59c05f3039b4380b3fd3d615527b99f",
+      "bytes": 1941
+    },
+    {
+      "path": "coverage_editorial.csv",
+      "sha256": "16362bdb93ee77e220eb1e43f1da79bb40687c71b746e87d620a9fd952c5433f",
+      "bytes": 5356
+    },
+    {
+      "path": "selected_run_metrics.csv",
+      "sha256": "5ca007953059c500e186f7a5aad8a0c4535622765b0dd217b8238b21534884f1",
+      "bytes": 269577
+    },
+    {
+      "path": "selected_paired_metrics.csv",
+      "sha256": "d90e2553f163db11b354ce578235ef3c783d75bc0b44e520c3348505c4c79647",
+      "bytes": 5233678
+    },
+    {
+      "path": "camera_image_summary.csv",
+      "sha256": "5ea47964e7f95af66c99df75d0d05407eac1f488a5bbc8227d0e70e06645f1b1",
+      "bytes": 629
+    },
+    {
+      "path": "reservation_profiles.csv",
+      "sha256": "d1c9b9e75ecb7837f1872a053a6ebd4d92c9fd64b0eac2f73cb2ae6fa3b02b2f",
+      "bytes": 10180
+    },
+    {
+      "path": "c4_clock_samples.csv",
+      "sha256": "1480bcc96e17726bea8b9a5e62b53a8c2daf6096957bb1ae2d84bd0861d3704f",
+      "bytes": 60456
+    },
+    {
+      "path": "c2_vs_c0_paired.csv",
+      "sha256": "1076d49922c49df43dba4c79fa249c6312ea5944d33659b85f89cc637f7bd99d",
+      "bytes": 8195824
+    },
+    {
+      "path": "results_summary.json",
+      "sha256": "a66952709bd7997fcba2c2878f3ffc69ddbeb40445d5a780163463758e17ca68",
+      "bytes": 43093984
+    },
+    {
+      "path": "coverage.csv",
+      "sha256": "614d5758b3c57888b9919a6cbcd91e51406eec31001e03f091798535404ac836",
+      "bytes": 3419
+    },
+    {
+      "path": "paired_comparisons.csv",
+      "sha256": "d0e08a235d9f15ddaa5d38b30c2d839ed41225e74b2fcf3c0e77be468afa92a5",
+      "bytes": 13757667
+    },
+    {
+      "path": "execution_metrics.csv",
+      "sha256": "af145f10e63c6728165590cb25430e19cb5d6c3b8fa12c7ed15799bbfa5b84df",
+      "bytes": 569179
+    },
+    {
+      "path": "provenance_manifest.json",
+      "sha256": "c45c829342671d3d4d75c39be44b574bb7c385eda1f866525c61e043b8dfb522",
+      "bytes": 463382
+    },
+    {
+      "path": "c4_cutoff.json",
+      "sha256": "f9e6f0283cd30b463aea8bd4ca2954dca4f5b7c9514f25ddef6a794f4e3e5021",
+      "bytes": 51994
+    },
+    {
+      "path": "analyze_results.py",
+      "sha256": "18cf3b8ba15a0f09b2454b39a971e93360e21d6b7f3f0bf13c71e27baf0e4012",
+      "bytes": 45613
+    },
+    {
+      "path": "build_editorial_outputs.py",
+      "sha256": "348acd56387ace66f26c79377b0c24ecc1b90bb5c1c8f25195f4d1d63d75e91a",
+      "bytes": 42394
+    }
+  ]
+}

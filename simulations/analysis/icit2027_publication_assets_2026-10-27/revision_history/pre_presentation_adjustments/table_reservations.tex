@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Selected configured CBS reservations (Mb/s). The C3 profile is fixed across L0--L2; values are per egress and TC, not measured link utilization.}
+\label{tab:reservations}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Egress / TC & C2 L0 & C2 L1 & C2 L2 & C3 fixed \\
+\midrule
+CSW$\rightarrow$HPC / TC6 & 62.35 & 124.70 & 311.76 & 311.76 \\
+Z1 uplink / TC4 & 47.37 & 94.74 & 236.85 & 236.85 \\
+CSW$\rightarrow$Z3 / TC4 & 49.52 & 99.04 & 247.60 & 707.61 \\
+HPC$\rightarrow$CSW / TC4 & 78.24 & 94.80 & 144.48 & 406.38 \\
+\bottomrule
+\end{tabular}
+\end{table}

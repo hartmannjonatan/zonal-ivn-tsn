@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\caption{Viability outcomes and completed-run coverage}
+\label{tab:viability}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Cell & C0 & C1 & C2 & C3 \\
+\midrule
+L0/A0 & 30/30 & 30/30 & 0/30 & 30/30 \\
+L0/A1 & 30/30 & 30/30 & 0/30 & 30/30 \\
+L1/A0 & 30/30 & 30/30 & 0/30 & 21/21$^{\dagger}$ \\
+L1/A1 & 30/30 & 30/30 & 0/30 & 3/3$^{\dagger}$ \\
+L2/A0 & 30/30 & 30/30 & 30/30 & 3/3$^{\dagger}$ \\
+L2/A1 & 30/30 & 30/30 & 29/30 & 3/3$^{\dagger}$ \\
+L3/A0 & 30/30 & 30/30 & --$^{R}$ & --$^{S}$ \\
+L3/A1 & 0/30 & 30/30 & --$^{R}$ & --$^{S}$ \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}
+\begin{minipage}{\columnwidth}\footnotesize
+\textit{Note:} Entries are approved/completed runs; each admissible cell targets 30 runs. $^{\dagger}$ marks partial coverage ($n<30$). $R$ and $S$ denote pre-simulation rejection in the reservation and service screens, respectively; neither is an observed simulation failure. Approval describes observed runs and is not a deterministic guarantee.
+\end{minipage}
+\end{table}

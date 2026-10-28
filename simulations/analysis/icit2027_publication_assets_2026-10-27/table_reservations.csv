@@ -1,0 +1,25 @@
+article_treatment,historical_treatment,load,path,egress_interface,tc,profile,idleSlope_Mbps,idleSlope_bps,port_total_idleSlope_Mbps,physical_rate_Mbps,port_reservation_fraction,headroom_to_75pct_Mbps
+C2,C3,L0,CSW$\rightarrow$HPC,CSW.eth[0],6,load-scaled calibrated CBS,62.352,62352000,107.832,1000.0,0.107832,642.168
+C3,C4,L0,CSW$\rightarrow$HPC,CSW.eth[0],6,D3_coordinated_20pct fixed absolute,311.76,311760000,539.16,1000.0,0.53916,210.84
+C2,C3,L1,CSW$\rightarrow$HPC,CSW.eth[0],6,load-scaled calibrated CBS,124.704,124704000,215.664,1000.0,0.215664,534.336
+C3,C4,L1,CSW$\rightarrow$HPC,CSW.eth[0],6,D3_coordinated_20pct fixed absolute,311.76,311760000,539.16,1000.0,0.53916,210.84
+C2,C3,L2,CSW$\rightarrow$HPC,CSW.eth[0],6,load-scaled calibrated CBS,311.76,311760000,539.16,1000.0,0.53916,210.84
+C3,C4,L2,CSW$\rightarrow$HPC,CSW.eth[0],6,D3_coordinated_20pct fixed absolute,311.76,311760000,539.16,1000.0,0.53916,210.84
+C2,C3,L0,HPC$\rightarrow$CSW,HPC.eth[0],4,load-scaled calibrated CBS,78.24,78240000,78.24,1000.0,0.07824,671.76
+C3,C4,L0,HPC$\rightarrow$CSW,HPC.eth[0],4,D3_coordinated_20pct fixed absolute,406.375399,406375399,406.375399,1000.0,0.406375399,343.624601
+C2,C3,L1,HPC$\rightarrow$CSW,HPC.eth[0],4,load-scaled calibrated CBS,94.8,94800000,94.8,1000.0,0.0948,655.2
+C3,C4,L1,HPC$\rightarrow$CSW,HPC.eth[0],4,D3_coordinated_20pct fixed absolute,406.375399,406375399,406.375399,1000.0,0.406375399,343.624601
+C2,C3,L2,HPC$\rightarrow$CSW,HPC.eth[0],4,load-scaled calibrated CBS,144.48,144480000,144.48,1000.0,0.14448,605.52
+C3,C4,L2,HPC$\rightarrow$CSW,HPC.eth[0],4,D3_coordinated_20pct fixed absolute,406.375399,406375399,406.375399,1000.0,0.406375399,343.624601
+C2,C3,L0,Z1$\rightarrow$CSW,Z1.ZSW.eth[0],4,load-scaled calibrated CBS,47.37,47370000,109.05,1000.0,0.10905,640.95
+C3,C4,L0,Z1$\rightarrow$CSW,Z1.ZSW.eth[0],4,D3_coordinated_20pct fixed absolute,236.85,236850000,545.25,1000.0,0.54525,204.75
+C2,C3,L1,Z1$\rightarrow$CSW,Z1.ZSW.eth[0],4,load-scaled calibrated CBS,94.74,94740000,218.1,1000.0,0.2181,531.9
+C3,C4,L1,Z1$\rightarrow$CSW,Z1.ZSW.eth[0],4,D3_coordinated_20pct fixed absolute,236.85,236850000,545.25,1000.0,0.54525,204.75
+C2,C3,L2,Z1$\rightarrow$CSW,Z1.ZSW.eth[0],4,load-scaled calibrated CBS,236.85,236850000,545.25,1000.0,0.54525,204.75
+C3,C4,L2,Z1$\rightarrow$CSW,Z1.ZSW.eth[0],4,D3_coordinated_20pct fixed absolute,236.85,236850000,545.25,1000.0,0.54525,204.75
+C2,C3,L0,CSW$\rightarrow$Z3,CSW.eth[3],4,load-scaled calibrated CBS,49.52,49520000,49.52,1000.0,0.04952,700.48
+C3,C4,L0,CSW$\rightarrow$Z3,CSW.eth[3],4,D3_coordinated_20pct fixed absolute,707.606774,707606774,707.606774,1000.0,0.707606774,42.393226
+C2,C3,L1,CSW$\rightarrow$Z3,CSW.eth[3],4,load-scaled calibrated CBS,99.04,99040000,99.04,1000.0,0.09904,650.96
+C3,C4,L1,CSW$\rightarrow$Z3,CSW.eth[3],4,D3_coordinated_20pct fixed absolute,707.606774,707606774,707.606774,1000.0,0.707606774,42.393226
+C2,C3,L2,CSW$\rightarrow$Z3,CSW.eth[3],4,load-scaled calibrated CBS,247.6,247600000,247.6,1000.0,0.2476,502.4
+C3,C4,L2,CSW$\rightarrow$Z3,CSW.eth[3],4,D3_coordinated_20pct fixed absolute,707.606774,707606774,707.606774,1000.0,0.707606774,42.393226

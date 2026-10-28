@@ -1,0 +1,5 @@
+paper_treatment,campaign_treatment,load,alignment,flow,runs,offered_packets,received_packets,lost_packets,offered_images,complete_images,incomplete_images,image_misses,conditional_image_p99_median_ms,caveat
+C0,C0,L3,A1,F02,30,6750000,6530253,219747,225000,5435,219565,219565,2.926732,p99 only among complete-image survivors
+C1,C1,L3,A1,F02,30,6750000,6750000,0,225000,225000,0,0,3.957601,all offered images complete
+C0,C0,L3,A1,F05,30,6750000,6389855,360145,225000,38906,186094,186094,2.85334,p99 only among complete-image survivors
+C1,C1,L3,A1,F05,30,6750000,6750000,0,225000,225000,0,0,3.97929,all offered images complete
