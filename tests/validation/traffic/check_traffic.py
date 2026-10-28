@@ -50,9 +50,9 @@ def access_port(node):
     return 1 if node.endswith('.ZCPU') else ZONES[zone(node)].index(node) + 2
 
 
-def route(source, destination):
+def route(source, destination, network="ZonalIVN"):
     def eth(node, port):
-        return f'ZonalIVN.{node}.eth[{port}]'
+        return f'{network}.{node}.eth[{port}]'
     path = [eth(source, 0)]
     if source == 'HPC':
         z = zone(destination)
@@ -108,10 +108,15 @@ def check_run(directory):
         row = read(path)[0]
         applications[row['flow'], row['node'], row['role']] = row
     wires = {(r['interface'], r['flow']): r for r in read(directory / 'wire.csv')}
+    network_roots = {interface.split('.', 1)[0] for interface, _ in wires}
+    require(len(network_roots) == 1, f'wire interfaces have inconsistent network roots: {sorted(network_roots)}')
+    network_root = next(iter(network_roots))
+    require(network_root in {'ZonalIVN', 'C4Instrumented'}, f'unrecognized wire network root: {network_root}')
     queues = {(r['interface'], r['flow']): r for r in read(directory / 'queues.csv')}
     drops = {(r['interface'], r['flow']): r for r in read(directory / 'drops.csv')}
     expected_wire_keys = set()
-    summary = {'run': run, 'source_packets': 0, 'drops': sum(int(r['packets']) for r in drops.values()),
+    summary = {'run': run, 'network_root': network_root, 'source_packets': 0,
+               'drops': sum(int(r['packets']) for r in drops.values()),
                'pending_at_simulation_end': [], 'flows': {}}
     pending_by_queue = defaultdict(dict)
 
@@ -176,7 +181,7 @@ def check_run(directory):
         summary['source_packets'] += n
         for destination in f['destinations'].split(';'):
             current = expected_counts
-            for interface in route(f['source'], destination):
+            for interface in route(f['source'], destination, network_root):
                 key = interface, fid
                 if n:
                     expected_wire_keys.add(key)

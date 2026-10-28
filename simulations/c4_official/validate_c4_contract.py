@@ -63,10 +63,10 @@ def validate_static() -> dict:
         prefix = f"{egress}.macLayer.queue.transmissionSelectionAlgorithm[{tc}]"
         expected_params[(prefix, "typename")] = "Ieee8021qCreditBasedShaper"
         expected_params[(prefix, "idleSlope")] = f"{r['idleSlope_bps']}bps"
-        expected_params[(prefix, "initialCredit")] = f"{r['initialCredit']}b"
-        expected_params[(prefix, "transmitCreditLimit")] = f"{r['transmitCreditLimit']}b"
-        expected_params[(prefix, "minCredit")] = f"{r['minCredit']} b"
-        expected_params[(prefix, "maxCredit")] = f"{r['maxCredit']} b"
+        expected_params[(prefix, "initialCredit")] = f"{r['initialCredit']}"
+        expected_params[(prefix, "transmitCreditLimit")] = f"{r['transmitCreditLimit']}"
+        expected_params[(prefix, "minCredit")] = f"{r['minCredit']}"
+        expected_params[(prefix, "maxCredit")] = f"{r['maxCredit']}"
         expected_params[(prefix, "maxInterferenceSize")] = "inf b"
         expected_params[(prefix, "accumulateCreditInGuardBand")] = r["accumulateCreditInGuardBand"].lower()
         expected_params[(prefix, "extraLength")] = r["extraLength"]
@@ -91,11 +91,16 @@ def validate_static() -> dict:
     for text in ("70us", "69.324us", "99.324us", "scheduleForAbsoluteTime = true",
                  'clockModule = "^.^.^.^.clock"', "enableImplicitGuardBand = true"):
         require(text in cfg, f"missing frozen GCL property: {text}")
-    scheduled_ports = set(re.findall(r'^\*\.(HPC\.eth\[0\]|CSW\.eth\[1\.\.3\])\.macLayer\.queue\.transmissionGate\[', cfg, re.M))
+    scheduled_ports = set(re.findall(
+        r'^(?:C4Instrumented|\*)\.(HPC\.eth\[0\]|CSW\.eth\[1\.\.3\])\.macLayer\.queue\.transmissionGate\[',
+        cfg, re.M))
     require(scheduled_ports == {"HPC.eth[0]", "CSW.eth[1..3]"}, f"unexpected scheduled egress declarations: {scheduled_ports}")
-    require(all(f"*.{port}.macLayer.queue.transmissionGate[*].durations = []" in cfg for port in BRAKE_SP_EGRESSES),
+    require(all((f"C4Instrumented.{port}.macLayer.queue.transmissionGate[*].durations = []" in cfg or
+                 f"*.{port}.macLayer.queue.transmissionGate[*].durations = []" in cfg) for port in BRAKE_SP_EGRESSES),
             "brake last-hop gates must remain permanently open under SP")
-    require(all(f"*.{port}.macLayer.queue.transmissionGate[*].durations = []" in cfg for port in ("Z1.ZCPU.eth[0]", "Z2.ZCPU.eth[0]", "Z3.ZSW.eth[1]")),
+    require(all((f"C4Instrumented.{port}.macLayer.queue.transmissionGate[*].durations = []" in cfg or
+                 f"*.{port}.macLayer.queue.transmissionGate[*].durations = []" in cfg)
+                for port in ("Z1.ZCPU.eth[0]", "Z2.ZCPU.eth[0]", "Z3.ZSW.eth[1]")),
             "transient-only SP egresses must remain permanently open")
 
     return {
@@ -116,16 +121,19 @@ def _unit_value(value: str) -> float:
     return float(m.group(1))
 
 
-def validate_effective_profile(params: dict[tuple[str, str], str]) -> dict:
+def validate_effective_profile(params: dict[tuple[str, str], str], network_root: str = "ZonalIVN") -> dict:
     """Check SCA parameters after a manual run; absent type/credit is a hard error."""
     rows = profile_rows()
-    expected = {f"ZonalIVN.{r['egress']}.macLayer.queue.transmissionSelectionAlgorithm[{r['TC']}]": r for r in rows}
+    expected = {f"{network_root}.{r['egress']}.macLayer.queue.transmissionSelectionAlgorithm[{r['TC']}]": r for r in rows}
+    def resolved_type(module: str) -> str:
+        # OMNeT++ SCA strings may be escaped/quoted (e.g. `\"inet...Shaper\"`).
+        return params.get((module, "typename"), "").replace("\\", "").strip('"')
     actual_modules = {module for module, name in params if name == "typename" and "transmissionSelectionAlgorithm[" in module and
-                      params[(module, name)].endswith("Ieee8021qCreditBasedShaper")}
+                      resolved_type(module).endswith("Ieee8021qCreditBasedShaper")}
     require(actual_modules == set(expected), f"runtime CBS module set mismatch: missing={set(expected)-actual_modules}, extra={actual_modules-set(expected)}")
     verified = 0
     for module, row in expected.items():
-        require(params.get((module, "typename"), "").endswith("Ieee8021qCreditBasedShaper"), f"{module}: CBS type not instantiated")
+        require(resolved_type(module).endswith("Ieee8021qCreditBasedShaper"), f"{module}: CBS type not instantiated")
         require(abs(_unit_value(params.get((module, "idleSlope"), "nan")) - int(row["idleSlope_bps"])) <= 0.5,
                 f"{module}: idleSlope mismatch")
         fields = {"initialCredit": int(row["initialCredit"]), "transmitCreditLimit": int(row["transmitCreditLimit"]),
@@ -153,11 +161,11 @@ def validate_effective_profile(params: dict[tuple[str, str], str]) -> dict:
     return {"status": "pass", "observed_cbs_modules": len(actual_modules), "verified_cbs_modules": verified}
 
 
-def validate_gcl_params(params: dict[tuple[str, str], str]) -> dict:
+def validate_gcl_params(params: dict[tuple[str, str], str], network_root: str = "ZonalIVN") -> dict:
     expected = {}
     for port in TAS_EGRESSES:
         for tc in range(8):
-            module = f"ZonalIVN.{port}.macLayer.queue.transmissionGate[{tc}]"
+            module = f"{network_root}.{port}.macLayer.queue.transmissionGate[{tc}]"
             expected[module] = ([55e-6, 45e-6], 70e-6 if port == "HPC.eth[0]" else 69.324e-6) if tc < 7 else (
                 [30e-6, 70e-6], 0.0 if port == "HPC.eth[0]" else 99.324e-6)
     for module, (durations, offset) in expected.items():
@@ -178,7 +186,8 @@ def validate_gcl_params(params: dict[tuple[str, str], str]) -> dict:
         require(params.get((module, "initiallyOpen")) == "true", f"{module}: initiallyOpen mismatch")
         require(params.get((module, "scheduleForAbsoluteTime")) == "true", f"{module}: scheduleForAbsoluteTime mismatch")
         require(params.get((module, "enableImplicitGuardBand")) == "true", f"{module}: implicit guard-band mismatch")
-        require(params.get((module, "clockModule"), "").strip('"') == "^.^.^.^.clock", f"{module}: local clock reference mismatch")
+        clock_module = params.get((module, "clockModule"), "").replace("\\", "").strip('"')
+        require(clock_module == "^.^.^.^.clock", f"{module}: local clock reference mismatch: {clock_module!r}")
     unexpected = []
     for (module, name), value in params.items():
         if name == "durations" and ".transmissionGate[" in module and value not in ("[]", ""):
@@ -208,6 +217,9 @@ def self_test() -> dict:
         fake[(module, "sendSlope")] = f"{r['sendSlope_bps']}bps"
         fake[(module, "maxInterferenceSize")] = "inf b"
     good = validate_effective_profile(fake)
+    c4_fake = {(module.replace("ZonalIVN.", "C4Instrumented.", 1), name): value
+               for (module, name), value in fake.items()}
+    good_c4_root = validate_effective_profile(c4_fake, network_root="C4Instrumented")
     bad_no_cbs = dict(fake)
     for key in list(bad_no_cbs):
         if "CSW.eth[3]" in key[0] and "transmissionSelectionAlgorithm" in key[0]:
@@ -244,6 +256,9 @@ def self_test() -> dict:
             gates[(module, "enableImplicitGuardBand")] = "true"
             gates[(module, "clockModule")] = "^.^.^.^.clock"
     good_gcl = validate_gcl_params(gates)
+    c4_gates = {(module.replace("ZonalIVN.", "C4Instrumented.", 1), name): value
+                for (module, name), value in gates.items()}
+    good_c4_gcl = validate_gcl_params(c4_gates, network_root="C4Instrumented")
     wrong_rpm_phase = dict(gates)
     wrong_rpm_phase[("ZonalIVN.CSW.eth[1].macLayer.queue.transmissionGate[7]", "offset")] = "0us"
     try:
@@ -253,6 +268,8 @@ def self_test() -> dict:
         pass
     return {"static": static, "synthetic_runtime_contract": good,
             "synthetic_gcl_contract": good_gcl,
+            "synthetic_c4_root_runtime_contract": good_c4_root,
+            "synthetic_c4_root_gcl_contract": good_c4_gcl,
             "known_no_cbs_rejected": True,
             "preserved_historical_no_cbs_sca_rejected": historical_no_cbs_rejected,
             "known_rpm_wrong_phase_rejected_by_gcl_contract": True}

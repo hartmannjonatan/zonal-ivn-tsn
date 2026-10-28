@@ -1,33 +1,39 @@
 # Zonal IVN TSN benchmark
 
-This repository contains an OMNeT++/INET model of a zonal in-vehicle Ethernet network and the traffic, shaping, and validation code for the P1 study.
+This repository contains the OMNeT++/INET zonal in-vehicle Ethernet model, P1 traffic profiles, official campaign tools, and analysis artifacts.
 
-The current specification is the [final P1](docs/design/P1-final.pdf). The previous [P1 v4](docs/design/P1-v4.pdf) is retained for historical manifests that bind to its hash. Project-specific context is summarized in [design notes](docs/design/README.md); the closed exploratory C4 CBS/TAS study is consolidated in [the C4 pilot report](simulations/pilot/README_C4_CBS_TAS.md).
+## Reference and organization
 
-## Repository layout
+- [Final P1 specification](docs/design/P1-final.pdf); [design notes](docs/design/README.md).
+- `src/`, `simulations/zonal/` — model modules, network topology, and canonical traffic configuration.
+- `simulations/campaigns/p1-v2-official-2026-10/` — official P1 campaign manifests, ledgers, checkpoints, and operator guide. C0–C3 and C4 keep separate ledgers/checkpoints.
+- `simulations/c4_official/` — frozen operational C4 profile, validation contract, and clock probes.
+- `simulations/pilot/` — exploratory evidence; the closed CBS/TAS study is summarized in [README_C4_CBS_TAS.md](simulations/pilot/README_C4_CBS_TAS.md).
+- `simulations/analysis/icit2027_editorial_synthesis_2026-10-27/` — frozen, audit-ready analysis inputs for the paper.
+- `simulations/analysis/icit2027_publication_assets_2026-10-27/` — publication figures, tables, captions, and the script that regenerates them without simulations.
+- `scripts/`, `tests/validation/` — build, campaign validation, and regression checks.
 
-- `simulations/zonal/` — network NED, layered INI configuration, and canonical traffic inputs.
-- `simulations/campaigns/` — the isolated official campaign runner, manifests, checkpoints, and results.
-- `simulations/pilot/` — exploratory pilots and preserved evidence; see the [pilot index](simulations/pilot/README.md).
-- `simulations/tsn_validation/` — small INET mechanism scenarios retained as reference cases.
-- `src/` — reusable application, traffic-planning, audit, and link modules.
-- `scripts/` — catalog generation, build, and validation tools.
-- `tests/validation/` — P1 acceptance checks and focused regression tests.
-- `docs/` — design notes, catalog notes, and research reports.
+## Build
 
-## Dependencies
-
-Use OMNeT++ 6.4.0, INET 4.7.0, a C++ toolchain supported by OMNeT++, GNU Make, and Python 3. Load the OMNeT++ environment and set `INET_ROOT` to the INET 4.7.0 checkout before building.
-
-## Build and run
+Use OMNeT++ 6.4.0 and INET 4.7.0. Load the OMNeT++ environment and set `INET_ROOT` to the INET checkout before compiling:
 
 ```bash
 source /path/to/omnetpp/setenv
 export INET_ROOT=/path/to/inet-4.7.0
 bash scripts/run/build.sh
-python3 simulations/campaigns/p1-v2-official-2026-10/run_campaign.py --phase final --resume --jobs 4
 ```
 
-The runner supports checkpoints and `--stop-after-cell`; see its `--help` output before starting or resuming a campaign. The current operational worker limit is four.
+## Official campaign
 
-For the traffic sources and generated files, see [docs/traffic-catalog/README.md](docs/traffic-catalog/README.md). For validation scope, see [tests/validation/README.md](tests/validation/README.md).
+Read the [campaign operator guide](simulations/campaigns/p1-v2-official-2026-10/README.md) before running. It covers the two-machine split, runtime bundle, safe preflight, dashboard, resume, and result merge. Do not launch child runners directly or run two campaign workers on one host.
+
+On the C0-owning host, the read-only status panel and C3/C4 preflight are:
+
+```bash
+python3 simulations/campaigns/p1-v2-official-2026-10/campaign_status.py
+python3 simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py --preflight-c3-c4-shard
+```
+
+As of the last local status check (2026-10-28 20:27 −03:00), C0 and C3 were complete, C4 had 90/180 valid results, and its checkpoint was `paused_technical_review` with no active simulator. **Review that checkpoint and its failed-run log before resuming.** The nine-run priority order is recorded in the C4 runtime amendment; after the technical pause is resolved, the C4-specific resume command is documented in the [C4 guide](simulations/campaigns/p1-v2-official-2026-10/c4_official/README.md).
+
+For the closed exploratory C4 development and the paper-ready ICIT assets, use the linked pilot and analysis READMEs; neither is an official campaign result.

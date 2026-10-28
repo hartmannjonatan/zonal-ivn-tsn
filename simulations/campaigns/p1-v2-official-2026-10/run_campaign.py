@@ -193,7 +193,13 @@ def completed_raw_run_matches(dest,config,seed):
     if not all(p.is_file() for p in (log,sca,vec,rd/'run.csv',rd/'events.csv',rd/'drops.csv',rd/'wire.csv',rd/'queues.csv',rd/'releases.csv')):
         return False
     tail=log.read_text(errors='replace')[-200_000:]
-    if 'Calling finish() at end of Run' not in tail or 'End.' not in tail:
+    # A signal-terminated OMNeT++ run may still execute finish() and print
+    # ``End.``. Those markers alone do not prove that the configured
+    # simulation horizon was reached; accepting such output on --resume could
+    # commit a technically incomplete run as a valid result.
+    if ('Simulation time limit reached' not in tail or
+            'SIGINT or SIGTERM received' in tail or
+            'Calling finish() at end of Run' not in tail or 'End.' not in tail):
         return False
     expected_dir=str(dest.relative_to(SIM))
     for path in (sca,vec):

@@ -46,6 +46,10 @@ SEEDS = tuple(range(1001, 1031))
 LOADS = ("L0", "L1", "L2")
 ALIGNMENTS = ("A0", "A1")
 DISK_FLOOR_GIB = 40.0
+# The full OMNeT++ vector exists on disk until post-processing completes. A
+# previous attempt reached 5.4 GB of temporary artifacts before the floor
+# guard stopped it. Require measured headroom before launching the next run.
+PRELAUNCH_DISK_HEADROOM_GIB = 4.5
 PRELAUNCH_MEM_FLOOR_GIB = 6.0
 RUNTIME_MEM_FLOOR_GIB = 4.0
 MAX_JOBS = 1
@@ -105,6 +109,17 @@ def append_jsonl(path: Path, value: dict) -> None:
         os.fsync(fd)
     finally:
         os.close(fd)
+
+
+def sca_type_name(params: dict, module: str) -> str:
+    """Normalize a NED typename serialized as an escaped SCA string.
+
+    OMNeT++ writes string parameters as e.g. `\"inet.clock.model.SettableClock\"`.
+    validate_c0.parse_sca removes the outer SCA quotes but leaves the escaped
+    quotes (and their backslashes), so a direct endswith("SettableClock") is
+    false even though the resolved module type is correct.
+    """
+    return str(params.get((module, "typename"), "")).replace("\\", "").strip('"')
 
 
 def read_ledger() -> list[dict]:
@@ -220,10 +235,15 @@ def active_official_runner() -> bool:
 def check_resources(prelaunch: bool = True) -> dict:
     disk, mem = free_gib(), mem_available_gib()
     mem_floor = PRELAUNCH_MEM_FLOOR_GIB if prelaunch else RUNTIME_MEM_FLOOR_GIB
-    require(disk >= DISK_FLOOR_GIB, f"disk floor reached: {disk:.2f} GiB free (<{DISK_FLOOR_GIB})")
+    required_disk = DISK_FLOOR_GIB + (PRELAUNCH_DISK_HEADROOM_GIB if prelaunch else 0.0)
+    require(disk >= required_disk,
+            f"disk headroom insufficient: {disk:.2f} GiB free; prelaunch requires "
+            f"{required_disk:.2f} GiB ({DISK_FLOOR_GIB:.1f} GiB hard floor + "
+            f"{PRELAUNCH_DISK_HEADROOM_GIB:.1f} GiB temporary-output allowance)")
     require(mem >= mem_floor, f"memory floor reached: {mem:.2f} GiB available (<{mem_floor})")
     return {"free_disk_gib": round(disk, 3), "MemAvailable_gib": round(mem, 3),
-            "disk_floor_gib": DISK_FLOOR_GIB, "memory_floor_gib": mem_floor}
+            "disk_floor_gib": DISK_FLOOR_GIB, "prelaunch_disk_headroom_gib": PRELAUNCH_DISK_HEADROOM_GIB,
+            "required_disk_gib": required_disk, "memory_floor_gib": mem_floor}
 
 
 def seed_drifts(seed: int, nodes: tuple[str, ...]) -> dict[str, float]:
@@ -237,14 +257,30 @@ def seed_drifts(seed: int, nodes: tuple[str, ...]) -> dict[str, float]:
     return values
 
 
+def gcl_cli_overrides() -> list[str]:
+    """Pin all 32 shared-egress gates by exact C4 module path."""
+    options = []
+    for port in ("HPC.eth[0]", "CSW.eth[1]", "CSW.eth[2]", "CSW.eth[3]"):
+        for tc in range(8):
+            gate = f"C4Instrumented.{port}.macLayer.queue.transmissionGate[{tc}]"
+            if tc == 7:
+                durations = "[30us,70us]"
+                offset = "99.324us" if port.startswith("CSW.") else "0us"
+            else:
+                durations = "[55us,45us]"
+                offset = "69.324us" if port.startswith("CSW.") else "70us"
+            options.extend((f"--{gate}.durations={durations}", f"--{gate}.offset={offset}"))
+    return options
+
+
 def command_for(row: dict, dest: Path) -> list[str]:
     load, alignment, seed = row["load"], row["alignment"], int(row["seed"])
     config = f"Validate_C4_{load}_{alignment}"
     run_dir = dest / f"{config}-0"
     run_dir.mkdir(parents=True, exist_ok=True)
-    calendar = ROOT / "simulations/campaigns/p1-v2-official-2026-10" / row["calendar_file"]
+    calendar = SIM / row["calendar_file"]  # matrix paths are already relative to the simulations working directory
     calendar_from_sim = calendar.relative_to(SIM)
-    network_paths = ".:c4_official:src:tests:" + str(INET_ROOT / "src")
+    network_paths = ".:c4_official:../src:../tests:" + str(INET_ROOT / "src")
     command = [str(EXECUTABLE), "-u", "Cmdenv", "-n", network_paths,
                "-f", "omnetpp.ini", "-f", "c4_official/C4_D3_absolute_profile.ini",
                "-f", str(CONFIG_INI.relative_to(SIM)), "-c", config,
@@ -265,6 +301,7 @@ def command_for(row: dict, dest: Path) -> list[str]:
                f'--*.realClockTrace.outputFile="{(run_dir / "packet_events.csv").resolve()}"',
                f'--*.clockPrecision.outputFile="{(run_dir / "clock_precision.csv").resolve()}"',
                "--*.realClockTrace.packetTraceStride=256", "--*.realClockTrace.gateTraceUntil=1ms",
+               "--*.realClockTrace.traceQueueStates=false", "--*.realClockTrace.traceCreditStates=false",
                "--*.clockPrecision.sampleInterval=1ms", "--*.clockPrecision.stopAt=31.05s",
                "--**.clock.timeChanged.result-recording-modes=vector",
                "--**.clock.emitClockTimeInterval=1ms",
@@ -272,6 +309,13 @@ def command_for(row: dict, dest: Path) -> list[str]:
                "--**.gptp.neighborRateRatio.result-recording-modes=+vector",
                "--**.gptp.pdelay.result-recording-modes=+vector",
                "--**.gptp.packetDropNotAddressedToUs.result-recording-modes=+count,sum(packetBytes),vector(packetBytes)"]
+    # The frozen INI contains the human-readable GCL, but inherited wildcard
+    # `durations=[]` settings can win during parameter resolution for this
+    # alternate network root. Pass each gated module's effective schedule as
+    # an exact, fully-qualified command-line parameter; OMNeT++ gives CLI
+    # options highest precedence. Postprocessing independently checks SCA and
+    # observed gate states, so a missing/overridden schedule cannot be accepted.
+    command.extend(gcl_cli_overrides())
     for node, drift in seed_drifts(seed, ("HPC", "CSW", "Z1.ZSW", "Z2.ZSW", "Z3.ZSW")).items():
         command.append(f"--*.{node}.clock.oscillator.driftRate={drift:.12f}ppm")
     return command
@@ -308,13 +352,13 @@ def read_clock_summary(path: Path) -> dict:
             "sampled_viable": all(v["violations_gt_1us"] == 0 for v in summary.values())}
 
 
-def audit_observed_gate_states(vec_path: Path) -> dict:
+def audit_observed_gate_states(vec_path: Path, network_root: str = "ZonalIVN") -> dict:
     """Stream gate/guard-band state vectors over measurement and a dense 10ms slice.
 
     This is an event-state sanity check over a 10 ms measurement subwindow, not
     a continuous clock-conformity proof or a substitute for the SCA GCL check.
     """
-    expected = {f"ZonalIVN.{port}.macLayer.queue.transmissionGate[{tc}]"
+    expected = {f"{network_root}.{port}.macLayer.queue.transmissionGate[{tc}]"
                 for port in ("HPC.eth[0]", "CSW.eth[1]", "CSW.eth[2]", "CSW.eth[3]")
                 for tc in range(8)}
     gate_vectors: dict[int, tuple[str, str]] = {}
@@ -562,57 +606,72 @@ def expected_calendar_for_row(row: dict) -> str:
     return row["calendar_signature"]
 
 
-def run_report(row: dict, manifest: dict, resources: dict) -> dict:
+def run_report(row: dict, manifest: dict, resources: dict, *, reprocess_existing: bool = False,
+               simulation_snapshot_id: str | None = None) -> dict:
     config = f"Validate_C4_{row['load']}_{row['alignment']}"
     execution_id = f"C4_{row['load']}_{row['alignment']}_seed{row['seed']}"
     dest = OUT / "runs" / execution_id
-    require(not dest.exists(), f"result path already exists without reusable ledger identity: {dest}")
-    dest.mkdir(parents=True, exist_ok=False)
-    command = command_for(row, dest)
     log = dest / f"{config}.log"
     env = os.environ.copy()
     env["LD_LIBRARY_PATH"] = ":".join(str(p) for p in (OMNETPP_ROOT / "lib", INET_ROOT / "src", Path(env.get("LD_LIBRARY_PATH", "/tmp"))))
-    cp = {"campaign_id": "p1-v2-official-2026-10-C4", "status": "running", "phase": "simulation",
-          "active": {"execution_id": execution_id, "config": config, "seed": int(row["seed"]),
-                     "load": row["load"], "alignment": row["alignment"], "pid": None, "percent": None,
-                     "progress_note": "OMNeT++ event-time percent is read from the live log when available"},
-          "completed": len(read_ledger()), "expected": 180, "resources": resources,
-          "snapshot_id": manifest["snapshot_id"], "updated_local": time.strftime("%Y-%m-%d %H:%M:%S")}
-    atomic_json(OUT / "checkpoint.json", cp)
-    with log.open("w", encoding="utf-8") as logstream:
-        proc = subprocess.Popen(command, cwd=SIM, env=env, stdout=logstream, stderr=subprocess.STDOUT,
-                                start_new_session=True, preexec_fn=lambda: os.nice(5))
-        cp["active"]["pid"] = proc.pid
+    if reprocess_existing:
+        require(dest.is_dir(), f"completed raw run is missing: {dest}")
+        log_text = log.read_text(errors="replace") if log.is_file() else ""
+        require("Simulation time limit reached" in log_text and "End." in log_text and
+                "SIGINT or SIGTERM received" not in log_text,
+                f"{execution_id}: existing output is not a normal completed simulation; will not reprocess")
+        require((dest / f"{config}-#0.sca").is_file() and (dest / f"{config}-#0.vec").is_file(),
+                f"{execution_id}: completed run lacks its SCA/vector artifacts")
+        atomic_json(OUT / "checkpoint.json", {"campaign_id": "p1-v2-official-2026-10-C4",
+            "status": "postprocessing", "phase": "postprocessing", "active": None,
+            "failed_execution": execution_id, "completed": len(read_ledger()), "expected": 180,
+            "snapshot_id": manifest["snapshot_id"], "simulation_snapshot_id": simulation_snapshot_id,
+            "resources": resources, "updated_local": time.strftime("%Y-%m-%d %H:%M:%S")})
+    else:
+        require(not dest.exists(), f"result path already exists without reusable ledger identity: {dest}")
+        dest.mkdir(parents=True, exist_ok=False)
+        command = command_for(row, dest)
+        cp = {"campaign_id": "p1-v2-official-2026-10-C4", "status": "running", "phase": "simulation",
+              "active": {"execution_id": execution_id, "config": config, "seed": int(row["seed"]),
+                         "load": row["load"], "alignment": row["alignment"], "pid": None, "percent": None,
+                         "progress_note": "OMNeT++ event-time percent is read from the live log when available"},
+              "completed": len(read_ledger()), "expected": 180, "resources": resources,
+              "snapshot_id": manifest["snapshot_id"], "updated_local": time.strftime("%Y-%m-%d %H:%M:%S")}
         atomic_json(OUT / "checkpoint.json", cp)
-        started = time.time()
-        while proc.poll() is None:
-            time.sleep(10)
-            available = mem_available_gib()
-            if free_gib() < DISK_FLOOR_GIB or available < RUNTIME_MEM_FLOOR_GIB:
-                try:
-                    os.killpg(proc.pid, signal.SIGTERM)
-                except ProcessLookupError:
-                    pass
-                proc.wait(timeout=30)
-                raise RuntimeError(f"resource floor crossed during {execution_id}: disk={free_gib():.2f}GiB, MemAvailable={available:.2f}GiB")
-            logstream.flush()
-            tail = log.read_text(errors="replace")[-200_000:]
-            matches = re.findall(r"(\d{1,3})% completed", tail)
-            cp["active"].update({"pid": proc.pid, "elapsed_s": round(time.time()-started, 1),
-                                 "percent": min(100, int(matches[-1])) if matches else None,
-                                 "log_bytes": log.stat().st_size,
-                                 "MemAvailable_gib": round(available, 3), "free_disk_gib": round(free_gib(), 3)})
+        with log.open("w", encoding="utf-8") as logstream:
+            proc = subprocess.Popen(command, cwd=SIM, env=env, stdout=logstream, stderr=subprocess.STDOUT,
+                                    start_new_session=True, preexec_fn=lambda: os.nice(5))
+            cp["active"]["pid"] = proc.pid
             atomic_json(OUT / "checkpoint.json", cp)
-    require(proc.returncode == 0, f"OMNeT++ exit={proc.returncode}; inspect {log}")
-    log_text = log.read_text(errors="replace")
-    require("Simulation time limit reached" in log_text and "End." in log_text, f"{execution_id}: normal simulation end not recorded")
+            started = time.time()
+            while proc.poll() is None:
+                time.sleep(10)
+                available = mem_available_gib()
+                if free_gib() < DISK_FLOOR_GIB or available < RUNTIME_MEM_FLOOR_GIB:
+                    try:
+                        os.killpg(proc.pid, signal.SIGTERM)
+                    except ProcessLookupError:
+                        pass
+                    proc.wait(timeout=30)
+                    raise RuntimeError(f"resource floor crossed during {execution_id}: disk={free_gib():.2f}GiB, MemAvailable={available:.2f}GiB")
+                logstream.flush()
+                tail = log.read_text(errors="replace")[-200_000:]
+                matches = re.findall(r"(\d{1,3})% completed", tail)
+                cp["active"].update({"pid": proc.pid, "elapsed_s": round(time.time()-started, 1),
+                                     "percent": min(100, int(matches[-1])) if matches else None,
+                                     "log_bytes": log.stat().st_size,
+                                     "MemAvailable_gib": round(available, 3), "free_disk_gib": round(free_gib(), 3)})
+                atomic_json(OUT / "checkpoint.json", cp)
+        require(proc.returncode == 0, f"OMNeT++ exit={proc.returncode}; inspect {log}")
+        log_text = log.read_text(errors="replace")
+        require("Simulation time limit reached" in log_text and "End." in log_text, f"{execution_id}: normal simulation end not recorded")
 
     run_dir = dest / f"{config}-0"
     require((run_dir / "clock_precision.csv").is_file() and (run_dir / "packet_events.csv").is_file(),
             f"{execution_id}: required native clock/packet probes missing")
     expected_sig = expected_calendar_for_row(row)
     observed_sig, observed_events = calendar_signature(run_dir / "events.csv")
-    require(observed_sig == expected_sig and len(observed_events) == int(row["calendar_event_count"]),
+    require(observed_sig == expected_sig and observed_events == int(row["calendar_event_count"]),
             f"{execution_id}: transient calendar signature/event count differs")
 
     # Shared postprocessor streams the large vector file and holds only exact
@@ -648,22 +707,26 @@ def run_report(row: dict, manifest: dict, resources: dict) -> dict:
                 require(actual == expected_value,
                         f"{execution_id}: compact-trace {field} mismatch for {queue['queue']}")
     sca = dest / f"{config}-#0.sca"
+    vec_path = dest / f"{config}-#0.vec"
+    require(vec_path.is_file(), f"{execution_id}: completed run vector file is missing")
     params = validator.parse_sca(sca)
-    cbs_audit = contract.validate_effective_profile(params)
-    gcl_audit = contract.validate_gcl_params(params)
+    network_root = application_report.get("network_root", "ZonalIVN")
+    cbs_audit = contract.validate_effective_profile(params, network_root=network_root)
+    gcl_audit = contract.validate_gcl_params(params, network_root=network_root)
     interfaces, queue_modules, control_queues = validator.verify_configuration(
-        params, config, run_dir, allow_gptp_control=True, allow_scheduled_gates=True)
+        params, config, run_dir, allow_gptp_control=True, allow_scheduled_gates=True,
+        network_root=network_root)
     gptp_nodes = ("HPC", "CSW", "Z1.ZSW", "Z2.ZSW", "Z3.ZSW")
     for node in gptp_nodes:
-        require(params.get((f"ZonalIVN.{node}", "hasTimeSynchronization")) == "true", f"{node}: gPTP participant flag missing")
-        require(params.get((f"ZonalIVN.{node}.clock", "typename"), "").endswith("SettableClock"), f"{node}: corrected SettableClock missing")
-        require(params.get((f"ZonalIVN.{node}.clock.oscillator", "typename"), "").endswith("ConstantDriftOscillator"), f"{node}: validated oscillator missing")
-        require(params.get((f"ZonalIVN.{node}.gptp", "typename"), "").endswith("Gptp"), f"{node}: gPTP module missing")
+        require(params.get((f"{network_root}.{node}", "hasTimeSynchronization")) == "true", f"{node}: gPTP participant flag missing")
+        require(sca_type_name(params, f"{network_root}.{node}.clock").endswith("SettableClock"), f"{node}: corrected SettableClock missing")
+        require(sca_type_name(params, f"{network_root}.{node}.clock.oscillator").endswith("ConstantDriftOscillator"), f"{node}: validated oscillator missing")
+        require(sca_type_name(params, f"{network_root}.{node}.gptp").endswith("Gptp"), f"{node}: gPTP module missing")
     for node in gptp_nodes:
-        require(params.get((f"ZonalIVN.{node}.gptp", "syncInterval")) == "0.125s", f"{node}: sync interval mismatch")
-        require(params.get((f"ZonalIVN.{node}.gptp", "pdelayInterval")) == "1s", f"{node}: pdelay interval mismatch")
+        require(params.get((f"{network_root}.{node}.gptp", "syncInterval")) == "0.125s", f"{node}: sync interval mismatch")
+        require(params.get((f"{network_root}.{node}.gptp", "pdelayInterval")) == "1s", f"{node}: pdelay interval mismatch")
     clock_summary = read_clock_summary(run_dir / "clock_precision.csv")
-    observed_gates = audit_observed_gate_states(vec_path)
+    observed_gates = audit_observed_gate_states(vec_path, network_root=network_root)
     application_report["C4_runtime_contract"] = {"CBS": cbs_audit, "GCL": gcl_audit,
         "gPTP_participants": list(gptp_nodes), "clock_summary": clock_summary,
         "observed_gate_states": observed_gates,
@@ -688,6 +751,7 @@ def run_report(row: dict, manifest: dict, resources: dict) -> dict:
         "sampled_sync_viable": clock_summary["sampled_viable"], "continuous_sync_status": "not_verified",
         "calendar_signature": expected_sig, "calendar_file_sha256": row["calendar_file_sha256"],
         "profile_sha256": manifest["profile_sha256"], "snapshot_id": manifest["snapshot_id"],
+        "simulation_snapshot_id": simulation_snapshot_id or manifest["snapshot_id"],
         "run_report": str(report_path.relative_to(ROOT)), "run_report_sha256": sha256(report_path),
         "compressed_raw_artifacts": compressed, "result_viable": application_report["viable"] and
             (not application_report["nonstable_queues"]) and clock_summary["sampled_viable"],
@@ -735,14 +799,64 @@ def main() -> None:
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--preflight-only", action="store_true", help="static/resource/calendar checks; never launches OMNeT++")
     mode.add_argument("--run", action="store_true", help="run the official 180-position C4 matrix")
+    mode.add_argument("--reprocess-existing-only", action="store_true",
+                      help="validate and commit one already-completed raw run; never launches OMNeT++")
     parser.add_argument("--resume", action="store_true", help="resume only positions with no matching valid ledger record")
+    parser.add_argument("--execution-id", help="execution ID required with --reprocess-existing-only")
     parser.add_argument("--jobs", type=int, default=1, help="must remain 1; simulations are serialized for memory/storage safety")
     args = parser.parse_args()
     require(args.jobs == MAX_JOBS, "C4 official runner is intentionally serialized: use --jobs 1")
     if args.preflight_only:
+        require(not args.resume and not args.execution_id, "--preflight-only does not accept resume/execution arguments")
         print(json.dumps(preflight(), indent=2))
         return
+    if args.reprocess_existing_only:
+        require(not args.resume, "--reprocess-existing-only does not accept --resume")
+        require(args.execution_id, "--execution-id is required with --reprocess-existing-only")
+        resources = preflight()["resources"]
+        OUT.mkdir(parents=True, exist_ok=True)
+        lock_path = OUT / ".c4_campaign.lock"
+        lock_fd = os.open(lock_path, os.O_CREAT | os.O_RDWR, 0o644)
+        try:
+            try:
+                fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError as exc:
+                raise RuntimeError("another C4 runner holds results/C4/.c4_campaign.lock") from exc
+            manifest = verify_snapshot()
+            rows = verify_calendars()
+            row = next((r for r in rows if f"C4_{r['load']}_{r['alignment']}_seed{r['seed']}" == args.execution_id), None)
+            require(row is not None, f"execution ID is not in the frozen matrix: {args.execution_id}")
+            require(not any(r["execution_id"] == args.execution_id for r in read_ledger()),
+                    f"execution already has a ledger record: {args.execution_id}")
+            dest = OUT / "runs" / args.execution_id
+            config = f"Validate_C4_{row['load']}_{row['alignment']}"
+            log = dest / f"{config}.log"
+            log_text = log.read_text(errors="replace") if log.is_file() else ""
+            require("Simulation time limit reached" in log_text and "End." in log_text and
+                    "SIGINT or SIGTERM received" not in log_text,
+                    f"{args.execution_id}: existing log does not prove normal simulation completion")
+            attempts = [json.loads(x) for x in (OUT / "technical_attempts.jsonl").read_text().splitlines()
+                        if x.strip()] if (OUT / "technical_attempts.jsonl").exists() else []
+            prior = next((x for x in reversed(attempts) if x.get("execution_id") == args.execution_id), {})
+            simulation_snapshot_id = prior.get("snapshot_id") or prior.get("replacement_snapshot_id") or manifest["snapshot_id"]
+            try:
+                run_report(row, manifest, resources, reprocess_existing=True,
+                           simulation_snapshot_id=simulation_snapshot_id)
+            except Exception as exc:
+                atomic_json(OUT / "checkpoint.json", {"campaign_id": "p1-v2-official-2026-10-C4",
+                    "status": "paused_postprocessing_review", "phase": "postprocessing", "active": None,
+                    "failed_execution": args.execution_id, "completed": len(read_ledger()), "expected": 180,
+                    "error": repr(exc), "snapshot_id": manifest["snapshot_id"],
+                    "resources": {"free_disk_gib": round(free_gib(),3), "MemAvailable_gib": round(mem_available_gib(),3)}})
+                raise
+            return
+        finally:
+            try:
+                fcntl.flock(lock_fd, fcntl.LOCK_UN)
+            finally:
+                os.close(lock_fd)
     require(args.resume, "--run requires --resume; this runner never overwrites completed results")
+    require(not args.execution_id, "--execution-id is only valid with --reprocess-existing-only")
     result = preflight()
     OUT.mkdir(parents=True, exist_ok=True)
     lock_path = OUT / ".c4_campaign.lock"
@@ -776,13 +890,36 @@ def main() -> None:
                 require(report.is_file() and sha256(report) == old["run_report_sha256"], f"reused C4 report changed: {execution_id}")
                 continue
             attempt_log = OUT / "technical_attempts.jsonl"
-            prior_attempts = sum(1 for x in attempt_log.read_text().splitlines() if execution_id in x) if attempt_log.exists() else 0
-            require(prior_attempts <= 1, f"{execution_id} already used its one technical replacement; manual audit required")
             dest = OUT / "runs" / execution_id
-            if dest.exists():
+            config = f"Validate_C4_{row['load']}_{row['alignment']}"
+            existing_log = dest / f"{config}.log"
+            existing_text = existing_log.read_text(errors="replace") if existing_log.is_file() else ""
+            reprocess_existing = (dest.is_dir() and "Simulation time limit reached" in existing_text and
+                                  "End." in existing_text and "SIGINT or SIGTERM received" not in existing_text)
+            if dest.exists() and not reprocess_existing:
+                prior_attempts = 0
+                if attempt_log.exists():
+                    for line in attempt_log.read_text().splitlines():
+                        if not line.strip():
+                            continue
+                        attempt = json.loads(line)
+                        if (attempt.get("execution_id") == execution_id and
+                                attempt.get("snapshot_id") == manifest["snapshot_id"]):
+                            prior_attempts += 1
+                require(prior_attempts <= 1,
+                        f"{execution_id} already used its technical replacement under snapshot {manifest['snapshot_id']}; manual audit required")
                 archive_incomplete(dest, execution_id)
             try:
-                run_report(row, manifest, resources)
+                prior = next((json.loads(x) for x in reversed(attempt_log.read_text().splitlines())
+                              if x.strip() and json.loads(x).get("execution_id") == execution_id), {}) if attempt_log.exists() else {}
+                # A fresh rerun is governed by the current snapshot. Reuse an
+                # earlier snapshot identity only when post-processing a full,
+                # normally completed simulation that is being retained.
+                simulation_snapshot_id = (prior.get("simulation_snapshot_id") or prior.get("snapshot_id")
+                                          or prior.get("replacement_snapshot_id") or manifest["snapshot_id"]
+                                          if reprocess_existing else manifest["snapshot_id"])
+                run_report(row, manifest, resources, reprocess_existing=reprocess_existing,
+                           simulation_snapshot_id=simulation_snapshot_id)
             except Exception as exc:
                 append_jsonl(attempt_log, {"execution_id": execution_id, "status": "technical_invalid_or_interrupted",
                     "error": repr(exc), "snapshot_id": manifest["snapshot_id"],

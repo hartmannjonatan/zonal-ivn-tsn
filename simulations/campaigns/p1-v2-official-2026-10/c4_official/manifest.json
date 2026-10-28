@@ -1,5 +1,6 @@
 {
-  "base_commit": "bc0769f77f0bd89fb76f4ab248ea46c234220dbf",
+  "amended_after_first_run_id": "C4_L0_A0_seed1001",
+  "base_commit": "62664fb9f9e751dfd9813c4ca49eec494b8990a0",
   "buffers": {
     "CSW_and_switch_bottleneck_queues": {
       "bits": 1048576,
@@ -26,9 +27,9 @@
     "c2_calibration_records_not_final": 27,
     "campaign_active": false,
     "campaign_id": "p1-v2-official-2026-10",
-    "campaign_manifest_sha256": "96307a59b251d632011d461a39b1b3d442d3a1f9f7839317a9a6294d4f8fab2b",
-    "checkpoint_file_sha256_at_freeze": "16dc2d966bfbf56c3ec5e6802e867ffc631a5f1557699acdf9e59c0d8ecb34c9",
-    "checkpoint_status_at_freeze": "paused_at_cell_boundary",
+    "campaign_manifest_sha256": "dd384b762fd8fb922b84d38d5ca2d7185c4f1f4fef63ee239ea2ec77dee576c8",
+    "checkpoint_file_sha256_at_freeze": "413fd754e2cb9d4c03f3b4302f96193af7d302601149ea59fb91505948090a77",
+    "checkpoint_status_at_freeze": "runner_failed",
     "final_positions": {
       "C0": {
         "completed_positions": 240,
@@ -834,31 +835,46 @@
       "tc7_start_phase_s": 0.0
     }
   },
+  "gcl_runtime_resolution_correction": {
+    "full_campaign_started_by_correction": false,
+    "method": "exact fully-qualified C4 gate CLI overrides; all 32 gate parameters verified by 1 ms smoke",
+    "reason": "effective SCA previously contained empty schedules despite intended GCL entries",
+    "replaces_snapshot": "c4-d3-e396f8b873294674",
+    "verified_contracts": {
+      "CBS_instances": 24,
+      "network_root": "C4Instrumented",
+      "scheduled_gates": 32
+    }
+  },
   "input_file_hashes": {
     "docs/design/P1-final.pdf": "2c26a823006a3122692fdcbae931a10af12b10bd10b67375e7bf4969bec59e7f",
     "scripts/catalog/generate.py": "079df8d6fb16f6a105ae382f3a1cdf704104a2d2437f6c92c95613839671e74e",
-    "scripts/run/validate_c0.py": "205d74002532448b4a89140bddec58b16cb3521592fb75cdeeff7140a5a33eb8",
+    "scripts/run/validate_c0.py": "2b4bda29510150052822567e35dcf5b9cbf5f4e2aa46e8c9492cc3adb7a96fcf",
     "simulations/README.md": "1ecaaa99646beb24bb3dbe2df993ccb4d527c64779e6bfa21dd526735bfeabcb",
     "simulations/c4_official/.gitignore": "1d56ec6ad8d41fb3be05785fab5a36fdd8be4e0e76a1d77ae7139f7c01bffd9a",
     "simulations/c4_official/C4Instrumented.ned": "80ee04827211d3049603d3bd2ea95a648f424621a6ed1c2da3622dd3d810d573",
-    "simulations/c4_official/C4_D3_absolute_profile.ini": "67276ce160763338431f3a2aa1bdddf4b752384600ace3652bdfe3c27eee9570",
+    "simulations/c4_official/C4_D3_absolute_profile.ini": "5f5dbaae3aabc44060a7c80a17cf4033a82f6f0fc0fd7b424702fbb6fccc6676",
     "simulations/c4_official/C4_operational_freeze_addendum.md": "1a10918366ac7790efd4fc2d685f07780923a3cbd9dc69ec4664b624a06d3fd2",
     "simulations/c4_official/ClockPrecisionProbe.ned": "2fa244801412500607b224eb46ba6dc85b2c92054c42f5402702157f66bf9661",
-    "simulations/c4_official/RealClockTraceProbe.ned": "3946cbfe80b81c238c069e34e97b724affe92e646d8e44e0e2dafc58ffea0ad9",
+    "simulations/c4_official/RealClockTraceProbe.ned": "cfc30e8a1ba296ea252932c2c4e48520904f8ffc2340467a5102374541a91232",
     "simulations/c4_official/frozen_d3_l2_profile.json": "ccf836e5960eb8e6271ad5082039e2853130a30f4264fe76e02f8a3e2d53dbcf",
     "simulations/c4_official/frozen_profile_table.csv": "cdaa1186f60f48983eabae06787346fc581584032ac79dfc2e51b74f43be460c",
     "simulations/c4_official/plugin/ClockPrecisionProbe.cc": "6f91e3632f2a87e40b56aa0c37663195695fec82a00560d5791ba3e9dc3c1f8f",
     "simulations/c4_official/plugin/Makefile": "a66dac085cd3c0ecb151cd9d35a4b42ee17cea15a9046e321df52a5e42670e16",
-    "simulations/c4_official/plugin/RealClockTraceProbe.cc": "45c14e20e649a7847b29501f97a157e2bc88e0af033d73677b657bcda6dca888",
-    "simulations/c4_official/plugin/libc4realclockprobe.so": "db6b673fb26eb008f04bf3001e8b7fac2297eb8f8ded538ba36a351a26717af8",
-    "simulations/c4_official/validate_c4_contract.py": "cd69a4b1d888e3519d0fbc34d21c348b8bfbc59825933bb40bdfa9c9c6c04752",
+    "simulations/c4_official/plugin/RealClockTraceProbe.cc": "ef3cfbc455f09fd0f7494fb55d1a69788d848a7ee3445f6b0751e5f8587a57bb",
+    "simulations/c4_official/plugin/libc4realclockprobe.so": "9fe372828c84622995ec271c1b0b17b814ee1cadb267c8469be7a51a0c4cb857",
+    "simulations/c4_official/validate_c4_contract.py": "62d93572bb50954bedb1b2af22d25a6a5dd55f57388ff667ae5c4e29b10800b6",
     "simulations/campaigns/p1-v2-official-2026-10/c4_official/.gitignore": "6a8882692c1cb3aed24d9b00b43865e0a08728d4fe3772761a4ae575a1eaab39",
-    "simulations/campaigns/p1-v2-official-2026-10/c4_official/README.md": "9ecb5b5d07130030bdd36b4db08987762882c1a357274e8536db26eab2d5d4cd",
-    "simulations/campaigns/p1-v2-official-2026-10/c4_official/c4_official.ini": "912a56b547ca28b1f25f2224d80f8fc252f97347dd88d48437d0c63252afbdf4",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/README.md": "d3d544454ff0f1f29c6f40794cd3fb28ebaeb69d7e998d4623f788fbf682f1bb",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/c4_official.ini": "3bae2434dfc5a5779d8b8c473be0be36c73b101e89779b93c3b267533440d670",
     "simulations/campaigns/p1-v2-official-2026-10/c4_official/c4_status.py": "7d5e5aaf16d513c7e459d242a423915f3efab6d612f6bfe4518538a2d4a90390",
-    "simulations/campaigns/p1-v2-official-2026-10/c4_official/freeze_c4_snapshot.py": "4c729809770b1871ca278c671854ddfa05eee003cb575cedbb6a0effe09a6567",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/freeze_c4_snapshot.py": "8a10ed9493cbb6fe23d436f9a354a18720bd4904f38d1323e31e1b73bbd0f525",
     "simulations/campaigns/p1-v2-official-2026-10/c4_official/matrix.csv": "85c98aa82383db1fe72dcfc90835100e44cd5400ec66015b8ef3f619168a127d",
-    "simulations/campaigns/p1-v2-official-2026-10/c4_official/run_c4_campaign.py": "113d9331e4b3848672259d3558ebf26194dc0bdf51e7375938c59719f99a145b",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/run_c4_campaign.py": "899a272e9ff75df8580626cf8044e7ea2d04b22488bb664217c6a679fca9d11b",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/runtime_amendment_2026-10-25.md": "94e5edbde94e0b13fbb8b5a34269c74725b5bf52dc213919a36df3dd40d88d28",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/runtime_amendment_calendar_postprocess_2026-10-25.md": "99ee12f95d5bc7832cdf592ce955249200ffad393e0e0bd4258f221785953657",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/runtime_amendment_sca_typename_parser_2026-10-25.md": "2a67a843c31c48352a1fd3719691811b0be652dc01b41adafe82b8c65d126e66",
+    "simulations/campaigns/p1-v2-official-2026-10/c4_official/runtime_amendment_storage_2026-10-25.md": "718111a85dea1605525c2edba0966ee03d1522126dea1973718d81d8f07e4772",
     "simulations/campaigns/p1-v2-official-2026-10/calibration_protocol.json": "127a975282c23e1f947d990979fd0ba3052f39c59c5f9d5e718f81a705860ae3",
     "simulations/campaigns/p1-v2-official-2026-10/campaign_status.py": "bb37d7f6806a50eb2e4c5a6d515f0790d4edd7eeeef4a798d6729f7f20a8ffa4",
     "simulations/campaigns/p1-v2-official-2026-10/merge_campaign_shards.py": "b911a152d7ac8942149d282f402d61d47b865dcbe05ec0ac03a9b25cf33c764a",
@@ -1043,7 +1059,7 @@
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L2/A1/seed1028_events.csv": "75a44cf68e7e5308d868684345d40c87c4beef8af422cd497adee6b841b26729",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L2/A1/seed1029_events.csv": "f6036c36a4301872fa60efbbe059d3777be6aa71326d15797a0582e8487f1980",
     "simulations/campaigns/p1-v2-official-2026-10/results/calendars/L2/A1/seed1030_events.csv": "91ed079b503c93630790f3b7616a6691606100b93c5dc4ad0f94d7e77d50596b",
-    "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": "66756ac0c6bb7899ff02fddd756c21a7433dbe23ba43854488b09595557dafb8",
+    "simulations/campaigns/p1-v2-official-2026-10/run_campaign.py": "e7c8244fab437b0e15b23905176afda0ed03970f9c8090c04bedd6684da3ab56",
     "simulations/campaigns/p1-v2-official-2026-10/run_official_campaign.py": "5f8200d483d938d47ea4290c4a529ef115b239823641c4e5577698596a54c237",
     "simulations/omnetpp.ini": "ccb2660dc084be88e5d2fb1f156f63e5aedbb4c216f38d473cac9bcd910ee339",
     "simulations/pilot/c4_feasibility_decision/conditional_phase_preregistration_2026-10-20.md": "979cb9c2f6280c5bcac5dadb1d9275e22548a0dfb8d2d909a3c25cd6155fa781",
@@ -1097,7 +1113,8 @@
     "src/package.ned": "a318f926ccd99afd0db3a68c531825763e64046aba55700e4640740f1cf3aebd",
     "src/queueing/package.ned": "9eeb1a2928341a9d9a8b4c3c64273191d746ec4d0d288a38ccaf88917efeaa97",
     "src/zonal-ivn-tsn": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7",
-    "tests/validation/traffic/check_traffic.py": "09d0f752ddc3edccf1801189251862a60cbcc0a2a266c607e13f72aa4bd5c1de",
+    "tests/validation/test_campaign_run_recovery.py": "0ccd8e3e636a3d199b2570510787f61304eff8e2a00d888b46f570dc4360ffac",
+    "tests/validation/traffic/check_traffic.py": "8d3a705ad33d672ec02248f0f51deb0499b8da8abb08e083ef42a3fb2cf25c43",
     "tests/validation/traffic/test_drop_scope_reconciliation.py": "ba01bd65d9fa617869b3d6f3fadd3fcd098673efa47f2c15280e58206531146a"
   },
   "matrix": {
@@ -1652,28 +1669,60 @@
   },
   "profile_rows": 24,
   "profile_sha256": "571e3a10e004005b2994aadc6dc495db730f6e9b8842af2550ebcbb3d6eb33be",
+  "runtime_amendments": [
+    {
+      "amendment_file": "simulations/campaigns/p1-v2-official-2026-10/c4_official/runtime_amendment_2026-10-25.md",
+      "amendment_sha256": "b41fe974015a289276fd1540fec188dfd5c4e438b7620c76aae931273b974b1f",
+      "corrections": [
+        "NED search path resolves repository-root src/tests from simulations cwd",
+        "dimensionless CBS credit parameters no longer carry bit units"
+      ],
+      "credit_values_changed": false,
+      "failed_attempt": "C4_L0_A0_seed1001",
+      "failure": "NED path resolved src relative to simulations/ instead of repository root; run stopped before network initialization",
+      "functional_treatment_changed": false,
+      "id": "ned-search-path-2026-10-25",
+      "previous_snapshot_id": "c4-d3-99e3ff698b48258c",
+      "profile_rates_changed": false,
+      "scope": "technical runner path correction only"
+    },
+    {
+      "file": "simulations/campaigns/p1-v2-official-2026-10/c4_official/runtime_amendment_storage_2026-10-25.md",
+      "purpose": "avoid redundant queue/CBS/PHY trace volume and require measured temporary-output headroom",
+      "replaces_snapshot": "c4-d3-f85ce455a70a0893",
+      "simulation_model_parameters_changed": false
+    }
+  ],
   "runtime_versions": {
     "executable_sha256": "ca8e9d75878fe89c664f392126403b44a31c79b03d4dcacf949fbc4e95ba32a7",
     "inet": "inet-4.7.0-dfe270b21f",
     "inet_library_sha256": "5beee4b431f2e685e1bb9664bcc4a8a9f5b4123704b7da081d7017be1c58f3e1",
     "omnetpp": "omnetpp-6.4.0",
-    "probe_plugin_sha256": "db6b673fb26eb008f04bf3001e8b7fac2297eb8f8ded538ba36a351a26717af8"
+    "probe_plugin_sha256": "9fe372828c84622995ec271c1b0b17b814ee1cadb267c8469be7a51a0c4cb857"
   },
   "schema_version": "1.0",
   "selected_candidate": "D3_coordinated_20pct",
   "selected_exploratory_execution": "D3_TAS_L2_A1_seed41",
   "simulation_started_by_freeze_step": false,
-  "snapshot_created_local": "2026-10-22",
-  "snapshot_id": "c4-d3-b1f20f4019951e72",
-  "snapshot_sha256": "b1f20f4019951e7225d279d7def9fb5615b69557ccdd3960cedb386db7da3377",
+  "snapshot_amended_local": "2026-10-25",
+  "snapshot_amendment": "post-processing-only: normalize escaped SCA typename values and bind the existing vector path before gate audit; model execution inputs unchanged",
+  "snapshot_created_local": "2026-10-25",
+  "snapshot_id": "c4-d3-fee029e1ee116b48",
+  "snapshot_sha256": "fee029e1ee116b4862ccb17cba48f1f5c9110c6d68e7b632d663670d026d138f",
+  "source_snapshot_before_sca_typename_parser_fix": "c4-d3-d7dea001445ffa79",
+  "source_snapshot_before_vec_path_fix": "c4-d3-23f4d022bb046117",
   "storage_policy": {
     "drop_full_vectors_only_after_filtered_evidence_and_all_gates_reconcile": true,
+    "duplicate_queue_and_credit_callback_csv_disabled": true,
     "jobs": 1,
     "min_free_gib_before_and_during_run": 40,
+    "min_free_gib_before_launch": 44.5,
     "never_delete_historical_pilot_or_C0_C3_results": true,
+    "packet_trace_stride_applies_to_packet_and_phy_events": 256,
     "retain_exact_credit_gate_guard_band_and_gptp_vectors_only": true,
     "retain_exact_packet_image_quantile_tails_and_native_clock_samples": true,
-    "retain_exact_queue_change_points_in_lossless_delta_varint_format": true
+    "retain_exact_queue_change_points_in_lossless_delta_varint_format": true,
+    "temporary_output_allowance_gib": 4.5
   },
   "triage": {
     "L0_L2": "reservation sums are under cap. Empirical reuse supports the candidate in L0/A0 seed41, L1/A1 seed41 and L2/A1 seeds41/43/47. Other cells remain empirical gaps; a static reserve sum alone is not a gate-aware service guarantee.",
@@ -1689,5 +1738,5 @@
     "all_port_reservation_caps_pass": true
   },
   "working_tree_clean": false,
-  "working_tree_status_at_freeze": "M simulations/campaigns/p1-v2-official-2026-10/campaign_manifest.json\n M simulations/campaigns/p1-v2-official-2026-10/parallel_campaign_contract.json\n M simulations/campaigns/p1-v2-official-2026-10/run_campaign.py\n?? simulations/campaigns/p1-v2-official-2026-10/c4_official/protocol_history/before_shard_id_import_fix_2026-10-22/"
+  "working_tree_status_at_freeze": "M simulations/campaigns/p1-v2-official-2026-10/c4_official/checkpoint_template.json\n M simulations/campaigns/p1-v2-official-2026-10/c4_official/manifest.json\n M simulations/campaigns/p1-v2-official-2026-10/campaign_manifest.json\n M simulations/campaigns/p1-v2-official-2026-10/parallel_campaign_contract.json\npost-freeze amendment: SCA typename normalization\npost-freeze amendments: SCA typename normalization; vector-path binding"
 }

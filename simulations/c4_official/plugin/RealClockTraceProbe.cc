@@ -25,6 +25,8 @@ class RealClockTraceProbe final : public cSimpleModule, public cListener {
     uint64_t order = 0;
     uint64_t packetTraceStride = 256;
     simtime_t gateTraceUntil = SIMTIME_ZERO;
+    bool traceQueueStates = false;
+    bool traceCreditStates = false;
     std::vector<cComponent *> subscribed;
     simsignal_t pushStarted = cComponent::registerSignal("packetPushStarted");
     simsignal_t pulled = cComponent::registerSignal("packetPulled");
@@ -87,8 +89,14 @@ class RealClockTraceProbe final : public cSimpleModule, public cListener {
             subscribe(pulled);
             subscribe(removed);
             subscribe(dropped);
-            subscribe(queueLengthChanged);
-            subscribe(queueBitsChanged);
+            // Exact queue occupancy is already preserved by OMNeT++'s
+            // queueBitLength vectors. Mirroring every enqueue/dequeue here
+            // creates a multi-gigabyte duplicate CSV and can exhaust the
+            // campaign's disk reserve before the simulation completes.
+            if (traceQueueStates) {
+                subscribe(queueLengthChanged);
+                subscribe(queueBitsChanged);
+            }
         }
         if (path.find(".transmitter") != std::string::npos) {
             subscribe(sentLower);
@@ -99,8 +107,9 @@ class RealClockTraceProbe final : public cSimpleModule, public cListener {
             subscribe(gateChanged);
             subscribe(guardChanged);
         }
-        if (path.find(".transmissionSelectionAlgorithm[") != std::string::npos ||
-            path.find(".transmissionGate[") != std::string::npos)
+        if (traceCreditStates &&
+            (path.find(".transmissionSelectionAlgorithm[") != std::string::npos ||
+             path.find(".transmissionGate[") != std::string::npos))
             subscribe(creditsChanged);
         if (std::string(module->getName()) == "clock")
             subscribe(timeChanged);
@@ -116,6 +125,8 @@ class RealClockTraceProbe final : public cSimpleModule, public cListener {
         if (!out) throw cRuntimeError("Cannot open real-clock trace output %s", par("outputFile").stringValue());
         packetTraceStride = par("packetTraceStride").intValue();
         gateTraceUntil = SimTime(par("gateTraceUntil"));
+        traceQueueStates = par("traceQueueStates").boolValue();
+        traceCreditStates = par("traceCreditStates").boolValue();
         if (packetTraceStride == 0) throw cRuntimeError("packetTraceStride must be positive");
         out << "event,order,simtime_raw,source,kind,packet_id,flow,seq,data_bits,value\n";
         auto root = getParentModule();
@@ -158,7 +169,8 @@ class RealClockTraceProbe final : public cSimpleModule, public cListener {
             auto packet = encoded ? dynamic_cast<Packet *>(encoded->getEncapsulatedPacket()) : nullptr;
             int flow = 0;
             unsigned long seq = 0;
-            if (selectedPacket(packet, flow, seq))
+            if (selectedPacket(packet, flow, seq) &&
+                (packetTraceStride <= 1 || seq % packetTraceStride == 0))
                 row(signal == txStarted ? "phy_tx_start" : "phy_tx_end", source,
                     packet->getName(), flow, seq, packet->getDataLength().get());
             return;

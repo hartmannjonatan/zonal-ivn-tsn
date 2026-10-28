@@ -123,7 +123,7 @@ def summarize_sca_metrics(params):
         if value != "recorded":
             continue
         if name == "queueingTime:histogram":
-            match = re.fullmatch(r"(ZonalIVN\..*\.eth\[\d+\]\.macLayer\.queue\.queue\[(\d+)\])", module)
+            match = re.fullmatch(r"((?:ZonalIVN|C4Instrumented)\..*\.eth\[\d+\]\.macLayer\.queue\.queue\[(\d+)\])", module)
             if match:
                 queueing_time.append({
                     "queue": module, "tc": int(match.group(2)),
@@ -357,7 +357,8 @@ def recompute_queue_occupancy_trace(trace_path):
     return result
 
 
-def audit_active_classes(expected_active, observed_active, allow_gptp_control=False):
+def audit_active_classes(expected_active, observed_active, allow_gptp_control=False,
+                         network_root="ZonalIVN"):
     """Check catalog classes, optionally allowing gPTP PCP 7 on clock-aware egresses.
 
     The exception is deliberately narrow: PCP 7 may be an additional active
@@ -370,7 +371,7 @@ def audit_active_classes(expected_active, observed_active, allow_gptp_control=Fa
         observed = observed_active.get(queue, set())
         extras = observed - classes
         gptp_egress = bool(re.match(
-            r"^ZonalIVN\.(?:HPC|CSW|Z[123]\.ZSW)\.eth\[\d+\]\.macLayer\.queue$", queue))
+            r"^" + re.escape(network_root) + r"\.(?:HPC|CSW|Z[123]\.ZSW)\.eth\[\d+\]\.macLayer\.queue$", queue))
         permitted = {7} if allow_gptp_control and gptp_egress else set()
         require(classes <= observed and extras <= permitted,
                 f"observed PCP queues at {queue} are {observed}, expected {classes}"
@@ -382,7 +383,7 @@ def audit_active_classes(expected_active, observed_active, allow_gptp_control=Fa
         if queue in expected_active or not observed:
             continue
         gptp_egress = bool(re.match(
-            r"^ZonalIVN\.(?:HPC|CSW|Z[123]\.ZSW)\.eth\[\d+\]\.macLayer\.queue$", queue))
+            r"^" + re.escape(network_root) + r"\.(?:HPC|CSW|Z[123]\.ZSW)\.eth\[\d+\]\.macLayer\.queue$", queue))
         require(allow_gptp_control and gptp_egress and observed <= {7},
                 f"unexpected active PCP queues at {queue}: {observed}")
         extras_by_queue[queue] = sorted(observed)
@@ -390,7 +391,7 @@ def audit_active_classes(expected_active, observed_active, allow_gptp_control=Fa
 
 
 def verify_configuration(params, config, run_dir, allow_gptp_control=False,
-                         allow_scheduled_gates=False):
+                         allow_scheduled_gates=False, network_root="ZonalIVN"):
     interfaces = sorted({module.removesuffix(".classifier")
                          for module, name in params
                          if name == "mapping" and module.endswith(".macLayer.queue.classifier")})
@@ -407,12 +408,12 @@ def verify_configuration(params, config, run_dir, allow_gptp_control=False,
         selector = selection.removesuffix(".classifier") + ".transmissionSelection"
         require(params.get((selector, "reverseOrder")) == "true",
                 f"{config}: strict priority is not descending at {interface}")
-        gcl_interfaces = {"ZonalIVN.HPC.eth[0].macLayer.queue",
-                          *(f"ZonalIVN.CSW.eth[{i}].macLayer.queue" for i in (1, 2, 3)),
-                          *(f"ZonalIVN.Z{z}.ZSW.eth[4].macLayer.queue" for z in (1, 2)),
+        gcl_interfaces = {f"{network_root}.HPC.eth[0].macLayer.queue",
+                          *(f"{network_root}.CSW.eth[{i}].macLayer.queue" for i in (1, 2, 3)),
+                          *(f"{network_root}.Z{z}.ZSW.eth[4].macLayer.queue" for z in (1, 2)),
                           # F10 exits at Z3.ZSW.eth[5]. The corrected full-path
                           # pilot diagnostic gates that actual route egress.
-                          "ZonalIVN.Z3.ZSW.eth[5].macLayer.queue"}
+                          f"{network_root}.Z3.ZSW.eth[5].macLayer.queue"}
         for tc in range(8):
             gate = interface.replace(".classifier", "") + f".transmissionGate[{tc}]"
             require(params.get((gate, "initiallyOpen")) == "true", f"{config}: gate {gate} is not open")
@@ -439,8 +440,8 @@ def verify_configuration(params, config, run_dir, allow_gptp_control=False,
             queue_modules.append(queue)
     # Every traffic source and switch must actually have class-based egress queues.
     source_nodes = {row["source"] for row in csv.DictReader((SIM / "zonal/traffic/flows.csv").open())}
-    expected_nodes = {"ZonalIVN." + n for n in source_nodes}
-    expected_nodes |= {"ZonalIVN.CSW", *(f"ZonalIVN.Z{i}.ZSW" for i in (1, 2, 3))}
+    expected_nodes = {network_root + "." + n for n in source_nodes}
+    expected_nodes |= {network_root + ".CSW", *(f"{network_root}.Z{i}.ZSW" for i in (1, 2, 3))}
     for node in expected_nodes:
         require(params.get((node, "hasEgressTrafficShaping")) == "true",
                 f"{config}: class queues are not enabled on {node}")
@@ -455,26 +456,27 @@ def verify_configuration(params, config, run_dir, allow_gptp_control=False,
                     pcp[row["flow"]])
     observed_active = {}
     for (module, name), value in params.items():
-        match = re.fullmatch(r"(ZonalIVN\..*\.macLayer\.queue)\.queue\[(\d+)\]", module)
+        match = re.fullmatch(r"(" + re.escape(network_root) + r"\..*\.macLayer\.queue)\.queue\[(\d+)\]", module)
         if match and name == "queueLength:max" and float(value) > 0:
             observed_active.setdefault(match.group(1), set()).add(int(match.group(2)))
     control_queues = audit_active_classes(expected_active, observed_active,
-                                          allow_gptp_control=allow_gptp_control)
+                                          allow_gptp_control=allow_gptp_control,
+                                          network_root=network_root)
     return interfaces, queue_modules, control_queues
 
 
-def load_app_flow_map():
+def load_app_flow_map(network_root="ZonalIVN"):
     flow_by_app = {}
     pattern = re.compile(r"^\*\.([A-Za-z0-9_.]+)\.app\[(\d+)\]\.flowId\s*=\s*(\d+)")
     for line in (SIM / "zonal/configs/catalog-bindings.ini").read_text().splitlines():
         match = pattern.match(line.strip())
         if match:
             node, app, flow_id = match.groups()
-            flow_by_app[("ZonalIVN." + node, int(app))] = f"F{int(flow_id):02d}"
+            flow_by_app[(network_root + "." + node, int(app))] = f"F{int(flow_id):02d}"
     return flow_by_app
 
 
-def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
+def read_vectors(vec_path, sca_params, run_summary, expected_queue_count, network_root="ZonalIVN"):
     definitions = {}
     with vec_path.open(errors="replace") as stream:
         for line in stream:
@@ -487,7 +489,7 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
                 # stop here instead of scanning the full, multi-GB file twice.
                 break
 
-    app_flow = load_app_flow_map()
+    app_flow = load_app_flow_map(network_root)
     flow_catalog = {row["flow_id"]: row for row in
                     csv.DictReader((SIM / "zonal/traffic/flows.csv").open())}
     load_factor = (0.5, 1.0, 2.5, 4.0)[int(run_summary["run"]["load"])]
@@ -515,7 +517,7 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
             match = re.fullmatch(r"(.*)\.app\[(\d+)\]", module)
             if match and (match.group(1), int(match.group(2))) in app_flow:
                 flow = app_flow[match.group(1), int(match.group(2))]
-                node = match.group(1).removeprefix("ZonalIVN.")
+                node = match.group(1).removeprefix(network_root + ".")
                 # Latencies are meaningful at receivers only; sender modules also emit vectors.
                 if run_summary["flows"].get(flow, {}).get("receivers", {}).get(node) is not None:
                     deadline = float(run_summary["flows"][flow].get("deadline_us") or 0) / 1e6
@@ -526,7 +528,7 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
             match = re.fullmatch(r"(.*)\.app\[(\d+)\]", module)
             if match and (match.group(1), int(match.group(2))) in app_flow:
                 flow = app_flow[match.group(1), int(match.group(2))]
-                node = match.group(1).removeprefix("ZonalIVN.")
+                node = match.group(1).removeprefix(network_root + ".")
                 if run_summary["flows"].get(flow, {}).get("receivers", {}).get(node) is not None:
                     deadline = float(run_summary["flows"][flow].get("deadline_us") or 0) / 1e6
                     image_latency_count[vector_id] = (flow, node, 0, 0, deadline)
@@ -537,7 +539,7 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
                     image_latency_tail[vector_id] = {"keep": max(1, math.floor(0.01 * expected) + 1), "values": []}
                     image_vector_receivers.add((flow, node))
         elif metric == "queueBitLength:vector":
-            match = re.fullmatch(r"(ZonalIVN\..*\.eth\[\d+\]\.macLayer\.queue\.queue\[(\d+)\])", module)
+            match = re.fullmatch(r"(" + re.escape(network_root) + r"\..*\.eth\[\d+\]\.macLayer\.queue\.queue\[(\d+)\])", module)
             if match:
                 queue = match.group(1)
                 capacity = sca_params.get((queue, "dataCapacity"))
@@ -547,7 +549,7 @@ def read_vectors(vec_path, sca_params, run_summary, expected_queue_count):
                                              "previous": (0.0, 0.0), "bins": [0.0] * 6,
                                              "max_occupancy_bits": 0.0, "near_capacity_seconds": 0.0}
         elif metric == "droppedPacketLengthsQueueOverflow:vector":
-            match = re.fullmatch(r"(ZonalIVN\..*\.eth\[\d+\]\.macLayer\.queue\.queue\[(\d+)\])", module)
+            match = re.fullmatch(r"(" + re.escape(network_root) + r"\..*\.eth\[\d+\]\.macLayer\.queue\.queue\[(\d+)\])", module)
             if match:
                 drop_vector_info[vector_id] = {"module": match.group(1), "tc": int(match.group(2)),
                                                "packets_post_warmup": 0, "bytes_post_warmup": 0,
@@ -956,16 +958,17 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
     sca_path = output / f"{config}-#0.sca"
     require(vec_path is not None and sca_path.exists(), f"{config}: missing OMNeT++ result files")
     params = parse_sca(sca_path)
+    network_root = summary.get("network_root", "ZonalIVN")
     interfaces, queues, control_queues = verify_configuration(
         params, config, run_dir, allow_gptp_control=allow_gptp_control,
-        allow_scheduled_gates=allow_scheduled_gates)
+        allow_scheduled_gates=allow_scheduled_gates, network_root=network_root)
     summary["additional_active_gptp_control_queues"] = control_queues
     camera_source_queue_drops = {}
     flow_classes = {r["flow_id"]: int(r["traffic_class"])
                     for r in csv.DictReader((SIM / "zonal/traffic/flows.csv").open())}
     for camera, flow in (("CAM1", "F02"), ("CAM2", "F03"), ("CAM3", "F04"), ("CAM4", "F05")):
         tc = flow_classes[flow]
-        queue = f"ZonalIVN.{camera}.eth[0].macLayer.queue.queue[{tc}]"
+        queue = f"{network_root}.{camera}.eth[0].macLayer.queue.queue[{tc}]"
         dropped = params.get((queue, "droppedPacketsQueueOverflow:count"))
         require(dropped is not None, f"{config}: missing drop counter for {queue}")
         camera_source_queue_drops[camera] = int(float(dropped))
@@ -983,7 +986,7 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
         require(params.get((phy, "utilization:histogram")) == "recorded",
                 f"{config}: missing utilization histogram at {phy}")
     latencies, image_latencies, stability, measurement_drops, drop_vectors_available = read_vectors(
-        vec_path, params, summary, len(queues))
+        vec_path, params, summary, len(queues), network_root=network_root)
     if summary["drops"] > 0:
         require(drop_vectors_available and len(measurement_drops) == len(queues),
                 f"{config}: drops occurred but timestamped per-queue samples are missing")
@@ -1026,7 +1029,7 @@ def run_cell(config, output, env=None, inet=None, execute=True, result_dir_overr
                 break
     cell_viable = (not nonstable and all(v["viable"] is not False
                                         for m in qos.values() for v in m["receivers"].values()))
-    report = {"config": config, "treatment": treatment,
+    report = {"config": config, "treatment": treatment, "network_root": network_root,
               "load": expected_load, "aggregation": expected_aggregation,
               "metric_windows": {
                   "simulation_observation_s": [0.0, WARMUP + MEASUREMENT + DRAIN],
