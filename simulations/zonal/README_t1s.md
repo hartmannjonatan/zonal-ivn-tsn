@@ -277,3 +277,73 @@ Observations:
   lose 4–28 % with ≈ 107–138 ms latency.
 - Upstream traffic from the extra nodes is never lost: each node has its own
   TO and a low duty cycle.
+
+## Step 4 — validation of the original C0 against the official campaign
+
+Config `Validate_C0_L1_A0_P1seeds` (`zonal/configs/c0_reference.ini`, included
+by `zonal_t1s.ini`) extends the unmodified `Validate_C0_L1_A0`: 1 s warm-up,
+30 s measurement, 50 ms drain, the campaign's vector recording. It adds only
+seeds 1001–1005, a result directory and
+`**.propagationTime.statistic-recording = false` (INET master). Run 4 in
+parallel (≈ 140 MB RSS each, ≈ 19 min per run, 2 225 s wall). Report:
+`python3 scripts/run/validate_c0_reference.py`.
+
+**Match with the repository's official campaign results (INET 4.7.0): exact.**
+- `analysis/icit2027_publication_assets_2026-10-27/fig2_critical_latency_runs.csv`
+  (F06–F10 per seed): offered, lost, misses, p99 and max are identical for all
+  25 seed × flow rows (0 mismatches, p99/max to 1 ns).
+- `analysis/icit2027_editorial_synthesis_2026-10-27/selected_run_metrics.csv`:
+  offered and received packets (e.g. 2 941 003 for seed 1001), offered and
+  complete images (7 500/7 500), and the critical non-camera p99/max
+  (48.732 / 59.436 µs) are identical for every seed.
+
+So this INET master build reproduces the official C0 results bit for bit,
+and the propagationTime workaround does not affect them.
+
+All 22 flows, seeds 1001–1005 pooled (30 s), against the 2 s baseline
+(`C0_L1_A0_2s`, seeds 1001–1003). There are no losses or deadline misses in
+either:
+
+| Flow | Rx | Deadline µs | Received | Lost | Misses | p99 µs (30 s / 2 s) | Max µs (30 s / 2 s) |
+|---|---|---|---|---|---|---|---|
+| F01 | HPC | 100 | 1500000 | 0 | 0 | 48.73 / 48.73 | 59.44 / 59.44 |
+| F02 | HPC | 10000 | 281250 | 0 | 0 | 474.88 / 474.88 | 499.13 / 499.13 |
+| F03 | HPC | 10000 | 281250 | 0 | 0 | 451.13 / 451.13 | 451.55 / 451.55 |
+| F04 | HPC | 30000 | 281250 | 0 | 0 | 451.13 / 451.13 | 451.13 / 451.13 |
+| F05 | HPC | 30000 | 281250 | 0 | 0 | 451.13 / 451.13 | 451.13 / 451.13 |
+| F06 | HPC | 100 | 150000 | 0 | 0 | 30.08 / 30.08 | 30.49 / 30.49 |
+| F07 | HPC | 100 | 150000 | 0 | 0 | 25.08 / 25.08 | 25.08 / 25.08 |
+| F08 | BRAKE1 | 100 | 1500000 | 0 | 0 | 24.81 / 24.81 | 30.41 / 30.41 |
+| F09 | BRAKE2 | 100 | 1500000 | 0 | 0 | 23.61 / 23.61 | 30.81 / 30.81 |
+| F10 | BRAKE3 | 100 | 1500000 | 0 | 0 | 27.55 / 27.81 | 31.75 / 31.42 |
+| F11 | AUDIO1 | 10000 | 750000 | 0 | 0 | 42.38 / 42.38 | 47.98 / 47.98 |
+| F12 | AUDIO2 | 10000 | 750000 | 0 | 0 | 57.27 / 57.27 | 58.87 / 58.87 |
+| F13 | AUDIO3 | 10000 | 750000 | 0 | 0 | 45.34 / 45.38 | 58.20 / 57.04 |
+| F14 | DISPLAY1 | 30000 | 750000 | 0 | 0 | 161.34 / 161.34 | 162.94 / 162.94 |
+| F14 | DISPLAY2 | 30000 | 750000 | 0 | 0 | 161.34 / 161.34 | 162.94 / 162.94 |
+| F15 | WINDOW1 | 50000 | 750000 | 0 | 0 | 25.21 / 25.21 | 30.81 / 30.81 |
+| F16 | WINDOW2 | 50000 | 750000 | 0 | 0 | 25.01 / 25.01 | 30.61 / 30.61 |
+| F17 | WINDOW3 | 50000 | 750000 | 0 | 0 | 24.89 / 24.81 | 42.75 / 42.75 |
+| F18 | BE1 | 0 | 243190 | 0 | 0 | 166.56 / 166.56 | 168.16 / 168.16 |
+| F19 | BE2 | 0 | 243195 | 0 | 0 | 166.56 / 166.56 | 168.16 / 168.16 |
+| F20 | BE3 | 0 | 243190 | 0 | 0 | 166.56 / 166.56 | 180.23 / 173.22 |
+| F21 | Z3.ZCPU | 10000 | 282619 | 0 | 0 | 116.82 / 118.42 | 166.95 / 159.19 |
+| F22 | Z3.ZCPU | 10000 | 256693 | 0 | 0 | 72.81 / 73.06 | 100.27 / 99.92 |
+
+Camera images (offered / complete / image deadline misses): F02 9375/9375/0, F03 9375/9375/0, F04 9375/9375/0, F05 9375/9375/0
+
+The 2 s baseline gives the same p99 and max for 15 of the 23 receivers.
+Small differences appear only in flows whose tail depends on rare events
+that a 2 s window samples less: F10 p99 27.55 vs 27.81 µs and max 31.75 vs
+31.42 µs; F13, F17, F20; and F21/F22, the transient flows with random
+signatures. All are within ±8 µs and far from the deadlines.
+
+Run-level aggregates against `selected_run_metrics.csv` (repo / now):
+
+| Seed | Offered pkts (repo / now) | Received (repo / now) | Images offered/complete (repo / now) | Critical non-camera p99 max µs (repo / now) | Max (repo / now) | Camera image p99 max µs (repo) |
+|---|---|---|---|---|---|---|
+| 1001 | 2941003 / 2941003 | 2941003 / 2941003 | 7500/7500 / 7500/7500 | 48.732 / 48.732 | 59.436 / 59.436 | 499.132 |
+| 1002 | 2933244 / 2933244 | 2933244 / 2933244 | 7500/7500 / 7500/7500 | 48.732 / 48.732 | 59.436 / 59.436 | 499.132 |
+| 1003 | 2938851 / 2938851 | 2938851 / 2938851 | 7500/7500 / 7500/7500 | 48.732 / 48.732 | 59.436 / 59.436 | 499.132 |
+| 1004 | 2936479 / 2936479 | 2936479 / 2936479 | 7500/7500 / 7500/7500 | 48.732 / 48.732 | 59.436 / 59.436 | 499.132 |
+| 1005 | 2944310 / 2944310 | 2944310 / 2944310 | 7500/7500 / 7500/7500 | 48.732 / 48.732 | 59.436 / 59.436 | 499.132 |
