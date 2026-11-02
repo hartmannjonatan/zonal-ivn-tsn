@@ -179,3 +179,54 @@ flow and offset). Everything else is as in T1S_C0.
   the 1 Gb/s hops, but it was not traced packet by packet.
 
 Run time step 1: 6 A1 runs + 40 sweep runs (8 parallel) in 733 s wall.
+
+## Step 2 — brake on the T1S segment (stress case)
+
+`networks/ZonalIVNT1SBrake.ned` puts BRAKEx on its zone's segment as well
+(Z1: {ZSW 0, WINDOW1 1, BRAKE1 2}, Z2/Z3: {ZSW 0, RADAR 1, WINDOW 2,
+BRAKE 3}; port map in the NED header; tables in config `T1SBrakeNetwork`).
+`T1S_BRAKE` is C0, L1/A0, 2 s, seeds 1001–1003. `T1S_BRAKE_BC3` is the same
+with PLCA burst mode `max_bc = 3` on the coordinator ports only. Both record
+queue occupancy of every PLCA queue. `ZonalIVNT1S` now takes the segment
+sizes as NED parameters (`plcaNodeCountZ1..Z3`, same defaults). A regression
+run of T1S_C0 seed 1001 after this change gives byte-identical receiver CSVs.
+
+Downstream demand on each segment is brake 64 B / 100 µs (PCP7) + window
+64 B / 200 µs (PCP3) = 15 000 frames/s, all from the coordinator. Without burst
+the coordinator gets one frame per PLCA cycle, and a cycle with one frame is
+≈ 67 µs + beacon + the other nodes' empty TOs. That serves fewer than
+15 000 frames/s, so strict priority starves the window class.
+
+Results: 3 seeds pooled, 60 000 brake, 30 000 window and 6 000 radar
+measured packets per flow.
+
+| Flow | T1S_BRAKE mean / p99 / max µs | misses | lost | T1S_BRAKE_BC3 mean / p99 / max µs | misses | lost |
+|---|---|---|---|---|---|---|
+| F06 radar Z2 | 165.0 / 200.3 / 217.7 | 6000 (100 %) | 0 | 267.5 / 401.5 / 419.0 | 6000 (100 %) | 0 |
+| F07 radar Z3 | 164.5 / 207.2 / 219.5 | 6000 (100 %) | 0 | 267.1 / 401.2 / 414.0 | 6000 (100 %) | 0 |
+| F08 brake Z1 | 110.1 / 148.5 / 170.7 | 37 710 (63 %) | 0 | 98.4 / 137.6 / 158.4 | 28 629 (48 %) | 0 |
+| F09 brake Z2 | 111.1 / 200.0 / 225.9 | 35 742 (60 %) | 0 | 109.7 / 199.9 / 226.0 | 34 005 (57 %) | 0 |
+| F10 brake Z3 | 115.4 / 200.1 / 227.2 | 39 457 (66 %) | 0 | 114.9 / 204.2 / 225.3 | 37 825 (63 %) | 0 |
+| F15 window Z1 | 179 069 / 185 914 / 186 010 | 16 425 | 13 473 (45 %) | 120 243 / 123 001 / 123 079 | 24 741 | 5 016 (17 %) |
+| F16 window Z2 | 153 949 / 158 983 / 158 999 | 19 158 | 10 665 (36 %) | 141 700 / 145 886 / 145 905 | 20 865 | 8 928 (30 %) |
+| F17 window Z3 | 153 971 / 158 991 / 159 002 | 19 158 | 10 665 (36 %) | 141 721 / 145 894 / 145 904 | 20 865 | 8 928 (30 %) |
+
+PLCA coordinator queues (max over seeds, mean time-average):
+- TC3 (window) is full in every zone and both variants: 512 packets = 32 KiB,
+  ≈ 32.2 KB time-average. Every loss is a TC3 tail drop at the T1S port.
+  T1S_BRAKE: 18 672 / 14 463 / 14 466 drops at Z1/Z2/Z3, whole run.
+  T1S_BRAKE_BC3: 5 988 / 11 856 / 11 859.
+- TC7 (brake) peaks at 2 packets (≈ 25 B average). Brake is never dropped,
+  but it misses its 100 µs deadline in 48–66 % of packets.
+- TC0 shows a single packet in Z1/Z2. It is not a catalog frame, because
+  TrafficAudit's queues.csv has no catalog flow in TC0 there.
+
+Observations:
+- Brake, window and radar together do not fit on one 10 Mb/s PLCA segment.
+  All three critical classes fail. Radar misses in 100 % of packets, because
+  it must now wait for a brake frame (and often a window frame) every cycle.
+- Burst mode (`max_bc = 3` on the coordinator) moves capacity downstream. The
+  Z1 brake improves (misses 63 → 48 %) and window losses fall. But the radar
+  waits behind up to four coordinator frames, so its max doubles
+  (≈ 218 → 419 µs). In Z2/Z3 the brake barely changes. Burst does not make
+  the segment feasible.

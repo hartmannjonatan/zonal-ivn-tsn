@@ -27,6 +27,11 @@ network ZonalIVNT1S
 {
     parameters:
         bool hasTraffic = default(false);
+        // Nodes per T1S segment (coordinator included); derived networks that
+        // attach more nodes to a segment raise these.
+        int plcaNodeCountZ1 = default(2);
+        int plcaNodeCountZ2 = default(3);
+        int plcaNodeCountZ3 = default(3);
         // Same 1280x720 top view as INET's InVehicleNetworkShowcase.
         // Vehicle front is RIGHT; vehicle left is UP (driver's perspective).
         // Positions are illustrative mounting locations, not cable-length inputs.
@@ -80,7 +85,7 @@ network ZonalIVNT1S
         }
         Z1: ZonalController {
             ZSW.eth[5].typename = "EthernetPlcaInterface";
-            ZSW.eth[5].plca.plca_node_count = 2;
+            ZSW.eth[5].plca.plca_node_count = parent.plcaNodeCountZ1;
             ZSW.eth[5].plca.local_nodeID = 0;
             @display("p=875,290;b=74,40,rect,#dbeafe,#2563eb,2;i=device/switch;is=s;t=Front-left controller");
         }
@@ -99,7 +104,7 @@ network ZonalIVNT1S
         WINDOW1: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 2;
+            eth[0].plca.plca_node_count = parent.plcaNodeCountZ1;
             eth[0].plca.local_nodeID = 1;
             @display("p=700,210;i=block/control;is=s;t=WINDOW");
         }
@@ -118,14 +123,14 @@ network ZonalIVNT1S
         Z2: ZonalController {
             numAccessPorts = 6;
             ZSW.eth[2].typename = "EthernetPlcaInterface";
-            ZSW.eth[2].plca.plca_node_count = 3;
+            ZSW.eth[2].plca.plca_node_count = parent.plcaNodeCountZ2;
             ZSW.eth[2].plca.local_nodeID = 0;
             @display("p=875,435;b=74,40,rect,#dcfce7,#15803d,2;i=device/switch;is=s;t=Front-right controller");
         }
         RADAR1: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 3;
+            eth[0].plca.plca_node_count = parent.plcaNodeCountZ2;
             eth[0].plca.local_nodeID = 1;
             @display("p=1060,405;i=device/receiverdish;is=s;t=RADAR");
         }
@@ -140,7 +145,7 @@ network ZonalIVNT1S
         WINDOW2: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 3;
+            eth[0].plca.plca_node_count = parent.plcaNodeCountZ2;
             eth[0].plca.local_nodeID = 2;
             @display("p=700,510;i=block/control;is=s;t=WINDOW");
         }
@@ -159,14 +164,14 @@ network ZonalIVNT1S
         Z3: ZonalController {
             numAccessPorts = 6;
             ZSW.eth[2].typename = "EthernetPlcaInterface";
-            ZSW.eth[2].plca.plca_node_count = 3;
+            ZSW.eth[2].plca.plca_node_count = parent.plcaNodeCountZ3;
             ZSW.eth[2].plca.local_nodeID = 0;
             @display("p=440,350;b=74,40,rect,#ffedd5,#c2410c,2;i=device/switch;is=s;t=Rear controller");
         }
         RADAR2: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 3;
+            eth[0].plca.plca_node_count = parent.plcaNodeCountZ3;
             eth[0].plca.local_nodeID = 1;
             @display("p=235,350;i=device/receiverdish;is=s;t=RADAR");
         }
@@ -185,7 +190,7 @@ network ZonalIVNT1S
         WINDOW3: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 3;
+            eth[0].plca.plca_node_count = parent.plcaNodeCountZ3;
             eth[0].plca.local_nodeID = 2;
             @display("p=505,210;i=block/control;is=s;t=WINDOW");
         }
