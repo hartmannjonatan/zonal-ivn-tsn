@@ -54,9 +54,8 @@ def read_csv(path):
         return list(csv.DictReader(f))
 
 
-def collect(config, network, seeds):
+def collect(config, network, seeds, base):
     flows = app_flow_map()
-    base = SIM / "results/t1s" / ("C0" if config.startswith("C0") else "T1S_C0")
     per = defaultdict(lambda: {"lat": [], "tx": 0, "rx": 0, "miss": 0, "max": 0.0,
                                "deadline": None, "per_seed": []})
     drops = defaultdict(int)
@@ -105,11 +104,17 @@ def summarize(d):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--seeds", default="1001,1002,1003")
+    ap.add_argument("--base", default="C0_L1_A0_2s:results/t1s/C0:ZonalIVN",
+                    help="config:result-dir:network of the reference runs")
+    ap.add_argument("--t1s", default="T1S_C0:results/t1s/T1S_C0:ZonalIVNT1S",
+                    help="config:result-dir:network of the T1S runs")
     ap.add_argument("--out", default=str(SIM / "results/t1s/comparison.csv"))
     args = ap.parse_args()
     seeds = [int(s) for s in args.seeds.split(",")]
-    base, base_drops = collect("C0_L1_A0_2s", "ZonalIVN", seeds)
-    t1s, t1s_drops = collect("T1S_C0", "ZonalIVNT1S", seeds)
+    bc, bd, bn = args.base.split(":")
+    tc, td, tn = args.t1s.split(":")
+    base, base_drops = collect(bc, bn, seeds, SIM / bd)
+    t1s, t1s_drops = collect(tc, tn, seeds, SIM / td)
     rows = []
     for key in sorted(set(base) | set(t1s)):
         a, b = summarize(base[key]), summarize(t1s[key])

@@ -98,3 +98,84 @@ receiver measured packets, drops from TrafficAudit `drops.csv`.
   camera bursts.
 
 Run time: 6 runs in parallel, 162 s wall (C0 ~145 s, T1S ~160 s per run).
+
+## Step 1 — radar worst case on T1S
+
+### Alignment A1 (L1, seeds 1001–1003, `T1S_C0_A1` vs `C0_L1_A1_2s`)
+
+A1 only changes the camera phases (and the F22 transient start); radar and
+window offsets are fixed in the catalog. Radar on T1S: F06 mean 67.2 µs,
+p99 90.0, max 90.7 µs; F07 mean 67.1, p99 85.7, max 85.7 µs (C0 A1: max
+42.2 / 37.2 µs). Window F15–F17 max 90.9 / 110.2 / 114.5 µs. No losses,
+drops or misses. All non-T1S flows are identical to C0 A1 except the camera
+means (≤ 3.9 µs on F02 because of the shifted radar arrival on the shared
+uplink; p99/max unchanged). Full table:
+`python3 scripts/run/compare_t1s.py --base C0_L1_A1_2s:results/t1s/C0_A1:ZonalIVN --t1s T1S_C0_A1:results/t1s/T1S_C0_A1:ZonalIVNT1S`.
+
+### Radar phase sweep (`T1S_RadarPhase`, `scripts/run/t1s_radar_phase.py`)
+
+The catalog offsets (F06 20 µs, F07 25 µs) are replaced by one common radar
+offset, 0–195 µs in 5 µs steps (one 200 µs window period; the 1 ms radar
+period is a multiple of it, so the radar/window phase is fixed within a run).
+L1/A0, seed 1001, 1 s warm-up + 1 s measurement (1000 radar packets per
+flow and offset). Everything else is as in T1S_C0.
+
+| Radar offset µs | F06 max µs | F06 misses /1000 | F07 max µs | F07 misses /1000 |
+|---|---|---|---|---|
+| 0 | 86.7 | 0 | 85.8 | 0 |
+| 5 | 81.9 | 0 | 81.7 | 0 |
+| 10 | 89.0 | 0 | 87.9 | 0 |
+| 15 | 84.0 | 0 | 83.6 | 0 |
+| 20 | 90.9 | 0 | 78.8 | 0 |
+| 25 | 86.1 | 0 | 85.0 | 0 |
+| 30 | 82.2 | 0 | 80.9 | 0 |
+| 35 | 88.3 | 0 | 87.2 | 0 |
+| 40 | 83.3 | 0 | 83.1 | 0 |
+| 45 | 102.7 | 1 | 90.0 | 0 |
+| 50 | 146.6 | 268 | 85.0 | 0 |
+| 55 | 152.9 | 644 | 144.4 | 206 |
+| 60 | 148.4 | 956 | 147.9 | 591 |
+| 65 | 143.4 | 975 | 143.4 | 906 |
+| 70 | 143.0 | 982 | 138.4 | 961 |
+| 75 | 145.5 | 994 | 145.3 | 985 |
+| 80 | 140.3 | 997 | 140.3 | 991 |
+| 85 | 135.1 | 1000 | 135.5 | 999 |
+| 90 | 130.3 | 776 | 154.5 | 1000 |
+| 95 | 125.3 | 467 | 137.2 | 825 |
+| 100 | 120.3 | 135 | 132.2 | 425 |
+| 105 | 115.3 | 116 | 127.2 | 241 |
+| 110 | 110.3 | 15 | 122.2 | 42 |
+| 115 | 105.3 | 9 | 117.2 | 23 |
+| 120 | 100.3 | 4 | 112.2 | 13 |
+| 125 | 95.3 | 0 | 107.2 | 1 |
+| 130 | 90.3 | 0 | 102.2 | 1 |
+| 135 | 85.3 | 0 | 97.2 | 0 |
+| 140 | 81.5 | 0 | 92.2 | 0 |
+| 145 | 92.7 | 0 | 87.2 | 0 |
+| 150 | 94.5 | 0 | 94.5 | 0 |
+| 155 | 90.0 | 0 | 89.5 | 0 |
+| 160 | 85.0 | 0 | 84.5 | 0 |
+| 165 | 91.9 | 0 | 91.7 | 0 |
+| 170 | 86.9 | 0 | 86.7 | 0 |
+| 175 | 82.1 | 0 | 82.3 | 0 |
+| 180 | 89.0 | 0 | 88.1 | 0 |
+| 185 | 84.2 | 0 | 84.0 | 0 |
+| 190 | 80.8 | 0 | 79.4 | 0 |
+| 195 | 85.9 | 0 | 85.3 | 0 |
+
+- Worst case: F06 152.9 µs at offset 55 µs; F07 154.5 µs at offset 90 µs.
+  This is about 50 % above the 100 µs deadline.
+- Misses appear for offsets 45–120 µs (F06) and 55–130 µs (F07). Between
+  about 65 and 90 µs almost every radar packet misses. There are no losses.
+- The catalog offsets (20/25 µs) are in the safe region, which is why
+  T1S_C0 showed max ≈ 91 µs. The 100 µs deadline is met only because of the
+  chosen phase.
+- The bad band starts when the radar becomes ready just after the window
+  frame for that zone (F15/F16/F17 at 50/55/60 µs from HPC) reaches the
+  coordinator. The radar then waits for the coordinator's ~67 µs window frame
+  before its own ~58 µs frame. The worst value is ~28 µs above the estimate
+  (67 + 58 + hops ≈ 125 µs). This is consistent with also missing the radar's
+  own transmit opportunity (rest of the PLCA cycle + beacon) and queueing on
+  the 1 Gb/s hops, but it was not traced packet by packet.
+
+Run time step 1: 6 A1 runs + 40 sweep runs (8 parallel) in 733 s wall.
