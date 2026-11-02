@@ -347,3 +347,153 @@ Run-level aggregates against `selected_run_metrics.csv` (repo / now):
 | 1003 | 2938851 / 2938851 | 2938851 / 2938851 | 7500/7500 / 7500/7500 | 48.732 / 48.732 | 59.436 / 59.436 | 499.132 |
 | 1004 | 2936479 / 2936479 | 2936479 / 2936479 | 7500/7500 / 7500/7500 | 48.732 / 48.732 | 59.436 / 59.436 | 499.132 |
 | 1005 | 2944310 / 2944310 | 2944310 / 2944310 | 7500/7500 / 7500/7500 | 48.732 / 48.732 | 59.436 / 59.436 | 499.132 |
+
+## Step 5 — PrioPlca on the T1S segments
+
+### Integration
+
+`prioplca/` holds `PrioPlca.{h,cc,ned}` and the license files, taken unchanged
+(CRLF → LF only) from Jean Carlos Macedo's `plca-priority-to` repository
+(GitLab, commit 79c46a7). `PrioPlca.cc` is derived from INET's `EthernetPlca`
+(Copyright (C) 2023 OpenSim Ltd.) and keeps its LGPL-3.0-or-later header.
+It builds as a separate shared library and does not touch the zonal-ivn-tsn
+build:
+
+```bash
+cd prioplca && opp_makemake -f -s -o prioplca -DINET_IMPORT -I$INET_ROOT/src -L$INET_ROOT/src '-lINET$(D)' && make MODE=release
+cd ../simulations
+../src/zonal-ivn-tsn -n ".:../src:../tests:../prioplca:$INET_ROOT/src" -l ../prioplca/prioplca \
+    -f zonal_t1s_prioplca.ini -u Cmdenv -c <config> [-r '$extra>0']
+```
+
+`zonal/configs/t1s_prioplca.ini` sets `**.plca.typename = "PrioPlca"`. Only
+`EthernetPlcaInterface` has a `plca` submodule, so this reaches the T1S ports
+and nodes only. Modes: `standard`; `priorityTo` (a 128-bit priority TO with a
+16-bit commit guard after every TO that carried data); `multiTo` (static slot
+list). The ZSW coordinator keeps ID 0.
+
+Constraints that shaped the configurations:
+- `priorityTo` requires `priorityNodeID > 0`, so the coordinator can never
+  own the priority TO. It goes to the radar (ID 1) in Z2/Z3. Z1 has no
+  upstream critical node and stays in standard mode.
+- Brake frames are sent by the coordinator, and BRAKEx only receives. A
+  priority TO for the brake node would therefore have no effect. The brake
+  scenario uses `multiTo` instead, giving the coordinator every other slot.
+- PrioPlca has no fragmentation mode. Fragmentation in `plca-priority-to`
+  means splitting the background frames, so it is applied here to the heavy
+  nodes: 245 B payload every 1.667 ms (6 fragments per 10 ms, same rate).
+- `ZonalIVNT1SExtra` now sets its segment sizes with `default(...)`, so
+  `multiTo` can lengthen the cycle. Values are unchanged.
+- The extra nodes' delay is measured with INET `UdpSink` at HPC (`XDelay`).
+  Standard mode was rerun the same way; its flows are identical to step 3.
+
+**Sanity:** `T1S_C0_PrioStd` (PrioPlca, standard mode, on all 8 T1S nodes)
+against `T1S_C0`, seed 1001. All 51 TrafficAudit/application CSVs and all
+vector data are byte-identical.
+
+### a. Radar phase sweep, 45–130 µs (seed 1001, 1 000 packets per point)
+
+`priorityTo` gives the radar the priority TO. `multiTo` uses Z2/Z3 cycle
+`0 1 2 1` (the radar owns 2 of 4 slots).
+
+| Offset µs | F06 max std / prioTo / multiTo | F06 misses std / prioTo / multiTo | F07 max std / prioTo / multiTo | F07 misses std / prioTo / multiTo |
+|---|---|---|---|---|
+| 45 | 102.7 / 92.7 / 90.0 | 1 / 0 / 0 | 90.0 / 78.1 / 89.3 | 0 / 0 / 0 |
+| 50 | 146.6 / 146.0 / 97.3 | 268 / 200 / 0 | 85.0 / 85.0 / 85.0 | 0 / 0 / 0 |
+| 55 | 152.9 / 153.2 / 152.9 | 644 / 683 / 216 | 144.4 / 141.2 / 92.3 | 206 / 169 / 0 |
+| 60 | 148.4 / 148.4 / 147.9 | 956 / 949 / 515 | 147.9 / 147.9 / 136.2 | 591 / 621 / 207 |
+| 65 | 143.4 / 143.4 / 144.2 | 975 / 975 / 862 | 143.4 / 143.4 / 143.4 | 906 / 897 / 473 |
+| 70 | 143.0 / 143.0 / 150.1 | 982 / 991 / 973 | 138.4 / 138.4 / 138.4 | 961 / 952 / 814 |
+| 75 | 145.5 / 144.4 / 145.1 | 994 / 996 / 985 | 145.3 / 145.1 / 145.1 | 985 / 985 / 947 |
+| 80 | 140.3 / 139.4 / 140.3 | 997 / 999 / 994 | 140.3 / 140.5 / 140.5 | 991 / 992 / 981 |
+| 85 | 135.1 / 135.1 / 135.5 | 1000 / 947 / 999 | 135.5 / 135.9 / 135.5 | 999 / 998 / 993 |
+| 90 | 130.3 / 130.1 / 141.5 | 776 / 690 / 957 | 154.5 / 130.5 / 142.2 | 1000 / 959 / 997 |
+| 95 | 125.3 / 125.1 / 149.5 | 467 / 387 / 745 | 137.2 / 125.5 / 149.5 | 825 / 681 / 976 |
+| 100 | 120.3 / 120.1 / 144.5 | 135 / 90 / 443 | 132.2 / 120.5 / 144.5 | 425 / 270 / 770 |
+| 105 | 115.3 / 115.1 / 139.5 | 116 / 72 / 218 | 127.2 / 115.5 / 139.5 | 241 / 180 / 501 |
+| 110 | 110.3 / 110.1 / 134.5 | 15 / 7 / 34 | 122.2 / 110.5 / 134.5 | 42 / 26 / 112 |
+| 115 | 105.3 / 105.1 / 129.5 | 9 / 4 / 20 | 117.2 / 105.5 / 129.5 | 23 / 17 / 76 |
+| 120 | 100.3 / 100.1 / 124.5 | 4 / 3 / 12 | 112.2 / 100.5 / 124.5 | 13 / 8 / 49 |
+| 125 | 95.3 / 95.1 / 119.5 | 0 / 0 / 3 | 107.2 / 95.5 / 119.5 | 1 / 0 / 8 |
+| 130 | 90.3 / 90.1 / 114.5 | 0 / 0 / 3 | 102.2 / 93.2 / 114.5 | 1 / 0 / 8 |
+| **total misses (18 000)** | | 8339 / 7993 / 7979 | | 8210 / 7755 / 7912 |
+Neither mechanism removes the worst case. Across the band, `priorityTo` cuts
+misses by ≈ 4–6 % and `multiTo` by ≈ 4 % on F06. `multiTo` helps at 50–65 µs
+but is worse above 90 µs, because its longer cycle delays the coordinator's
+window frame into the radar's path. The max stays at ≈ 140–153 µs: when the
+radar becomes ready, the coordinator's window frame (≈ 67 µs, not
+preemptable) is already on the wire. The radar then needs its own ≈ 58 µs
+frame plus the 1 Gb/s hops. A different TO order cannot shorten either part,
+so with 64 B frames at 10 Mb/s the 100 µs radar deadline is phase-dependent
+whatever the PLCA variant.
+
+### b. Brake on the segment (3 seeds, 2 s)
+
+Radar: misses out of 6 000. Brake: misses out of 60 000. Window: losses out
+of 30 000.
+
+| Mode | F06 / F07 max µs | Radar misses F06 / F07 | Brake max µs F08 / F09 / F10 | Brake misses F08 / F09 / F10 | Window lost F15 / F16 / F17 | Prio TOs/s |
+|---|---|---|---|---|---|---|
+| standard (T1S_BRAKE) | 217.7 / 219.5 | 6000 / 6000 | 170.7 / 225.9 / 227.2 | 37 710 / 35 742 / 39 457 | 13 473 / 10 665 / 10 665 | — |
+| burst max_bc=3 (T1S_BRAKE_BC3) | 419.0 / 414.0 | 6000 / 6000 | 158.4 / 226.0 / 225.3 | 28 629 / 34 005 / 37 825 | 5 016 / 8 928 / 8 928 | — |
+| priorityTo radar | 152.0 / 146.8 | 3013 / 2914 | 170.7 / 238.8 / 241.8 | 37 710 / 49 020 / 51 412 | 13 473 / 22 236 / 22 233 | 769 (Z2/Z3) |
+| multiTo coord (0 1 0 2 0 3) | 274.3 / 280.2 | 6000 / 6000 | 153.4 / 219.1 / 227.7 | 27 876 / 34 521 / 38 449 | 4 287 / 9 468 / 9 468 | — |
+| multiTo coord+radar (0 1 0 2 0 1 0 3) | 224.5 / 219.5 | 6000 / 6000 | 153.4 / 214.7 / 226.1 | 27 876 / 34 650 / 38 227 | 4 287 / 9 516 / 9 516 | — |
+
+Z1 has no radar and runs standard PLCA under priorityTo, so its F08/F15 are
+identical to standard. Brake misses stay at 46–86 % in every mode. One
+coordinator frame (≈ 67 µs) plus the brake's own frame already exceeds the
+100 µs deadline whenever a window frame is in progress, and no TO scheme
+changes that. `priorityTo` halves the radar misses, but its 769 extra TOs per
+second take capacity from the coordinator. Z2/Z3 brake misses rise to
+82–86 % and window losses to 74 %. `multiTo` for the coordinator recovers
+some window capacity (Z1 losses 45 → 14 %) and Z1 brake misses (63 → 46 %),
+but makes the radar worse.
+
+### c. Extra nodes, 5 and 8 nodes per Z2/Z3 segment (3 seeds, 2 s)
+
+`priorityTo` gives the radar the priority TO. `multiTo` gives the radar every
+other slot (`0 1 2 1 3 1 4` / `0 1 2 1 3 1 4 1 5 1 6 1 7`). Radar misses are
+out of 6 000 and window losses out of 30 000. "Extra-node delay" is the delay
+of the extra nodes' packets to HPC (all delivered in every run).
+
+| Profile, nodes | Mode | F06 max / misses | F07 max / misses | Window max µs (or lost) | Extra-node delay mean / p99 µs | Prio TOs/s |
+|---|---|---|---|---|---|---|
+| sensor, 5 | standard | 225.0 / 2000 | 97.2 / 0 | 177.1 | 116.1 / 498.5 | — |
+| sensor, 5 | priorityTo | 152.0 / 2000 | 97.2 / 0 | 167.7 | 119.2 / 498.5 | 469 |
+| sensor, 5 | multiTo | 139.9 / 1514 | 85.7 / 0 | 182.6 | 118.3 / 498.5 | — |
+| sensor, 8 | standard | 225.0 / 2702 | 195.8 / 2001 | 283.9 | 133.6 / 501.4 | — |
+| sensor, 8 | priorityTo | 146.6 / 1419 | 135.1 / 3072 | 364.6 | 147.3 / 569.8 | 674 |
+| sensor, 8 | multiTo | 152.9 / 1751 | 231.7 / 1868 | 401.6 | 147.5 / 567.1 | — |
+| heavy, 5 | standard | 1382.6 / 2600 | 1329.8 / 2600 | 2295 | 1322.9 / 1510.1 | — |
+| heavy, 5 | priorityTo | 1297.9 / 1699 | 1255.3 / 2592 | 2501 | 1322.1 / 1510.8 | 346 |
+| heavy, 5 | multiTo | 1321.8 / 1625 | 1267.4 / 1806 | 2414 | 1315.5 / 1510.8 | — |
+| heavy, 8 | standard | 1974.5 / 6000 | 4268.7 / 6000 | lost 1 182 / 8 395 / 8 420 | 1902.4 / 4422.6 | — |
+| heavy, 8 | priorityTo | 1393.9 / 5123 | 1612.7 / 4887 | lost 1 182 / 11 034 / 11 065 | 1911.3 / 4421.9 | 261 |
+| heavy, 8 | multiTo | 2053.7 / 4936 | 2497.3 / 4831 | lost 1 182 / 11 614 / 11 636 | 1906.2 / 4422.6 | — |
+| heavy frag, 5 | standard | 646.3 / 2761 | 402.1 / 3070 | 620 | 309.0 / 619.9 | — |
+| heavy frag, 5 | priorityTo | 333.9 / 2334 | 331.2 / 2631 | 574 | 312.7 / 619.9 | 415 |
+| heavy frag, 8 | standard | 802.0 / 6000 | 799.9 / 6000 | lost 13 511 / 18 925 / 18 592 | 574.8 / 1151.5 | — |
+| heavy frag, 8 | priorityTo | 333.9 / 4855 | 337.3 / 5443 | lost 13 511 / 21 641 / 21 531 | 557.0 / 1171.9 | 315 |
+
+Observations:
+- With sensor nodes, both mechanisms bound the radar near the
+  single-blocking-frame limit (≈ 135–153 µs instead of 225 µs). They do not
+  reach 100 µs, for the reason found in (a). Misses fall by up to ≈ 50 % but
+  remain phase-dependent; for F07 with 8 nodes, priorityTo even misses more
+  than standard.
+- The cost to the extra nodes is small. Their mean delay rises by ≈ 3–14 µs
+  and their p99 by up to ≈ 70 µs (8 sensor nodes), with no losses. The window
+  pays more: max 284 → 365–402 µs with 8 sensor nodes, still far below 50 ms.
+- With 1518 B frames the radar is dominated by one ≈ 1.2 ms frame in
+  progress, which neither mechanism can preempt (max ≥ 1.25 ms). With 8 heavy
+  nodes the coordinator capacity lost to the priority TOs or the longer cycle
+  raises window losses from 28 % to 37–39 %.
+- Fragmentation (6 × 245 B) together with priorityTo is the closest
+  approximation of preemption. It brings the radar max down to ≈ 334 µs
+  (from 1.38–1.97 ms), about one fragment plus the radar frame. But every
+  fragment needs its own TO, which costs coordinator capacity: with 8
+  fragmenting nodes the window loses 45–72 %.
+
+Run time: 93 runs + 3 reruns, 4 in parallel, 2 638 s + 120 s wall
+(≈ 115–135 s per 2 s run, ≈ 85 s per sweep point, RSS ≈ 115 MB each).

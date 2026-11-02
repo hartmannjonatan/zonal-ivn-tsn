@@ -54,12 +54,15 @@ def run(jobs):
     print(f"wall time {time.time() - start:.0f} s")
 
 
-def analyze():
+def analyze(config=CONFIG, out=OUT):
+    """Per radar offset: F06/F07 max latency, deadline misses, losses."""
     rows = []
-    for i, off in enumerate(OFFSETS_US):
-        rd = OUT / f"{CONFIG}-{i}"
-        params = (OUT / f"{CONFIG}-radarOffset={off}-#0.sca").read_text()
-        assert f"catalog_radar{off}us.xml" in params, off
+    for sca in out.glob(f"{config}-radarOffset=*-#0.sca"):
+        text = sca.read_text()
+        off = int(re.search(r"^itervar radarOffset (\d+)", text, re.M).group(1))
+        run = int(re.search(r'^attr runnumber "?(\d+)', text, re.M).group(1))
+        assert f"catalog_radar{off}us.xml" in text, off
+        rd = out / f"{config}-{run}"
         row = {"radar_offset_us": off}
         for flow, node in (("F06", "RADAR1"), ("F07", "RADAR2")):
             rx = list(csv.DictReader((rd / f"{flow}-HPC-rx.csv").open()))[0]
@@ -68,7 +71,8 @@ def analyze():
             row[f"{flow}_misses"] = int(rx["deadline_misses"])
             row[f"{flow}_lost"] = int(tx["measured_packets"]) - int(rx["measured_packets"])
         rows.append(row)
-    with (OUT / "radar_phase.csv").open("w", newline="") as f:
+    rows.sort(key=lambda r: r["radar_offset_us"])
+    with (out / "radar_phase.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
         w.writerows(rows)
@@ -77,6 +81,7 @@ def analyze():
     for flow in ("F06", "F07"):
         worst = max(rows, key=lambda r: r[f"{flow}_max_us"])
         print(f"{flow}: worst max {worst[f'{flow}_max_us']} us at offset {worst['radar_offset_us']} us; "
+              f"misses {sum(r[f'{flow}_misses'] for r in rows)}; "
               f"offsets with misses: {[r['radar_offset_us'] for r in rows if r[f'{flow}_misses']]}")
 
 
@@ -84,10 +89,12 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("action", choices=["generate", "run", "analyze", "all"])
     ap.add_argument("--jobs", type=int, default=8)
+    ap.add_argument("--config", default=CONFIG, help="analyze: config name")
+    ap.add_argument("--dir", default=None, help="analyze: result dir relative to simulations/")
     a = ap.parse_args()
     if a.action in ("generate", "all"):
         generate()
     if a.action in ("run", "all"):
         run(a.jobs)
     if a.action in ("analyze", "all"):
-        analyze()
+        analyze(a.config, SIM / a.dir if a.dir else OUT)

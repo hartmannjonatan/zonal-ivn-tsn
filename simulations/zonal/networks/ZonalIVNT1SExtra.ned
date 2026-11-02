@@ -12,9 +12,9 @@ network ZonalIVNT1SExtra extends ZonalIVNT1S
 {
     parameters:
         int extraNodes = default(0);
-        plcaNodeCountZ1 = 2 + extraNodes;
-        plcaNodeCountZ2 = 3 + extraNodes;
-        plcaNodeCountZ3 = 3 + extraNodes;
+        plcaNodeCountZ1 = default(2 + extraNodes);
+        plcaNodeCountZ2 = default(3 + extraNodes);
+        plcaNodeCountZ3 = default(3 + extraNodes);
     submodules:
         X1[extraNodes]: TsnDevice {
             numEthInterfaces = 1;

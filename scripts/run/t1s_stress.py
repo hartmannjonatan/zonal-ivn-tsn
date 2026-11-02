@@ -26,7 +26,10 @@ from compare_t1s import SIM, app_flow_map, read_vec  # noqa: E402
 def parse_sca(path):
     attrs, itervars, scalars = {}, {}, {}
     for line in path.read_text(errors="replace").splitlines():
-        if line.startswith("attr "):
+        if line.startswith("config sim-time-limit ") or line.startswith("config warmup-period "):
+            _, k, v = line.split(" ", 2)
+            attrs[k] = float(v.strip('"').rstrip("s"))
+        elif line.startswith("attr "):
             _, k, v = line.split(" ", 2)
             attrs[k] = v.strip('"')
         elif line.startswith("itervar "):
@@ -41,6 +44,24 @@ def parse_sca(path):
     return attrs, itervars, scalars
 
 
+def read_x_delay(path):
+    """endToEndDelay samples of the extra nodes' sink (HPC.app[20], UdpSink)."""
+    vid, values = None, []
+    if not path.exists():
+        return values
+    with path.open() as f:
+        for line in f:
+            if line.startswith("vector "):
+                parts = line.split()
+                if parts[2].endswith(".HPC.app[20]") and parts[3] == "endToEndDelay:vector":
+                    vid = parts[1]
+            elif vid is not None and line[:1].isdigit():
+                fields = line.split("\t")
+                if fields[0] == vid:
+                    values.append(float(fields[3]))
+    return values
+
+
 def p99(values):
     v = sorted(values)
     return v[max(0, math.ceil(0.99 * len(v)) - 1)] if v else float("nan")
@@ -50,7 +71,8 @@ def summarize(config, result_dir, flows_wanted):
     flows = app_flow_map()
     groups = defaultdict(lambda: {"seeds": [], "flows": defaultdict(lambda: {"lat": [], "lost": 0, "miss": 0, "max": 0.0}),
                                   "queues": defaultdict(lambda: {"len_max": 0, "bits_avg": []}),
-                                  "drops": defaultdict(int), "x_rx": 0, "x_tx": 0})
+                                  "drops": defaultdict(int), "x_rx": 0, "x_tx": 0,
+                                  "x_delay": [], "prio_to": defaultdict(list)})
     for sca in sorted(result_dir.glob(f"{config}-*.sca")):
         attrs, itervars, scalars = parse_sca(sca)
         if attrs.get("configname") != config:
@@ -61,6 +83,8 @@ def summarize(config, result_dir, flows_wanted):
         g["seeds"].append(attrs.get("seedset"))
         rd = result_dir / f"{config}-{attrs['runnumber']}"
         lat = read_vec(sca.with_suffix(".vec"), network, flows)
+        g["x_delay"] += read_x_delay(sca.with_suffix(".vec"))
+        window = attrs.get("sim-time-limit", 0) - attrs.get("warmup-period", 0)
         tx = {}
         for p in rd.glob("F*-tx.csv"):
             row = next(csv.DictReader(p.open()))
@@ -85,10 +109,13 @@ def summarize(config, result_dir, flows_wanted):
                     q["len_max"] = max(q["len_max"], value)
                 elif name == "queueBitLength:timeavg":
                     q["bits_avg"].append(value)
-            if module.endswith(".HPC.app[20].io") and name == "packetReceived:count":
+            if re.search(r"\.HPC\.app\[20\](\.io)?$", module) and name == "packetReceived:count":
                 g["x_rx"] += int(value)
             if re.search(r"\.X\d\[\d+\]\.app\[0\]\.io$", module) and name == "packetSent:count":
                 g["x_tx"] += int(value)
+            m2 = re.search(r"\.(Z\d)\.ZSW\.eth\[\d+\]\.plca$", module)
+            if m2 and name == "priorityToInserted:count" and window > 0:
+                g["prio_to"][m2.group(1)].append(value / window)
         for row in csv.DictReader((rd / "drops.csv").open()):
             g["drops"][row["interface"].split(".", 1)[1], row["flow"]] += int(row["packets"])
     return groups
@@ -126,6 +153,16 @@ def main():
                     print(f"- {z}.ZSW.{eth} TC{tc}: max {q['len_max']:.0f} pk, time-avg {avg:.1f} B")
             drops = {k: v for k, v in g["drops"].items() if v}
             print(f"Queue drops (TrafficAudit, whole run, all seeds): {drops or 'none'}")
+            if g["x_delay"]:
+                v = g["x_delay"]
+                print(f"Extra-node delay to HPC (all seeds): mean {sum(v) / len(v) * 1e6:.1f} µs, "
+                      f"p99 {p99(v) * 1e6:.1f} µs, max {max(v) * 1e6:.1f} µs ({len(v)} packets)")
+                out_rows.append({"config": config, **dict(key), "flow": "X", "receiver": "HPC", "samples": len(v),
+                                 "mean_us": round(sum(v) / len(v) * 1e6, 3), "p99_us": round(p99(v) * 1e6, 3),
+                                 "max_us": round(max(v) * 1e6, 3), "lost": g["x_tx"] - g["x_rx"], "misses": ""})
+            if g["prio_to"]:
+                print("Priority TOs inserted per second (coordinator, mean over seeds): " +
+                      ", ".join(f"{z} {sum(v) / len(v):.0f}" for z, v in sorted(g["prio_to"].items())))
             if g["x_tx"]:
                 print(f"Extra-node packets after warm-up, sent / received by HPC (all seeds): {g['x_tx']} / {g['x_rx']}")
     if args.csv:
