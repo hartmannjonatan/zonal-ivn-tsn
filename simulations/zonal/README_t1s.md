@@ -332,7 +332,7 @@ either:
 
 Camera images (offered / complete / image deadline misses): F02 9375/9375/0, F03 9375/9375/0, F04 9375/9375/0, F05 9375/9375/0
 
-The 2 s baseline gives the same p99 and max for 15 of the 23 receivers.
+The 2 s baseline gives the same p99 and max for 17 of the 23 receivers.
 Small differences appear only in flows whose tail depends on rare events
 that a 2 s window samples less: F10 p99 27.55 vs 27.81 µs and max 31.75 vs
 31.42 µs; F13, F17, F20; and F21/F22, the transient flows with random
