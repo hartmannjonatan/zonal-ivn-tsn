@@ -230,3 +230,50 @@ Observations:
   waits behind up to four coordinator frames, so its max doubles
   (≈ 218 → 419 µs). In Z2/Z3 the brake barely changes. Burst does not make
   the segment feasible.
+
+## Step 3 — more nodes per segment (extension, not part of the P1 catalog)
+
+`networks/ZonalIVNT1SExtra.ned` extends ZonalIVNT1S with `extraNodes`
+additional TsnDevices per segment (`X1[]`, `X2[]`, `X3[]`). They take the next
+PLCA IDs, and `plca_node_count` is adjusted. Segment sizes for
+extraNodes = 0 / 2 / 5 are 3 / 5 / 8 nodes in Z2/Z3 and 2 / 4 / 7 in Z1.
+The extra nodes send UDP to HPC on VLAN 30, PCP 0, with a static forwarding
+entry in every zonal switch and the CSW. The start phase is random per node
+and seed. Two profiles:
+
+- `T1S_EXTRA_SENSOR`: 14 B payload (64 B frame) every 1 ms per node.
+- `T1S_EXTRA_HEAVY`: 1472 B payload (1518 B frame, ≈ 1.2 ms on the wire)
+  every 10 ms per node.
+
+Both run C0, L1/A0, 2 s, seeds 1001–1003; summarize them with
+`scripts/run/t1s_stress.py`. Every extra-node packet sent after warm-up
+reached HPC (sensor 36 900 / 92 250, heavy 3 690 / 9 225 for 2 / 5 extra
+nodes). extraNodes = 0 reproduces T1S_C0 exactly.
+
+Radar max µs, misses out of 6 000; window max µs, losses out of 30 000:
+
+| Profile | Nodes Z2/Z3 (Z1) | F06 max / misses | F07 max / misses | F15 max / lost | F16 max / lost | F17 max / lost |
+|---|---|---|---|---|---|---|
+| — | 3 (2) | 90.9 / 0 | 74.0 / 0 | 90.9 / 0 | 110.2 / 0 | 110.2 / 0 |
+| sensor | 5 (4) | 225.0 / 2 000 | 97.2 / 0 | 146.7 / 0 | 177.1 / 0 | 160.8 / 0 |
+| sensor | 8 (7) | 225.0 / 2 702 | 195.8 / 2 001 | 217.5 / 0 | 239.6 / 0 | 283.9 / 0 |
+| heavy | 5 (4) | 1 382.6 / 2 600 | 1 329.8 / 2 600 | 1 795.7 / 0 | 2 295.0 / 0 | 1 330.3 / 0 |
+| heavy | 8 (7) | 1 974.5 / 6 000 | 4 268.7 / 6 000 | 107 422 / 1 182 | 138 133 / 8 395 | 138 172 / 8 420 |
+
+Means (µs): F06 67.6 → 113.1 → 128.9 (sensor) and → 251.0 → 724.9 (heavy).
+F16 73.9 → 83.6 → 117.3 (sensor) and → 448.3 → 135 824 (heavy).
+
+Observations:
+- Sensor nodes (64 B / 1 ms) cost one ~58 µs frame plus a TO per node and
+  cycle. With 5 nodes on the segment, one seed (2 000 packets, i.e. every
+  packet of that seed) already misses the radar deadline, at ≈ 225 µs. The
+  outcome depends on phase, as in step 1. With 8 nodes both radars miss in
+  some seeds, and the window stays well within 50 ms.
+- A single 1518 B frame occupies the medium for ≈ 1.2 ms, more than 10× the
+  radar deadline. With heavy participants the radar misses in 43 %
+  (5 nodes) to 100 % (8 nodes) of packets, with max 1.3–4.3 ms.
+- With 8 heavy nodes, the coordinator's single TO per (now long) cycle no
+  longer carries the 5 000 window frames/s. TC3 fills (512 pk), and windows
+  lose 4–28 % with ≈ 107–138 ms latency.
+- Upstream traffic from the extra nodes is never lost: each node has its own
+  TO and a low duty cycle.

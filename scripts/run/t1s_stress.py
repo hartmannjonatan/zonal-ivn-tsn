@@ -50,7 +50,7 @@ def summarize(config, result_dir, flows_wanted):
     flows = app_flow_map()
     groups = defaultdict(lambda: {"seeds": [], "flows": defaultdict(lambda: {"lat": [], "lost": 0, "miss": 0, "max": 0.0}),
                                   "queues": defaultdict(lambda: {"len_max": 0, "bits_avg": []}),
-                                  "drops": defaultdict(int), "x_rx": 0})
+                                  "drops": defaultdict(int), "x_rx": 0, "x_tx": 0})
     for sca in sorted(result_dir.glob(f"{config}-*.sca")):
         attrs, itervars, scalars = parse_sca(sca)
         if attrs.get("configname") != config:
@@ -85,8 +85,10 @@ def summarize(config, result_dir, flows_wanted):
                     q["len_max"] = max(q["len_max"], value)
                 elif name == "queueBitLength:timeavg":
                     q["bits_avg"].append(value)
-            if module.endswith(".HPC.app[20]") and name == "packetReceived:count":
+            if module.endswith(".HPC.app[20].io") and name == "packetReceived:count":
                 g["x_rx"] += int(value)
+            if re.search(r"\.X\d\[\d+\]\.app\[0\]\.io$", module) and name == "packetSent:count":
+                g["x_tx"] += int(value)
         for row in csv.DictReader((rd / "drops.csv").open()):
             g["drops"][row["interface"].split(".", 1)[1], row["flow"]] += int(row["packets"])
     return groups
@@ -124,8 +126,8 @@ def main():
                     print(f"- {z}.ZSW.{eth} TC{tc}: max {q['len_max']:.0f} pk, time-avg {avg:.1f} B")
             drops = {k: v for k, v in g["drops"].items() if v}
             print(f"Queue drops (TrafficAudit, whole run, all seeds): {drops or 'none'}")
-            if g["x_rx"]:
-                print(f"Extra-node packets received by HPC (all seeds): {g['x_rx']}")
+            if g["x_tx"]:
+                print(f"Extra-node packets after warm-up, sent / received by HPC (all seeds): {g['x_tx']} / {g['x_rx']}")
     if args.csv:
         fields = []
         for r in out_rows:
