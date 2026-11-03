@@ -653,3 +653,57 @@ Findings:
   collisions in these runs (last column). The bound assumes the frame waits
   at PLCA, so it does not cover MAC retries. Backoff dominates when
   1.2 ms frames are frequent.
+
+### F3 — Hybrid scenario: only window and slow body nodes on T1S
+
+`scripts/run/gen_t1s_hybrid.py` generates `networks/ZonalIVNT1SHybrid.ned`
+and `configs/t1s_hybrid.ini` (entry point `zonal_t1s_hybrid.ini`). Radar,
+brake and every other endpoint keep their original point-to-point links.
+Only each WINDOW link is replaced, on the same ZSW port, by a T1S segment
+shared with n body nodes `Bz[]` (doors, lighting, seats, ...). The segment
+then has 2 + n nodes (coordinator, WINDOW, bodies), up to 8, the IEEE 802.3cg
+25 m guarantee. Catalog forwarding tables are unchanged; body entries are
+added.
+
+Each body node has one upstream status flow (to HPC:7000, VLAN 31) and one
+downstream command flow (from its own UdpSourceApp at HPC to the node, VLAN
+32). Both carry 8 B payload (a CAN data field; 64 B frame) at PCP 2, below
+the window's PCP 3, with a random phase per seed. The deadline is the
+period. Two profiles: 10 ms (typical body) and 1 ms (stress). C0, L1/A0,
+2 s, seeds 1001–1003. Report: `scripts/run/t1s_hybrid_report.py` →
+`zonal/t1s_results/hybrid.csv`.
+
+| Body period | Nodes/segment | Radar F06/F07 max µs (misses) | Brake F08–F10 max µs (misses) | Window F15/F16/F17 max µs (lost) | Body up mean / p99 / max µs (misses) | Body down mean / p99 / max µs (misses) |
+|---|---|---|---|---|---|---|
+| 10 ms | 2 | 30.5 / 25.1 (0) | 30.4 / 30.8 / 31.4 (0) | 90.9 / 90.2 / 102.8 (0) | — | — |
+| 10 ms | 4 | 30.5 / 25.1 (0) | 30.4 / 30.8 / 31.4 (0) | 138.9 / 160.4 / 154.0 (0) | 103.0 / 410.3 / 532.1 (0) | 85.1 / 119.2 / 232.1 (0) |
+| 10 ms | 6 | 30.5 / 25.1 (0) | 30.4 / 30.8 / 31.4 (0) | 151.6 / 168.2 / 231.4 (0) | 126.2 / 489.8 / 538.7 (0) | 95.6 / 187.8 / 206.3 (0) |
+| 10 ms | 8 | 30.5 / 25.1 (0) | 30.4 / 30.8 / 31.4 (0) | 212.4 / 169.6 / 172.4 (0) | 132.4 / 450.8 / 511.7 (0) | 97.7 / 208.6 / 230.9 (0) |
+| 1 ms | 2 | 30.5 / 25.1 (0) | 30.4 / 30.8 / 31.4 (0) | 90.9 / 90.2 / 102.8 (0) | — | — |
+| 1 ms | 4 | 30.5 / 25.1 (0) | 30.4 / 30.8 / 31.4 (0) | 172.9 / 162.2 / 137.7 (0) | 116.5 / 380.2 / 572.3 (0) | 96.1 / 197.6 / 240.2 (0) |
+| 1 ms | 6 | 30.5 / 25.1 (0) | 30.4 / 30.8 / 31.4 (0) | 291.9 / 292.3 / 308.6 (0) | 158.8 / 568.4 / 658.5 (0) | 277.4 / 691.0 / 725.3 (0) |
+| 1 ms | 8 | 30.5 / 25.1 (0) | 30.4 / 30.8 / 31.4 (0) | 587.2 / 466.5 / 517.1 (0) | 202.1 / 527.7 / 703.9 (0) | 240911.7 / 256128.4 / 256372.8 (40704) |
+
+(Misses in parentheses; body misses are against the 10 ms or 1 ms period.
+"lost" is the window's measured losses.)
+
+Findings:
+- **Radar and brake are identical to C0** (30.5/25.1 µs and 30.4–31.4 µs,
+  0 misses) in every case, because they no longer touch the T1S segment.
+- **10 ms body flows: all 8 nodes fit.** No misses or losses. Body
+  latency is at most 0.54 ms (≈ 5 % of the 10 ms deadline) and the window
+  at most 0.23 ms (deadline 50 ms). Every body packet sent was received.
+- **1 ms body flows (stress):** up to 6 nodes per segment fit (4 body
+  nodes, max 0.73 ms < 1 ms). With 8 nodes the upstream still fits
+  (max 0.70 ms), but the downstream commands collapse: 69 996 of
+  ≈ 110 700 are lost, the rest arrive after ≈ 0.25 s, and 40 704 miss.
+  All downstream traffic leaves from the coordinator, which gets one TO per
+  PLCA cycle (max_bc = 0). Six command flows plus the window (11 000
+  frames/s) exceed one frame per cycle once six other nodes also send. The
+  limit is the coordinator's downstream share, not the 10 Mb/s bit rate
+  (well under 20 % used). The window keeps priority (PCP 3 > PCP 2) and
+  loses nothing.
+- **Answer:** with typical body periods (≥ 10 ms) the segment holds the
+  full 8 nodes with ≥ 95 % deadline margin. Downstream-heavy 1 ms traffic
+  limits it to about 6 nodes, unless the coordinator gets burst
+  (`max_bc`) or extra TOs (`multiTo`).
