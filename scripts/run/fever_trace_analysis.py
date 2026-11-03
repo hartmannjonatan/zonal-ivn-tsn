@@ -12,6 +12,13 @@ CRC, Errors). Checks:
   4. bus timing: minimum frame spacing -> implied bit rate, bus load estimate;
   5. payload behaviour: constant vs changing payloads, counters.
 usage: fever_trace_analysis.py [trace.csv] [flows.json]
+       fever_trace_analysis.py --decoded DECODED.csv --dbc FILE.dbc [--flows flows.json]
+
+--decoded analyses a DBC-decoded signal log (one row per received message,
+"Timestamp" in ms, one column per DBC signal, values forward-filled), as written
+by the Raspberry Pi logger: duration, message rate, per-message rate estimated
+from rows whose changed signals all belong to one DBC message, DBC cycle times,
+and the vehicle state over time (speed, torque, brake pressure, gear, SOC).
 """
 import csv
 import json
@@ -143,5 +150,100 @@ def main():
           f"{[f'{i} byte {b} (+{d})' for i, b, d in counters] or 'none'}")
 
 
+def parse_dbc(path):
+    import re
+    text = Path(path).read_text(encoding="latin1")
+    msgs, sig2msg, cur = {}, {}, None
+    for line in text.splitlines():
+        m = re.match(r"BO_ (\d+) (\w+): (\d+) (\w+)", line)
+        if m:
+            cur = m.group(2)
+            msgs[cur] = {"id": int(m.group(1)) & 0x1FFFFFFF, "dlc": int(m.group(3)), "tx": m.group(4)}
+            continue
+        m = re.match(r"\s+SG_ (\w+)", line)
+        if m and cur:
+            sig2msg[m.group(1)] = cur
+    for m in re.finditer(r'BA_ "GenMsgCycleTime" BO_ (\d+) (\d+);', text):
+        for v in msgs.values():
+            if v["id"] == int(m.group(1)) & 0x1FFFFFFF:
+                v["cycle_ms"] = int(m.group(2))
+    return msgs, sig2msg
+
+
+def decoded_main(decoded, dbc, flows_path):
+    msgs, sig2msg = parse_dbc(dbc)
+    with open(decoded, newline="") as f:
+        r = csv.reader(f)
+        hdr = next(r)
+        col_msg = [sig2msg.get(h) for h in hdr]
+        prev, n, t_first, t_last = None, 0, None, None
+        attributed = defaultdict(list)          # msg -> timestamps (ms)
+        unattributed = ambiguous = 0
+        per_second = Counter()
+        watch = ["ESC_ABS_VehicleSpeed", "Actual_Motor_speed", "ActualMotorTorque", "DriverDemandTorque",
+                 "AcceleratorPedalPosition", "ESC_MasCylBrakePressure", "Gear_status", "Battery_Soc",
+                 "Battery_Current", "Charge_Connect_State", "Lateral_Acceleration", "Longitudinal_Acceleration"]
+        widx = {w: hdr.index(w) for w in watch if w in hdr}
+        series = defaultdict(list)
+        for row in r:
+            n += 1
+            t = float(row[0])
+            t_first = t if t_first is None else t_first
+            t_last = t
+            per_second[int(t // 1000)] += 1
+            if prev is not None:
+                changed = {col_msg[k] for k in range(1, len(row)) if row[k] != prev[k] and col_msg[k]}
+                if len(changed) == 1:
+                    attributed[changed.pop()].append(t)
+                elif not changed:
+                    unattributed += 1
+                else:
+                    ambiguous += 1
+            prev = row
+            if n % 200 == 0:
+                for w, k in widx.items():
+                    series[w].append((t, row[k]))
+    dur = (t_last - t_first) / 1000
+    print(f"## Decoded capture {Path(decoded).name}\n- rows (messages): {n}, timestamps {t_first:.0f}..{t_last:.0f} ms "
+          f"-> {dur:.1f} s, {n / dur:.0f} messages/s on average")
+    rates = sorted(per_second.values())
+    print(f"- messages per second: min {rates[0]}, median {rates[len(rates) // 2]}, max {rates[-1]} "
+          f"(over {len(rates)} one-second bins)")
+    print(f"- {len(hdr) - 1} signal columns from {len({m for m in col_msg if m})} of {len(msgs)} DBC messages")
+    print(f"- rows attributable to one message by a value change: {sum(len(v) for v in attributed.values())}; "
+          f"no value changed: {unattributed}; changes in several messages: {ambiguous}")
+    print("\n| DBC message | CAN ID | DBC cycle ms | attributed rows | min period from changes ms | "
+          "median period from changes ms |\n|---|---|---|---|---|---|")
+    for name, m in sorted(msgs.items(), key=lambda kv: kv[1]["id"]):
+        ts = attributed.get(name, [])
+        gaps = [b - a for a, b in zip(ts, ts[1:]) if b > a]
+        print(f"| {name} | {m['id']:08X} | {m.get('cycle_ms', '—')} | {len(ts)} | "
+              f"{min(gaps) if gaps else '—'} | {statistics.median(gaps) if gaps else '—'} |")
+    print("\n## Vehicle state (sampled every 200 rows)\n")
+    print("| Signal | min | max | distinct values | share of samples ≠ first value |\n|---|---|---|---|---|")
+    for w, v in series.items():
+        vals = [x for _, x in v if x not in ("",)]
+        num = []
+        for x in vals:
+            try:
+                num.append(float(x))
+            except ValueError:
+                pass
+        distinct = len(set(vals))
+        moved = sum(1 for x in vals if x != vals[0]) / len(vals) if vals else 0
+        rng = f"{min(num):g} | {max(num):g}" if num else "— | —"
+        print(f"| {w} | {rng} | {distinct} | {moved * 100:.0f} % |")
+    return series
+
+
 if __name__ == "__main__":
-    main()
+    if "--decoded" in sys.argv:
+        import argparse
+        ap = argparse.ArgumentParser()
+        ap.add_argument("--decoded", required=True)
+        ap.add_argument("--dbc", required=True)
+        ap.add_argument("--flows", default=str(FLOWS))
+        a = ap.parse_args()
+        decoded_main(a.decoded, a.dbc, a.flows)
+    else:
+        main()
