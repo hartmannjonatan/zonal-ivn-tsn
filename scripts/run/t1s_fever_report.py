@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SIM = ROOT / "simulations"
 RES = SIM / "zonal/t1s_results"
 FLOWS = json.loads((SIM / "zonal/traffic/fever/flows.json").read_text())
+TAG = ""
 
 
 def p99(v):
@@ -64,7 +65,17 @@ def collect(cfg):
 
 
 def main():
-    for variant, cfg in (("ECU", "T1S_FEVER_ECU"), ("GW", "T1S_FEVER_GW")):
+    global FLOWS, TAG
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--flows")
+    ap.add_argument("--tag")
+    a = ap.parse_args()
+    if a.flows:
+        FLOWS = json.loads(Path(a.flows).read_text())
+        TAG = a.tag or ""
+    sfx = f"_{TAG.upper()}" if TAG else ""
+    for variant, cfg in (("ECU", f"T1S_FEVER{sfx}_ECU"), ("GW", f"T1S_FEVER{sfx}_GW")):
         lat, sent, recv, window = collect(cfg)
         rows = []
         for f in FLOWS:
@@ -77,7 +88,7 @@ def main():
                          "misses": sum(1 for x in v if x * 1e6 > d),
                          "sent_minus_received": sent[f["index"]] - recv[f["index"]],
                          "max_over_deadline_pct": round(max(v) * 1e6 / d * 100, 2) if v else ""})
-        with (RES / f"fever_{variant.lower()}.csv").open("w", newline="") as fh:
+        with (RES / f"fever{('_' + TAG) if TAG else ''}_{variant.lower()}.csv").open("w", newline="") as fh:
             w = csv.DictWriter(fh, fieldnames=list(rows[0]))
             w.writeheader()
             w.writerows(rows)

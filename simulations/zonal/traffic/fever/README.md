@@ -48,3 +48,26 @@ Run against the original oscilloscope export
   vehicle state. There is no DBC, so the function of each ID is unknown. The
   irregular 000C7Fxx IDs and ID 00000000 (constant payload) cannot be
   interpreted.
+
+## Processing a new capture
+
+`flows.json` stays as it is. For a new capture (same oscilloscope CSV
+format: Time, ID, DLC, Data, CRC, Errors), from the repository root:
+
+```bash
+python3 scripts/run/fever_trace_analysis.py NEW.csv simulations/zonal/traffic/fever/flows.json   # plausibility
+python3 scripts/run/fever_gen_flows.py NEW.csv            # -> simulations/zonal/traffic/fever/flows_NEW.json
+#   options: --period-method robust (recover periods despite missing frames),
+#            --critical ID,ID,... (default: the plca-priority-to CRITICAL list)
+python3 scripts/run/gen_t1s_fever.py --flows simulations/zonal/traffic/fever/flows_NEW.json --tag new
+#   -> zonal/configs/t1s_fever_new.ini, zonal_t1s_fever_new.ini, configs T1S_FEVER_NEW_ECU / _GW
+cd simulations && ../src/zonal-ivn-tsn -n ".:../src:../tests:$INET_ROOT/src" -f zonal_t1s_fever_new.ini -u Cmdenv -c T1S_FEVER_NEW_ECU
+cd .. && python3 scripts/run/t1s_fever_report.py --flows simulations/zonal/traffic/fever/flows_NEW.json --tag new
+```
+
+`fever_gen_flows.py` refuses to overwrite an existing file. Run on the
+original capture, it reproduces `flows.json` exactly (periods, phases,
+classes, indices). New flow files carry `id_bits`, which `gen_t1s_fever.py`
+uses for the ECU grouping, so 8-digit IDs below 0x7FF are grouped by their
+source address. In the original F4 mapping, 000001F2 and 00000000 sit in the
+"STD" node.
