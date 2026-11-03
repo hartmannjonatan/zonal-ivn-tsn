@@ -1,60 +1,63 @@
-scenario,mode,class,max_latency_us,lost,min_deadline_us,pass_100us,pass_150us,pass_250us,pass_500us,pass_1000us
-Baseline L1/A0,C0 (100 Mb/s links),radar,30.492,0,30.492,True,True,True,True,True
-T1S L1/A0,standard,radar,90.924,0,90.924,True,True,True,True,True
-Baseline L1/A0,C0 (100 Mb/s links),brake,31.425,0,31.425,True,True,True,True,True
-T1S L1/A0,standard,brake,31.425,0,31.425,True,True,True,True,True
-Baseline L1/A0,C0 (100 Mb/s links),window,42.748,0,42.748,True,True,True,True,True
-T1S L1/A0,standard,window,110.216,0,110.216,False,True,True,True,True
-T1S L1/A1,standard,radar,90.716,0,90.716,True,True,True,True,True
-T1S L1/A1,standard,brake,31.424,0,31.424,True,True,True,True,True
-T1S L1/A1,standard,window,114.483,0,114.483,False,True,True,True,True
-T1S radar phase sweep 45-130 us,standard,radar,154.54,0,154.54,False,False,True,True,True
-T1S radar phase sweep 45-130 us,priorityTo,radar,153.156,0,153.156,False,False,True,True,True
-T1S radar phase sweep 45-130 us,multiTo,radar,152.948,0,152.948,False,False,True,True,True
-T1S + brake on segment,standard,radar,219.54,0,219.54,False,False,True,True,True
-T1S + brake on segment,standard,brake,227.182,0,227.182,False,False,True,True,True
-T1S + brake on segment,standard,window,186010.241,34803,inf,False,False,False,False,False
-T1S + brake on segment,burst max_bc=3,radar,419.004,0,419.004,False,False,False,True,True
-T1S + brake on segment,burst max_bc=3,brake,226.026,0,226.026,False,False,True,True,True
-T1S + brake on segment,burst max_bc=3,window,145904.866,22872,inf,False,False,False,False,False
-T1S + brake on segment,priorityTo radar,radar,151.98,0,151.98,False,False,True,True,True
-T1S + brake on segment,priorityTo radar,brake,241.817,0,241.817,False,False,True,True,True
-T1S + brake on segment,priorityTo radar,window,395917.021,57942,inf,False,False,False,False,False
-T1S + brake on segment,multiTo coord,radar,280.18,0,280.18,False,False,False,True,True
-T1S + brake on segment,multiTo coord,brake,227.664,0,227.664,False,False,True,True,True
-T1S + brake on segment,multiTo coord,window,149801.43,23223,inf,False,False,False,False,False
-T1S + brake on segment,multiTo coord+radar,radar,224.54,0,224.54,False,False,True,True,True
-T1S + brake on segment,multiTo coord+radar,brake,226.125,0,226.125,False,False,True,True,True
-T1S + brake on segment,multiTo coord+radar,window,150194.048,23319,inf,False,False,False,False,False
-"T1S + sensor nodes, 5 per segment",standard,radar,224.956,0,224.956,False,False,True,True,True
-"T1S + sensor nodes, 5 per segment",standard,window,177.087,0,177.087,False,False,True,True,True
-"T1S + sensor nodes, 8 per segment",standard,radar,224.956,0,224.956,False,False,True,True,True
-"T1S + sensor nodes, 8 per segment",standard,window,283.877,0,283.877,False,False,False,True,True
-"T1S + sensor nodes, 5 per segment",priorityTo,radar,151.98,0,151.98,False,False,True,True,True
-"T1S + sensor nodes, 5 per segment",priorityTo,window,167.718,0,167.718,False,False,True,True,True
-"T1S + sensor nodes, 8 per segment",priorityTo,radar,146.636,0,146.636,False,True,True,True,True
-"T1S + sensor nodes, 8 per segment",priorityTo,window,364.55,0,364.55,False,False,False,True,True
-"T1S + sensor nodes, 5 per segment",multiTo,radar,139.852,0,139.852,False,True,True,True,True
-"T1S + sensor nodes, 5 per segment",multiTo,window,182.601,0,182.601,False,False,True,True,True
-"T1S + sensor nodes, 8 per segment",multiTo,radar,231.668,0,231.668,False,False,True,True,True
-"T1S + sensor nodes, 8 per segment",multiTo,window,401.557,0,401.557,False,False,False,True,True
-"T1S + heavy nodes, 5 per segment",standard,radar,1382.62,0,1382.62,False,False,False,False,False
-"T1S + heavy nodes, 5 per segment",standard,window,2295.01,0,2295.01,False,False,False,False,False
-"T1S + heavy nodes, 8 per segment",standard,radar,4268.676,0,4268.676,False,False,False,False,False
-"T1S + heavy nodes, 8 per segment",standard,window,138172.286,17997,inf,False,False,False,False,False
-"T1S + heavy nodes, 5 per segment",priorityTo,radar,1297.932,0,1297.932,False,False,False,False,False
-"T1S + heavy nodes, 5 per segment",priorityTo,window,2500.939,0,2500.939,False,False,False,False,False
-"T1S + heavy nodes, 8 per segment",priorityTo,radar,1612.692,0,1612.692,False,False,False,False,False
-"T1S + heavy nodes, 8 per segment",priorityTo,window,156908.364,23281,inf,False,False,False,False,False
-"T1S + heavy nodes, 5 per segment",multiTo,radar,1321.772,0,1321.772,False,False,False,False,False
-"T1S + heavy nodes, 5 per segment",multiTo,window,2413.841,0,2413.841,False,False,False,False,False
-"T1S + heavy nodes, 8 per segment",multiTo,radar,2497.284,0,2497.284,False,False,False,False,False
-"T1S + heavy nodes, 8 per segment",multiTo,window,163757.777,24432,inf,False,False,False,False,False
-"T1S + heavyfrag nodes, 5 per segment",standard,radar,646.296,0,646.296,False,False,False,False,True
-"T1S + heavyfrag nodes, 5 per segment",standard,window,620.233,0,620.233,False,False,False,False,True
-"T1S + heavyfrag nodes, 8 per segment",standard,radar,801.959,0,801.959,False,False,False,False,True
-"T1S + heavyfrag nodes, 8 per segment",standard,window,254496.448,51028,inf,False,False,False,False,False
-"T1S + heavyfrag nodes, 5 per segment",priorityTo,radar,333.9,0,333.9,False,False,False,True,True
-"T1S + heavyfrag nodes, 5 per segment",priorityTo,window,573.543,0,573.543,False,False,False,False,True
-"T1S + heavyfrag nodes, 8 per segment",priorityTo,radar,337.305,0,337.305,False,False,False,True,True
-"T1S + heavyfrag nodes, 8 per segment",priorityTo,window,333835.439,56683,inf,False,False,False,False,False
+scenario,mode,class,max_latency_us,lost,min_deadline_us,pass_100us,pass_150us,pass_250us,pass_500us,pass_1000us,reference_802_1dg_us,pass_reference
+Baseline L1/A0,C0 (100 Mb/s links),camera,499.132,0,499.132,False,False,False,True,True,16000,True
+T1S L1/A0,standard,camera,499.132,0,499.132,False,False,False,True,True,16000,True
+Baseline L1/A0,C0 (100 Mb/s links),radar,30.492,0,30.492,True,True,True,True,True,1000,True
+T1S L1/A0,standard,radar,90.924,0,90.924,True,True,True,True,True,1000,True
+Baseline L1/A0,C0 (100 Mb/s links),brake,31.425,0,31.425,True,True,True,True,True,1000,True
+T1S L1/A0,standard,brake,31.425,0,31.425,True,True,True,True,True,1000,True
+Baseline L1/A0,C0 (100 Mb/s links),window,42.748,0,42.748,True,True,True,True,True,50000,True
+T1S L1/A0,standard,window,110.216,0,110.216,False,True,True,True,True,50000,True
+T1S L1/A1,standard,camera,1692.028,0,1692.028,False,False,False,False,False,16000,True
+T1S L1/A1,standard,radar,90.716,0,90.716,True,True,True,True,True,1000,True
+T1S L1/A1,standard,brake,31.424,0,31.424,True,True,True,True,True,1000,True
+T1S L1/A1,standard,window,114.483,0,114.483,False,True,True,True,True,50000,True
+T1S radar phase sweep 45-130 us,standard,radar,154.54,0,154.54,False,False,True,True,True,1000,True
+T1S radar phase sweep 45-130 us,priorityTo,radar,153.156,0,153.156,False,False,True,True,True,1000,True
+T1S radar phase sweep 45-130 us,multiTo,radar,152.948,0,152.948,False,False,True,True,True,1000,True
+T1S + brake on segment,standard,radar,219.54,0,219.54,False,False,True,True,True,1000,True
+T1S + brake on segment,standard,brake,227.182,0,227.182,False,False,True,True,True,1000,True
+T1S + brake on segment,standard,window,186010.241,34803,inf,False,False,False,False,False,50000,False
+T1S + brake on segment,burst max_bc=3,radar,419.004,0,419.004,False,False,False,True,True,1000,True
+T1S + brake on segment,burst max_bc=3,brake,226.026,0,226.026,False,False,True,True,True,1000,True
+T1S + brake on segment,burst max_bc=3,window,145904.866,22872,inf,False,False,False,False,False,50000,False
+T1S + brake on segment,priorityTo radar,radar,151.98,0,151.98,False,False,True,True,True,1000,True
+T1S + brake on segment,priorityTo radar,brake,241.817,0,241.817,False,False,True,True,True,1000,True
+T1S + brake on segment,priorityTo radar,window,395917.021,57942,inf,False,False,False,False,False,50000,False
+T1S + brake on segment,multiTo coord,radar,280.18,0,280.18,False,False,False,True,True,1000,True
+T1S + brake on segment,multiTo coord,brake,227.664,0,227.664,False,False,True,True,True,1000,True
+T1S + brake on segment,multiTo coord,window,149801.43,23223,inf,False,False,False,False,False,50000,False
+T1S + brake on segment,multiTo coord+radar,radar,224.54,0,224.54,False,False,True,True,True,1000,True
+T1S + brake on segment,multiTo coord+radar,brake,226.125,0,226.125,False,False,True,True,True,1000,True
+T1S + brake on segment,multiTo coord+radar,window,150194.048,23319,inf,False,False,False,False,False,50000,False
+"T1S + sensor nodes, 5 per segment",standard,radar,224.956,0,224.956,False,False,True,True,True,1000,True
+"T1S + sensor nodes, 5 per segment",standard,window,177.087,0,177.087,False,False,True,True,True,50000,True
+"T1S + sensor nodes, 8 per segment",standard,radar,224.956,0,224.956,False,False,True,True,True,1000,True
+"T1S + sensor nodes, 8 per segment",standard,window,283.877,0,283.877,False,False,False,True,True,50000,True
+"T1S + sensor nodes, 5 per segment",priorityTo,radar,151.98,0,151.98,False,False,True,True,True,1000,True
+"T1S + sensor nodes, 5 per segment",priorityTo,window,167.718,0,167.718,False,False,True,True,True,50000,True
+"T1S + sensor nodes, 8 per segment",priorityTo,radar,146.636,0,146.636,False,True,True,True,True,1000,True
+"T1S + sensor nodes, 8 per segment",priorityTo,window,364.55,0,364.55,False,False,False,True,True,50000,True
+"T1S + sensor nodes, 5 per segment",multiTo,radar,139.852,0,139.852,False,True,True,True,True,1000,True
+"T1S + sensor nodes, 5 per segment",multiTo,window,182.601,0,182.601,False,False,True,True,True,50000,True
+"T1S + sensor nodes, 8 per segment",multiTo,radar,231.668,0,231.668,False,False,True,True,True,1000,True
+"T1S + sensor nodes, 8 per segment",multiTo,window,401.557,0,401.557,False,False,False,True,True,50000,True
+"T1S + heavy nodes, 5 per segment",standard,radar,1382.62,0,1382.62,False,False,False,False,False,1000,False
+"T1S + heavy nodes, 5 per segment",standard,window,2295.01,0,2295.01,False,False,False,False,False,50000,True
+"T1S + heavy nodes, 8 per segment",standard,radar,4268.676,0,4268.676,False,False,False,False,False,1000,False
+"T1S + heavy nodes, 8 per segment",standard,window,138172.286,17997,inf,False,False,False,False,False,50000,False
+"T1S + heavy nodes, 5 per segment",priorityTo,radar,1297.932,0,1297.932,False,False,False,False,False,1000,False
+"T1S + heavy nodes, 5 per segment",priorityTo,window,2500.939,0,2500.939,False,False,False,False,False,50000,True
+"T1S + heavy nodes, 8 per segment",priorityTo,radar,1612.692,0,1612.692,False,False,False,False,False,1000,False
+"T1S + heavy nodes, 8 per segment",priorityTo,window,156908.364,23281,inf,False,False,False,False,False,50000,False
+"T1S + heavy nodes, 5 per segment",multiTo,radar,1321.772,0,1321.772,False,False,False,False,False,1000,False
+"T1S + heavy nodes, 5 per segment",multiTo,window,2413.841,0,2413.841,False,False,False,False,False,50000,True
+"T1S + heavy nodes, 8 per segment",multiTo,radar,2497.284,0,2497.284,False,False,False,False,False,1000,False
+"T1S + heavy nodes, 8 per segment",multiTo,window,163757.777,24432,inf,False,False,False,False,False,50000,False
+"T1S + heavyfrag nodes, 5 per segment",standard,radar,646.296,0,646.296,False,False,False,False,True,1000,True
+"T1S + heavyfrag nodes, 5 per segment",standard,window,620.233,0,620.233,False,False,False,False,True,50000,True
+"T1S + heavyfrag nodes, 8 per segment",standard,radar,801.959,0,801.959,False,False,False,False,True,1000,True
+"T1S + heavyfrag nodes, 8 per segment",standard,window,254496.448,51028,inf,False,False,False,False,False,50000,False
+"T1S + heavyfrag nodes, 5 per segment",priorityTo,radar,333.9,0,333.9,False,False,False,True,True,1000,True
+"T1S + heavyfrag nodes, 5 per segment",priorityTo,window,573.543,0,573.543,False,False,False,False,True,50000,True
+"T1S + heavyfrag nodes, 8 per segment",priorityTo,radar,337.305,0,337.305,False,False,False,True,True,1000,True
+"T1S + heavyfrag nodes, 8 per segment",priorityTo,window,333835.439,56683,inf,False,False,False,False,False,50000,False

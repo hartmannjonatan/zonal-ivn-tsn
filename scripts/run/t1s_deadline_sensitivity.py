@@ -4,7 +4,8 @@
 For every scenario/mode and flow class (radar F06-F07, brake F08-F10,
 window F15-F17) it reports the minimum deadline that would give zero misses
 (the observed max latency over the class; infinite if any packet was lost)
-and pass/fail at 100 us, 150 us, 250 us, 500 us and 1 ms.
+and pass/fail at 100 us, 150 us, 250 us, 500 us and 1 ms, and at the IEEE 802.1DG
+working-group reference deadline of the class (REFERENCE_US).
 
 Inputs: simulations/zonal/t1s_results/*.csv. Output: markdown on stdout and
 simulations/zonal/t1s_results/deadline_sensitivity.csv.
@@ -16,8 +17,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RES = ROOT / "simulations/zonal/t1s_results"
-CLASSES = {"radar": ("F06", "F07"), "brake": ("F08", "F09", "F10"), "window": ("F15", "F16", "F17")}
+CLASSES = {"radar": ("F06", "F07"), "brake": ("F08", "F09", "F10"), "window": ("F15", "F16", "F17"),
+           "camera": ("F02", "F03", "F04", "F05")}
 DEADLINES_US = (100, 150, 250, 500, 1000)
+# Reference deadlines from IEEE 802.1DG working-group contributions (typical values,
+# not normative): Chen/Zhang (Huawei/GAC) 2019 and Gopal/Lawlis (Ford) 2021.
+#   radar  : safety-relevant media, latency < 1 ms (Huawei/GAC)
+#   brake  : safety-relevant control < 1 ms (Huawei/GAC); Command & Control 1, 1 ms (Ford)
+#   camera : Video Stream 1 (ADAS), 16 ms (Ford)
+#   window : safety-irrelevant control < 50 ms (Huawei/GAC); Command & Control 2, 100 ms (Ford);
+#            the stricter 50 ms is used
+REFERENCE_US = {"radar": 1000, "brake": 1000, "camera": 16000, "window": 50000}
 
 
 def rows(name):
@@ -65,17 +75,22 @@ def main():
                 agg[key]["lost"] += lost
     out = []
     print("| Scenario | Mode | Class | Min. deadline for 0 misses | " + " | ".join(
-        f"{d} µs" if d < 1000 else "1 ms" for d in DEADLINES_US) + " |")
-    print("|---|---|---|---|" + "---|" * len(DEADLINES_US))
+        f"{d} µs" if d < 1000 else "1 ms" for d in DEADLINES_US) + " | 802.1DG reference | Pass at reference |")
+    print("|---|---|---|---|" + "---|" * len(DEADLINES_US) + "---|---|")
     for key in order:
         a = agg[key]
         need = math.inf if a["lost"] else a["max"]
         verdict = ["pass" if need <= d else "fail" for d in DEADLINES_US]
         need_txt = f"∞ (lost {a['lost']})" if a["lost"] else (f"{need:.1f} µs" if need < 1000 else f"{need / 1000:.2f} ms")
-        print(f"| {key[0]} | {key[1]} | {key[2]} | {need_txt} | " + " | ".join(verdict) + " |")
+        ref = REFERENCE_US[key[2]]
+        ref_ok = need <= ref
+        ref_txt = f"{ref // 1000} ms"
+        print(f"| {key[0]} | {key[1]} | {key[2]} | {need_txt} | " + " | ".join(verdict) +
+              f" | {ref_txt} | {'pass' if ref_ok else 'fail'} |")
         out.append({"scenario": key[0], "mode": key[1], "class": key[2], "max_latency_us": round(a["max"], 3),
                     "lost": a["lost"], "min_deadline_us": "inf" if a["lost"] else round(need, 3),
-                    **{f"pass_{d}us": v == "pass" for d, v in zip(DEADLINES_US, verdict)}})
+                    **{f"pass_{d}us": v == "pass" for d, v in zip(DEADLINES_US, verdict)},
+                    "reference_802_1dg_us": ref, "pass_reference": ref_ok})
     with (RES / "deadline_sensitivity.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(out[0]))
         w.writeheader()

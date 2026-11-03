@@ -927,3 +927,124 @@ Findings (10 seeds × 30 s; 300 000 radar packets per flow and config):
    (Luo et al. 2022 for 100 µs over five hops at 1 Gb/s; window 50 ms
    assumed), not from a standard. F1 gives the deadline at which each
    variant passes: ≈ 155 µs for the radar on T1S at any phase.
+
+### F1b — Deadlines from the IEEE 802.1DG working-group contributions
+
+No standard fixes per-application network deadlines. ISO 26262 defines the
+fault tolerant time interval, but its value is set per item by the hazard
+analysis. SAE J1939 and AUTOSAR fix message periods and timing-specification
+methods, not network deadlines. The closest reference is the automotive TSN
+profile IEEE 802.1DG-2025. Its working-group contributions list typical
+values per traffic type ("80 % of the applications in scope"; informative,
+not the normative text of the standard):
+
+- Chen & Zhang (Huawei/GAC), *Automotive In-Vehicle Traffic Type*, IEEE
+  802.1DG, July 2019:
+  - safety-relevant control (engine, braking, steering, ADAS commands):
+    period ≤ 20 ms, latency < 1 ms, ≤ 64 B, no loss;
+  - safety-relevant media (radar, LiDAR, ultrasonic, camera): period
+    ≤ 10 ms, latency < 1 ms;
+  - safety-irrelevant control: latency < 50 ms; safety-irrelevant media:
+    < 300 ms; event: < 10 ms.
+  <https://www.ieee802.org/1/files/public/docs2019/dg-chen-automotive-traffic-type-0719-v01.pdf>
+- Gopal & Lawlis (Ford), *Traffic Categories & Overall Performance Goals*,
+  IEEE 802.1DG, July 2021. Timing constraints are MAC-to-MAC over at most
+  3 hops of 100BASE-T1:
+  - Command & Control 1 (time-critical, safety-relevant): 1 ms, period 1–20 ms;
+  - Video Stream 1 (ADAS): 16 ms;
+  - Command & Control 2 (A/C, seats, vehicle status): 100 ms;
+  - Video Stream 2 (infotainment): 33 ms; best effort: 2000 ms.
+  <https://grouper.ieee.org/groups/802/1/files/public/docs2021/dg-gopal-TrafficClass-0727-v2.pdf>
+- IEEE 802.1DG-2025 publication: <https://1.ieee802.org/publication-ieee-802-1dg-2025/>
+
+The P1 deadlines (radar and brake 100 µs, from Luo et al. 2022,
+*Sensors* 22(12):4580; window 50 ms, assumed) are therefore 10× stricter than
+these references for radar and brake, and equal to the stricter reference for
+the window.
+
+`t1s_deadline_sensitivity.py` now also reports pass/fail at a reference
+deadline per class: radar 1 ms, brake 1 ms, ADAS camera 16 ms, and
+window/body 50 ms (the stricter of 50 ms Huawei/GAC and 100 ms Ford).
+Camera values are per packet, not per image. Full table (also
+`zonal/t1s_results/deadline_sensitivity.csv`):
+
+| Scenario | Mode | Class | Min. deadline for 0 misses | 100 µs | 150 µs | 250 µs | 500 µs | 1 ms | 802.1DG reference | Pass at reference |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Baseline L1/A0 | C0 (100 Mb/s links) | camera | 499.1 µs | fail | fail | fail | pass | pass | 16 ms | pass |
+| T1S L1/A0 | standard | camera | 499.1 µs | fail | fail | fail | pass | pass | 16 ms | pass |
+| Baseline L1/A0 | C0 (100 Mb/s links) | radar | 30.5 µs | pass | pass | pass | pass | pass | 1 ms | pass |
+| T1S L1/A0 | standard | radar | 90.9 µs | pass | pass | pass | pass | pass | 1 ms | pass |
+| Baseline L1/A0 | C0 (100 Mb/s links) | brake | 31.4 µs | pass | pass | pass | pass | pass | 1 ms | pass |
+| T1S L1/A0 | standard | brake | 31.4 µs | pass | pass | pass | pass | pass | 1 ms | pass |
+| Baseline L1/A0 | C0 (100 Mb/s links) | window | 42.7 µs | pass | pass | pass | pass | pass | 50 ms | pass |
+| T1S L1/A0 | standard | window | 110.2 µs | fail | pass | pass | pass | pass | 50 ms | pass |
+| T1S L1/A1 | standard | camera | 1.69 ms | fail | fail | fail | fail | fail | 16 ms | pass |
+| T1S L1/A1 | standard | radar | 90.7 µs | pass | pass | pass | pass | pass | 1 ms | pass |
+| T1S L1/A1 | standard | brake | 31.4 µs | pass | pass | pass | pass | pass | 1 ms | pass |
+| T1S L1/A1 | standard | window | 114.5 µs | fail | pass | pass | pass | pass | 50 ms | pass |
+| T1S radar phase sweep 45-130 us | standard | radar | 154.5 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S radar phase sweep 45-130 us | priorityTo | radar | 153.2 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S radar phase sweep 45-130 us | multiTo | radar | 152.9 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + brake on segment | standard | radar | 219.5 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + brake on segment | standard | brake | 227.2 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + brake on segment | standard | window | ∞ (lost 34803) | fail | fail | fail | fail | fail | 50 ms | fail |
+| T1S + brake on segment | burst max_bc=3 | radar | 419.0 µs | fail | fail | fail | pass | pass | 1 ms | pass |
+| T1S + brake on segment | burst max_bc=3 | brake | 226.0 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + brake on segment | burst max_bc=3 | window | ∞ (lost 22872) | fail | fail | fail | fail | fail | 50 ms | fail |
+| T1S + brake on segment | priorityTo radar | radar | 152.0 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + brake on segment | priorityTo radar | brake | 241.8 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + brake on segment | priorityTo radar | window | ∞ (lost 57942) | fail | fail | fail | fail | fail | 50 ms | fail |
+| T1S + brake on segment | multiTo coord | radar | 280.2 µs | fail | fail | fail | pass | pass | 1 ms | pass |
+| T1S + brake on segment | multiTo coord | brake | 227.7 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + brake on segment | multiTo coord | window | ∞ (lost 23223) | fail | fail | fail | fail | fail | 50 ms | fail |
+| T1S + brake on segment | multiTo coord+radar | radar | 224.5 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + brake on segment | multiTo coord+radar | brake | 226.1 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + brake on segment | multiTo coord+radar | window | ∞ (lost 23319) | fail | fail | fail | fail | fail | 50 ms | fail |
+| T1S + sensor nodes, 5 per segment | standard | radar | 225.0 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + sensor nodes, 5 per segment | standard | window | 177.1 µs | fail | fail | pass | pass | pass | 50 ms | pass |
+| T1S + sensor nodes, 8 per segment | standard | radar | 225.0 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + sensor nodes, 8 per segment | standard | window | 283.9 µs | fail | fail | fail | pass | pass | 50 ms | pass |
+| T1S + sensor nodes, 5 per segment | priorityTo | radar | 152.0 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + sensor nodes, 5 per segment | priorityTo | window | 167.7 µs | fail | fail | pass | pass | pass | 50 ms | pass |
+| T1S + sensor nodes, 8 per segment | priorityTo | radar | 146.6 µs | fail | pass | pass | pass | pass | 1 ms | pass |
+| T1S + sensor nodes, 8 per segment | priorityTo | window | 364.6 µs | fail | fail | fail | pass | pass | 50 ms | pass |
+| T1S + sensor nodes, 5 per segment | multiTo | radar | 139.9 µs | fail | pass | pass | pass | pass | 1 ms | pass |
+| T1S + sensor nodes, 5 per segment | multiTo | window | 182.6 µs | fail | fail | pass | pass | pass | 50 ms | pass |
+| T1S + sensor nodes, 8 per segment | multiTo | radar | 231.7 µs | fail | fail | pass | pass | pass | 1 ms | pass |
+| T1S + sensor nodes, 8 per segment | multiTo | window | 401.6 µs | fail | fail | fail | pass | pass | 50 ms | pass |
+| T1S + heavy nodes, 5 per segment | standard | radar | 1.38 ms | fail | fail | fail | fail | fail | 1 ms | fail |
+| T1S + heavy nodes, 5 per segment | standard | window | 2.30 ms | fail | fail | fail | fail | fail | 50 ms | pass |
+| T1S + heavy nodes, 8 per segment | standard | radar | 4.27 ms | fail | fail | fail | fail | fail | 1 ms | fail |
+| T1S + heavy nodes, 8 per segment | standard | window | ∞ (lost 17997) | fail | fail | fail | fail | fail | 50 ms | fail |
+| T1S + heavy nodes, 5 per segment | priorityTo | radar | 1.30 ms | fail | fail | fail | fail | fail | 1 ms | fail |
+| T1S + heavy nodes, 5 per segment | priorityTo | window | 2.50 ms | fail | fail | fail | fail | fail | 50 ms | pass |
+| T1S + heavy nodes, 8 per segment | priorityTo | radar | 1.61 ms | fail | fail | fail | fail | fail | 1 ms | fail |
+| T1S + heavy nodes, 8 per segment | priorityTo | window | ∞ (lost 23281) | fail | fail | fail | fail | fail | 50 ms | fail |
+| T1S + heavy nodes, 5 per segment | multiTo | radar | 1.32 ms | fail | fail | fail | fail | fail | 1 ms | fail |
+| T1S + heavy nodes, 5 per segment | multiTo | window | 2.41 ms | fail | fail | fail | fail | fail | 50 ms | pass |
+| T1S + heavy nodes, 8 per segment | multiTo | radar | 2.50 ms | fail | fail | fail | fail | fail | 1 ms | fail |
+| T1S + heavy nodes, 8 per segment | multiTo | window | ∞ (lost 24432) | fail | fail | fail | fail | fail | 50 ms | fail |
+| T1S + heavyfrag nodes, 5 per segment | standard | radar | 646.3 µs | fail | fail | fail | fail | pass | 1 ms | pass |
+| T1S + heavyfrag nodes, 5 per segment | standard | window | 620.2 µs | fail | fail | fail | fail | pass | 50 ms | pass |
+| T1S + heavyfrag nodes, 8 per segment | standard | radar | 802.0 µs | fail | fail | fail | fail | pass | 1 ms | pass |
+| T1S + heavyfrag nodes, 8 per segment | standard | window | ∞ (lost 51028) | fail | fail | fail | fail | fail | 50 ms | fail |
+| T1S + heavyfrag nodes, 5 per segment | priorityTo | radar | 333.9 µs | fail | fail | fail | pass | pass | 1 ms | pass |
+| T1S + heavyfrag nodes, 5 per segment | priorityTo | window | 573.5 µs | fail | fail | fail | fail | pass | 50 ms | pass |
+| T1S + heavyfrag nodes, 8 per segment | priorityTo | radar | 337.3 µs | fail | fail | fail | pass | pass | 1 ms | pass |
+| T1S + heavyfrag nodes, 8 per segment | priorityTo | window | ∞ (lost 56683) | fail | fail | fail | fail | fail | 50 ms | fail |
+
+At the 802.1DG reference deadlines:
+- **Radar passes in every scenario without 1518 B participants:** T1S at
+  any phase (≤ 155 µs), with brake on the segment (≤ 419 µs), with 5–8
+  sensor nodes (≤ 232 µs), and with fragmented heavy nodes (≤ 802 µs). It
+  fails only with unfragmented 1518 B nodes (1.3–4.3 ms).
+- **Brake passes even when it shares the segment** (≤ 242 µs in every mode).
+  The cost is window losses from the coordinator's limited capacity.
+- **Window fails only where frames are lost:** brake on the segment, and
+  8 heavy or 8 fragmenting nodes. Everything else is ≤ 2.5 ms against 50 ms.
+- **Camera** (not on T1S) is ≤ 1.7 ms against 16 ms everywhere.
+
+So, judged by the 802.1DG reference values instead of the P1 benchmark
+values, 10BASE-T1S would be acceptable for radar and window in every
+scenario without large frames. The limits that remain are capacity
+(brake + window on one segment) and non-preemptable 1518 B frames.
