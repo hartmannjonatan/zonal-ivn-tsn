@@ -3,3 +3,5 @@ case,all_max_us,critical_max_us,ids_over_deadline
 "CAN WCRT, deadline-monotonic priorities (analysis)",15950.0,11150.0,
 "CAN simulated, ID priorities, trace phases (6 s)",3100.0,3100.0,
 "CAN simulated, deadline-monotonic, trace phases (6 s)",2910.0,1880.0,
+T1S simulated (per ECU),552.0,501.0,
+T1S simulated (gateway),552.0,501.0,

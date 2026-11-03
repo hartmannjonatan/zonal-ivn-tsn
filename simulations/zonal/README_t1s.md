@@ -1177,3 +1177,39 @@ Findings:
   the guard band is off: a window frame pulled just before the gate closes.
 - **Hybrid (radar/brake on 100 Mb/s): identical to C0 at every cell** for
   radar and brake. Window ≤ 223 µs. It fails only at L3/A1, like C0.
+
+### F9 — DBC-based Fever flow sets on T1S and CAN
+
+The flow sets are `flows_dbc.json` (observed: 48 IDs, 878 frames/s) and
+`flows_dbc_full.json` (worst case, all 38 DBC messages: 53 IDs, 954
+frames/s), described in `zonal/traffic/fever/README.md`. The setup is that of
+F4 (hybrid network, per-ECU and single-gateway mappings, C0, L1/A0, 2 s,
+seeds 1001–1003; configs `T1S_FEVER_DBC_*` / `T1S_FEVER_DBCFULL_*`), plus
+the F8 CAN analysis and CAN simulation at 500 kbit/s. 500 kbit/s is the bus
+rate confirmed by the vehicle's CAN protocol document. 12 runs, all exit 0,
+487 s wall. Per-ID results: `zonal/t1s_results/fever_dbc_*.csv`,
+`fever_dbcfull_*.csv`, `can_rta_fever_dbc*.csv`, `can_vs_t1s_summary_dbc*.csv`.
+
+| Flow set | T1S max µs, per ECU (CRITICAL) | T1S max µs, gateway (CRITICAL) | T1S worst max / deadline | CAN WCRT, ID priorities (CRITICAL) | CAN WCRT misses | CAN simulated, trace phases | CAN simulated, DM priorities (CRITICAL) |
+|---|---|---|---|---|---|---|---|
+| flows.json (F4/F8) | 552 (501) | 552 (501) | 5.0 % | 15 630 (13 070) µs | 1 | 3 100 µs | 2 910 (1 660) µs |
+| flows_dbc.json | 552 (501) | 552 (501) | 5.0 % | 15 950 (13 070) µs | 1 | 3 100 µs | 2 910 (1 880) µs |
+| flows_dbc_full.json | 552 (502) | 938 (938) | 9.4 % | 17 550 (13 710) µs | 1 | 3 100 µs | 2 910 (2 200) µs |
+
+Findings:
+- **The DBC-based sets confirm F4.** With the observed messages at their
+  nominal DBC cycles, T1S latencies are unchanged (max 552 µs, at most 5 %
+  of a deadline, no misses, no losses). In the worst case with all 38
+  messages active, the per-ECU mapping is unchanged.
+- **The single gateway is the only mapping sensitive to the extra load.**
+  The six messages never seen in the captures start in phase (phase 0), so
+  the gateway queues more frames at once. Each needs its own TO, and the
+  CRITICAL max rises to 938 µs (9.4 % of 10 ms). There are still no misses.
+- **On CAN the conclusion of F8 holds for every set.** The 10 ms CRITICAL
+  message 18FFEFA7 is not guaranteed with the identifier priorities
+  (WCRT 13.1–13.7 ms > 10 ms). Deadline-monotonic priorities make the set
+  schedulable. Simulated with the trace phases, CAN peaks at 3.1 ms against
+  0.55–0.94 ms on T1S.
+- The 6.6 min decoded capture was used only to confirm presence and periods
+  (F-notes in the Fever README). It has no raw frames, so no new phases or
+  jitter could be derived from it.
