@@ -768,3 +768,61 @@ Findings:
 - The 3 packets "sent − received" are frames still in flight at the end of
   the simulation, not losses. Every body-node queue reports
   `droppedPacketsQueueOverflow = 0` in all runs.
+
+### F5 — Controlled phase: TC3 gate around the radar release
+
+`configs/t1s_phase.ini` (entry point `zonal_t1s_phase.ini`), config
+`T1S_RadarPhase_TAS`. This is the same 0–195 µs radar-phase sweep as
+`T1S_RadarPhase` (seed 1001, 1 s, standard PLCA), plus a time-aware gate on
+the window class (TC3) of the Z2/Z3 T1S coordinator ports. The gate closes
+150 µs before every radar release (o + k·1 ms) and reopens 80 µs after it:
+`durations = [230us, 770us]`, `initiallyOpen = false`,
+`offset = (1150 − o) mod 1000 µs`. The 150 µs covers a window data TO
+(67.2 µs) plus up to one PLCA cycle between the MAC pulling a frame and the
+coordinator's TO. INET's implicit guard band also prevents a window frame
+from starting if it cannot finish before the gate closes. Clocks are ideal
+(simulation time), standing in for the gPTP synchronization a real TAS
+deployment needs. Every 10 µs offset is shown below (all 40 are in
+`zonal/t1s_results/radar_phase_tas.csv`):
+
+| Offset µs | F06 max µs std → TAS | F06 misses std → TAS | F07 max µs std → TAS | F07 misses std → TAS |
+|---|---|---|---|---|
+| 0 | 86.7 → 86.7 | 0 → 0 | 85.8 → 85.8 | 0 → 0 |
+| 10 | 89.0 → 88.8 | 0 → 0 | 87.9 → 87.9 | 0 → 0 |
+| 20 | 90.9 → 90.7 | 0 → 0 | 78.8 → 90.0 | 0 → 0 |
+| 30 | 82.2 → 82.9 | 0 → 0 | 80.9 → 80.9 | 0 → 0 |
+| 40 | 83.3 → 83.3 | 0 → 0 | 83.1 → 83.1 | 0 → 0 |
+| 50 | 146.6 → 97.7 | 268 → 0 | 85.0 → 85.0 | 0 → 0 |
+| 60 | 148.4 → 87.7 | 956 → 0 | 147.9 → 87.3 | 591 → 0 |
+| 70 | 143.0 → 89.9 | 982 → 0 | 138.4 → 89.4 | 961 → 0 |
+| 80 | 140.3 → 91.6 | 997 → 0 | 140.3 → 90.9 | 991 → 0 |
+| 90 | 130.3 → 93.7 | 776 → 0 | 154.5 → 93.0 | 1000 → 0 |
+| 100 | 120.3 → 84.1 | 135 → 0 | 132.2 → 83.7 | 425 → 0 |
+| 110 | 110.3 → 86.2 | 15 → 0 | 122.2 → 85.1 | 42 → 0 |
+| 120 | 100.3 → 88.4 | 4 → 0 | 112.2 → 87.3 | 13 → 0 |
+| 130 | 90.3 → 90.5 | 0 → 0 | 102.2 → 89.4 | 1 → 0 |
+| 140 | 81.5 → 92.2 | 0 → 0 | 92.2 → 91.5 | 0 → 0 |
+| 150 | 94.5 → 95.0 | 0 → 0 | 94.5 → 94.5 | 0 → 0 |
+| 160 | 85.0 → 85.0 | 0 → 0 | 84.5 → 84.5 | 0 → 0 |
+| 170 | 86.9 → 86.9 | 0 → 0 | 86.7 → 86.7 | 0 → 0 |
+| 180 | 89.0 → 88.8 | 0 → 0 | 88.1 → 88.1 | 0 → 0 |
+| 190 | 80.8 → 90.9 | 0 → 0 | 79.4 → 90.3 | 0 → 0 |
+
+Findings:
+- **The radar meets 100 µs at every phase: 0 misses at all 40 offsets**
+  (standard PLCA: 8 339 + 8 210 misses over the same offsets). The worst
+  case drops from 152.9/154.5 µs to 97.7/94.5 µs. With no window frame able
+  to occupy the segment, the radar only waits for its own TO
+  (≈ 3–12 µs) plus its 57.6 µs frame and the 1 Gb/s hops.
+- **The margin is thin (2.3 µs).** By the F2 model, a radar that also
+  meets the worst 1 Gb/s queueing (Hq up to 37 µs: camera frames in
+  progress, LiDAR ahead in TC6) could reach ≈ 109 µs. A strict guarantee
+  would also need the 1 Gb/s egresses protected for TC6 (TAS/CBS, as in
+  C3/C4) or frame preemption there. The T1S segment itself is no longer
+  the bottleneck.
+- **Cost:** the window waits for the gate. Its max rises from 110 µs to
+  ≈ 380 µs (Z2/Z3), still far below its 50 ms deadline, with no losses or
+  misses. Z1 has no gate (no radar): 90 µs.
+- This needs a synchronized time base (gPTP) and a radar whose release
+  time is known and stable, i.e. scheduled traffic. It is the TSN answer to
+  the non-preemption floor found in F2, not a PLCA mechanism.
