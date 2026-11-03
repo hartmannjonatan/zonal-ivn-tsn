@@ -71,3 +71,22 @@ classes, indices). New flow files carry `id_bits`, which `gen_t1s_fever.py`
 uses for the ECU grouping, so 8-digit IDs below 0x7FF are grouped by their
 source address. In the original F4 mapping, 000001F2 and 00000000 sit in the
 "STD" node.
+
+## `flows_dbc.json` (DBC-based flow set)
+
+The longer capture (≈ 6.6 min) is a DBC-decoded signal log without raw
+frames (no CAN ID per row, 1 ms timestamps, values forward-filled), so it
+cannot feed `fever_gen_flows.py`. `flows_dbc.json` instead combines:
+- all 38 messages of the vehicle DBC (not included in this public
+  repository), each with the DBC's nominal cycle time and DLC. There are
+  three exceptions: two messages measured at 10 ms in both captures instead
+  of the nominal 20 ms (18FE50A7, 18FFEFA7; `period_source` = measured
+  override), and 18FFEFF4, which has no DBC cycle and uses its measured
+  100 ms. Six of the 38 do not appear in the 1 s trace (e.g. charger
+  messages); they get phase 0.
+- the 15 IDs of the 1 s trace that are not in the DBC, with their measured
+  periods and phases, as in `flows.json`.
+
+In total: 53 IDs, 954 frames/s (flows.json: 47 IDs, 872 frames/s), 12 of them
+CRITICAL. The file holds IDs, periods, DLC, phases and class only; no signal
+or message names. Configs: `gen_t1s_fever.py --flows .../flows_dbc.json --tag dbc`.

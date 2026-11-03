@@ -122,10 +122,19 @@ def t1s_max(name):
 
 
 def main():
-    variants = {"flows.json": FLOWS,
+    global FLOWS
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--flows", help="flow file (default: the original flows.json)")
+    ap.add_argument("--tag", default="", help="suffix for outputs and the T1S result files (fever_<tag>_*.csv)")
+    a = ap.parse_args()
+    if a.flows:
+        FLOWS = json.loads(Path(a.flows).read_text())
+    tag = f"_{a.tag}" if a.tag else ""
+    variants = {Path(a.flows).name if a.flows else "flows.json": FLOWS,
                 "000C7FD3 at 80 ms": [dict(f, period_ms=80, deadline_ms=80) if f["id"] == "000C7FD3" else dict(f)
                                       for f in FLOWS]}
-    t1s_ecu, t1s_gw = t1s_max("fever_ecu.csv"), t1s_max("fever_gw.csv")
+    t1s_ecu, t1s_gw = t1s_max(f"fever{tag}_ecu.csv"), t1s_max(f"fever{tag}_gw.csv")
     rows = []
     for vname, msgs in variants.items():
         for rate in (250e3, 500e3, 1e6):
@@ -139,7 +148,7 @@ def main():
                                  "can_wcrt_over_deadline_pct": round(R[m["id"]] * 1e3 / m["deadline_ms"] * 100, 2),
                                  "can_bus_utilisation_pct": round(util * 100, 1),
                                  "t1s_ecu_max_us": t1s_ecu.get(m["id"], ""), "t1s_gw_max_us": t1s_gw.get(m["id"], "")})
-    with (RES / "can_rta_fever.csv").open("w", newline="") as f:
+    with (RES / f"can_rta_fever{tag}.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
         w.writerows(rows)
@@ -159,7 +168,8 @@ def main():
     print("\nPer CAN ID, flows.json, 500 kbit/s, no jitter: CAN WCRT (analysis) vs T1S simulated max (F4)\n")
     print("| CAN ID | Class | Period ms | CAN WCRT µs | T1S max µs (per ECU) | T1S max µs (gateway) |")
     print("|---|---|---|---|---|---|")
-    sel = [r for r in rows if r["variant"] == "flows.json" and r["bitrate_kbps"] == 500 and not r["jitter"]]
+    first = next(iter(variants))
+    sel = [r for r in rows if r["variant"] == first and r["bitrate_kbps"] == 500 and not r["jitter"]]
     for r in sorted(sel, key=lambda r: arb_key(r["can_id"])):
         print(f"| {r['can_id']} | {r['class']} | {r['period_ms']} | {r['can_wcrt_us']:.0f} | "
               f"{r['t1s_ecu_max_us']} | {r['t1s_gw_max_us']} |")
@@ -171,8 +181,9 @@ def main():
              ("CAN WCRT, deadline-monotonic priorities (analysis)", rta([dict(m) for m in base], 500e3, key=dm_key)),
              ("CAN simulated, ID priorities, trace phases (6 s)", simulate_can(base, 500e3)),
              ("CAN simulated, deadline-monotonic, trace phases (6 s)", simulate_can(base, 500e3, key=dm_key)),
-             ("T1S simulated (F4, per ECU)", {k: v / 1e6 for k, v in t1s_ecu.items()}),
-             ("T1S simulated (F4, gateway)", {k: v / 1e6 for k, v in t1s_gw.items()})]
+             ("T1S simulated (per ECU)", {k: v / 1e6 for k, v in t1s_ecu.items()}),
+             ("T1S simulated (gateway)", {k: v / 1e6 for k, v in t1s_gw.items()})]
+    cases = [(n, R) for n, R in cases if R]
     dl = {m["id"]: m["deadline_ms"] / 1000 for m in base}
     cl = {m["id"]: m["class"] for m in base}
     summary = []
@@ -183,14 +194,15 @@ def main():
         summary.append({"case": name, "all_max_us": round(allm, 1), "critical_max_us": round(crm, 1),
                         "ids_over_deadline": " ".join(miss)})
         print(f"| {name} | {allm:.0f} | {crm:.0f} | {len(miss)} {('(' + ', '.join(miss) + ')') if miss else ''} |")
-    with (RES / "can_vs_t1s_summary.csv").open("w", newline="") as f:
+    with (RES / f"can_vs_t1s_summary{tag}.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(summary[0]))
         w.writeheader()
         w.writerows(summary)
     crit = [r for r in sel if r["class"] == "CRITICAL"]
-    print(f"\nCRITICAL IDs, 500 kbit/s: CAN WCRT max {max(r['can_wcrt_us'] for r in crit):.0f} µs; "
-          f"T1S simulated max {max(float(r['t1s_ecu_max_us']) for r in crit):.0f} µs (per ECU), "
-          f"{max(float(r['t1s_gw_max_us']) for r in crit):.0f} µs (gateway)")
+    if t1s_ecu:
+        print(f"\nCRITICAL IDs, 500 kbit/s: CAN WCRT max {max(r['can_wcrt_us'] for r in crit):.0f} µs; "
+              f"T1S simulated max {max(float(r['t1s_ecu_max_us']) for r in crit):.0f} µs (per ECU), "
+              f"{max(float(r['t1s_gw_max_us']) for r in crit):.0f} µs (gateway)")
 
 
 if __name__ == "__main__":
