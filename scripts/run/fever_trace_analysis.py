@@ -65,7 +65,9 @@ def main():
     by_id = defaultdict(list)
     for r, t in zip(rows, times):
         by_id[r["ID"].strip().upper()].append((t, r))
-    ext = {i for i in by_id if int(i, 16) > 0x7FF}
+    # The oscilloscope prints extended (29-bit) IDs with 8 hex digits and standard
+    # (11-bit) IDs with 3, so the width is read from the digit count, not the value.
+    ext = {i for i in by_id if len(i) > 3}
     print(f"\n## 2. Identifiers\n- distinct IDs: {len(by_id)} ({len(ext)} 29-bit, {len(by_id) - len(ext)} 11-bit)")
     prio, pdu1, prop, sas = Counter(), 0, 0, Counter()
     for i in ext:

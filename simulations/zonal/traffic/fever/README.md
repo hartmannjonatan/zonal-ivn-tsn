@@ -16,11 +16,15 @@ Run against the original oscilloscope export
 (`plca-priority-to/data/fever_fr250_can_trace.csv`, 674 decoded frames over
 999.8 ms; not copied here):
 
-- **Consistent with a real J1939-style bus.** 44 of 47 IDs are 29-bit,
-  from 18 source addresses (likely ECUs); priority 6 dominates (24 IDs).
-  26 of the 44 use proprietary PGNs (PF 0xFF), whose meaning is
-  manufacturer-specific and cannot be checked without the DBC. All frames
-  are data frames with DLC 8, and no decode errors are flagged.
+- **Consistent with a real J1939-style bus.** 46 of 47 IDs are 29-bit
+  extended IDs; the oscilloscope prints extended IDs with 8 hex digits, so
+  000001F2 and 00000000 are extended too. Only 30C is an 11-bit standard ID.
+  The IDs come from 20 source addresses (likely ECUs), and priority 6
+  dominates (24 IDs). 26 of the 46 use proprietary PGNs (PF 0xFF), whose
+  meaning is manufacturer-specific and cannot be checked without the DBC.
+  All frames are data frames with DLC 8, and no decode errors are flagged.
+  (gen_t1s_fever.py, F4, grouped 000001F2 and 00000000 with 30C as one
+  "STD" node; this changes the node grouping, not the traffic.)
 - **Periods are clean.** The regular IDs sit on standard rates (10, 20,
   100, 200, 300, 500 ms) with inter-arrival jitter (max − min) / period below 7 %
   (0–1 % for most). gen_flows.py

@@ -1048,3 +1048,70 @@ So, judged by the 802.1DG reference values instead of the P1 benchmark
 values, 10BASE-T1S would be acceptable for radar and window in every
 scenario without large frames. The limits that remain are capacity
 (brake + window on one segment) and non-preemptable 1518 B frames.
+
+### F8 — CAN versus 10BASE-T1S for the Fever FR250 message set
+
+`scripts/run/can_rta_fever.py` (pure calculation; output
+`zonal/t1s_results/can_rta_fever.csv` per CAN ID and `can_vs_t1s_summary.csv`).
+- **Analysis:** classic CAN worst-case response-time analysis after Davis,
+  Burns, Bril & Lukkien, *Controller Area Network (CAN) schedulability
+  analysis: Refuted, revisited and revised*, Real-Time Systems 35(3), 2007.
+  It assumes worst-case bit stuffing (29-bit: 160 bits per 8-byte frame),
+  non-preemptive fixed-priority arbitration in identifier order (an 11-bit ID
+  wins ties with the first 11 bits of a 29-bit ID), an error-free bus,
+  queuing jitter 0 or one frame, and deadline = period.
+- **Message set:** flows.json (47 IDs), plus a variant with 000C7FD3 at its
+  measured 80 ms.
+- **Simulation:** the same message set on an ideal CAN bus with the trace
+  phases over one hyperperiod (6 s) gives the like-for-like comparison with
+  the T1S simulation of F4.
+
+Worst-case analysis per bit rate:
+
+| Variant | CAN bit rate | Jitter | Bus utilisation (worst-case frames) | CAN WCRT max (all / CRITICAL) | Worst WCRT / deadline | Deadline misses (WCRT > D) |
+|---|---|---|---|---|---|---|
+| flows.json | 250 kbit/s | 0 | 55.7 % | 39580 / 33180 µs | 331.8 % | 4 |
+| flows.json | 250 kbit/s | C_m | 55.7 % | 40220 / 33820 µs | 338.2 % | 4 |
+| flows.json | 500 kbit/s | 0 | 27.9 % | 15630 / 13070 µs | 130.7 % | 1 |
+| flows.json | 500 kbit/s | C_m | 27.9 % | 15950 / 13390 µs | 133.9 % | 1 |
+| flows.json | 1000 kbit/s | 0 | 13.9 % | 7495 / 6375 µs | 63.8 % | 0 |
+| flows.json | 1000 kbit/s | C_m | 13.9 % | 7655 / 6535 µs | 65.3 % | 0 |
+| 000C7FD3 at 80 ms | 250 kbit/s | 0 | 55.9 % | 39580 / 33180 µs | 331.8 % | 4 |
+| 000C7FD3 at 80 ms | 250 kbit/s | C_m | 55.9 % | 40220 / 33820 µs | 338.2 % | 4 |
+| 000C7FD3 at 80 ms | 500 kbit/s | 0 | 27.9 % | 15630 / 13070 µs | 130.7 % | 1 |
+| 000C7FD3 at 80 ms | 500 kbit/s | C_m | 27.9 % | 15950 / 13390 µs | 133.9 % | 1 |
+| 000C7FD3 at 80 ms | 1000 kbit/s | 0 | 14.0 % | 7495 / 6375 µs | 63.8 % | 0 |
+| 000C7FD3 at 80 ms | 1000 kbit/s | C_m | 14.0 % | 7655 / 6535 µs | 65.3 % | 0 |
+
+At 500 kbit/s, the rate inferred from the capture:
+, 500 kbit/s (max latency over all IDs / CRITICAL / misses):
+
+| Case | All IDs max µs | CRITICAL max µs | IDs over deadline |
+|---|---|---|---|
+| CAN WCRT, ID priorities (analysis, synchronous release) | 15630 | 13070 | 1 (18FFEFA7) |
+| CAN WCRT, deadline-monotonic priorities (analysis) | 15630 | 11470 | 0  |
+| CAN simulated, ID priorities, trace phases (6 s) | 3100 | 3100 | 0  |
+| CAN simulated, deadline-monotonic, trace phases (6 s) | 2910 | 1660 | 0  |
+| T1S simulated (F4, per ECU) | 552 | 501 | 0  |
+| T1S simulated (F4, gateway) | 552 | 501 | 0  |
+
+Per-ID values are in `can_rta_fever.csv`.
+
+Findings:
+- **On CAN at 500 kbit/s the set is not guaranteed.** The worst-case
+  response time reaches 15.6 ms, and 18FFEFA7 (CRITICAL, period 10 ms)
+  can miss with 13.1 ms. The cause is priority assignment, not load (the
+  bus is 28 % utilised with worst-case stuffing): its J1939 identifier
+  ranks 38th of 47. With deadline-monotonic priorities the same set is
+  schedulable (critical worst case 11.5 ms within each period). At
+  1 Mbit/s it is schedulable as is; at 250 kbit/s four IDs miss.
+- **With the real phases** CAN at 500 kbit/s peaks at 3.1 ms, or 1.7 ms
+  for CRITICAL IDs with deadline-monotonic priorities. **T1S** peaks at
+  0.55 ms, i.e. ≈ 5.6× lower, carrying the same messages as 86 B UDP frames
+  at 10 Mb/s (F4).
+- The 80 ms variant of 000C7FD3 changes nothing material (utilisation
+  27.9 → 27.9 %).
+- Caveat: the T1S figure is simulated, not an analytic worst case. The
+  like-for-like comparison is therefore the trace-phase simulation of both
+  buses. For the analytic T1S bound, see F2: each node gets one frame per
+  PLCA cycle, so a node releasing k messages together waits up to k cycles.
