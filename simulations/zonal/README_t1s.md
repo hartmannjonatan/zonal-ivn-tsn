@@ -1115,3 +1115,65 @@ Findings:
   like-for-like comparison is therefore the trace-phase simulation of both
   buses. For the analytic T1S bound, see F2: each node gets one frame per
   PLCA cycle, so a node releasing k messages together waits up to k cycles.
+
+### F7 — Load and alignment robustness (L2/L3 × A0/A1)
+
+`configs/t1s_loads.ini` (entry point `zonal_t1s_loads.ini`, needs the PrioPlca
+library). C0, L2/L3 × A0/A1, 2 s, seeds 1001–1003; report
+`scripts/run/t1s_loads_report.py` → `zonal/t1s_results/loads.csv`. The radar
+flows are scalable: period 400 µs (L2) and 250 µs (L3). Window and brake are
+not.
+
+The TAS gate repeats every radar period: closed 100 µs before to 70 µs
+after each release, 170 µs per period, leaving 230 µs (L2) and 80 µs (L3)
+open. INET's implicit guard band had to be disabled for these short
+schedules. With it enabled, PeriodicGate and the PLCA MAC abort with
+"Scheduled packet from invalid input gate: -1" in the PriorityScheduler. The
+100 µs closing lead covers a window frame already pulled.
+
+Verdicts: "Benchmark" = no loss and no deadline miss on any of the 22 flows
+with the catalog deadlines. "802.1DG reference" = no loss and radar/brake
+≤ 1 ms, camera ≤ 16 ms, window ≤ 50 ms (F1b). 60 runs, 4 in parallel,
+5 137 s wall.
+
+| Config | Load | Align | Radar max µs (misses) | Brake max µs (misses) | Window max µs (lost) | Camera max µs (lost) | Other flows: misses / lost | Benchmark | 802.1DG reference |
+|---|---|---|---|---|---|---|---|---|---|
+| C0 (100 Mb/s) | L2 | A0 | 30.5 (0) | 31.4 (0) | 45.6 (0) | 622.7 (0) | 0 / 0 | pass | pass |
+| C0 (100 Mb/s) | L3 | A0 | 33.2 (0) | 31.4 (0) | 56.6 (0) | 832.4 (0) | 0 / 0 | pass | pass |
+| C0 (100 Mb/s) | L2 | A1 | 42.2 (0) | 31.5 (0) | 58.0 (0) | 2141.5 (0) | 0 / 0 | pass | pass |
+| C0 (100 Mb/s) | L3 | A1 | 42.2 (0) | 31.6 (0) | 71.2 (0) | 2902.3 (3876) | 0 / 0 | fail | fail |
+| T1S standard | L2 | A0 | 94.8 (0) | 31.4 (0) | 110.2 (0) | 622.7 (0) | 0 / 0 | pass | pass |
+| T1S standard | L3 | A0 | 155.5 (11694) | 31.4 (0) | 159.0 (0) | 832.4 (0) | 0 / 0 | fail | pass |
+| T1S standard | L2 | A1 | 90.9 (0) | 31.5 (0) | 119.3 (0) | 2141.5 (0) | 0 / 0 | pass | pass |
+| T1S standard | L3 | A1 | 156.6 (12024) | 31.6 (0) | 159.0 (0) | 2902.3 (3876) | 0 / 0 | fail | fail |
+| T1S + TAS gate | L2 | A0 | 94.8 (0) | 31.4 (0) | 110.2 (0) | 622.7 (0) | 0 / 0 | pass | pass |
+| T1S + TAS gate | L2 | A1 | 90.9 (0) | 31.5 (0) | 119.3 (0) | 2141.5 (0) | 0 / 0 | pass | pass |
+| T1S + TAS gate | L3 | A0 | 103.9 (6) | 31.4 (0) | 905.3 (0) | 832.4 (0) | 0 / 0 | fail | pass |
+| T1S + TAS gate | L3 | A1 | 103.7 (2) | 31.6 (0) | 905.3 (0) | 2902.3 (3876) | 0 / 0 | fail | fail |
+| T1S + PrioPlca priorityTo | L2 | A0 | 91.3 (0) | 31.4 (0) | 110.2 (0) | 622.7 (0) | 0 / 0 | pass | pass |
+| T1S + PrioPlca priorityTo | L3 | A0 | 155.5 (11324) | 31.4 (0) | 160.1 (0) | 832.4 (0) | 0 / 0 | fail | pass |
+| T1S + PrioPlca priorityTo | L2 | A1 | 93.4 (0) | 31.5 (0) | 118.0 (0) | 2141.5 (0) | 0 / 0 | pass | pass |
+| T1S + PrioPlca priorityTo | L3 | A1 | 155.5 (11624) | 31.6 (0) | 160.2 (0) | 2902.3 (3876) | 0 / 0 | fail | fail |
+| Hybrid, 8 nodes/segment | L2 | A0 | 30.5 (0) | 31.4 (0) | 223.0 (0) | 622.7 (0) | 0 / 0 | pass | pass |
+| Hybrid, 8 nodes/segment | L3 | A0 | 33.2 (0) | 31.4 (0) | 222.9 (0) | 832.4 (0) | 0 / 0 | pass | pass |
+| Hybrid, 8 nodes/segment | L2 | A1 | 42.2 (0) | 31.5 (0) | 223.0 (0) | 2141.5 (0) | 0 / 0 | pass | pass |
+| Hybrid, 8 nodes/segment | L3 | A1 | 42.2 (0) | 31.6 (0) | 222.9 (0) | 2902.3 (3876) | 0 / 0 | fail | fail |
+
+Findings:
+- **L3/A1 fails for every configuration, including C0.** The cause is 3 876
+  camera packets lost at CSW→HPC, which is the official C0 L3/A1 outcome
+  (camera F02/F05 loss), independent of T1S. The like-for-like comparison of
+  the T1S variants is therefore radar/window, with cameras as in C0.
+  (The benchmark's reservation screen rejects only C3/C4 at L3.)
+- **L2 (radar every 400 µs): all T1S variants pass both verdicts.** Radar
+  ≤ 94.8 µs, window ≤ 119 µs.
+- **L3 (radar every 250 µs): standard PLCA and priorityTo miss the 100 µs
+  radar deadline for ≈ 24 % of radar packets** (11 324–12 024 of 48 000;
+  max 155.5–156.6 µs, the F2 single-frame floor). They still meet the
+  802.1DG 1 ms reference. priorityTo again gives no benefit.
+- **TAS gate at L3:** radar max 103.9 µs, with only 6 + 2 misses out of
+  48 000 (0.02 %). The window pays with a 905 µs max, still well within
+  50 ms. The remaining misses are consistent with the thinner margin once
+  the guard band is off: a window frame pulled just before the gate closes.
+- **Hybrid (radar/brake on 100 Mb/s): identical to C0 at every cell** for
+  radar and brake. Window ≤ 223 µs. It fails only at L3/A1, like C0.
