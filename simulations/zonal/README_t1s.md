@@ -707,3 +707,64 @@ Findings:
   full 8 nodes with ≥ 95 % deadline margin. Downstream-heavy 1 ms traffic
   limits it to about 6 nodes, unless the coordinator gets burst
   (`max_bc`) or extra TOs (`multiTo`).
+
+### F4 — Real traffic: Fever FR250 CAN trace on T1S nodes
+
+Flow set: `zonal/traffic/fever/flows.json`, copied from plca-priority-to
+(see the README there). It has 47 CAN IDs and 872 frames/s, with periods of
+10 ms–1 s from the trace and deadline = period; 10 IDs are marked CRITICAL by
+that project's gateway table. `scripts/run/gen_t1s_fever.py` generates
+`configs/t1s_fever.ini` (entry point `zonal_t1s_fever.ini`) on the hybrid
+network: radar and brake on 100 Mb/s, WINDOW on T1S.
+
+Each CAN message is a periodic UDP flow to HPC, one UdpSink per CAN ID. It
+uses the trace period and phase and a 36 B payload: IEEE 1722 NTSCF 12 B +
+ACF CAN 16 B + 8 data bytes, as in plca-priority-to. UDP/IPv4 adds 28 B, so
+the MAC frame is 86 B instead of 64 B raw Ethernet (conservative). VLAN 31,
+PCP 2. Two mappings:
+
+- `T1S_FEVER_ECU`: one T1S node per sending ECU. The ECU is the source
+  address (last byte) of 29-bit IDs; the 11-bit IDs form one ECU. This gives
+  19 ECUs, spread over the zones in snake order of load, 6 body nodes per
+  zone (8 nodes per segment). The two lightest ECUs (9C, E8; 1 frame/s
+  each) share one node so that 19 ECUs fit in 18 slots. Z1 = A7, F7, F4, 8F,
+  F5, 9C+E8; Z2 = 95, EF, 14, A8, D3, EA; Z3 = 28, STD, 94, D4, 38, D0.
+- `T1S_FEVER_GW`: a single CAN→Ethernet gateway node on Z1's segment sends
+  all 47 IDs (3 nodes per segment).
+
+C0, L1/A0, 2 s, seeds 1001–1003; report `scripts/run/t1s_fever_report.py`
+→ `zonal/t1s_results/fever_ecu.csv`, `fever_gw.csv` (per CAN ID).
+
+
+### T1S_FEVER_ECU
+| Class | CAN IDs | Packets | Mean µs | p99 µs | Max µs | Worst max/deadline | Misses | Sent − received |
+|---|---|---|---|---|---|---|---|---|
+| CRITICAL | 10 | 3117 | 160.2 | 452.8 | 501.0 | 5.01 % | 0 | 3 |
+| OTHER | 37 | 2265 | 121.6 | 552.0 | 552.0 | 1.81 % | 0 | 0 |
+| all | 47 | 5382 | 143.9 | 452.8 | 552.0 | 5.01 % | 0 | 3 |
+Window max µs: F15 218.3, F16 167.9, F17 217.8
+Tightest CAN IDs: 18FE50A7 (10 ms) max 501.04 µs; 000C7F28 (25 ms) max 453.24 µs; 18FFEFA7 (10 ms) max 176.44 µs
+
+### T1S_FEVER_GW
+| Class | CAN IDs | Packets | Mean µs | p99 µs | Max µs | Worst max/deadline | Misses | Sent − received |
+|---|---|---|---|---|---|---|---|---|
+| CRITICAL | 10 | 3117 | 165.4 | 452.8 | 501.0 | 5.01 % | 0 | 3 |
+| OTHER | 37 | 2265 | 114.3 | 452.0 | 552.0 | 1.95 % | 0 | 0 |
+| all | 47 | 5382 | 143.9 | 452.8 | 552.0 | 5.01 % | 0 | 3 |
+Window max µs: F15 163.5, F16 93.8, F17 104.6
+Tightest CAN IDs: 18FE50A7 (10 ms) max 501.04 µs; 18FFEFA7 (10 ms) max 311.26 µs; 000C7F28 (25 ms) max 488.7 µs
+
+Findings:
+- **Every CAN ID meets its deadline with a wide margin.** The worst case is
+  501 µs for 18FE50A7 (period 10 ms, CRITICAL), 5 % of its deadline. The 37
+  non-critical IDs use at most 2 % of theirs. There are no misses in either
+  mapping.
+- The two mappings give practically the same latencies. The CAN load is
+  small, ≈ 0.75 Mb/s of 86 B frames for the whole vehicle. The latency is
+  dominated by PLCA cycle waits and by several messages from the same node
+  being released together: with max_bc = 0 each frame needs its own TO.
+- Window max ≤ 218 µs (deadline 50 ms). Radar and brake are unchanged
+  (100 Mb/s links).
+- The 3 packets "sent − received" are frames still in flight at the end of
+  the simulation, not losses. Every body-node queue reports
+  `droppedPacketsQueueOverflow = 0` in all runs.
