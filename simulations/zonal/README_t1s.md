@@ -590,3 +590,66 @@ Reading:
   window frames (brake on segment, 8 heavy or 8 fragmenting nodes).
 - **Heavy 1518 B participants** push radar requirements to 1.3–4.3 ms.
   Fragmentation plus priorityTo brings them to ≈ 335 µs.
+
+### F2 — Analytic PLCA worst-case bound versus simulation
+
+`scripts/run/t1s_plca_bound.py` (model and constants in its docstring;
+output `zonal/t1s_results/plca_bound.csv`). The radar latency is the PLCA wait
+W, plus its own frame t_r = 57.6 µs, plus the fixed path H0 = 2.16 µs
+(measured: T1S min 59.76 µs − t_r), plus queueing at the two 1 Gb/s hops,
+Hq ≤ 37.0 µs (three 1542 B frames: one in progress at ZSW→CSW, and at CSW→HPC
+one in progress plus one TC6 LiDAR frame ahead). Each node sends at most one
+frame per TO (max_bc = 0), so the coordinator's window frame is a data TO of
+D = 67.2 µs (frame + IPG). Empty TOs take 3.2 µs and the beacon ≈ 2.2 µs.
+The *floor* is the latency any non-preemptive TO scheme cannot avoid when
+another node's frame starts just before the radar is ready:
+D_other + t_r + H0.
+
+| Scenario | Mode | Ideal PLCA wait W µs | Floor µs | Bound µs (W + t_r + H0 + Hq) | Observed max µs | Within bound | Radar MAC logical collisions / packets |
+|---|---|---|---|---|---|---|---|
+| Phase sweep, 3 nodes (radar offset 45–130 µs) | standard | 72.6 | 127.0 | 169.4 | 154.5 | yes | 4101 / 36000 |
+| Phase sweep, 3 nodes (radar offset 45–130 µs) | priorityTo | 72.6 | 127.0 | 169.4 | 153.2 | yes | 3707 / 36000 |
+| Phase sweep, 3 nodes (radar offset 45–130 µs) | multiTo | 75.8 | 127.0 | 172.6 | 152.9 | yes | 1708 / 36000 |
+| sensor nodes, 5 per segment | standard | 207.0 | 127.0 | 303.8 | 225.0 | yes | 2000 / 12000 |
+| sensor nodes, 8 per segment | standard | 408.6 | 127.0 | 505.4 | 225.0 | yes | 4548 / 12000 |
+| sensor nodes, 5 per segment | priorityTo | 72.6 | 127.0 | 169.4 | 152.0 | yes | 1312 / 12000 |
+| sensor nodes, 8 per segment | priorityTo | 72.6 | 127.0 | 169.4 | 146.6 | yes | 268 / 12000 |
+| sensor nodes, 5 per segment | multiTo | 139.8 | 127.0 | 236.6 | 139.9 | yes | 0 / 12000 |
+| sensor nodes, 8 per segment | multiTo | 139.8 | 127.0 | 236.6 | 231.7 | yes | 2157 / 12000 |
+| heavy nodes, 5 per segment | standard | 2539.8 | 1293.4 | 2636.6 | 1382.6 | yes | 5200 / 12000 |
+| heavy nodes, 8 per segment | standard | 6240.6 | 1293.4 | 6337.4 | 4268.7 | yes | 12004 / 12000 |
+| heavy nodes, 5 per segment | priorityTo | 1237.4 | 1293.4 | 1334.2 | 1297.9 | yes | 906 / 12000 |
+| heavy nodes, 8 per segment | priorityTo | 1237.4 | 1293.4 | 1334.2 | 1612.7 | NO (+278.5) | 3379 / 12000 |
+| heavy nodes, 5 per segment | multiTo | 1306.2 | 1293.4 | 1403.0 | 1321.8 | yes | 1128 / 12000 |
+| heavy nodes, 8 per segment | multiTo | 1306.2 | 1293.4 | 1403.0 | 2497.3 | NO (+1094.3) | 4866 / 12000 |
+| heavyfrag nodes, 5 per segment | standard | 576.6 | 311.8 | 673.4 | 646.3 | yes | 5815 / 12000 |
+| heavyfrag nodes, 8 per segment | standard | 1332.6 | 311.8 | 1429.4 | 802.0 | yes | 12000 / 12000 |
+| heavyfrag nodes, 5 per segment | priorityTo | 255.8 | 311.8 | 352.6 | 333.9 | yes | 370 / 12000 |
+| heavyfrag nodes, 8 per segment | priorityTo | 255.8 | 311.8 | 352.6 | 337.3 | yes | 573 / 12000 |
+
+Constants: t_r = 57.6 µs, D(64 B) = 67.2 µs, D(1522 B) = 1233.6 µs, D(295 B) = 252.0 µs, H0 = 2.16 µs, Hq ≤ 37.0 µs
+
+Findings:
+- **The floor already exceeds the deadline.** With only 64 B frames on the
+  segment it is 127 µs (67.2 + 57.6 + 2.16), before any 1 Gb/s queueing.
+  So no PLCA variant (standard, priorityTo, multiTo) can guarantee 100 µs
+  for the radar in every phase. Only preemption or phase control can.
+  Observed sweep maxima (152.9–154.5 µs) lie between this floor and the
+  bound (169.4–172.6 µs).
+- **priorityTo does not lower the 3-node bound.** In Z2/Z3 the radar (ID 1)
+  already follows the coordinator, so the priority TO only repeats what the
+  normal order gives. It helps when there are other senders (sensor
+  nodes: bound 304–505 → 169 µs; observed 225 → 147–152 µs).
+- **The miss band is predicted by the window phase.** Misses occur for
+  radar offsets 45–120 µs (F06, window F16 at 55 µs) and 55–130 µs (F07, F17
+  at 60 µs): from ≈ 10 µs before to ≈ 70 µs (≈ one window TO) after the
+  window release. That is when the radar becomes ready while the window
+  frame is about to occupy, or occupies, the coordinator's TO.
+- **The simulation exceeds the ideal bound in two cases, both with eight
+  1518 B senders:** priorityTo +279 µs and multiTo +1 094 µs. INET's PLCA
+  keeps a frame in the delay line for at most 40 µs and then signals a
+  logical collision. The CSMA/CD MAC then backs off (51.2 µs slots,
+  exponential) and may miss TOs. The radar MAC shows thousands of logical
+  collisions in these runs (last column). The bound assumes the frame waits
+  at PLCA, so it does not cover MAC retries. Backoff dominates when
+  1.2 ms frames are frequent.
