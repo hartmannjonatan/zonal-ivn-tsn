@@ -826,3 +826,104 @@ Findings:
 - This needs a synchronized time base (gPTP) and a radar whose release
   time is known and stable, i.e. scheduled traffic. It is the TSN answer to
   the non-preemption floor found in F2, not a PLCA mechanism.
+
+### F6 — Final statistics: 30 s measurement, seeds 1001–1010
+
+`configs/t1s_final.ini` and the generated `configs/t1s_hybrid_30s.ini` (entry
+point `zonal_t1s_final.ini`, run with `-n ...:../prioplca -l ../prioplca/prioplca`).
+P1 timing: 1 s warm-up, 30 s measurement, 50 ms drain, L1/A0, latency vectors
+only. Configs:
+- C0 reference: seeds 1001–1005 are the step 4 runs (bit-identical to the
+  official campaign) and seeds 1006–1010 are `C0_L1_A0_30s`.
+- `T1S_C0_30s`: standard PLCA.
+- `T1S_C0_PrioTo_30s`: PrioPlca priorityTo for the radar.
+- `T1S_C0_TAS_30s`: the F5 TC3 gate at the catalog radar offsets.
+- `T1S_HYBRID_B6_30s`: 8 nodes per segment, 10 ms body flows.
+
+45 new runs, 4 in parallel, 18 357 s wall (≈ 24–29 min per run, ≈ 130 MB
+each), all exit 0. Report: `scripts/run/t1s_final_report.py` →
+`zonal/t1s_results/final_30s.csv` (mean, p99 and max per flow and config).
+
+Seeds per config: C0 10, T1S_C0_30s 10, T1S_C0_PrioTo_30s 10, T1S_C0_TAS_30s 10, T1S_HYBRID_B6_30s 10
+
+Max latency µs (misses / lost) per flow, 30 s, seeds pooled
+
+| Flow | Rx | Deadline µs | C0 | T1S_C0 | T1S_C0_PrioTo | T1S_C0_TAS | T1S_HYBRID_B6 |
+|---|---|---|---|---|---|---|---|
+| F01 | HPC | 100 | 59.4 (0/0) | 60.9 (0/0) | 60.9 (0/0) | 60.9 (0/0) | 59.4 (0/0) |
+| F02 | HPC | 10000 | 499.1 (0/0) | 499.1 (0/0) | 499.1 (0/0) | 499.1 (0/0) | 499.1 (0/0) |
+| F03 | HPC | 10000 | 451.5 (0/0) | 451.5 (0/0) | 451.5 (0/0) | 451.5 (0/0) | 451.8 (0/0) |
+| F04 | HPC | 30000 | 451.1 (0/0) | 451.1 (0/0) | 451.1 (0/0) | 451.1 (0/0) | 451.8 (0/0) |
+| F05 | HPC | 30000 | 451.1 (0/0) | 451.1 (0/0) | 451.1 (0/0) | 451.1 (0/0) | 451.8 (0/0) |
+| F06 | HPC | 100 | 30.5 (0/0) | 91.1 (0/0) | 91.1 (0/0) | 91.1 (0/0) | 30.7 (0/0) |
+| F07 | HPC | 100 | 25.1 (0/0) | 85.7 (0/0) | 85.7 (0/0) | 85.7 (0/0) | 25.5 (0/0) |
+| F08 | BRAKE1 | 100 | 30.4 (0/0) | 30.4 (0/0) | 30.4 (0/0) | 30.4 (0/0) | 30.4 (0/0) |
+| F09 | BRAKE2 | 100 | 30.8 (0/0) | 30.8 (0/0) | 30.8 (0/0) | 30.8 (0/0) | 30.8 (0/0) |
+| F10 | BRAKE3 | 100 | 31.8 (0/0) | 31.8 (0/0) | 31.8 (0/0) | 31.8 (0/0) | 31.8 (0/0) |
+| F11 | AUDIO1 | 10000 | 48.0 (0/0) | 48.0 (0/0) | 48.0 (0/0) | 48.0 (0/0) | 48.0 (0/0) |
+| F12 | AUDIO2 | 10000 | 58.9 (0/0) | 58.9 (0/0) | 58.9 (0/0) | 58.9 (0/0) | 58.9 (0/0) |
+| F13 | AUDIO3 | 10000 | 58.2 (0/0) | 58.2 (0/0) | 58.2 (0/0) | 58.2 (0/0) | 58.2 (0/0) |
+| F14 | DISPLAY1 | 30000 | 162.9 (0/0) | 162.9 (0/0) | 162.9 (0/0) | 162.9 (0/0) | 162.9 (0/0) |
+| F14 | DISPLAY2 | 30000 | 162.9 (0/0) | 162.9 (0/0) | 162.9 (0/0) | 162.9 (0/0) | 162.9 (0/0) |
+| F15 | WINDOW1 | 50000 | 30.8 (0/0) | 91.7 (0/0) | 91.7 (0/0) | 91.7 (0/0) | 230.1 (0/0) |
+| F16 | WINDOW2 | 50000 | 30.6 (0/0) | 110.2 (0/0) | 110.2 (0/0) | 315.0 (0/0) | 311.8 (0/0) |
+| F17 | WINDOW3 | 50000 | 42.7 (0/0) | 110.2 (0/0) | 110.2 (0/0) | 315.0 (0/0) | 229.5 (0/0) |
+| F18 | BE1 | 0 | 168.2 (0/0) | 168.2 (0/0) | 168.2 (0/0) | 168.2 (0/0) | 169.5 (0/0) |
+| F19 | BE2 | 0 | 168.2 (0/0) | 168.2 (0/0) | 168.2 (0/0) | 168.2 (0/0) | 169.5 (0/0) |
+| F20 | BE3 | 0 | 180.2 (0/0) | 180.2 (0/0) | 180.2 (0/0) | 180.2 (0/0) | 180.2 (0/0) |
+| F21 | Z3.ZCPU | 10000 | 169.5 (0/0) | 169.5 (0/0) | 169.5 (0/0) | 169.5 (0/0) | 169.5 (0/0) |
+| F22 | Z3.ZCPU | 10000 | 100.3 (0/0) | 100.3 (0/0) | 100.3 (0/0) | 100.3 (0/0) | 100.3 (0/0) |
+
+Hybrid body_up: 540901 packets, mean 121.7 µs, p99 490.2 µs, max 628.6 µs, misses (> 10 ms) 0
+
+Hybrid body_down: 540901 packets, mean 98.9 µs, p99 221.2 µs, max 395.0 µs, misses (> 10 ms) 0
+
+Radar/window detail (mean / p99 / max µs):
+- F06: C0 19.7/30.1/30.5; T1S_C0 67.6/78.6/91.1; T1S_C0_PrioTo 67.8/78.8/91.1; T1S_C0_TAS 67.6/78.6/91.1; T1S_HYBRID_B6 19.7/30.1/30.7
+- F07: C0 15.4/25.1/25.1; T1S_C0 67.5/73.8/85.7; T1S_C0_PrioTo 67.3/73.8/85.7; T1S_C0_TAS 67.5/73.8/85.7; T1S_HYBRID_B6 15.4/25.1/25.5
+- F15: C0 7.9/25.2/30.8; T1S_C0 64.7/81.8/91.7; T1S_C0_PrioTo 64.7/81.8/91.7; T1S_C0_TAS 64.7/81.8/91.7; T1S_HYBRID_B6 78.9/149.8/230.1
+- F16: C0 7.9/25.0/30.6; T1S_C0 73.9/109.6/110.2; T1S_C0_PrioTo 73.9/109.6/110.2; T1S_C0_TAS 139.2/314.4/315.0; T1S_HYBRID_B6 78.5/149.5/311.8
+- F17: C0 8.2/25.1/42.7; T1S_C0 74.1/109.6/110.2; T1S_C0_PrioTo 74.1/109.6/110.2; T1S_C0_TAS 139.4/314.4/315.0; T1S_HYBRID_B6 79.1/146.2/229.5
+
+Findings (10 seeds × 30 s; 300 000 radar packets per flow and config):
+- **No losses and no deadline misses for any of the 22 flows in any of the
+  five configurations.**
+- **T1S with the catalog phase:** radar max 91.1/85.7 µs, inside 100 µs by
+  9–14 µs. It is the same in standard, priorityTo and TAS, because the catalog
+  offsets lie outside the miss band (F1/F2/F5). TAS matters only when the
+  phase is not controlled (F5 sweep). Window max 92–110 µs; with the TAS gate
+  315 µs (deadline 50 ms).
+- **Hybrid with 8 nodes per segment:** radar, brake and every non-T1S flow
+  are within ≤ 1.3 µs of C0. Window ≤ 312 µs. The 1.08 million body packets
+  have a max of 629 µs up and 395 µs down (deadline 10 ms), with no misses.
+- **Flows off the T1S segments** (F02–F05, F08–F14, F18–F22) are identical
+  across the four ZonalIVNT1S configurations and to C0. The exceptions are
+  sub-µs camera changes in the hybrid and F01 (LiDAR): its max is 60.9 µs on
+  ZonalIVNT1S versus 59.4 µs in C0. F01 shares TC6 at CSW→HPC with the radar,
+  whose arrival time the T1S segment shifts.
+- The 2 s results of the earlier steps are confirmed. The 30 s maxima are
+  equal or at most a few µs higher. 2 s maxima: radar 90.9/74.0 µs, window
+  90.9/110.2 µs; 30 s: 91.1/85.7 µs and 91.7/110.2 µs.
+
+## Overall conclusions
+
+1. **10BASE-T1S cannot replace the 100 Mb/s access links of the 100 µs
+   flows in general.** A 64 B frame takes 57.6 µs on the wire and is not
+   preemptable. Any other node's frame in progress puts the radar at
+   ≥ 127 µs (F2 floor). The catalog phase happens to be safe (91 µs), but
+   ≈ 40 % of phases miss (F1/F2). Brake on the segment is infeasible in
+   every mode (step 2/5, F1).
+2. **PLCA variants (PrioPlca priorityTo/multiTo, burst) do not remove that
+   floor.** They help only when several nodes compete (sensor nodes, step 5).
+3. **Scheduled traffic does.** A TC3 gate around the radar release (TAS,
+   synchronized time) gives 0 misses at every phase. The margin is 2.3 µs,
+   so the 1 Gb/s hops then need protection too (F5).
+4. **T1S fits the body/comfort domain very well.** Window plus up to 6 body
+   nodes per segment (8 nodes) at 10 ms use ≤ 6 % of the deadlines, with no
+   effect on critical flows (F3, F6). The real Fever FR250 CAN traffic
+   (47 IDs) uses ≤ 5 % of its deadlines (F4). Downstream-heavy 1 ms traffic
+   is limited by the coordinator's single TO per cycle (F3).
+5. **The deadlines are benchmark values derived from the literature**
+   (Luo et al. 2022 for 100 µs over five hops at 1 Gb/s; window 50 ms
+   assumed), not from a standard. F1 gives the deadline at which each
+   variant passes: ≈ 155 µs for the radar on T1S at any phase.
