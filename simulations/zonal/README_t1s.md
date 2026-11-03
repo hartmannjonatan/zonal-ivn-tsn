@@ -1171,7 +1171,7 @@ Findings:
   radar deadline for ≈ 24 % of radar packets** (11 324–12 024 of 48 000;
   max 155.5–156.6 µs, the F2 single-frame floor). They still meet the
   802.1DG 1 ms reference. priorityTo again gives no benefit.
-- **TAS gate at L3:** radar max 103.9 µs, with only 6 + 2 misses out of
+- **TAS gate at L3:** radar max 103.9 µs, with only 6 (A0) and 2 (A1) misses, each out of
   48 000 (0.02 %). The window pays with a 905 µs max, still well within
   50 ms. The remaining misses are consistent with the thinner margin once
   the guard band is off: a window frame pulled just before the gate closes.
