@@ -1102,7 +1102,7 @@ Findings:
   response time reaches 15.6 ms, and 18FFEFA7 (CRITICAL, period 10 ms)
   can miss with 13.1 ms. The cause is priority assignment, not load (the
   bus is 28 % utilised with worst-case stuffing): its J1939 identifier
-  ranks 38th of 47. With deadline-monotonic priorities the same set is
+  ranks 39th of 47. With deadline-monotonic priorities the same set is
   schedulable (critical worst case 11.5 ms within each period). At
   1 Mbit/s it is schedulable as is; at 250 kbit/s four IDs miss.
 - **With the real phases** CAN at 500 kbit/s peaks at 3.1 ms, or 1.7 ms
