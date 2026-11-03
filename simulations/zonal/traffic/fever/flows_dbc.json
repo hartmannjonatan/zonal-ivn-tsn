@@ -114,20 +114,6 @@
   "length_B": 53
  },
  {
-  "id": "18FF50A7",
-  "id_bits": 29,
-  "period_ms": 20,
-  "deadline_ms": 20,
-  "phase_ms": 0.0,
-  "dlc": 8,
-  "class": "CRITICAL",
-  "source": "dbc",
-  "period_source": "DBC cycle",
-  "in_1s_trace": false,
-  "index": 8,
-  "length_B": 54
- },
- {
   "id": "18FF9528",
   "id_bits": 29,
   "period_ms": 20,
@@ -138,8 +124,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 9,
-  "length_B": 55
+  "index": 8,
+  "length_B": 54
  },
  {
   "id": "18FFA7EF",
@@ -152,8 +138,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 10,
-  "length_B": 56
+  "index": 9,
+  "length_B": 55
  },
  {
   "id": "000C7F28",
@@ -167,8 +153,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 11,
-  "length_B": 57
+  "index": 10,
+  "length_B": 56
  },
  {
   "id": "00000000",
@@ -182,8 +168,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 12,
-  "length_B": 58
+  "index": 11,
+  "length_B": 57
  },
  {
   "id": "000C7F14",
@@ -197,8 +183,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 13,
-  "length_B": 59
+  "index": 12,
+  "length_B": 58
  },
  {
   "id": "000C7F94",
@@ -212,8 +198,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 14,
-  "length_B": 60
+  "index": 13,
+  "length_B": 59
  },
  {
   "id": "000C7EA8",
@@ -227,22 +213,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 15,
-  "length_B": 61
- },
- {
-  "id": "18FFA738",
-  "id_bits": 29,
-  "period_ms": 50,
-  "deadline_ms": 50,
-  "phase_ms": 0.0,
-  "dlc": 8,
-  "class": "CRITICAL",
-  "source": "dbc",
-  "period_source": "DBC cycle",
-  "in_1s_trace": false,
-  "index": 16,
-  "length_B": 62
+  "index": 14,
+  "length_B": 60
  },
  {
   "id": "000C7FD3",
@@ -256,8 +228,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 17,
-  "length_B": 63
+  "index": 15,
+  "length_B": 61
  },
  {
   "id": "1801D08F",
@@ -271,8 +243,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 18,
-  "length_B": 64
+  "index": 16,
+  "length_B": 62
  },
  {
   "id": "18FF28F4",
@@ -285,8 +257,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 19,
-  "length_B": 65
+  "index": 17,
+  "length_B": 63
  },
  {
   "id": "18FFEFF4",
@@ -299,8 +271,8 @@
   "source": "dbc+trace",
   "period_source": "measured (no DBC cycle)",
   "in_1s_trace": true,
-  "index": 20,
-  "length_B": 66
+  "index": 18,
+  "length_B": 64
  },
  {
   "id": "18FFF5D4",
@@ -313,8 +285,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 21,
-  "length_B": 67
+  "index": 19,
+  "length_B": 65
  },
  {
   "id": "1CFFD4F5",
@@ -327,8 +299,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 22,
-  "length_B": 68
+  "index": 20,
+  "length_B": 66
  },
  {
   "id": "30C",
@@ -342,8 +314,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 23,
-  "length_B": 69
+  "index": 21,
+  "length_B": 67
  },
  {
   "id": "10FF38D4",
@@ -356,8 +328,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 24,
-  "length_B": 70
+  "index": 22,
+  "length_B": 68
  },
  {
   "id": "10FFD438",
@@ -370,8 +342,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 25,
-  "length_B": 71
+  "index": 23,
+  "length_B": 69
  },
  {
   "id": "18FF1EEF",
@@ -384,8 +356,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 26,
-  "length_B": 72
+  "index": 24,
+  "length_B": 70
  },
  {
   "id": "18FF28D0",
@@ -398,8 +370,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 27,
-  "length_B": 73
+  "index": 25,
+  "length_B": 71
  },
  {
   "id": "18FF28EF",
@@ -412,8 +384,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 28,
-  "length_B": 74
+  "index": 26,
+  "length_B": 72
  },
  {
   "id": "18FFE5F4",
@@ -426,8 +398,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 29,
-  "length_B": 75
+  "index": 27,
+  "length_B": 73
  },
  {
   "id": "10FF38EF",
@@ -440,8 +412,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 30,
-  "length_B": 76
+  "index": 28,
+  "length_B": 74
  },
  {
   "id": "10FFD4F4",
@@ -454,8 +426,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 31,
-  "length_B": 77
+  "index": 29,
+  "length_B": 75
  },
  {
   "id": "10FFF4D4",
@@ -468,8 +440,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 32,
-  "length_B": 78
+  "index": 30,
+  "length_B": 76
  },
  {
   "id": "18FF95EF",
@@ -482,8 +454,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 33,
-  "length_B": 79
+  "index": 31,
+  "length_B": 77
  },
  {
   "id": "18FFD0EF",
@@ -496,8 +468,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 34,
-  "length_B": 80
+  "index": 32,
+  "length_B": 78
  },
  {
   "id": "000C7F8F",
@@ -511,8 +483,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 35,
-  "length_B": 81
+  "index": 33,
+  "length_B": 79
  },
  {
   "id": "000E7FEA",
@@ -526,8 +498,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 36,
-  "length_B": 82
+  "index": 34,
+  "length_B": 80
  },
  {
   "id": "18FE28F4",
@@ -540,8 +512,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 37,
-  "length_B": 83
+  "index": 35,
+  "length_B": 81
  },
  {
   "id": "18FE38EF",
@@ -554,8 +526,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 38,
-  "length_B": 84
+  "index": 36,
+  "length_B": 82
  },
  {
   "id": "18FF38EF",
@@ -568,8 +540,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 39,
-  "length_B": 85
+  "index": 37,
+  "length_B": 83
  },
  {
   "id": "18FF38F4",
@@ -582,8 +554,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 40,
-  "length_B": 86
+  "index": 38,
+  "length_B": 84
  },
  {
   "id": "18FFF4EF",
@@ -596,8 +568,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 41,
-  "length_B": 87
+  "index": 39,
+  "length_B": 85
  },
  {
   "id": "1CFE50EF",
@@ -610,8 +582,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 42,
-  "length_B": 88
+  "index": 40,
+  "length_B": 86
  },
  {
   "id": "1CFE50F4",
@@ -624,22 +596,8 @@
   "source": "dbc",
   "period_source": "DBC cycle",
   "in_1s_trace": false,
-  "index": 43,
-  "length_B": 89
- },
- {
-  "id": "1CFF28E5",
-  "id_bits": 29,
-  "period_ms": 500,
-  "deadline_ms": 500,
-  "phase_ms": 0.0,
-  "dlc": 8,
-  "class": "OTHER",
-  "source": "dbc",
-  "period_source": "DBC cycle",
-  "in_1s_trace": false,
-  "index": 44,
-  "length_B": 90
+  "index": 41,
+  "length_B": 87
  },
  {
   "id": "1CFF50D4",
@@ -652,22 +610,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 45,
-  "length_B": 91
- },
- {
-  "id": "1CFF50E5",
-  "id_bits": 29,
-  "period_ms": 500,
-  "deadline_ms": 500,
-  "phase_ms": 0.0,
-  "dlc": 8,
-  "class": "OTHER",
-  "source": "dbc",
-  "period_source": "DBC cycle",
-  "in_1s_trace": false,
-  "index": 46,
-  "length_B": 92
+  "index": 42,
+  "length_B": 88
  },
  {
   "id": "1CFF50F4",
@@ -680,22 +624,8 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 47,
-  "length_B": 93
- },
- {
-  "id": "1CFFF4E5",
-  "id_bits": 29,
-  "period_ms": 500,
-  "deadline_ms": 500,
-  "phase_ms": 0.0,
-  "dlc": 8,
-  "class": "OTHER",
-  "source": "dbc",
-  "period_source": "DBC cycle",
-  "in_1s_trace": false,
-  "index": 48,
-  "length_B": 94
+  "index": 43,
+  "length_B": 89
  },
  {
   "id": "00087F9C",
@@ -709,8 +639,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 49,
-  "length_B": 95
+  "index": 44,
+  "length_B": 90
  },
  {
   "id": "000C00E8",
@@ -724,8 +654,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 50,
-  "length_B": 96
+  "index": 45,
+  "length_B": 91
  },
  {
   "id": "18FFD0F4",
@@ -739,8 +669,8 @@
   "source": "trace (not in DBC)",
   "period_source": "measured",
   "in_1s_trace": true,
-  "index": 51,
-  "length_B": 97
+  "index": 46,
+  "length_B": 92
  },
  {
   "id": "1CFED4F5",
@@ -753,7 +683,7 @@
   "source": "dbc+trace",
   "period_source": "DBC cycle",
   "in_1s_trace": true,
-  "index": 52,
-  "length_B": 98
+  "index": 47,
+  "length_B": 93
  }
 ]

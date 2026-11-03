@@ -1,0 +1,5 @@
+case,all_max_us,critical_max_us,ids_over_deadline
+"CAN WCRT, ID priorities (analysis, synchronous release)",17550.0,13710.0,18FFEFA7
+"CAN WCRT, deadline-monotonic priorities (analysis)",17550.0,11790.0,
+"CAN simulated, ID priorities, trace phases (6 s)",3100.0,3100.0,
+"CAN simulated, deadline-monotonic, trace phases (6 s)",2910.0,2200.0,
