@@ -22,7 +22,8 @@ Run against the original oscilloscope export
   manufacturer-specific and cannot be checked without the DBC. All frames
   are data frames with DLC 8, and no decode errors are flagged.
 - **Periods are clean.** The regular IDs sit on standard rates (10, 20,
-  100, 200, 300, 500 ms) with inter-arrival jitter < 1 %. gen_flows.py
+  100, 200, 300, 500 ms) with inter-arrival jitter (max − min) / period below 7 %
+  (0–1 % for most). gen_flows.py
   snapped them within ±1.2 %. The exception is 000C7FD3 (median 80 ms,
   snapped to 100 ms, +25 %).
 - **Frames are missing from the capture.** On the periodic IDs, gaps are
@@ -37,7 +38,7 @@ Run against the original oscilloscope export
   frequent 280 µs back-to-back spacing matches 500 kbit/s (an extended 8-byte
   frame lasts 268–308 µs). The bus load would then be ≈ 18–21 %, or
   ≈ 22–26 % with the missing frames.
-- **Limits.** The capture is 1 s long: 4 IDs are seen once and 14 IDs only
+- **Limits.** The capture is 1 s long: 4 IDs are seen once and 20 IDs only
   2–5 times, so their periods are weakly determined. 34 of the 43 repeated
   IDs carry a constant payload, so it was a single, probably stationary,
   vehicle state. There is no DBC, so the function of each ID is unknown. The
