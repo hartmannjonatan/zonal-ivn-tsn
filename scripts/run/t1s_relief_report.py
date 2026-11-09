@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Coordinator relief on the dual T1S buses: standard PLCA vs burst (max_bc = 3)
-vs PrioPlca multiTo (coordinator every other slot).
+"""Step 1 and step 2 on the dual T1S buses. Coordinator relief on the dual T1S buses: standard PLCA vs burst (max_bc = 3)
+vs PrioPlca multiTo (coordinator every other slot), and scheduled traffic:
+synchronized releases (_SYNC) and synchronized + TC3 gate (_SYNCTAS).
 
 Cases: generic cross-bus reading T1S_DUAL_1ms_S5 (8 nodes) and
 T1S_DUAL_200us_S3 (6 nodes); powertrain T1S_PT_NOMINAL / T1S_PT_STRESS.
@@ -23,7 +24,8 @@ from t1s_powertrain_report import app_index  # noqa: E402
 from t1s_jitter_report import stats  # noqa: E402
 
 RES = SIM / "zonal/t1s_results"
-VARIANTS = (("", "standard"), ("_BC3", "burst max_bc=3"), ("_MTC", "multiTo coordinator"))
+VARIANTS = (("", "standard"), ("_BC3", "burst max_bc=3"), ("_MTC", "multiTo coordinator"),
+            ("_SYNC", "synchronized"), ("_SYNCTAS", "synchronized + TAS"), ("_SYNCTAS4", "synchronized + TAS 400 µs"))
 
 
 def p99(v):
@@ -76,7 +78,7 @@ def row(case, variant, key, runs, period, extra):
 def main():
     rows = []
     rdir = SIM / "results/t1s/T1S_DUAL"
-    for base, n, period in (("T1S_DUAL_1ms_S5", 5, 1000), ("T1S_DUAL_200us_S3", 3, 200)):
+    for base, n, period in (("T1S_DUAL_1ms_S3", 3, 1000), ("T1S_DUAL_1ms_S5", 5, 1000), ("T1S_DUAL_200us_S3", 3, 200)):
         for suf, vname in VARIANTS:
             cfg = base + suf
             runs, wl, sent, recv = defaultdict(list), 0, 0, 0

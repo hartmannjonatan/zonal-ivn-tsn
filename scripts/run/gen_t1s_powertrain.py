@@ -156,22 +156,30 @@ def tables():
     return out
 
 
-def apps(profile_col):
+# Step 2 schedule (us within every 1 ms; ideal clocks stand in for gPTP):
+# cross-bus flows first, then the same-bus loops, one TO + frame (~70 us) apart per bus.
+SYNC_OFFSET_US = {"PT01": 10, "PT02": 10, "PT03": 80, "PT04": 80, "PT05": 450, "PT06": 520,
+                  "PT07": 590, "PT08": 660, "PT09": 450, "PT10": 520}
+GATE_CLOSED_US = 800   # TC3 (window) closed [0, 800) us of every 1 ms on both coordinators
+
+
+def apps(profile_col, sync=False):
     """Per node: list of ini lines for its apps (index assigned here)."""
     per = defaultdict(list)
     for i, (fid, label, kind, a, b, *periods) in enumerate(FLOWS, 1):
         period = (FLOWS[i - 1][profile_col])
+        offset = f"{SYNC_OFFSET_US[fid]}us" if sync else f"uniform(0us, {period})"
         if kind == "oneway":
             per[a].append([f"# {fid}: {label}", 'typename = "UdpSourceApp"', f'io.destAddress = "{b}"',
                            f"io.destPort = {server_port(i)}", f'source.packetNameFormat = "{fid}-%c"',
                            "source.packetLength = 8B", f"source.productionInterval = {period}",
-                           f"source.initialProductionOffset = uniform(0us, {period})"])
+                           f"source.initialProductionOffset = {offset}"])
             per[b].append([f"# {fid}: sink", 'typename = "UdpSink"', f"localPort = {server_port(i)}"])
         else:
             per[a].append([f"# {fid}: {label} (client)", 'typename = "UdpApp"',
                            'source.typename = "ActivePacketSource"', f'source.packetNameFormat = "{fid}-%c"',
                            "source.packetLength = 8B", f"source.productionInterval = {period}",
-                           f"source.initialProductionOffset = uniform(0us, {period})",
+                           f"source.initialProductionOffset = {offset}",
                            'sink.typename = "RttSink"', f'io.destAddress = "{b}"',
                            f"io.destPort = {server_port(i)}", f"io.localPort = {client_port(i)}"])
             per[b].append([f"# {fid}: echo server", 'typename = "UdpEchoApp"', f"localPort = {server_port(i)}"])
@@ -244,6 +252,18 @@ def ini():
         L += [f'*.Z1.ZSW.eth[5].plca.slotOwners = "{slots[1]}"', f'*.Z3.ZSW.eth[6].plca.slotOwners = "{slots[3]}"',
               f'*.WINDOW1.eth[0].plca.slotOwners = "{slots[1]}"', f'*.WINDOW3.eth[0].plca.slotOwners = "{slots[3]}"']
         L += [f'*.{n}.eth[0].plca.slotOwners = "{slots[ZONE_OF[n]]}"' for n in ZONE_OF] + [""]
+        L += [f"[Config T1S_PT_{prof}_SYNC]", f"extends = T1S_PT_{prof}",
+              f'description = "Powertrain ({prof.lower()}) with synchronized releases (fixed offsets)"'] + apps(col, sync=True) + [""]
+        L += [f"[Config T1S_PT_{prof}_SYNCTAS]", f"extends = T1S_PT_{prof}_SYNC",
+              f'description = "Powertrain ({prof.lower()}) synchronized + TC3 gate closed [0, {GATE_CLOSED_US}) us of every ms"']
+        for sw in ("*.Z1.ZSW.eth[5]", "*.Z3.ZSW.eth[6]"):
+            L += [f"{sw}.queue.transmissionGate[3].initiallyOpen = false",
+                  f"{sw}.queue.transmissionGate[3].durations = [{GATE_CLOSED_US}us, {1000 - GATE_CLOSED_US}us]",
+                  f"{sw}.queue.transmissionGate[3].offset = 0us"]
+        L += ["**.transmissionGate[3].enableImplicitGuardBand = false", ""]
+        L += [f"[Config T1S_PT_{prof}_SYNCTAS4]", f"extends = T1S_PT_{prof}_SYNCTAS",
+              f'description = "Powertrain ({prof.lower()}) synchronized + shorter TC3 gate, closed [0, 400) us of every ms"']
+        L += [f"{sw}.queue.transmissionGate[3].durations = [400us, 600us]" for sw in ("*.Z1.ZSW.eth[5]", "*.Z3.ZSW.eth[6]")] + [""]
     (SIM / "zonal/configs/t1s_powertrain.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_powertrain.ini").write_text(
         "# Entry point for the powertrain dual-bus T1S scenario.\n"
