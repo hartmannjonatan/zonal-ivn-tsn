@@ -18,6 +18,8 @@ network ZonalIVNT1SPowertrain
 {
     parameters:
         bool hasTraffic = default(false);
+        int plcaCountZ1 = default(6);
+        int plcaCountZ3 = default(6);
         // Same 1280x720 top view as INET's InVehicleNetworkShowcase.
         // Vehicle front is RIGHT; vehicle left is UP (driver's perspective).
         // Positions are illustrative mounting locations, not cable-length inputs.
@@ -71,7 +73,7 @@ network ZonalIVNT1SPowertrain
         }
         Z1: ZonalController {
             ZSW.eth[5].typename = "EthernetPlcaInterface";
-            ZSW.eth[5].plca.plca_node_count = 6;
+            ZSW.eth[5].plca.plca_node_count = parent.plcaCountZ1;
             ZSW.eth[5].plca.local_nodeID = 0;
             @display("p=875,290;b=74,40,rect,#dbeafe,#2563eb,2;i=device/switch;is=s;t=Front-left controller");
         }
@@ -90,7 +92,7 @@ network ZonalIVNT1SPowertrain
         WINDOW1: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ1;
             eth[0].plca.local_nodeID = 1;
             @display("p=700,210;i=block/control;is=s;t=WINDOW");
         }
@@ -139,7 +141,7 @@ network ZonalIVNT1SPowertrain
         }
         Z3: ZonalController {
             ZSW.eth[6].typename = "EthernetPlcaInterface";
-            ZSW.eth[6].plca.plca_node_count = 6;
+            ZSW.eth[6].plca.plca_node_count = parent.plcaCountZ3;
             ZSW.eth[6].plca.local_nodeID = 0;
             @display("p=440,350;b=74,40,rect,#ffedd5,#c2410c,2;i=device/switch;is=s;t=Rear controller");
         }
@@ -162,7 +164,7 @@ network ZonalIVNT1SPowertrain
         WINDOW3: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ3;
             eth[0].plca.local_nodeID = 1;
             @display("p=505,210;i=block/control;is=s;t=WINDOW");
         }
@@ -180,28 +182,28 @@ network ZonalIVNT1SPowertrain
         ECM: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ1;
             eth[0].plca.local_nodeID = 2;
             @display("p=700,120;i=block/cogwheel;is=vs;t=ECM");
         }
         ETC: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ1;
             eth[0].plca.local_nodeID = 3;
             @display("p=760,120;i=block/control;is=vs;t=ETC");
         }
         MAP: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ1;
             eth[0].plca.local_nodeID = 4;
             @display("p=820,120;i=block/source;is=vs;t=MAP");
         }
         LAMBDA: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ1;
             eth[0].plca.local_nodeID = 5;
             @display("p=880,120;i=block/source;is=vs;t=LAMBDA");
         }
@@ -211,28 +213,28 @@ network ZonalIVNT1SPowertrain
         TCU: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ3;
             eth[0].plca.local_nodeID = 2;
             @display("p=420,180;i=block/cogwheel;is=vs;t=TCU");
         }
         APP: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ3;
             eth[0].plca.local_nodeID = 3;
             @display("p=470,140;i=block/source;is=vs;t=APP");
         }
         GEAR: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ3;
             eth[0].plca.local_nodeID = 4;
             @display("p=520,120;i=block/control;is=vs;t=GEAR");
         }
         OSS: TsnDevice {
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 6;
+            eth[0].plca.plca_node_count = parent.plcaCountZ3;
             eth[0].plca.local_nodeID = 5;
             @display("p=570,120;i=block/source;is=vs;t=OSS");
         }

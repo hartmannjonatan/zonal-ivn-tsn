@@ -83,18 +83,21 @@ def network():
                   "// segments with the engine (Z1) and transmission (Z3) nodes. Other links unchanged.\n"
                   "network ZonalIVNT1SPowertrain\n{")
     s = s.replace('text="ZONAL IVN"', 'text="ZONAL IVN | POWERTRAIN T1S"')
+    s = s.replace("        bool hasTraffic = default(false);\n",
+                  "        bool hasTraffic = default(false);\n" +
+                  "".join(f"        int plcaCountZ{z} = default({NODES_PER_SEG[z]});\n" for z in BUS), 1)
     for z in BUS:
         cnt = NODES_PER_SEG[z]
         pat = f"        Z{z}: ZonalController {{\n"
         assert pat in s
         s = s.replace(pat, pat + f'''            ZSW.eth[{T1S_PORT[z]}].typename = "EthernetPlcaInterface";
-            ZSW.eth[{T1S_PORT[z]}].plca.plca_node_count = {cnt};
+            ZSW.eth[{T1S_PORT[z]}].plca.plca_node_count = parent.plcaCountZ{z};
             ZSW.eth[{T1S_PORT[z]}].plca.local_nodeID = 0;
 ''')
         pat = f"        WINDOW{z}: TsnDevice {{\n            numEthInterfaces = 1;\n"
         assert pat in s
         s = s.replace(pat, pat + f'''            eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = {cnt};
+            eth[0].plca.plca_node_count = parent.plcaCountZ{z};
             eth[0].plca.local_nodeID = 1;
 ''')
         i = s.index(f"        {WINDOW_LINK[z]}")
@@ -126,7 +129,7 @@ def network():
             subs += f'''        {name}: TsnDevice {{
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = {NODES_PER_SEG[z]};
+            eth[0].plca.plca_node_count = parent.plcaCountZ{z};
             eth[0].plca.local_nodeID = {pid};
             @display("p={pos};i={icon};is=vs;t={name}");
         }}
@@ -229,6 +232,18 @@ def ini():
               "extends = T1SPowertrainNetwork, C0_L1_A0_2s",
               f'description = "Powertrain dual T1S bus ({prof.lower()} periods), PCP {PCP}"',
               "result-dir = results/t1s/T1S_PT"] + apps(col) + [""]
+        slots = {z: " ".join(f"0 {i}" for i in range(1, NODES_PER_SEG[z])) for z in BUS}
+        L += [f"[Config T1S_PT_{prof}_BC3]", f"extends = T1S_PT_{prof}",
+              f'description = "Powertrain ({prof.lower()}) with PLCA burst (max_bc = 3) on the coordinator ports"',
+              "*.Z1.ZSW.eth[5].plca.max_bc = 3", "*.Z3.ZSW.eth[6].plca.max_bc = 3", "",
+              f"[Config T1S_PT_{prof}_MTC]", f"extends = T1S_PT_{prof}",
+              f'description = "Powertrain ({prof.lower()}) with PrioPlca multiTo: coordinator every other slot"',
+              '**.plca.typename = "PrioPlca"', '**.plca.mode = "multiTo"']
+        for z in BUS:
+            L += [f"*.plcaCountZ{z} = {2 * (NODES_PER_SEG[z] - 1)}"]
+        L += [f'*.Z1.ZSW.eth[5].plca.slotOwners = "{slots[1]}"', f'*.Z3.ZSW.eth[6].plca.slotOwners = "{slots[3]}"',
+              f'*.WINDOW1.eth[0].plca.slotOwners = "{slots[1]}"', f'*.WINDOW3.eth[0].plca.slotOwners = "{slots[3]}"']
+        L += [f'*.{n}.eth[0].plca.slotOwners = "{slots[ZONE_OF[n]]}"' for n in ZONE_OF] + [""]
     (SIM / "zonal/configs/t1s_powertrain.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_powertrain.ini").write_text(
         "# Entry point for the powertrain dual-bus T1S scenario.\n"

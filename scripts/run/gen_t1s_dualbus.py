@@ -51,19 +51,20 @@ def network():
                   "// plca_node_count = 3 + sensorsPerBus. Every other link is unchanged.\n"
                   "network ZonalIVNT1SDual\n{")
     s = s.replace("        bool hasTraffic = default(false);\n",
-                  "        bool hasTraffic = default(false);\n        int sensorsPerBus = default(1);\n", 1)
+                  "        bool hasTraffic = default(false);\n        int sensorsPerBus = default(1);\n"
+                  "        int plcaCountZ1 = default(3 + sensorsPerBus);\n        int plcaCountZ3 = default(3 + sensorsPerBus);\n", 1)
     s = s.replace('text="ZONAL IVN"', 'text="ZONAL IVN | DUAL T1S BUS"')
     for z in BUSES:
         pat = f"        Z{z}: ZonalController {{\n"
         assert pat in s
         s = s.replace(pat, pat + f'''            ZSW.eth[{T1S_PORT[z]}].typename = "EthernetPlcaInterface";
-            ZSW.eth[{T1S_PORT[z]}].plca.plca_node_count = 3 + parent.sensorsPerBus;
+            ZSW.eth[{T1S_PORT[z]}].plca.plca_node_count = parent.plcaCountZ{z};
             ZSW.eth[{T1S_PORT[z]}].plca.local_nodeID = 0;
 ''')
         pat = f"        WINDOW{z}: TsnDevice {{\n            numEthInterfaces = 1;\n"
         assert pat in s
         s = s.replace(pat, pat + f'''            eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 3 + parent.sensorsPerBus;
+            eth[0].plca.plca_node_count = parent.plcaCountZ{z};
             eth[0].plca.local_nodeID = 1;
 ''')
         i = s.index(f"        {WINDOW_LINK[z]}")
@@ -96,14 +97,14 @@ def network():
         ECU{z}: TsnDevice {{
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 3 + parent.sensorsPerBus;
+            eth[0].plca.plca_node_count = parent.plcaCountZ{z};
             eth[0].plca.local_nodeID = 2;
             @display("p={ECU_POS[z]};i=block/cogwheel;is=s;t=ECU{z}");
         }}
         S{z}[sensorsPerBus]: TsnDevice {{
             numEthInterfaces = 1;
             eth[0].typename = "EthernetPlcaInterface";
-            eth[0].plca.plca_node_count = 3 + parent.sensorsPerBus;
+            eth[0].plca.plca_node_count = parent.plcaCountZ{z};
             eth[0].plca.local_nodeID = 3 + index;
             @display("p={SENSOR_POS[z]},row,35;i=block/source;is=vs;t=SENSOR");
         }}
@@ -129,6 +130,24 @@ def tables():
             extra.append(f'{{address: "ECU{dst}", interface: "{port}", vlan: {VLAN_TO[dst]}}}')
         out[sw] = "[" + t + ", " + ", ".join(extra) + "]"
     return out
+
+
+def variants(bases):
+    """Coordinator relief: PLCA burst (max_bc = 3) or PrioPlca multiTo with the
+    coordinator (ID 0) in every other slot. multiTo needs ../prioplca."""
+    L = []
+    for cfg, n in bases:
+        nodes = 3 + n
+        slots = " ".join(f"0 {i}" for i in range(1, nodes))
+        L += [f"[Config {cfg}_BC3]", f"extends = {cfg}",
+              f'description = "{cfg} with PLCA burst (max_bc = 3) on the coordinator ports"',
+              "*.Z1.ZSW.eth[5].plca.max_bc = 3", "*.Z3.ZSW.eth[6].plca.max_bc = 3", "",
+              f"[Config {cfg}_MTC]", f"extends = {cfg}",
+              f'description = "{cfg} with PrioPlca multiTo: coordinator every other slot ({slots})"',
+              '**.plca.typename = "PrioPlca"', '**.plca.mode = "multiTo"',
+              f"*.plcaCountZ1 = {2 * (nodes - 1)}", f"*.plcaCountZ3 = {2 * (nodes - 1)}",
+              f'**.plca.slotOwners = "{slots}"', ""]
+    return L
 
 
 def ini():
@@ -191,6 +210,7 @@ def ini():
                   f"*.S*[*].app[0].source.productionInterval = {period}",
                   f"*.S*[*].app[0].source.initialProductionOffset = uniform(0us, {period})",
                   ""]
+    L += variants([("T1S_DUAL_1ms_S5", 5), ("T1S_DUAL_200us_S3", 3)])
     (SIM / "zonal/configs/t1s_dualbus.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_dualbus.ini").write_text(
         "# Entry point for the dual-bus T1S scenario (cross-bus sensor reading).\n"
