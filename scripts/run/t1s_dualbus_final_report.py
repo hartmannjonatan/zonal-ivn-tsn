@@ -19,7 +19,8 @@ from t1s_relief_report import read_runs, row, window_and_counts  # noqa: E402
 
 RES = SIM / "zonal/t1s_results"
 FIN = SIM / "results/t1s/final"
-VARIANTS = (("", "standard"), ("_SYNCTAS4", "synchronized + TAS 400 µs"))
+VARIANTS = (("", "standard"), ("_SYNCTAS4", "synchronized + TAS 400 µs"),
+            ("_SYNCTAS4_GPTP", "sync + TAS, gPTP clocks"), ("_SYNCTAS4_FREE", "sync + TAS, free-running clocks"))
 
 
 def runs_of(cfg):
