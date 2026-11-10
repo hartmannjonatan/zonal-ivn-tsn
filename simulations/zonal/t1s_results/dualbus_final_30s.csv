@@ -1,0 +1,45 @@
+case,variant,flow,period_us,samples,min_us,mean_us,max_us,pdv_us,std_us,interarrival_jitter_us,over_ref,p99_us,window_lost,readings_lost,seeds,path
+"generic 1000 µs, 6 nodes",standard,Z1->Z3,1000,901501,118.316,234.533,546.289,427.974,52.964,252.494,0,378.551,0,-5,10,
+"generic 1000 µs, 6 nodes",standard,Z3->Z1,1000,901504,118.874,232.22,453.035,334.161,70.047,282.773,0,439.859,0,-5,10,
+"generic 1000 µs, 6 nodes",synchronized + TAS 400 µs,Z1->Z3,1000,901500,211.231,278.451,321.555,110.323,39.878,94.076,0,319.113,0,0,10,
+"generic 1000 µs, 6 nodes",synchronized + TAS 400 µs,Z3->Z1,1000,901500,211.231,278.178,320.0,108.769,40.005,94.076,0,319.065,0,0,10,
+powertrain nominal,standard,PT01 RTT,10000.0,30050,277.37,461.321,719.628,442.258,83.929,415.594,0,696.374,0,,10,cross-bus
+powertrain nominal,standard,PT02 RTT,10000.0,30050,272.684,448.557,666.851,394.168,46.951,235.526,0,656.19,0,,10,cross-bus
+powertrain nominal,standard,PT03 one-way,10000.0,30050,118.706,186.576,309.12,190.414,49.196,143.924,0,287.191,0,,10,cross-bus
+powertrain nominal,standard,PT04 one-way,10000.0,30050,118.551,210.945,418.961,300.41,58.828,107.523,0,335.415,0,,10,cross-bus
+powertrain nominal,standard,PT05 one-way,1000.0,300500,58.406,111.055,365.72,307.313,36.227,208.485,0,214.636,0,,10,same bus
+powertrain nominal,standard,PT06 one-way,1000.0,300500,58.406,94.085,313.897,255.492,28.625,241.68,0,192.296,0,,10,same bus
+powertrain nominal,standard,PT07 one-way,1000.0,300500,58.405,97.926,276.26,217.855,43.543,204.475,0,241.038,0,,10,same bus
+powertrain nominal,standard,PT08 one-way,10000.0,30050,58.413,120.317,273.5,215.087,59.162,201.308,0,263.555,0,,10,same bus
+powertrain nominal,standard,PT09 one-way,10000.0,30050,58.406,74.631,121.737,63.331,13.089,46.81,0,113.882,0,,10,same bus
+powertrain nominal,standard,PT10 one-way,10000.0,30050,58.405,80.608,144.406,86.001,22.282,82.811,0,143.853,0,,10,same bus
+powertrain nominal,synchronized + TAS 400 µs,PT01 RTT,10000.0,30050,420.444,439.284,612.885,192.441,9.952,182.436,0,469.214,0,,10,cross-bus
+powertrain nominal,synchronized + TAS 400 µs,PT02 RTT,10000.0,30050,418.707,437.945,540.913,122.207,7.599,104.527,0,459.673,0,,10,cross-bus
+powertrain nominal,synchronized + TAS 400 µs,PT03 one-way,10000.0,30050,211.233,284.194,313.523,102.29,19.917,98.807,0,298.636,0,,10,cross-bus
+powertrain nominal,synchronized + TAS 400 µs,PT04 one-way,10000.0,30050,199.635,227.106,304.404,104.769,25.942,100.292,0,297.245,0,,10,cross-bus
+powertrain nominal,synchronized + TAS 400 µs,PT05 one-way,1000.0,300500,58.483,164.399,206.001,147.518,9.771,89.124,0,176.988,0,,10,same bus
+powertrain nominal,synchronized + TAS 400 µs,PT06 one-way,1000.0,300500,68.099,162.424,204.006,135.908,9.594,77.514,0,174.994,0,,10,same bus
+powertrain nominal,synchronized + TAS 400 µs,PT07 one-way,1000.0,300500,77.713,160.484,212.412,134.698,9.469,65.904,0,173.008,0,,10,same bus
+powertrain nominal,synchronized + TAS 400 µs,PT08 one-way,10000.0,30050,94.585,141.882,212.415,117.83,13.573,111.048,0,211.441,0,,10,same bus
+powertrain nominal,synchronized + TAS 400 µs,PT09 one-way,10000.0,30050,58.413,69.82,144.405,85.991,14.567,84.829,0,143.245,0,,10,same bus
+powertrain nominal,synchronized + TAS 400 µs,PT10 one-way,10000.0,30050,68.306,151.606,210.038,141.732,9.514,128.42,0,183.096,0,,10,same bus
+powertrain stress,standard,PT01 RTT,1000.0,300503,277.031,474.95,928.659,651.627,99.531,545.975,0,799.939,0,,10,cross-bus
+powertrain stress,standard,PT02 RTT,1000.0,300500,276.834,500.624,1207.573,930.739,116.182,545.566,2018,794.543,0,,10,cross-bus
+powertrain stress,standard,PT03 one-way,10000.0,30050,118.576,314.98,680.36,561.783,108.332,222.676,0,646.858,0,,10,cross-bus
+powertrain stress,standard,PT04 one-way,10000.0,30050,121.346,275.961,493.328,371.982,59.289,239.551,0,379.827,0,,10,cross-bus
+powertrain stress,standard,PT05 one-way,1000.0,300500,58.408,155.065,492.758,434.351,44.432,351.701,0,273.902,0,,10,same bus
+powertrain stress,standard,PT06 one-way,1000.0,300500,58.406,145.17,406.828,348.422,51.172,264.493,0,339.273,0,,10,same bus
+powertrain stress,standard,PT07 one-way,1000.0,300500,58.405,136.88,329.308,270.903,69.997,210.505,0,288.827,0,,10,same bus
+powertrain stress,standard,PT08 one-way,10000.0,30050,58.406,125.748,299.053,240.648,61.223,214.869,0,276.962,0,,10,same bus
+powertrain stress,standard,PT09 one-way,10000.0,30050,58.407,83.443,209.184,150.777,26.329,144.548,0,171.854,0,,10,same bus
+powertrain stress,standard,PT10 one-way,10000.0,30050,58.406,105.234,209.211,150.805,41.27,148.156,0,207.211,0,,10,same bus
+powertrain stress,synchronized + TAS 400 µs,PT01 RTT,1000.0,300500,302.434,337.387,610.298,307.865,39.174,297.684,0,457.477,0,,10,cross-bus
+powertrain stress,synchronized + TAS 400 µs,PT02 RTT,1000.0,300500,281.232,324.776,546.008,264.775,49.226,246.086,0,526.438,0,,10,cross-bus
+powertrain stress,synchronized + TAS 400 µs,PT03 one-way,10000.0,30050,211.234,280.025,319.077,107.843,22.356,95.366,0,298.227,0,,10,cross-bus
+powertrain stress,synchronized + TAS 400 µs,PT04 one-way,10000.0,30050,199.685,233.182,305.197,105.513,29.701,97.107,0,295.577,0,,10,cross-bus
+powertrain stress,synchronized + TAS 400 µs,PT05 one-way,1000.0,300500,58.435,163.981,205.995,147.56,9.549,98.724,0,176.986,0,,10,same bus
+powertrain stress,synchronized + TAS 400 µs,PT06 one-way,1000.0,300500,68.05,162.006,204.001,135.95,9.369,87.114,0,174.99,0,,10,same bus
+powertrain stress,synchronized + TAS 400 µs,PT07 one-way,1000.0,300500,77.666,160.058,212.415,134.75,9.238,75.504,0,173.002,0,,10,same bus
+powertrain stress,synchronized + TAS 400 µs,PT08 one-way,10000.0,30050,92.941,142.272,212.415,119.474,14.295,84.519,0,211.709,0,,10,same bus
+powertrain stress,synchronized + TAS 400 µs,PT09 one-way,10000.0,30050,58.406,75.83,144.405,85.999,24.217,81.741,0,144.141,0,,10,same bus
+powertrain stress,synchronized + TAS 400 µs,PT10 one-way,10000.0,30050,68.659,150.989,210.351,141.692,10.052,99.862,0,177.478,0,,10,same bus
