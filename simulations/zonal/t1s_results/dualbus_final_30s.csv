@@ -47,6 +47,36 @@ powertrain nominal,"sync + TAS, free-running clocks",PT07 one-way,1000.0,300493,
 powertrain nominal,"sync + TAS, free-running clocks",PT08 one-way,10000.0,30050,87.687,165.65,277.155,189.468,24.82,144.942,0,253.299,0,,10,same bus
 powertrain nominal,"sync + TAS, free-running clocks",PT09 one-way,10000.0,30053,58.41,97.22,212.136,153.726,28.337,147.634,0,199.875,0,,10,same bus
 powertrain nominal,"sync + TAS, free-running clocks",PT10 one-way,10000.0,30053,69.852,171.532,275.007,205.155,21.049,138.034,0,244.356,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT01 RTT,10000.0,30053,420.441,464.604,744.881,324.44,53.652,315.227,0,632.324,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT02 RTT,10000.0,30053,345.572,451.622,857.766,512.193,28.485,429.764,0,521.8,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT03 one-way,10000.0,30053,211.237,297.128,404.359,193.122,30.443,164.411,0,359.925,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT04 one-way,10000.0,30054,190.3,235.325,429.408,239.107,32.729,163.895,0,339.381,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT05 one-way,1000.0,300499,58.498,165.402,208.841,150.343,10.302,115.543,0,191.828,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT06 one-way,1000.0,300499,68.11,163.426,206.846,138.735,10.133,103.933,0,189.839,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT07 one-way,1000.0,300497,77.733,161.566,212.414,134.681,10.069,92.323,0,190.491,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT08 one-way,10000.0,30052,92.627,154.401,212.416,119.789,25.01,100.382,0,212.043,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT09 one-way,10000.0,30053,58.405,88.665,144.405,86.0,26.644,84.829,0,143.636,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, Sync 31.25 ms",PT10 one-way,10000.0,30053,68.462,162.105,210.426,141.964,20.942,116.008,0,209.913,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT01 RTT,10000.0,30050,420.439,460.83,745.155,324.716,51.154,315.217,0,630.72,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT02 RTT,10000.0,30050,346.803,449.755,846.906,500.103,27.015,494.569,0,520.87,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT03 one-way,10000.0,30050,211.243,293.655,401.707,190.464,30.728,167.628,0,356.563,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT04 one-way,10000.0,30050,190.849,235.21,430.358,239.508,33.569,169.355,0,341.82,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT05 one-way,1000.0,300500,58.448,165.209,208.837,150.389,10.253,101.921,0,188.001,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT06 one-way,1000.0,300500,68.063,163.233,206.832,138.769,10.084,90.311,0,186.005,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT07 one-way,1000.0,300500,77.678,161.38,212.416,134.738,10.031,78.701,0,187.251,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT08 one-way,10000.0,30050,93.072,152.42,212.416,119.343,24.357,89.847,0,212.06,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT09 one-way,10000.0,30050,58.406,87.211,144.405,85.999,26.909,84.829,0,143.651,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±10 ppm",PT10 one-way,10000.0,30050,68.331,160.417,210.421,142.09,20.295,128.42,0,209.884,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT01 RTT,10000.0,30055,420.439,464.917,745.168,324.729,53.684,315.227,0,633.207,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT02 RTT,10000.0,30055,345.475,451.567,848.45,502.974,27.606,429.764,0,520.173,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT03 one-way,10000.0,30055,211.225,297.405,400.772,189.547,30.574,104.823,0,356.972,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT04 one-way,10000.0,30055,190.576,235.391,426.161,235.585,32.268,159.754,0,338.337,0,,10,cross-bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT05 one-way,1000.0,300501,58.417,165.433,208.832,150.415,10.254,142.748,0,192.102,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT06 one-way,1000.0,300497,68.047,163.456,206.832,138.784,10.079,131.138,0,190.107,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT07 one-way,1000.0,300497,77.607,161.592,212.416,134.808,10.017,119.528,0,190.923,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT08 one-way,10000.0,30053,92.492,153.903,212.414,119.922,24.408,91.158,0,211.899,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT09 one-way,10000.0,30055,58.41,88.457,144.404,85.993,26.313,84.829,0,143.613,0,,10,same bus
+powertrain nominal,"sync + TAS, gPTP, drift ±100 ppm",PT10 one-way,10000.0,30054,68.054,162.373,210.421,142.367,20.846,127.507,0,209.891,0,,10,same bus
 powertrain stress,standard,PT01 RTT,1000.0,300503,277.031,474.95,928.659,651.627,99.531,545.975,0,799.939,0,,10,cross-bus
 powertrain stress,standard,PT02 RTT,1000.0,300500,276.834,500.624,1207.573,930.739,116.182,545.566,2018,794.543,0,,10,cross-bus
 powertrain stress,standard,PT03 one-way,10000.0,30050,118.576,314.98,680.36,561.783,108.332,222.676,0,646.858,0,,10,cross-bus
@@ -87,3 +117,77 @@ powertrain stress,"sync + TAS, free-running clocks",PT07 one-way,1000.0,300493,7
 powertrain stress,"sync + TAS, free-running clocks",PT08 one-way,10000.0,30050,95.634,169.828,277.207,181.573,27.125,149.943,0,262.412,219427,,10,same bus
 powertrain stress,"sync + TAS, free-running clocks",PT09 one-way,10000.0,30053,58.414,100.865,209.199,150.785,32.104,149.875,0,199.26,219427,,10,same bus
 powertrain stress,"sync + TAS, free-running clocks",PT10 one-way,10000.0,30053,69.624,171.685,275.197,205.573,22.714,140.275,0,248.81,219427,,10,same bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT01 RTT,1000.0,300500,302.433,352.16,747.087,444.654,48.11,416.501,0,539.995,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT02 RTT,1000.0,300500,281.233,340.817,851.386,570.153,55.197,541.566,0,530.365,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT03 one-way,10000.0,30053,211.24,297.576,406.03,194.79,30.505,165.469,0,376.563,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT04 one-way,10000.0,30054,190.521,235.752,427.227,236.706,31.533,160.948,0,336.817,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT05 one-way,1000.0,300499,58.472,165.096,208.821,150.349,10.173,106.725,0,193.443,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT06 one-way,1000.0,300499,68.084,163.119,206.824,138.74,10.004,95.115,0,191.443,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT07 one-way,1000.0,300497,77.715,161.308,212.416,134.7,9.98,83.505,0,191.791,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT08 one-way,10000.0,30052,93.687,156.012,212.416,118.729,24.906,85.494,0,212.042,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT09 one-way,10000.0,30053,58.408,86.597,144.397,85.988,25.537,84.667,0,143.578,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, Sync 31.25 ms",PT10 one-way,10000.0,30053,68.308,162.535,210.416,142.108,20.638,100.24,0,209.838,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT01 RTT,1000.0,300500,302.435,349.59,747.784,445.349,46.963,416.501,0,499.242,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT02 RTT,1000.0,300500,281.232,338.784,856.202,574.97,55.138,504.099,0,529.847,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT03 one-way,10000.0,30050,211.24,295.258,400.571,189.331,28.485,155.869,0,373.455,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT04 one-way,10000.0,30050,190.514,234.136,431.296,240.783,33.009,163.913,0,339.433,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT05 one-way,1000.0,300500,58.412,164.74,208.837,150.425,10.329,101.921,0,192.245,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT06 one-way,1000.0,300500,68.027,162.764,206.842,138.816,10.162,90.311,0,190.25,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT07 one-way,1000.0,300500,77.641,161.038,212.415,134.774,10.214,81.522,0,192.367,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT08 one-way,10000.0,30050,92.536,156.806,212.416,119.88,26.85,98.487,0,212.129,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT09 one-way,10000.0,30050,58.406,87.37,144.406,86.0,27.973,81.868,0,143.929,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±10 ppm",PT10 one-way,10000.0,30050,69.625,159.786,210.418,140.793,20.556,91.46,0,209.898,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT01 RTT,1000.0,300501,302.433,352.302,745.728,443.295,48.103,416.501,0,539.659,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT02 RTT,1000.0,300503,281.232,340.93,848.244,567.012,55.233,541.566,0,530.657,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT03 one-way,10000.0,30055,211.245,297.516,409.295,198.05,30.966,177.07,0,376.854,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT04 one-way,10000.0,30055,190.502,235.411,429.359,238.858,30.61,162.702,0,334.008,0,,10,cross-bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT05 one-way,1000.0,300501,58.523,165.157,208.862,150.338,10.156,133.93,0,193.575,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT06 one-way,1000.0,300497,68.135,163.181,206.87,138.735,9.981,122.32,0,191.576,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT07 one-way,1000.0,300497,77.746,161.339,212.414,134.668,9.939,110.71,0,191.556,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT08 one-way,10000.0,30053,92.982,155.012,212.413,119.431,24.174,96.6,0,211.986,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT09 one-way,10000.0,30055,58.405,86.191,144.405,85.999,25.068,81.741,0,143.702,0,,10,same bus
+powertrain stress,"sync + TAS, gPTP, drift ±100 ppm",PT10 one-way,10000.0,30054,68.649,162.501,210.424,141.775,20.295,128.941,0,209.885,0,,10,same bus
+ev nominal,standard,EV01 one-way,1000.0,300500,118.373,225.643,570.636,452.262,64.837,274.369,0,392.748,0,,10,cross-bus
+ev nominal,standard,EV02 one-way,1000.0,300501,118.307,198.238,436.582,318.275,36.852,234.514,0,308.715,0,,10,cross-bus
+ev nominal,standard,EV03 RTT,10000.0,30050,271.008,430.598,662.15,391.141,62.847,205.329,0,557.383,0,,10,cross-bus
+ev nominal,standard,EV04 one-way,1000.0,300500,58.406,116.793,279.227,220.821,43.458,210.087,0,251.513,0,,10,same bus
+ev nominal,standard,EV05 one-way,1000.0,300500,58.406,132.859,276.259,217.853,55.814,165.942,0,260.263,0,,10,same bus
+ev nominal,standard,EV06 one-way,10000.0,30050,58.415,112.656,191.668,133.254,33.89,103.146,0,185.227,0,,10,same bus
+ev nominal,standard,EV07 one-way,10000.0,30050,58.405,112.904,239.944,181.539,45.341,84.799,0,219.899,0,,10,same bus
+ev nominal,standard,EV08 one-way,10000.0,30050,58.406,133.093,277.962,219.557,54.384,147.21,0,272.153,0,,10,same bus
+ev nominal,standard,EV09 one-way,20000.0,15023,118.887,193.003,347.329,228.442,41.992,156.385,0,278.077,0,,10,cross-bus
+ev nominal,standard,EV10 one-way,10000.0,30050,58.406,93.31,174.178,115.772,25.243,115.638,0,157.601,0,,10,same bus
+ev nominal,standard,EV11 one-way,1000.0,300500,119.268,226.281,499.273,380.006,54.423,297.556,0,401.543,0,,10,cross-bus
+ev nominal,"sync + TAS, gPTP clocks",EV01 one-way,1000.0,300504,118.289,157.263,242.073,123.784,25.094,113.165,0,217.65,0,,10,cross-bus
+ev nominal,"sync + TAS, gPTP clocks",EV02 one-way,1000.0,300500,118.207,163.249,508.22,390.013,69.065,375.315,0,474.078,0,,10,cross-bus
+ev nominal,"sync + TAS, gPTP clocks",EV03 RTT,10000.0,30053,373.671,466.63,966.029,592.358,111.842,574.908,0,805.298,0,,10,cross-bus
+ev nominal,"sync + TAS, gPTP clocks",EV04 one-way,1000.0,300503,71.22,106.335,304.815,233.595,36.724,224.498,0,286.829,0,,10,same bus
+ev nominal,"sync + TAS, gPTP clocks",EV05 one-way,1000.0,300500,80.832,111.069,202.819,121.987,25.903,117.282,0,184.458,0,,10,same bus
+ev nominal,"sync + TAS, gPTP clocks",EV06 one-way,10000.0,30053,61.055,217.105,372.808,311.752,56.308,293.995,0,365.823,0,,10,same bus
+ev nominal,"sync + TAS, gPTP clocks",EV07 one-way,10000.0,30053,71.661,95.378,161.731,90.07,21.004,84.309,0,150.662,0,,10,same bus
+ev nominal,"sync + TAS, gPTP clocks",EV08 one-way,10000.0,30052,134.009,171.029,210.414,76.405,16.709,76.429,0,209.542,0,,10,same bus
+ev nominal,"sync + TAS, gPTP clocks",EV09 one-way,20000.0,15030,281.66,379.586,497.568,215.908,39.837,165.636,0,463.795,0,,10,cross-bus
+ev nominal,"sync + TAS, gPTP clocks",EV10 one-way,10000.0,30053,68.672,189.526,307.982,239.31,35.719,231.647,0,299.171,0,,10,same bus
+ev nominal,"sync + TAS, gPTP clocks",EV11 one-way,1000.0,300504,194.69,234.819,320.549,125.859,25.128,113.165,0,295.821,0,,10,cross-bus
+ev stress,standard,EV01 one-way,1000.0,300501,119.412,246.85,571.946,452.534,65.661,274.37,0,436.938,0,,10,cross-bus
+ev stress,standard,EV02 one-way,1000.0,300503,118.505,263.793,543.554,425.049,86.377,357.948,0,436.82,0,,10,cross-bus
+ev stress,standard,EV03 RTT,1000.0,300501,277.03,532.383,835.502,558.472,112.827,332.516,0,791.451,0,,10,cross-bus
+ev stress,standard,EV04 one-way,1000.0,300500,58.446,156.059,400.702,342.255,58.288,229.531,0,284.204,0,,10,same bus
+ev stress,standard,EV05 one-way,1000.0,300500,58.405,147.815,274.011,215.605,60.435,187.917,0,273.433,0,,10,same bus
+ev stress,standard,EV06 one-way,10000.0,30050,59.121,190.104,354.538,295.417,58.198,252.315,0,326.649,0,,10,same bus
+ev stress,standard,EV07 one-way,10000.0,30050,58.405,116.553,257.968,199.563,43.815,114.466,0,230.298,0,,10,same bus
+ev stress,standard,EV08 one-way,10000.0,30050,58.406,140.776,279.533,221.128,53.03,125.231,0,273.891,0,,10,same bus
+ev stress,standard,EV09 one-way,10000.0,30050,124.06,242.912,430.245,306.185,58.802,244.052,0,429.392,0,,10,cross-bus
+ev stress,standard,EV10 one-way,10000.0,30050,58.406,105.243,215.586,157.18,33.663,149.891,0,206.819,0,,10,same bus
+ev stress,standard,EV11 one-way,1000.0,300501,119.088,246.374,480.62,361.532,62.169,265.657,0,407.814,0,,10,cross-bus
+ev stress,"sync + TAS, gPTP clocks",EV01 one-way,1000.0,300504,118.352,159.318,242.865,124.513,25.919,104.869,0,216.41,0,,10,cross-bus
+ev stress,"sync + TAS, gPTP clocks",EV02 one-way,1000.0,300499,195.576,272.366,504.428,308.852,54.033,303.309,0,468.445,0,,10,cross-bus
+ev stress,"sync + TAS, gPTP clocks",EV03 RTT,1000.0,300500,373.657,443.878,965.971,592.314,77.195,576.101,0,671.414,0,,10,cross-bus
+ev stress,"sync + TAS, gPTP clocks",EV04 one-way,1000.0,300501,147.636,193.223,304.858,157.222,54.211,151.13,0,302.167,0,,10,same bus
+ev stress,"sync + TAS, gPTP clocks",EV05 one-way,1000.0,300500,126.405,157.525,202.82,76.415,16.002,76.091,0,200.309,0,,10,same bus
+ev stress,"sync + TAS, gPTP clocks",EV06 one-way,10000.0,30053,58.427,221.554,372.836,314.409,63.462,313.129,0,368.036,0,,10,same bus
+ev stress,"sync + TAS, gPTP clocks",EV07 one-way,10000.0,30053,71.653,95.313,160.874,89.22,21.34,84.382,0,149.628,0,,10,same bus
+ev stress,"sync + TAS, gPTP clocks",EV08 one-way,10000.0,30052,134.005,170.182,210.419,76.413,16.932,76.03,0,209.226,0,,10,same bus
+ev stress,"sync + TAS, gPTP clocks",EV09 one-way,10000.0,30052,281.065,375.334,495.229,214.164,43.065,170.787,0,455.918,0,,10,cross-bus
+ev stress,"sync + TAS, gPTP clocks",EV10 one-way,10000.0,30052,66.043,206.398,308.053,242.01,42.679,236.906,0,300.942,0,,10,same bus
+ev stress,"sync + TAS, gPTP clocks",EV11 one-way,1000.0,300504,194.753,236.992,319.266,124.513,25.941,104.869,0,294.895,0,,10,cross-bus
