@@ -191,3 +191,43 @@ ev stress,"sync + TAS, gPTP clocks",EV08 one-way,10000.0,30052,134.005,170.182,2
 ev stress,"sync + TAS, gPTP clocks",EV09 one-way,10000.0,30052,281.065,375.334,495.229,214.164,43.065,170.787,0,455.918,0,,10,cross-bus
 ev stress,"sync + TAS, gPTP clocks",EV10 one-way,10000.0,30052,66.043,206.398,308.053,242.01,42.679,236.906,0,300.942,0,,10,same bus
 ev stress,"sync + TAS, gPTP clocks",EV11 one-way,1000.0,300504,194.753,236.992,319.266,124.513,25.941,104.869,0,294.895,0,,10,cross-bus
+powertrain same switch nominal,standard,PT01 RTT,10000.0,30050,272.427,403.462,519.739,247.312,61.907,180.211,0,513.069,0,,10,cross-bus
+powertrain same switch nominal,standard,PT02 RTT,10000.0,30050,269.598,376.565,586.383,316.786,63.164,174.743,0,479.77,0,,10,cross-bus
+powertrain same switch nominal,standard,PT03 one-way,10000.0,30050,116.966,156.302,253.899,136.932,33.088,107.805,0,245.767,0,,10,cross-bus
+powertrain same switch nominal,standard,PT04 one-way,10000.0,30050,117.126,196.448,365.638,248.512,66.353,127.516,0,335.495,0,,10,cross-bus
+powertrain same switch nominal,standard,PT05 one-way,1000.0,300500,58.405,112.718,358.789,300.383,40.272,208.485,0,298.332,0,,10,same bus
+powertrain same switch nominal,standard,PT06 one-way,1000.0,300500,58.406,95.479,313.897,255.492,31.839,241.68,0,215.392,0,,10,same bus
+powertrain same switch nominal,standard,PT07 one-way,1000.0,300500,58.405,100.426,269.979,211.573,45.887,194.875,0,246.653,0,,10,same bus
+powertrain same switch nominal,standard,PT08 one-way,10000.0,30050,58.406,106.373,243.216,184.81,46.78,107.537,0,223.071,0,,10,same bus
+powertrain same switch nominal,standard,PT09 one-way,10000.0,30050,58.405,67.841,76.406,18.001,5.159,17.8,0,76.207,0,,10,same bus
+powertrain same switch nominal,standard,PT10 one-way,10000.0,30050,58.406,67.548,76.405,17.999,4.998,17.8,0,76.206,0,,10,same bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT01 RTT,10000.0,30053,414.038,444.658,675.709,261.67,41.578,246.236,0,654.453,0,,10,cross-bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT02 RTT,10000.0,30053,401.303,445.973,521.801,120.498,26.293,110.14,0,516.103,0,,10,cross-bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT03 one-way,10000.0,30054,204.848,286.129,376.476,171.628,21.876,153.419,0,355.223,0,,10,cross-bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT04 one-way,10000.0,30054,190.085,225.852,300.985,110.9,26.028,100.54,0,295.287,0,,10,cross-bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT05 one-way,1000.0,300499,58.431,165.103,208.857,150.426,10.899,109.951,0,194.849,0,,10,same bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT06 one-way,1000.0,300499,68.046,163.127,206.86,138.814,10.74,98.341,0,192.846,0,,10,same bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT07 one-way,1000.0,300497,77.661,161.291,212.415,134.754,10.7,86.731,0,193.805,0,,10,same bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT08 one-way,10000.0,30052,92.391,155.425,212.415,120.025,28.658,115.443,0,212.256,0,,10,same bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT09 one-way,10000.0,30053,58.405,80.839,141.206,82.8,22.228,81.41,0,139.452,0,,10,same bus
+powertrain same switch nominal,"sync + TAS, gPTP clocks",PT10 one-way,10000.0,30053,64.819,87.372,148.604,83.785,21.382,73.405,0,139.171,0,,10,same bus
+powertrain same switch stress,standard,PT01 RTT,1000.0,300502,272.489,425.151,813.966,541.477,98.248,475.563,0,701.26,0,,10,cross-bus
+powertrain same switch stress,standard,PT02 RTT,1000.0,300502,259.191,441.785,911.491,652.299,118.766,417.942,0,729.082,0,,10,cross-bus
+powertrain same switch stress,standard,PT03 one-way,10000.0,30050,116.93,273.916,624.135,507.204,102.614,234.878,0,612.167,0,,10,cross-bus
+powertrain same switch stress,standard,PT04 one-way,10000.0,30050,117.065,243.554,469.308,352.243,65.739,309.967,0,370.475,0,,10,cross-bus
+powertrain same switch stress,standard,PT05 one-way,1000.0,300500,58.411,163.861,621.955,563.544,68.725,387.721,0,421.823,0,,10,same bus
+powertrain same switch stress,standard,PT06 one-way,1000.0,300502,58.406,144.141,406.83,348.424,47.021,264.493,0,339.701,0,,10,same bus
+powertrain same switch stress,standard,PT07 one-way,1000.0,300499,58.405,129.312,321.991,263.586,65.552,190.097,0,278.162,0,,10,same bus
+powertrain same switch stress,standard,PT08 one-way,10000.0,30049,58.422,148.062,287.801,229.38,59.991,172.44,0,274.95,0,,10,same bus
+powertrain same switch stress,standard,PT09 one-way,10000.0,30050,58.406,82.777,222.829,164.423,36.369,120.872,0,193.034,0,,10,same bus
+powertrain same switch stress,standard,PT10 one-way,10000.0,30050,58.405,84.375,202.758,144.353,31.171,138.886,0,199.506,0,,10,same bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT01 RTT,1000.0,300500,292.833,334.316,675.192,382.359,46.284,369.321,0,485.625,0,,10,cross-bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT02 RTT,1000.0,300500,281.232,335.441,546.028,264.796,64.085,261.14,0,542.306,0,,10,cross-bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT03 one-way,10000.0,30053,204.838,288.17,375.957,171.119,22.092,155.162,0,369.539,0,,10,cross-bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT04 one-way,10000.0,30054,189.167,222.952,301.344,112.177,25.854,100.135,0,295.436,0,,10,cross-bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT05 one-way,1000.0,300499,58.49,165.603,208.832,150.342,11.866,106.725,0,205.384,0,,10,same bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT06 one-way,1000.0,300499,68.103,163.627,206.837,138.733,11.719,95.115,0,203.388,0,,10,same bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT07 one-way,1000.0,300497,77.717,162.436,212.416,134.699,12.046,83.505,0,202.438,0,,10,same bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT08 one-way,10000.0,30052,93.18,166.911,212.414,119.234,31.623,110.595,0,212.027,0,,10,same bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT09 one-way,10000.0,30053,58.415,80.682,141.203,82.788,20.89,81.947,0,139.474,0,,10,same bus
+powertrain same switch stress,"sync + TAS, gPTP clocks",PT10 one-way,10000.0,30053,64.836,87.063,146.535,81.699,20.056,73.548,0,138.603,0,,10,same bus

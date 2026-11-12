@@ -95,6 +95,7 @@ def main():
                 rows.append(r)
     rows += scenario_rows(G, "T1S_PT", "powertrain", VARIANTS + PT_SENS)
     rows += scenario_rows(GE, "T1S_EV", "ev", EV_VARIANTS)
+    rows += scenario_rows(G, "T1S_PTS", "powertrain same switch", EV_VARIANTS)
     print("| Case | Variant | Flow | Seeds | Samples | Mean / p99 / max µs | Delay variation µs | Std µs | Inter-arrival jitter µs | > 1 ms | Window lost |")
     print("|---|---|---|---|---|---|---|---|---|---|---|")
     for r in rows:
