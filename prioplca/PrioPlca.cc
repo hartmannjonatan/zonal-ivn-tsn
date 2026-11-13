@@ -11,6 +11,7 @@
 //
 #include "PrioPlca.h"
 
+#include <algorithm>
 #include <sstream>
 
 namespace ivnplca {
@@ -18,6 +19,14 @@ namespace ivnplca {
 Define_Module(PrioPlca);
 
 simsignal_t PrioPlca::priorityToInsertedSignal = cComponent::registerSignal("priorityToInserted");
+simsignal_t PrioPlca::anchorHoldSignal = cComponent::registerSignal("anchorHold");
+simsignal_t PrioPlca::anchorSkippedSignal = cComponent::registerSignal("anchorSkipped");
+simsignal_t PrioPlca::anchorLateSignal = cComponent::registerSignal("anchorLate");
+
+PrioPlca::~PrioPlca()
+{
+    cancelAndDelete(anchorTimer);
+}
 
 void PrioPlca::initialize(int stage)
 {
@@ -30,6 +39,8 @@ void PrioPlca::initialize(int stage)
             plcaMode = MULTI_TO;
         else if (m == "priorityTo")
             plcaMode = PRIORITY_TO;
+        else if (m == "anchored")
+            plcaMode = ANCHORED;
         else
             throw cRuntimeError("Unknown mode '%s'", m.c_str());
         priorityNodeID = par("priorityNodeID");
@@ -50,9 +61,122 @@ void PrioPlca::initialize(int stage)
         }
         if (plcaMode == PRIORITY_TO && (priorityNodeID <= 0 || priorityNodeID >= plca_node_count))
             throw cRuntimeError("priorityTo needs 0 < priorityNodeID < plca_node_count");
+        if (plcaMode == ANCHORED) {
+            anchorPeriod = par("anchorPeriod");
+            if (anchorPeriod <= SIMTIME_ZERO)
+                throw cRuntimeError("anchorPeriod must be positive");
+            std::istringstream os(par("anchorOffsets").stdstringValue());
+            double us;
+            while (os >> us) {
+                simtime_t o = SimTime(us * 1e-6);
+                if (o < SIMTIME_ZERO || o >= anchorPeriod)
+                    throw cRuntimeError("anchor offset %g us outside [0, anchorPeriod)", us);
+                anchorOffsets.push_back(o);
+            }
+            if (anchorOffsets.empty())
+                anchorOffsets.push_back(SIMTIME_ZERO);
+            std::sort(anchorOffsets.begin(), anchorOffsets.end());
+            followerIdleSleep = par("followerIdleSleep");
+            std::string late = par("lateBeacon").stdstringValue();
+            if (late != "skip" && late != "catchup")
+                throw cRuntimeError("lateBeacon must be skip or catchup");
+            lateBeaconSkip = late == "skip";
+            anchorTimer = new cMessage("anchorTimer", 9999);
+            initializeAnchorClock();
+        }
+        WATCH(anchorArmed);
         WATCH(inPriorityTo);
         WATCH(currentToHadData);
     }
+    else if (stage == INITSTAGE_PHYSICAL_LAYER && plcaMode == ANCHORED && local_nodeID == 0 && !anchorArmed) {
+        // EthernetPlca starts the control FSM directly in CS_RESYNC (no entry action),
+        // so the first anchor is armed here; the first BEACON goes out on the grid.
+        armAnchor();
+    }
+}
+
+void PrioPlca::initializeAnchorClock()
+{
+    const char *path = par("anchorClockModule");
+    if (*path) {
+        anchorClock = dynamic_cast<IClock *>(getModuleByPath(path));
+        if (anchorClock == nullptr)
+            throw cRuntimeError("anchorClockModule '%s' is not an IClock", path);
+    }
+}
+
+simtime_t PrioPlca::anchorAt(int64_t idx) const
+{
+    int64_t n = anchorOffsets.size();
+    int64_t k = idx >= 0 ? idx / n : -((-idx + n - 1) / n);
+    return anchorPeriod * k + anchorOffsets[idx - k * n];
+}
+
+int64_t PrioPlca::firstAnchorAtOrAfter(simtime_t t) const
+{
+    int64_t n = anchorOffsets.size();
+    int64_t k = t.raw() / anchorPeriod.raw();
+    for (int64_t idx = k * n; ; idx++)
+        if (anchorAt(idx) >= t)
+            return idx;
+}
+
+void PrioPlca::armAnchor()
+{
+    // The cycle that just ended belonged to anchor lastAnchorIndex; the next one
+    // belongs to the following anchor. "skip": wait for the first anchor at or
+    // after now. "catchup": if that following anchor has already passed (the
+    // cycle overran), send the BEACON at once and assign the cycle to the latest
+    // anchor that has passed, so the grid is rejoined at the next one.
+    simtime_t now = anchorClock ? anchorClock->getClockTime().asSimTime() : simTime();
+    int64_t first = firstAnchorAtOrAfter(now);
+    simtime_t at;
+    if (lastAnchorIndex < 0 || lateBeaconSkip || lastAnchorIndex + 1 >= first) {
+        if (lastAnchorIndex >= 0)
+            emit(anchorSkippedSignal, (long)(first - lastAnchorIndex - 1));
+        lastAnchorIndex = first;
+        simtime_t anchor = anchorAt(first);
+        at = anchorClock ? anchorClock->computeSimTimeFromClockTime(ClockTime::from(anchor)) : anchor;
+        if (at < simTime())
+            at = simTime();
+    }
+    else {
+        emit(anchorLateSignal, now - anchorAt(lastAnchorIndex + 1));
+        if (simTime() >= getSimulation()->getWarmupPeriod())
+            lateCycles++;
+        lastAnchorIndex = first - 1;
+        at = simTime();
+    }
+    emit(anchorHoldSignal, at - simTime());
+    if (simTime() >= getSimulation()->getWarmupPeriod()) {
+        holdTotal += at - simTime();
+        anchorCycles++;
+    }
+    anchorArmed = true;
+    rescheduleAt(at, anchorTimer);
+}
+
+void PrioPlca::finish()
+{
+    EthernetPlca::finish();
+    if (plcaMode == ANCHORED && local_nodeID == 0) {
+        simtime_t measured = simTime() - getSimulation()->getWarmupPeriod();
+        recordScalar("taplcaHoldTotal", holdTotal.dbl(), "s");
+        recordScalar("taplcaMeasuredTime", measured.dbl(), "s");
+        recordScalar("taplcaHoldShare", measured > 0 ? holdTotal.dbl() / measured.dbl() : 0);
+        recordScalar("taplcaCycles", anchorCycles);
+        recordScalar("taplcaLateCycles", lateCycles);
+    }
+}
+
+bool PrioPlca::anchorReady() const
+{
+    return plcaMode != ANCHORED || (anchorArmed && !anchorTimer->isScheduled());
+}
+
+bool PrioPlca::followerSleeping() const
+{
+    return plcaMode == ANCHORED && followerIdleSleep && local_nodeID != 0 && curID >= plca_node_count;
 }
 
 bool PrioPlca::canCommitInPriorityTo() const
@@ -123,13 +247,15 @@ void PrioPlca::handleWithControlFSM()
         }
         FSMA_State(CS_RESYNC) {
             FSMA_Enter(
+                if (plcaMode == ANCHORED && local_nodeID == 0) // PrioPlca: TA-PLCA holds the BEACON until the next anchor
+                    armAnchor();
             );
             FSMA_Transition(T1,
                             local_nodeID != 0 && CRS,
                             CS_EARLY_RECEIVE,
             );
             FSMA_Transition(T2,
-                            PMCD && !CRS && local_nodeID == 0,
+                            PMCD && !CRS && local_nodeID == 0 && anchorReady(), // PrioPlca: TA-PLCA anchor reached
                             CS_SEND_BEACON,
             );
         }
@@ -143,6 +269,7 @@ void PrioPlca::handleWithControlFSM()
         }
         FSMA_State(CS_SEND_BEACON) {
             FSMA_Enter(
+                anchorArmed = false; // PrioPlca
                 scheduleAfter(beacon_timer_length.get<b>() / mode.bitrate, beacon_timer);
                 tx_cmd = CMD_BEACON;
                 emit(txCmdSignal, tx_cmd);
@@ -184,7 +311,8 @@ void PrioPlca::handleWithControlFSM()
         }
         FSMA_State(CS_WAIT_TO) {
             FSMA_Enter(
-                scheduleAfter((inPriorityTo ? priorityToTimerLength : to_timer_length).get<b>() / mode.bitrate, to_timer); // PrioPlca: the priority TO outlasts the IPG
+                if (!followerSleeping()) // PrioPlca: TA-PLCA followers past the last TO just wait for the BEACON
+                    scheduleAfter((inPriorityTo ? priorityToTimerLength : to_timer_length).get<b>() / mode.bitrate, to_timer); // PrioPlca: the priority TO outlasts the IPG
                 numPacketsPerTo = 0;
                 toStartTime = simTime();
             );
@@ -197,7 +325,7 @@ void PrioPlca::handleWithControlFSM()
                             CS_COMMIT,
             );
             FSMA_Transition(T3,
-                            !to_timer->isScheduled() && !ownsCurrentTo() && !CRS,
+                            !to_timer->isScheduled() && !ownsCurrentTo() && !CRS && !followerSleeping(), // PrioPlca
                             CS_NEXT_TX_OPPORTUNITY,
             );
             FSMA_Transition(T4,
