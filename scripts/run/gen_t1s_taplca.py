@@ -239,6 +239,12 @@ def ini():
                 L += section(f"{tag}_30s", f"{p}_SYNCTAS4_GPTP_30s",
                              f"TA-PLCA T_A = {TA_US} us, Z3 phase {phi} us, TCU request in Z3 round {rt}, gPTP, max_bc = 1, {prof.lower()}",
                              f"{tag}_30s", body)
+                if (phi, rt) == (185, 0):
+                    body = (processing_lines() + plca_lines(TA_US, False, 1) + gate_lines(prof == 'NOMINAL')
+                            + ["**.transmissionGate[3].enableImplicitGuardBand = false"] + offset_lines(col))
+                    L += section(f"{tag}_IDEAL_30s", f"{p}_SYNCTAS4_30s",
+                                 f"TA-PLCA T_A = {TA_US} us, Z3 phase {phi} us, TCU request in Z3 round {rt}, ideal clocks, max_bc = 1, {prof.lower()}",
+                                 f"{tag}_IDEAL_30s", body)
         PHASE[3] = PHI_Z3_US
         PLAN["PT01"] = (1, 0)
         # S1c: rounds of the one-way cross-bus flows PT03 (Z1) and PT04 (Z3) at the best (phase, TCU round)

@@ -117,6 +117,20 @@ The v1 plan was deterministic in the 0.6 s smoke test, but not over 30 s, becaus
 
 The 30 s runs are in progress: NOMINAL TA-PLCA gPTP with 10 seeds, STRESS gPTP and NOMINAL ideal with 3 seeds (`results/t1s/taplca/TA_*_TAPLCA250_BC1*_30s`).
 
+### 6.2b Final plan (φ = 65 µs), 30 s runs
+
+| config | seeds | PT01 RTT mean / max / variation / std | PT02 RTT mean / max / variation | PT03 / PT04 variation | window lost |
+|---|---|---|---|---|---|
+| NOMINAL TA-PLCA, gPTP | 10 | 587.8 / 835.0 / 250.1 / 26.4 | 645.6 / 653.1 / 9.7 | 0.11 / 0.11 | 0 |
+| NOMINAL TA-PLCA, ideal clocks | 3 | 586.9 / 835.0 / 250.0 / 21.6 | 643.4 / 643.4 / 0.0 | 0.00 / 0.00 | 0 |
+| STRESS TA-PLCA, gPTP | 3 | 1082 / 1085 / 431 | 905 / 1403 / 500 | 68 / 260 | 821 k |
+
+PT01 takes the planned 585 µs in about 99 % of the samples. About 1 % slip by exactly one round, to 835 µs.
+The slips occur with ideal clocks too, at times that repeat with catalog periods (x.0311/.0411, x.0611, x.0811, x.1711 s and triplets 50 ms apart).
+They are therefore caused by backbone (CSW) traffic that delays a cross-switch frame past an anchor, which means the PT01 path has too little anchor margin.
+The alternative plan φ = 185 µs with the TCU request in Z3 round 0 is deterministic in its 4 s check (PT01 643.42 µs, PT02 653.02 µs, PT03 270.01 µs, PT04 208.41 µs, all with variation ≤ 0.07 µs).
+Its 30 s / 3-seed runs (gPTP and ideal) are in progress.
+
 ### 6.3 Hypotheses (status)
 
 - **(a) Delay variation ≤ the ideal-clock schedule.** Nominal: **yes** in the 4 s check. All four cross-bus flows vary by < 0.1 µs, against 45–191 µs (ideal clocks) and 325–502 µs (gPTP) in the 30 s baselines. To be confirmed by the 30 s / 10-seed runs. Stress: **no**.
