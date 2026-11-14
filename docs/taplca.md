@@ -46,64 +46,88 @@ It replaces the zero processing time of the earlier campaign in **all** configur
 A request A→B is delivered in the TO 0 of B's coordinator, and its response B→A in the TO 0 of A's coordinator.
 With a single common anchor phase, one of the two directions waits up to a full T_A.
 
-**Choice: per-segment anchor phase.** Z1 anchors at `k·250 µs` and Z3 at `k·250 µs + 245 µs`.
-Each direction gets its own round on its own segment, and the release offsets are planned per round (`scripts/run/gen_t1s_taplca.py`, `PLAN`):
+**Choice: per-segment anchor phase plus a per-direction round plan.** Z1 anchors at `k·250 µs` and Z3 at `k·250 µs + φ`.
+Every cross-bus frame is planned in a round of its sender's segment and is delivered in a later round of the far segment (`scripts/run/gen_t1s_taplca.py`, `PLAN`).
+φ and the round of the TCU request were chosen by a sweep (section 5). The result is **φ = 65 µs**, with the TCU request in Z3 round 1:
 
-| round | Z1 (engine bus, anchors 0/250/500/750 µs) | Z3 (transmission bus, anchors 245/495/745/995 µs) |
+| round | Z1 (engine bus, anchors 0/250/500/750 µs) | Z3 (transmission bus, anchors 65/315/565/815 µs) |
 |---|---|---|
 | r0 | ECM PT02 request, ETC PT06 | coordinator delivers PT02 request; APP PT02 reply |
-| r1 | coordinator delivers PT01 request; ECM PT01 reply | coordinator delivers PT01 reply to TCU |
-| r2 | coordinator delivers PT02 reply; MAP PT07, PT03 (ms 3), LAMBDA (ms 5) | TCU PT04 / GEAR / OSS (10 ms flows); window |
-| r3 | ECM PT05; window | TCU PT01 request |
+| r1 | ECM PT03 (ms 3) | TCU PT01 request |
+| r2 | MAP PT07, LAMBDA PT08 (ms 5); deliveries of the PT01 request / PT02 reply | GEAR PT09 (ms 2), OSS PT10 (ms 4) |
+| r3 | ECM PT05; window (40 µs gate) | TCU PT04 (ms 6); window (40 µs gate) |
 
-Release offset = round anchor − 15 µs. The window (TC3) gate opens for 60 µs (one 64 B frame) at the start of the window round.
-In NOMINAL the critical flows run only in ms 0 of every 10 ms, so the gate has a 10 ms period and is open throughout ms 1–9.
-The coordinator may burst (`max_bc` = 1 or 2) so that two critical frames for the same segment fit in one TO 0.
+Release offset = round anchor − 15 µs.
 
-Each request/response therefore costs a fixed number of rounds. In the smoke tests both RTTs are **835 µs including processing, with 0.03 µs of variation** (nominal).
-The rounds took slightly longer than the analytic estimate (~600 µs), so each direction lands one round later than planned, but always the same round.
-Tightening φ_z and the plan is the next step (the T_A/phase sweep).
+The window (TC3) gate opens for only 40 µs, which is one 64 B frame, at the start of the segment's window round. That round therefore ends before the next critical round.
+In NOMINAL the cross-bus flows run only in ms 0, 3 and 6 of every 10 ms. There the gate follows the same pattern, and in the other ms it stays open, except during the last 250 µs before a critical ms (guard round).
+That guard is needed because the window sources (HPC) run on simulation time, while the anchors follow the drifting gPTP clocks (±50 ppm). The window phase relative to the rounds therefore slides over seconds.
+Without the guard, a window frame now and then spills into a critical round, and the RTT jumps between regimes of 585, 650, 835 and 1085 µs (seen in the first 30 s campaign, section 6).
 
-## 4. What did not work (smoke tests, 1.6 s, seed 1001)
+The coordinator burst is `max_bc = 1`, so two critical frames for the same segment fit in one TO 0. `max_bc = 2` lengthens the window rounds and makes cycles late.
 
-- **Fixed rounds, first plan (3 frames per round):** a 64 B frame TO takes about 80 µs, so 3 frames plus BEACON and empty TOs overrun 250 µs.
-  The response then slips by one round (RTT variation 136–250 µs, max 0.90 ms), and the window loses frames.
-- **T_A = 500 and 1000 µs (rounds):** each node gets only one TO per T_A. The ECM needs about 3 frames/ms in stress, so its queues grow without bound (RTT of hundreds of ms).
-  T_A is limited by the busiest node's frame rate.
-- **Fine grid (T_A = 25/50/100 µs, catch-up, step-2 offsets snapped to the grid):** the result is no better than the gPTP schedule (stress PT01 RTT variation 292 µs vs 164 µs).
-  Anchoring only the idle phase does not remove the jitter. The jitter comes from which other frames share the cycle, so the fixed round plan is what makes the timing deterministic.
+## 4. What did not work (smoke tests, 1.6–4 s)
 
-## 5. Minimum campaign (running)
+- **T_A = 500 and 1000 µs:** each node gets only one TO per T_A. The ECM needs about 3 frames/ms in stress (and about 1.3/ms in nominal), so its queues grow without bound (RTT of hundreds of ms).
+  T_A is limited by the frame rate of the busiest node.
+- **Fixed rounds with 3 frames per round:** a 64 B frame TO takes about 80 µs. Three frames plus the BEACON and the empty TOs overrun 250 µs, and the cycle runs late.
+  With `catchup`, the next round then starts late, and the frames planned for it slip by one round (+250 µs).
+  Rounds must carry at most 2 frames, or 3 when the following round has no critical traffic.
+- **Fine grid (T_A = 25/50/100 µs, catch-up, step-2 offsets snapped to the grid):** no better than the gPTP schedule.
+  In 3 seeds × 30 s, stress PT01 RTT variation is 413 µs vs 442 µs (gPTP) and 307 µs (ideal); nominal is 290 µs vs 325 µs (gPTP).
+  Re-anchoring the idle phase does not remove the jitter, because the jitter comes from which other frames share the cycle. A round plan is what makes the timing deterministic.
 
-Launcher: `scripts/run/run_t1s_taplca_30s.sh` (entry `simulations/zonal_t1s_taplca.ini`), runs 0–2 (seeds 1001–1003), 30 s + 1 s warm-up, 18 in parallel.
-Results go to `simulations/results/t1s/taplca/<cfg>/`. Report: `scripts/run/t1s_taplca_report.py` → `simulations/zonal/t1s_results/taplca.csv`.
+## 5. Sweeps (4 s runs, seed 1001, gPTP, `max_bc = 1`)
 
-| config | description |
-|---|---|
-| `TA_{NOMINAL,STRESS}_RANDOM_30s` | unscheduled (random phases), standard PLCA |
-| `TA_{NOMINAL,STRESS}_IDEAL_30s` | step-2 schedule + TAS 400 µs, ideal clocks |
-| `TA_{NOMINAL,STRESS}_GPTP_30s` | step-2 schedule + TAS 400 µs, gPTP clocks |
-| `TA_{NOMINAL,STRESS}_TAPLCA250_BC1_30s` | TA-PLCA, T_A = 250 µs, per-segment phase, gPTP, coordinator max_bc = 1 |
-| `TA_{NOMINAL,STRESS}_TAPLCA250_BC2_30s` | same, max_bc = 2 |
-| `TA_{NOMINAL,STRESS}_TAF25_30s` | fine grid T_A = 25 µs (negative control) |
+- **S1a, Z3 phase φ = 5…245 µs (step 20), TCU request one round before the PT02 round:** no φ makes both RTTs deterministic.
+  The best nominal points are φ = 205 µs (PT01 835 µs and PT02 1085 µs, both with variation < 0.1 µs, but PT02 > 1 ms) and φ = 105 µs (PT02 835 µs deterministic, PT01 not).
+- **S1b, φ ∈ {65, 105, 145, 185, 205, 225} × TCU round ∈ {0, 1, 2}:** nominal **φ = 65 µs with TCU round 1 gives PT01 585 µs and PT02 643 µs, both with variation ≤ 0.04 µs**.
+  φ = 185 µs with TCU round 0 gives 643/653 µs, also deterministic. In stress, no point is deterministic for both RTTs below 1 ms; the best is φ = 205 µs, round 1, at 1153 µs.
+- **S1c, PT03/PT04 rounds:** these flows stayed variable (up to ~440 µs) until the gate also protected ms 3 and ms 6. With that guard, PT03 is at 400.01 µs and PT04 at 270.01 µs, both with variation < 0.1 µs.
 
-All of them include the 2.9 µs server processing time.
+These sweep configs are in `t1s_taplca.ini`: `*_PHI<φ>_30s`, `*_PHI<φ>_RT<r>_30s`, `*_PHI65_RT1_P3R<a>_P4R<b>_30s`.
+They were run at commit e213be4's parent; their offsets follow the PLAN defaults of that time, so regenerating them now changes the plan of the non-swept flows.
 
-## 6. Preliminary results against the hypotheses (smoke, 0.6 s measured, 1 seed; to be replaced by the campaign)
+## 6. Results
 
-| | nominal | stress |
-|---|---|---|
-| (a) delay variation ≤ ideal-clock schedule | **Yes**: PT01/PT02 RTT variation 0.03 µs (ideal clocks: 49/40 µs), PT04 0.06 µs | **No**: the response slips by 1–3 rounds (variation 250–750 µs vs 298/250 µs for ideal clocks) |
-| (b) max RTT + processing < 1 ms | **Yes**: 835 µs (processing included) | **No**: max 1.08 ms (BC2) to 1.40 ms (BC1) |
-| (c) bandwidth cost = idle time | BEACON held 35 % (Z1) and 53 % (Z3) of the time; window loss ≈ 0 | the stress load (~86 % of the Z1 bus with 64 B frames) does not fit in 250 µs rounds; the window (TC3) traffic is starved |
+### 6.1 First minimum campaign (3 seeds × 30 s, first round plan: φ = 245 µs, no gate guard; results in `results/t1s/taplca/*_v1`)
 
-Reading: TA-PLCA makes the PCP 7 timing deterministic when the segment has idle time to spend on anchoring (nominal).
-At ~86 % utilization there is no idle time to spend, and that cost is hypothesis (c) in its sharpest form.
-For the paper, the claim must be bounded by load. A load sweep is the natural figure.
+Cross-bus PCP 7 flows, pooled over 3 seeds. All values in µs, RTT including processing.
+
+| config | PT01 RTT mean / max / variation | PT02 RTT mean / max / variation | >1 ms (PT01+PT02) | window lost |
+|---|---|---|---|---|
+| NOMINAL random | 467 / 720 / 440 | 448 / 598 / 307 | 0 | 0 |
+| NOMINAL ideal-clock schedule | 439 / 611 / 191 | 438 / 464 / 45 | 0 | 0 |
+| NOMINAL gPTP schedule | 463 / 746 / 325 | 451 / 847 / 502 | 0 | 0 |
+| NOMINAL TA-PLCA v1 (BC1) | 768 / 1335 / 750 | 858 / 1335 / 750 | 2127 | 0 |
+| STRESS random | 430 / 633 / 356 | 473 / 797 / 519 | 0 | 0 |
+| STRESS ideal-clock schedule | 337 / 609 / 307 | 325 / 546 / 265 | 0 | 0 |
+| STRESS gPTP schedule | 351 / 744 / 442 | 340 / 847 / 566 | 0 | 0 |
+| STRESS TA-PLCA v1 (BC1) | 842 / 1335 / 750 | 869 / 1403 / 750 | 10064 | 883 k (all) |
+
+The v1 plan was deterministic in the 0.6 s smoke test, but not over 30 s, because of the window-phase drift explained in section 3. That led to the guard and the new plan.
+
+### 6.2 Final plan (φ = 65 µs, guard), 4 s check
+
+| config | PT01 RTT | PT02 RTT | PT03 | PT04 | window lost | BEACON held Z1 / Z3 |
+|---|---|---|---|---|---|---|
+| NOMINAL TA-PLCA, gPTP | 585.02 (var. 0.01) | 643.42 (0.04) | 400.01 (0.07) | 270.01 (0.06) | 1 | 35 % / 53 % |
+| NOMINAL TA-PLCA, ideal clocks | 588 (250, one slip) | 643.41 (0.00) | 400.01 (0.00) | 270.01 (0.00) | 2 | 35 % / 53 % |
+| STRESS TA-PLCA, gPTP | 997 / max 1085 (431) | 976 / max 1403 (500) | 650.02 (0.07) | 265 (260) | 28 k (~94 %) | 42 % / 58 % |
+
+The 30 s runs are in progress: NOMINAL TA-PLCA gPTP with 10 seeds, STRESS gPTP and NOMINAL ideal with 3 seeds (`results/t1s/taplca/TA_*_TAPLCA250_BC1*_30s`).
+
+### 6.3 Hypotheses (status)
+
+- **(a) Delay variation ≤ the ideal-clock schedule.** Nominal: **yes** in the 4 s check. All four cross-bus flows vary by < 0.1 µs, against 45–191 µs (ideal clocks) and 325–502 µs (gPTP) in the 30 s baselines. To be confirmed by the 30 s / 10-seed runs. Stress: **no**.
+- **(b) Max RTT + processing < 1 ms.** Nominal: **yes**, 585 µs and 643 µs including the 2.9 µs processing. That leaves 357–415 µs for software, which almost covers the 403 µs P99 of the vehicle middleware path. Stress: **no** (max 1.08–1.40 ms).
+- **(c) Bandwidth cost bounded by the anchoring idle time.** The coordinators hold the BEACON 35 % (Z1) and 53 % (Z3) of the time in nominal, and the window still loses ~0 frames.
+  In stress, the Z1 bus is already ~86 % busy with 64 B frames, the cost cannot be paid, and the window (TC3) traffic loses ~94 % of its frames.
+  The claim must be bounded by load: TA-PLCA pays off when the segment has idle time to spend on anchoring.
 
 ## 7. Next steps
 
-1. Run the report over the campaign results and update section 6 (3 seeds).
-2. Sweep the phase φ_Z3 and T_A (S1) with the round plan regenerated for each T_A, aiming for an RTT of about 600 µs.
-3. Run the stress variant with a lighter window load, or with window traffic outside the T1S segment, to find the load at which TA-PLCA stops paying off.
-4. Run 10 seeds × 30 s on the lab server.
+1. Report the 30 s runs and update 6.2 and 6.3. Then run the baselines with 10 seeds too, for the paper's 10 × 30 s rule (lab server).
+2. Load sweep between nominal and stress, to locate where TA-PLCA stops paying off.
+3. Model the window sources on the HPC (gPTP master) clock as well, which is more realistic, and check whether the guard round can be dropped.
+4. Turn the hand-made plan into an algorithm, a small search over (φ, round per flow) with a bus-timing model. This is the D2 per-flow offsets folded into TA-PLCA.
