@@ -183,6 +183,21 @@ The alternative plan 1b (φ = 185 µs, TCU round 0, 3 seeds) shows rare 1–2-ro
 
 The PCP 7 determinism does not depend on load. The TC3 loss grows with the share of critical rounds, partly because of the guard rounds. Figure: `fig17_taplca_load`.
 
+### 6.7 Anchor only where needed (final configuration)
+
+Plan 2 anchored every cycle, so the BEACON was also held in milliseconds that carry no cross-bus traffic.
+The final configuration keeps the 250 µs rounds only in the critical ms (and in the guard round before each of them). Everywhere else the anchor list is a 25 µs grid, which behaves like standard PLCA with catch-up.
+Implementation: one `anchorOffsets` list per coordinator with a 10 ms period (`fine_plca_lines`, configs `*_P2_PHI40_FINE_30s`).
+
+| load | seeds × 30 s | PT01 / PT02 RTT (variation) | PT03 / PT04 variation | window lost | BEACON hold Z1 / Z3 |
+|---|---|---|---|---|---|
+| nominal (10 ms) | 10 | 835.01 (0.08) / 903.01 (0.15) | 0.11 / 0.11 µs | **0** (was 10 %) | 30 % / 38 % |
+| 5 ms | 3 | 835.02 (0.04) / 903.02 (0.11) | 0.09 / 0.09 µs | **9 %** (was 41 %) | 38 % / 48 % |
+| 2 ms and 1 ms | – | every ms is critical, so this is identical to plan 2 (86 % / 91 %) | | | |
+
+With this, **(c) holds at nominal load with zero loss for the lower class**. The cost appears only when most milliseconds carry critical cross-bus traffic.
+Figures fig15–fig17 use this configuration.
+
 ## 7. Next steps
 
 1. Reduce the plan 2 RTTs (one round each is lost against the analytic estimate) and give the window more gate time without touching the critical rounds. A small search over (φ, round per flow) with a bus-timing model would do this, and it is the D2 per-flow offsets folded into TA-PLCA.

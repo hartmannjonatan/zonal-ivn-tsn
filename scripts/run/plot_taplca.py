@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Paper figures for TA-PLCA (10 pt sans-serif, PDF + PNG) from results/t1s/taplca/.
+"""Paper figures (TA-PLCA = plan 2, phi 40 us, anchored rounds only in the critical ms; at 2 and 1 ms every ms
+is critical, so the plain plan-2 configs are used there)
+
+Paper figures for TA-PLCA (10 pt sans-serif, PDF + PNG) from results/t1s/taplca/.
 
 fig15_taplca_variation : delay variation (max - min) of the four cross-bus PCP 7 flows,
                          NOMINAL 10 seeds x 30 s, random / ideal-clock / gPTP schedule / TA-PLCA plan 2
@@ -29,7 +32,7 @@ plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["DejaVu Sa
 CFGS = [("TA_NOMINAL_RANDOM_30s", "unscheduled", "#2a78d6", ""),
         ("TA_NOMINAL_IDEAL_30s", "schedule, ideal clocks", "#eb6834", "//"),
         ("TA_NOMINAL_GPTP_30s", "schedule, gPTP", "#1baf7a", ".."),
-        ("TA_NOMINAL_TAPLCA250_P2_PHI40_30s", "TA-PLCA (gPTP)", "#eda100", "xx")]
+        ("TA_NOMINAL_TAPLCA250_P2_PHI40_FINE_30s", "TA-PLCA (gPTP)", "#eda100", "xx")]
 FLOWS = [("PT01", "PT01 RTT"), ("PT02", "PT02 RTT"), ("PT03", "PT03 one-way"), ("PT04", "PT04 one-way")]
 
 
@@ -94,8 +97,8 @@ def main():
     plt.close(fig)
 
     # fig17: load sweep
-    loads = [(10, "TA_NOMINAL_GPTP_30s", "TA_NOMINAL_TAPLCA250_P2_PHI40_30s"),
-             (5, "TA_LOAD5_GPTP_30s", "TA_LOAD5_TAPLCA250_P2_PHI40_30s"),
+    loads = [(10, "TA_NOMINAL_GPTP_30s", "TA_NOMINAL_TAPLCA250_P2_PHI40_FINE_30s"),
+             (5, "TA_LOAD5_GPTP_30s", "TA_LOAD5_TAPLCA250_P2_PHI40_FINE_30s"),
              (2, "TA_LOAD2_GPTP_30s", "TA_LOAD2_TAPLCA250_P2_PHI40_30s"),
              (1, "TA_STRESS_GPTP_30s", "TA_STRESS_TAPLCA250_P2_PHI40_30s")]
     if not all((RES / c).exists() and list((RES / c).glob("*.sca")) for _, a, b in loads for c in (a, b)):

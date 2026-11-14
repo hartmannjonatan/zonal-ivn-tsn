@@ -28,7 +28,10 @@ non-preemptive blocking in the backbone. The lower-priority (TC3) gate on the co
 port opens only at the start of non-critical rounds, for one frame, so no cycle
 overruns into a critical round. With $T_A = 250\,\mu$s, $\varphi_{Z1}=0$ and
 $\varphi_{Z3} = 40\,\mu$s, both request/response pairs of the powertrain scenario
-are served in fixed rounds.
+are served in fixed rounds. Anchoring is only needed where critical traffic is
+planned. In the other milliseconds the anchor list becomes a 25\,$\mu$s grid, so the
+coordinator behaves almost like standard PLCA and gives the lower classes the
+idle time back.
 
 \paragraph{Choice of $T_A$}
 $T_A$ is bounded from above by the busiest node, which gets one TO per cycle. With
@@ -68,15 +71,16 @@ middleware path. A plan with one round less per direction (PT01 585\,$\mu$s, PT0
 cycles. \todo{choose which plan the paper reports, or report both.}
 
 \paragraph{Cost (H-c)}
-The coordinators hold the BEACON 42\,\% (Z1) and 53\,\% (Z3) of the time. That idle time
-is paid by the lower classes: with nominal load the TC3 (window) traffic loses about 10\,\% of
-its frames, while the schedules lose none. Under stress, where the Z1 bus is about 86\,\% busy with 64-B
+With anchoring restricted to the critical milliseconds, the coordinators hold the BEACON
+30\,\% (Z1) and 38\,\% (Z3) of the time at nominal load, and the TC3 (window) traffic loses
+no frames ($10\times 30$\,s), as with the schedules. Anchoring every cycle instead costs
+10\,\% of the TC3 frames. Under stress, where the Z1 bus is about 86\,\% busy with 64-B
 frames, the PCP~7 flows stay deterministic (variation $\le 0.11\,\mu$s, RTT 835/903\,$\mu$s),
 but TC3 loses about 91\,\% of its frames. The load sweep (Fig.~\ref{fig:taplca-load}; PT01/PT02 every 10, 5, 2 and 1\,ms, 3 seeds $\times$ 30\,s at 5 and 2\,ms)
 shows that the PCP~7 determinism does not depend on load (worst variation 0.10--0.15\,$\mu$s at every point,
 against 503--571\,$\mu$s for the gPTP schedule), while the TC3 loss grows with the share of critical rounds:
-10\,\%, 41\,\%, 86\,\% and 91\,\%. Part of this cost comes from the guard rounds that keep TC3 frames out of
-critical rounds, which a finer TC3 gate could recover.
+0\,\%, 9\,\%, 86\,\% and 91\,\%. At 2 and 1\,ms every millisecond carries critical traffic, so there is
+no idle time left to give back.
 TA-PLCA is therefore a mechanism for segments with idle capacity, and the claim is bounded
 by load.
 
