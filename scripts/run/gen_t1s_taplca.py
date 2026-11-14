@@ -61,8 +61,11 @@ NOMINAL_GUARD_US = 250       # NOMINAL: window gate closes one round before the 
 WINDOW_CLOSED_ROUNDS = (0,)          # TC3 gate closed during these rounds (relative to the segment phase)
 SWEEP_TA_US = (250, 500, 1000)
 SWEEP_PHI_US = tuple(range(5, 250, 20))
-SWEEP2_PHI_US = (65, 105, 145, 185, 205, 225)
+SWEEP2_PHI_US = (65, 75, 85, 95, 105, 115, 125, 135, 145, 185, 205, 225)
 SWEEP2_TCU_ROUNDS = (0, 1, 2)
+PLAN2 = {"PT01": (1, 0), "PT02": (3, -1), "PT03": (1, 3), "PT04": (3, 6), "PT05": (0, 0),
+         "PT06": (0, 0), "PT07": (2, 0), "PT08": (2, 5), "PT09": (2, 2), "PT10": (2, 4)}
+SWEEP_PLAN2_PHI_US = (10, 20, 30, 40)
 
 
 def release_us(fid, period_us):
@@ -264,6 +267,22 @@ def ini():
         PLAN["PT01"] = (1, 0)
         PLAN["PT03"] = (1, 3)
         PLAN["PT04"] = (3, 6)
+        # Plan 2: the ECM sends the PT02 request in Z1 round 3 of the previous ms, so it reaches Z3
+        # well before the Z3 round 0 (margin ~145 us); PT05 moves to Z1 round 0. Margins of every
+        # cross-segment arrival to the next far anchor are >= ~50 us for phi ~ 20 us.
+        saved = dict(PLAN)
+        PLAN.update(PLAN2)
+        for phi in SWEEP_PLAN2_PHI_US:
+            PHASE[3] = phi
+            tag = f"TA_{prof}_TAPLCA250_P2_PHI{phi}"
+            for gptp in (True, False):
+                body = (processing_lines() + plca_lines(TA_US, gptp, 1) + gate_lines(prof == 'NOMINAL')
+                        + ["**.transmissionGate[3].enableImplicitGuardBand = false"] + offset_lines(col))
+                L += section(f"{tag}{'' if gptp else '_IDEAL'}_30s", f"{p}_SYNCTAS4{'_GPTP' if gptp else ''}_30s",
+                             f"TA-PLCA plan 2, T_A = {TA_US} us, Z3 phase {phi} us, {'gPTP' if gptp else 'ideal'} clocks, max_bc = 1, {prof.lower()}",
+                             f"{tag}{'' if gptp else '_IDEAL'}_30s", body)
+        PLAN.clear(); PLAN.update(saved)
+        PHASE[3] = PHI_Z3_US
     (SIM / "zonal/configs/t1s_taplca.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_taplca.ini").write_text(
         "# Entry point for the TA-PLCA campaign (needs ../prioplca).\n"
