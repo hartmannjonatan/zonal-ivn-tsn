@@ -66,17 +66,14 @@ SWEEP2_TCU_ROUNDS = (0, 1, 2)
 PLAN2 = {"PT01": (1, 0), "PT02": (3, -1), "PT03": (1, 3), "PT04": (3, 6), "PT05": (0, 0),
          "PT06": (0, 0), "PT07": (2, 0), "PT08": (2, 5), "PT09": (2, 2), "PT10": (2, 4)}
 SWEEP_PLAN2_PHI_US = (10, 20, 30, 40)
+LOAD_SWEEP_MS = (5, 2)
 
 
 def release_us(fid, period_us):
     r, m = PLAN[fid]
     z = ZONE_OF[next(f for f in FLOWS if f[0] == fid)[3]]
     t = PHASE[z] + r * TA_US - GUARD_US + m * 1000
-    if period_us > 1000:
-        t %= 10000
-    else:
-        t %= 1000
-    return t
+    return t % period_us
 
 
 def app_index():
@@ -103,11 +100,13 @@ def processing_lines():
     return L
 
 
-def offset_lines(col):
+def offset_lines(col, period_override=None):
     sender, _ = app_index()
     L = []
     for f in FLOWS:
         fid, period = f[0], f[col]
+        if period_override and fid in period_override:
+            period = period_override[fid]
         n, k = sender[fid]
         L.append(f"*.{n}.app[{k}].source.initialProductionOffset = {release_us(fid, us(period))}us")
     return L
@@ -132,7 +131,7 @@ def fine_offset_lines(col, ta):
     return L
 
 
-def gate_lines(nominal):
+def gate_lines(nominal, crit_ms=None):
     """TC3 (window) gate on the coordinator ports, in the coordinator clock. Closed except
     during the first WINDOW_OPEN_US of the segment's window rounds; NOMINAL: 10 ms period,
     that pattern in ms 0 only and open in ms 1-9."""
@@ -140,7 +139,7 @@ def gate_lines(nominal):
     for z, sw in COORD.items():
         period = 10000 if nominal else 1000
         opens = []   # [start, end) open intervals relative to the segment phase
-        crit = sorted(NOMINAL_CRITICAL_MS) if nominal else [0]
+        crit = sorted(crit_ms if crit_ms is not None else NOMINAL_CRITICAL_MS) if nominal else [0]
         for i, m in enumerate(crit):
             for r in WINDOW_ROUNDS[z]:
                 opens.append((m * 1000 + r * TA_US, m * 1000 + r * TA_US + WINDOW_OPEN_US))
@@ -283,6 +282,23 @@ def ini():
                              f"{tag}{'' if gptp else '_IDEAL'}_30s", body)
         PLAN.clear(); PLAN.update(saved)
         PHASE[3] = PHI_Z3_US
+    # Load sweep: PT01/PT02 period between NOMINAL (10 ms) and STRESS (1 ms); everything else as NOMINAL.
+    col = PROFILES["NOMINAL"]
+    sender, _ = app_index()
+    for per in LOAD_SWEEP_MS:
+        over = {"PT01": f"{per}ms", "PT02": f"{per}ms"}
+        period_lines = [f"*.{sender[f][0]}.app[{sender[f][1]}].source.productionInterval = {per}ms" for f in over]
+        L += section(f"TA_LOAD{per}_GPTP_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
+                     f"Baseline: gPTP schedule + TAS 400 us, PT01/PT02 every {per} ms, server processing",
+                     f"TA_LOAD{per}_GPTP_30s", processing_lines() + period_lines)
+        saved = dict(PLAN); PLAN.update(PLAN2); PHASE[3] = 40
+        crit = sorted(set(range(0, 10, per)) | {3, 6} | {(m - 1) % 10 for m in range(0, 10, per)})
+        body = (processing_lines() + period_lines + plca_lines(TA_US, True, 1) + gate_lines(True, crit)
+                + ["**.transmissionGate[3].enableImplicitGuardBand = false"] + offset_lines(col, over))
+        L += section(f"TA_LOAD{per}_TAPLCA250_P2_PHI40_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
+                     f"TA-PLCA plan 2 (phi 40 us), gPTP, PT01/PT02 every {per} ms",
+                     f"TA_LOAD{per}_TAPLCA250_P2_PHI40_30s", body)
+        PLAN.clear(); PLAN.update(saved); PHASE[3] = PHI_Z3_US
     (SIM / "zonal/configs/t1s_taplca.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_taplca.ini").write_text(
         "# Entry point for the TA-PLCA campaign (needs ../prioplca).\n"
