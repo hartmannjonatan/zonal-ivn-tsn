@@ -43,21 +43,26 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from gen_t1s_powertrain import FLOWS, PROFILES, SYNC_OFFSET_US, ZONE_OF  # noqa: E402
 
 TA_US = 250
-PHI_Z3_US = 245
+PHI_Z3_US = 65
 GUARD_US = 15
 PROC = "truncnormal(2.9us, 0.47us)"
 COORD = {1: "*.Z1.ZSW.eth[5]", 3: "*.Z3.ZSW.eth[6]"}
 PHASE = {1: 0, 3: PHI_Z3_US}
 # flow -> (round, ms index for 10 ms flows); the segment is the one of the sender
-PLAN = {"PT01": (-1, 0), "PT02": (0, 0), "PT03": (2, 3), "PT04": (2, 6), "PT05": (3, 0),
+PLAN = {"PT01": (1, 0), "PT02": (0, 0), "PT03": (1, 3), "PT04": (3, 6), "PT05": (3, 0),
         "PT06": (0, 0), "PT07": (2, 0), "PT08": (2, 5), "PT09": (2, 2), "PT10": (2, 4)}
 # TC3 (window) gate per segment: open only during the first WINDOW_OPEN_US of these rounds
 # (one 64 B frame), closed otherwise; in NOMINAL the critical flows only run in ms 0 of
 # every 10 ms, so the gate has a 10 ms period and is open all the time in ms 1-9.
 WINDOW_ROUNDS = {1: (3,), 3: (2,)}
-WINDOW_OPEN_US = 60
+WINDOW_OPEN_US = 40          # a window frame may start only in the first 40 us, so the round ends before the next critical one
+NOMINAL_CRITICAL_MS = {0, 3, 6}   # NOMINAL: ms with cross-bus PCP 7 traffic (PT01/PT02 in ms 0, PT03 in ms 3, PT04 in ms 6)
+NOMINAL_GUARD_US = 250       # NOMINAL: window gate closes one round before the critical ms (no frame spills into it)
 WINDOW_CLOSED_ROUNDS = (0,)          # TC3 gate closed during these rounds (relative to the segment phase)
 SWEEP_TA_US = (250, 500, 1000)
+SWEEP_PHI_US = tuple(range(5, 250, 20))
+SWEEP2_PHI_US = (65, 105, 145, 185, 205, 225)
+SWEEP2_TCU_ROUNDS = (0, 1, 2)
 
 
 def release_us(fid, period_us):
@@ -132,22 +137,24 @@ def gate_lines(nominal):
     for z, sw in COORD.items():
         period = 10000 if nominal else 1000
         opens = []   # [start, end) open intervals relative to the segment phase
-        for r in WINDOW_ROUNDS[z]:
-            opens.append((r * TA_US, r * TA_US + WINDOW_OPEN_US))
-        if nominal:
-            opens.append((1000, 10000))
+        crit = sorted(NOMINAL_CRITICAL_MS) if nominal else [0]
+        for i, m in enumerate(crit):
+            for r in WINDOW_ROUNDS[z]:
+                opens.append((m * 1000 + r * TA_US, m * 1000 + r * TA_US + WINDOW_OPEN_US))
+            if nominal:   # free ms up to the next critical ms, minus one guard round
+                nxt = crit[i + 1] if i + 1 < len(crit) else 10
+                if nxt > m + 1:
+                    opens.append(((m + 1) * 1000, nxt * 1000 - NOMINAL_GUARD_US))
         opens.sort()
         durs, t, state = [], 0, False   # schedule starts closed at the segment phase
         for a_, b_ in opens:
             durs += [a_ - t, b_ - a_]
             t = b_
-        if t < period:
-            durs.append(period - t); durs.append(0)
         start, init = PHASE[z], "false"
-        if durs[-1] == 0:   # single open interval per period: start the schedule at its opening
-            o = opens[0][0]
-            durs = [durs[1], period - durs[1]]
-            start, init = PHASE[z] + o, "true"
+        if t < period:   # trailing closed part: start the schedule there and merge it with the leading one
+            c = period - t
+            durs[0] += c
+            start -= c
         L += [f"{sw}.queue.transmissionGate[3].initiallyOpen = {init}",
               f"{sw}.queue.transmissionGate[3].durations = [{', '.join(f'{d}us' for d in durs)}]",
               f"{sw}.queue.transmissionGate[3].offset = {(period - start) % period}us"]
@@ -211,6 +218,46 @@ def ini():
                 L += section(f"{tag}_30s", base,
                              f"TA-PLCA fine grid T_A = {ta} us, catch-up, step-2 schedule snapped to the grid, "
                              f"{'gPTP' if gptp else 'ideal'} clocks, {prof.lower()}", f"{tag}_30s", body)
+        # S1a: Z3 anchor phase sweep (round plan, T_A = 250 us, gPTP, max_bc = 1)
+        for phi in SWEEP_PHI_US:
+            PHASE[3] = phi
+            tag = f"TA_{prof}_TAPLCA250_BC1_PHI{phi}"
+            body = (processing_lines() + plca_lines(TA_US, True, 1) + gate_lines(prof == 'NOMINAL')
+                    + ["**.transmissionGate[3].enableImplicitGuardBand = false"] + offset_lines(col))
+            L += section(f"{tag}_30s", f"{p}_SYNCTAS4_GPTP_30s",
+                         f"TA-PLCA T_A = {TA_US} us, Z3 phase {phi} us, gPTP clocks, coordinator max_bc = 1, {prof.lower()}",
+                         f"{tag}_30s", body)
+        PHASE[3] = PHI_Z3_US
+        # S1b: Z3 phase x round of the TCU PT01 request (Z3 round, relative to the segment phase)
+        for phi in SWEEP2_PHI_US:
+            for rt in SWEEP2_TCU_ROUNDS:
+                PHASE[3] = phi
+                PLAN["PT01"] = (rt, 0)
+                tag = f"TA_{prof}_TAPLCA250_BC1_PHI{phi}_RT{rt}"
+                body = (processing_lines() + plca_lines(TA_US, True, 1) + gate_lines(prof == 'NOMINAL')
+                        + ["**.transmissionGate[3].enableImplicitGuardBand = false"] + offset_lines(col))
+                L += section(f"{tag}_30s", f"{p}_SYNCTAS4_GPTP_30s",
+                             f"TA-PLCA T_A = {TA_US} us, Z3 phase {phi} us, TCU request in Z3 round {rt}, gPTP, max_bc = 1, {prof.lower()}",
+                             f"{tag}_30s", body)
+        PHASE[3] = PHI_Z3_US
+        PLAN["PT01"] = (1, 0)
+        # S1c: rounds of the one-way cross-bus flows PT03 (Z1) and PT04 (Z3) at the best (phase, TCU round)
+        PHASE[3] = 65
+        PLAN["PT01"] = (1, 0)
+        for r3 in range(4):
+            for r4 in range(4):
+                PLAN["PT03"] = (r3, 3)
+                PLAN["PT04"] = (r4, 6)
+                tag = f"TA_{prof}_TAPLCA250_BC1_PHI65_RT1_P3R{r3}_P4R{r4}"
+                body = (processing_lines() + plca_lines(TA_US, True, 1) + gate_lines(prof == 'NOMINAL')
+                        + ["**.transmissionGate[3].enableImplicitGuardBand = false"] + offset_lines(col))
+                L += section(f"{tag}_30s", f"{p}_SYNCTAS4_GPTP_30s",
+                             f"TA-PLCA T_A = {TA_US} us, Z3 phase 65 us, TCU request in Z3 round 1, PT03 round {r3}, PT04 round {r4}, gPTP, max_bc = 1, {prof.lower()}",
+                             f"{tag}_30s", body)
+        PHASE[3] = PHI_Z3_US
+        PLAN["PT01"] = (1, 0)
+        PLAN["PT03"] = (1, 3)
+        PLAN["PT04"] = (3, 6)
     (SIM / "zonal/configs/t1s_taplca.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_taplca.ini").write_text(
         "# Entry point for the TA-PLCA campaign (needs ../prioplca).\n"
