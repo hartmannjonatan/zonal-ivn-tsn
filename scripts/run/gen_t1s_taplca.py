@@ -335,6 +335,17 @@ def ini():
                      f"TA-PLCA plan 2 (phi 40 us), anchored rounds only in critical ms, {FINE_FILL_US} us grid elsewhere, gPTP, PT01/PT02 every {per} ms",
                      f"{tag}_TAPLCA250_P2_PHI40_FINE_30s", body)
         PLAN.clear(); PLAN.update(saved); PHASE[3] = PHI_Z3_US
+    # Robustness of the final configuration: clock quality and server processing time
+    base = "TA_NOMINAL_TAPLCA250_P2_PHI40_FINE_30s"
+    _, server = app_index()
+    for tag, desc, lines in (
+            ("D100", "gPTP clocks with drift U(-100, 100) ppm", ["**.clock.oscillator.driftRate = uniform(-100ppm, 100ppm)"]),
+            ("SYNC31", "gPTP Sync every 31.25 ms", ["**.gptp.syncInterval = 31.25ms"]),
+            ("PROC20", "server processing 20 us", [f"*.{n}.app[{k}].processingTime = 20us" for n, k in server.values()]),
+            ("PROC50", "server processing 50 us", [f"*.{n}.app[{k}].processingTime = 50us" for n, k in server.values()])):
+        L += [f"[Config {base[:-4]}_{tag}_30s]", f"extends = {base}",
+              f'description = "Final TA-PLCA configuration, nominal, {desc}"',
+              f"result-dir = results/t1s/taplca/{base[:-4]}_{tag}_30s"] + lines + [""]
     (SIM / "zonal/configs/t1s_taplca.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_taplca.ini").write_text(
         "# Entry point for the TA-PLCA campaign (needs ../prioplca).\n"
