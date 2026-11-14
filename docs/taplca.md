@@ -198,6 +198,19 @@ Implementation: one `anchorOffsets` list per coordinator with a 10 ms period (`f
 With this, **(c) holds at nominal load with zero loss for the lower class**. The cost appears only when most milliseconds carry critical cross-bus traffic.
 Figures fig15–fig17 use this configuration.
 
+### 6.8 Robustness of the final configuration (nominal, 3 seeds × 30 s)
+
+| variant | PT01 RTT (variation) | PT02 RTT (variation) | PT03 / PT04 variation | window lost |
+|---|---|---|---|---|
+| reference (drift ±50 ppm, Sync 125 ms, processing 2.9 µs) | 835.01 (0.08) | 903.01 (0.15) | 0.11 / 0.11 µs | 0 |
+| drift ±100 ppm | 835.03 (0.08) | 903.03 (0.14) | 0.10 / 0.12 µs | 0 |
+| Sync every 31.25 ms | 835.02 (0.04) | 903.02 (0.10) | 0.10 / 0.10 µs | 0 |
+| processing 20 µs (constant) | 835.02 (0.04) | 903.02 (0.10) | 0.09 / 0.09 µs | 0 |
+| processing 50 µs (constant) | 835.02 (0.04) | 903.02 (0.10) | 0.09 / 0.09 µs | 0 |
+
+Clock quality does not matter: doubling the drift or syncing 4× more often changes nothing beyond 0.05 µs.
+Server processing up to at least 50 µs is absorbed by the round structure, because the response waits for its planned round anyway. The RTT does not change, and with a constant processing time the variation halves.
+
 ## 7. Next steps
 
 1. Reduce the plan 2 RTTs (one round each is lost against the analytic estimate) and give the window more gate time without touching the critical rounds. A small search over (φ, round per flow) with a bus-timing model would do this, and it is the D2 per-flow offsets folded into TA-PLCA.
