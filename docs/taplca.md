@@ -1,7 +1,7 @@
 # Time-Anchored PLCA (TA-PLCA): implementation and minimum campaign
 
-Status: 2026-11-13. Implementation and smoke tests are done, and the minimum campaign (3 seeds × 30 s) is running.
-The 10-seed numbers are **pending**.
+Status: 2026-11-14. Nominal headline comparison complete with 10 seeds × 30 s for TA-PLCA and the three baselines (section 6.3).
+The stress and ideal-clock TA-PLCA variants have 3 seeds.
 
 ## 1. Mechanism
 
@@ -131,17 +131,41 @@ They are therefore caused by backbone (CSW) traffic that delays a cross-switch f
 The alternative plan φ = 185 µs with the TCU request in Z3 round 0 is deterministic in its 4 s check (PT01 643.42 µs, PT02 653.02 µs, PT03 270.01 µs, PT04 208.41 µs, all with variation ≤ 0.07 µs).
 Its 30 s / 3-seed runs (gPTP and ideal) are in progress.
 
-### 6.3 Hypotheses (status)
+### 6.3 Headline comparison: NOMINAL, 10 seeds × 30 s, gPTP unless noted
 
-- **(a) Delay variation ≤ the ideal-clock schedule.** Nominal: **yes** in the 4 s check. All four cross-bus flows vary by < 0.1 µs, against 45–191 µs (ideal clocks) and 325–502 µs (gPTP) in the 30 s baselines. To be confirmed by the 30 s / 10-seed runs. Stress: **no**.
-- **(b) Max RTT + processing < 1 ms.** Nominal: **yes**, 585 µs and 643 µs including the 2.9 µs processing. That leaves 357–415 µs for software, which almost covers the 403 µs P99 of the vehicle middleware path. Stress: **no** (max 1.08–1.40 ms).
-- **(c) Bandwidth cost bounded by the anchoring idle time.** The coordinators hold the BEACON 35 % (Z1) and 53 % (Z3) of the time in nominal, and the window still loses ~0 frames.
-  In stress, the Z1 bus is already ~86 % busy with 64 B frames, the cost cannot be paid, and the window (TC3) traffic loses ~94 % of its frames.
-  The claim must be bounded by load: TA-PLCA pays off when the segment has idle time to spend on anchoring.
+Cross-bus PCP 7 flows, all values in µs, RTT including the 2.9 µs processing. Variation = max − min.
+
+| flow | metric | random | ideal-clock schedule | gPTP schedule | **TA-PLCA (gPTP)** |
+|---|---|---|---|---|---|
+| PT01 RTT (TCU→ECM→TCU) | mean / max | 462 / 720 | 439 / 613 | 465 / 746 | **588 / 835** |
+| | variation / std | 442 / 84.4 | 192 / 9.9 | 325 / 53.7 | **250 / 26.4** (99 % of samples at 585.02) |
+| PT02 RTT (ECM→APP→ECM) | mean / max | 449 / 667 | 438 / 541 | 451 / 848 | **646 / 653** |
+| | variation / std | 394 / 47.0 | 122 / 7.6 | 503 / 28.0 | **9.7 / 4.0** |
+| PT03 one-way (ECM→TCU) | variation / std | 190 / 49.2 | 102 / 19.9 | 197 / 30.5 | **0.11 / 0.01** |
+| PT04 one-way (TCU→ECM) | variation / std | 300 / 58.8 | 105 / 25.9 | 242 / 32.8 | **0.11 / 0.01** |
+| samples > 1 ms | | 0 | 0 | 0 | 0 |
+| window (TC3) frames lost | | 0 | 0 | 0 | 0 |
+| BEACON hold share Z1 / Z3 | | – | – | – | 35 % / 53 % |
+
+The alternative plan (φ = 185 µs, TCU round 0) was deterministic for 4 s, but over 30 s / 3 seeds it shows rare 1–2-round slips: PT01 max 1143 µs, 17 samples > 1 ms.
+The headline plan therefore stays φ = 65 µs.
+
+### 6.4 Hypotheses
+
+- **(a) Delay variation ≤ the ideal-clock schedule.**
+  - Holds for PT02, PT03 and PT04: 9.7, 0.11 and 0.11 µs against 122, 102 and 105 µs, an improvement of one to three orders of magnitude.
+  - **Does not hold strictly for PT01:** 250 µs against 192 µs. The cause is the ~1 % of samples that slip by one round (section 6.2b); the other 99 % sit at 585.02 µs.
+  - Against the gPTP schedule, TA-PLCA halves the PT01 std (26 vs 54 µs) and cuts its variation by 23 %.
+  - Following the co-author note, (a) can be stated as "≤ ideal-clock schedule for 3 of 4 cross-bus flows, and half the gPTP-schedule std for the fourth", or (a) holds fully once the PT01 anchor margin is fixed (next step 1).
+- **(b) Max RTT + processing < 1 ms.** **Holds:** 835 µs (PT01) and 653 µs (PT02), processing included, and 0 samples > 1 ms in 10 × 30 s.
+  At the 99th percentile PT01 is 835 µs, so the software budget left is about 165 µs. In 99 % of the cycles it is 415 µs, which covers the 403 µs P99 of the vehicle middleware path.
+- **(c) Bandwidth cost bounded by the anchoring idle time.** In nominal, the coordinators hold the BEACON 35 % (Z1) and 53 % (Z3) of the time, and the window traffic still loses 0 frames.
+  In stress (~86 % Z1 bus load with 64 B frames) there is no idle time to spend. TA-PLCA loses ~90 % of the window (TC3) frames, and the RTTs exceed 1 ms (PT01 1085 µs).
+  **TA-PLCA is a light/medium-load mechanism. The paper must bound the claim by bus load.**
 
 ## 7. Next steps
 
-1. Report the 30 s runs and update 6.2 and 6.3. Then run the baselines with 10 seeds too, for the paper's 10 × 30 s rule (lab server).
+1. Fix the PT01 anchor margin (the ~1 % one-round slips caused by backbone interference), for example by releasing PT01 one TO earlier or by moving its delivery to a round with more slack. Then rerun 10 × 30 s.
 2. Load sweep between nominal and stress, to locate where TA-PLCA stops paying off.
 3. Model the window sources on the HPC (gPTP master) clock as well, which is more realistic, and check whether the guard round can be dropped.
 4. Turn the hand-made plan into an algorithm, a small search over (φ, round per flow) with a bus-timing model. This is the D2 per-flow offsets folded into TA-PLCA.
