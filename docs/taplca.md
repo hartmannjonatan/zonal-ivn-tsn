@@ -172,6 +172,17 @@ The alternative plan 1b (φ = 185 µs, TCU round 0, 3 seeds) shows rare 1–2-ro
   - In stress (~86 % Z1 load with 64 B frames), the PCP 7 flows stay deterministic with plan 2, but the window loses ~91 %.
   - **The cost of determinism falls on the lower classes. It is acceptable when the segment has idle time, and in the paper the claim must be bounded by load.**
 
+### 6.6 Load sweep (PT01/PT02 period 10 / 5 / 2 / 1 ms; 10, 3, 3, 3 seeds × 30 s; plan 2 vs gPTP schedule)
+
+| PT01/PT02 period | worst variation, gPTP schedule | worst variation, TA-PLCA | window lost, TA-PLCA | BEACON hold Z1 / Z3 |
+|---|---|---|---|---|
+| 10 ms (nominal) | 503 µs | 0.15 µs | 10 % | 42 % / 53 % |
+| 5 ms | 566 µs | 0.11 µs | 41 % | 50 % / 61 % |
+| 2 ms | 571 µs | 0.10 µs | 86 % | 55 % / 69 % |
+| 1 ms (stress) | 566 µs | 0.11 µs | 91 % | 46 % / 57 % |
+
+The PCP 7 determinism does not depend on load. The TC3 loss grows with the share of critical rounds, partly because of the guard rounds. Figure: `fig17_taplca_load`.
+
 ## 7. Next steps
 
 1. Reduce the plan 2 RTTs (one round each is lost against the analytic estimate) and give the window more gate time without touching the critical rounds. A small search over (φ, round per flow) with a bus-timing model would do this, and it is the D2 per-flow offsets folded into TA-PLCA.

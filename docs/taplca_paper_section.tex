@@ -72,8 +72,11 @@ The coordinators hold the BEACON 42\,\% (Z1) and 53\,\% (Z3) of the time. That i
 is paid by the lower classes: with nominal load the TC3 (window) traffic loses about 10\,\% of
 its frames, while the schedules lose none. Under stress, where the Z1 bus is about 86\,\% busy with 64-B
 frames, the PCP~7 flows stay deterministic (variation $\le 0.11\,\mu$s, RTT 835/903\,$\mu$s),
-but TC3 loses about 91\,\% of its frames. The load sweep (Fig.~\ref{fig:taplca-load})
-\todo{pending: PT01/PT02 every 5 and 2\,ms} locates where the cost becomes unacceptable.
+but TC3 loses about 91\,\% of its frames. The load sweep (Fig.~\ref{fig:taplca-load}; PT01/PT02 every 10, 5, 2 and 1\,ms, 3 seeds $\times$ 30\,s at 5 and 2\,ms)
+shows that the PCP~7 determinism does not depend on load (worst variation 0.10--0.15\,$\mu$s at every point,
+against 503--571\,$\mu$s for the gPTP schedule), while the TC3 loss grows with the share of critical rounds:
+10\,\%, 41\,\%, 86\,\% and 91\,\%. Part of this cost comes from the guard rounds that keep TC3 frames out of
+critical rounds, which a finer TC3 gate could recover.
 TA-PLCA is therefore a mechanism for segments with idle capacity, and the claim is bounded
 by load.
 
@@ -89,6 +92,10 @@ LAN865x.
 % \includegraphics[width=\columnwidth]{fig15_taplca_variation.pdf}
 % \caption{Delay variation (max$-$min) of the cross-bus PCP~7 flows, nominal load, 10 seeds $\times$ 30\,s (log scale).}
 % \label{fig:taplca-var}\end{figure}
+% \begin{figure}[t]\centering
+% \includegraphics[width=\columnwidth]{fig17_taplca_load.pdf}
+% \caption{Load sweep: worst delay variation of the cross-bus PCP~7 flows (left, log scale) and TC3 frame loss (right).}
+% \label{fig:taplca-load}\end{figure}
 % \begin{figure}[t]\centering
 % \includegraphics[width=\columnwidth]{fig16_taplca_rtt_ecdf.pdf}
 % \caption{ECDF of the request/response round-trip times, processing included.}

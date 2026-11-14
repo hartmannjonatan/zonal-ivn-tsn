@@ -128,6 +128,7 @@ def main():
     axs[0].set_ylabel("worst variation of the 4\ncross-bus flows (µs)")
     axs[1].set_ylabel("window (TC3) frames lost (%)")
     axs[0].legend(frameon=False, fontsize=8)
+    fig.subplots_adjust(wspace=0.4)
     save(fig, "fig17_taplca_load")
     plt.close(fig)
 
