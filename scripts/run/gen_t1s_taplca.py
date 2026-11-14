@@ -67,6 +67,7 @@ PLAN2 = {"PT01": (1, 0), "PT02": (3, -1), "PT03": (1, 3), "PT04": (3, 6), "PT05"
          "PT06": (0, 0), "PT07": (2, 0), "PT08": (2, 5), "PT09": (2, 2), "PT10": (2, 4)}
 SWEEP_PLAN2_PHI_US = (10, 20, 30, 40)
 LOAD_SWEEP_MS = (5, 2)
+FINE_FILL_US = 25
 
 
 def release_us(fid, period_us):
@@ -167,6 +168,28 @@ def plca_lines(ta_us, gptp, max_bc):
     L = ['**.plca.typename = "PrioPlca"', '**.plca.mode = "anchored"']
     for z, sw in COORD.items():
         L += [f"{sw}.plca.anchorPeriod = {ta_us}us", f'{sw}.plca.anchorOffsets = "{PHASE[z] % ta_us}"',
+              f"{sw}.plca.max_bc = {max_bc}"]
+        if gptp:
+            L.append(f'{sw}.plca.anchorClockModule = "^.^.clock"')
+    return L
+
+
+def fine_plca_lines(crit_ms, gptp, max_bc, fine_us=FINE_FILL_US):
+    """Anchor only where needed: 250 us rounds in the critical ms and in the last round before
+    each of them, a fine grid (standard-like PLCA with catch-up) everywhere else. 10 ms period."""
+    L = ['**.plca.typename = "PrioPlca"', '**.plca.mode = "anchored"']
+    crit = set(crit_ms)
+    for z, sw in COORD.items():
+        offs = set()
+        for m in range(10):
+            base = m * 1000 + PHASE[z]
+            coarse_from = 0 if m in crit else (750 if (m + 1) % 10 in crit else 1000)
+            for t in range(0, coarse_from, fine_us):
+                offs.add((base + t) % 10000)
+            for r in range(4):
+                if r * TA_US >= coarse_from:
+                    offs.add((base + r * TA_US) % 10000)
+        L += [f"{sw}.plca.anchorPeriod = 10ms", f'{sw}.plca.anchorOffsets = "{" ".join(str(o) for o in sorted(offs))}"',
               f"{sw}.plca.max_bc = {max_bc}"]
         if gptp:
             L.append(f'{sw}.plca.anchorClockModule = "^.^.clock"')
@@ -298,6 +321,19 @@ def ini():
         L += section(f"TA_LOAD{per}_TAPLCA250_P2_PHI40_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
                      f"TA-PLCA plan 2 (phi 40 us), gPTP, PT01/PT02 every {per} ms",
                      f"TA_LOAD{per}_TAPLCA250_P2_PHI40_30s", body)
+        PLAN.clear(); PLAN.update(saved); PHASE[3] = PHI_Z3_US
+    # "Anchor only where needed": fine grid outside the critical ms (plan 2, phi 40 us)
+    for per in (10, 5, 2):
+        over = {"PT01": f"{per}ms", "PT02": f"{per}ms"} if per != 10 else {}
+        period_lines = [f"*.{sender[f][0]}.app[{sender[f][1]}].source.productionInterval = {per}ms" for f in over]
+        saved = dict(PLAN); PLAN.update(PLAN2); PHASE[3] = 40
+        crit = sorted(set(range(0, 10, per)) | {3, 6} | {(m - 1) % 10 for m in range(0, 10, per)})
+        tag = "TA_NOMINAL" if per == 10 else f"TA_LOAD{per}"
+        body = (processing_lines() + period_lines + fine_plca_lines(crit, True, 1) + gate_lines(True, crit)
+                + ["**.transmissionGate[3].enableImplicitGuardBand = false"] + offset_lines(col, over))
+        L += section(f"{tag}_TAPLCA250_P2_PHI40_FINE_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
+                     f"TA-PLCA plan 2 (phi 40 us), anchored rounds only in critical ms, {FINE_FILL_US} us grid elsewhere, gPTP, PT01/PT02 every {per} ms",
+                     f"{tag}_TAPLCA250_P2_PHI40_FINE_30s", body)
         PLAN.clear(); PLAN.update(saved); PHASE[3] = PHI_Z3_US
     (SIM / "zonal/configs/t1s_taplca.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_taplca.ini").write_text(
