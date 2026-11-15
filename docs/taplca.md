@@ -257,6 +257,19 @@ TA-PLCA tolerates a coordinator time error of **±10 µs** with full determinism
 Between 10 and 20 µs, the 15 µs release lead and the anchor margins are used up: frames miss their rounds and the bound is lost.
 Hardware-timestamped PTP (< 50 ns on the bench) is three orders of magnitude inside this window. Software-only synchronization (200–500 µs on the Jetson) is far outside it.
 
+### 6.12 H: both buses on the same zonal switch (nominal, 3 seeds × 30 s)
+
+Bus A on Z1 eth5, bus B on Z1 eth9 (no window node on bus B); the same round plan, with the bus B phase φ swept (10 s × 2 seeds, 0–240 µs in steps of 20). Every φ was deterministic over the 10 s sweep, because the cross-bus path is now inside one switch.
+
+| config | PT01 RTT mean / max (variation) | PT02 RTT (variation) | PT03 / PT04 variation | samples > 1 ms |
+|---|---|---|---|---|
+| gPTP schedule (same switch) | 443 / 676 (262) | 445 / 521 (120) | 171 / 110 µs | 0 |
+| TA-PLCA, φ = 40 µs (same plan as two switches) | 835.02 / 835.05 (0.06) | 903.02 (0.10) | 0.03 / 0.02 µs | 0 |
+| TA-PLCA, φ = 160 µs (fastest of the sweep) | 575.8 / 835.0 (260; 0.15 % one-round slips) | 575.42 (0.09) | 0.02 / 0.02 µs | 0 |
+
+The plan transfers unchanged to the other topology. A phase tuned for speed (575 µs) is again fragile at the 0.15 % level, the same trade-off between margin and latency as in section 6.2b.
+Note: the report keys the hold statistics by zone, so the "hold" column of `taplca.csv` sums both coordinators here (54 % for the two together).
+
 ## 7. Next steps
 
 1. Reduce the plan 2 RTTs (one round each is lost against the analytic estimate) and give the window more gate time without touching the critical rounds. A small search over (φ, round per flow) with a bus-timing model would do this, and it is the D2 per-flow offsets folded into TA-PLCA.
