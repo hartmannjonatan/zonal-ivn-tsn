@@ -350,6 +350,21 @@ def ini():
         L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
                      f"Final TA-PLCA, nominal, Z3 coordinator anchors shifted by {e} us (time error)", f"{tag}_30s", body)
     PLAN.clear(); PLAN.update(saved); PHASE[3] = PHI_Z3_US
+    # TA-PLCA v2 (event anchors), nominal, gap sweep
+    saved_phase = PHASE[3]; PHASE[3] = 0
+    for G in EVT_GAPS_US:
+        for gptp in (True, False):
+            tag = f"TA_NOMINAL_EVT_G{G}" + ("" if gptp else "_IDEAL")
+            body = (processing_lines() + event_lines(G, col, gptp) + gate_lines(True, [0, 3, 6, 9])
+                    + ["**.transmissionGate[3].enableImplicitGuardBand = false"])
+            L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s" if gptp else "T1S_PT_NOMINAL_SYNCTAS4_30s",
+                         f"TA-PLCA v2: event anchors, gap {G} us, {'gPTP' if gptp else 'ideal'} clocks, nominal", f"{tag}_30s", body)
+    _, server_ = app_index()
+    L += ["[Config TA_NOMINAL_EVT_G15_PROC403_30s]", "extends = TA_NOMINAL_EVT_G15_30s",
+          'description = "TA-PLCA v2 (event anchors, gap 15 us), server processing 403 us"',
+          "result-dir = results/t1s/taplca/TA_NOMINAL_EVT_G15_PROC403_30s"] + \
+         [f"*.{n}.app[{k}].processingTime = 403us" for n, k in server_.values()] + [""]
+    PHASE[3] = saved_phase
     # Robustness of the final configuration: clock quality and server processing time
     base = "TA_NOMINAL_TAPLCA250_P2_PHI40_FINE_30s"
     _, server = app_index()
@@ -376,6 +391,74 @@ def ini():
         "include zonal_t1s.ini\ninclude zonal/configs/t1s_dualbus.ini\ninclude zonal/configs/t1s_powertrain.ini\n"
         "include zonal/configs/t1s_ev.ini\ninclude zonal/configs/t1s_dualbus_final.ini\n"
         "include zonal/configs/t1s_dualbus_clock.ini\ninclude zonal/configs/t1s_taplca.ini\n")
+
+
+# ---------------------------------------------------------------------------------------------
+# TA-PLCA v2: event anchors. Instead of a uniform round grid, each coordinator gets an anchor
+# exactly where a planned cross-bus frame has arrived (+ gap G), so no hop waits for a whole
+# round. Timing model (64 B frame, measured): BEACON 2 us, empty TO 3.2 us, a frame TO ends
+# ~82.5 us after it starts, so follower i's frame ends ~ anchor + 2 + 3.2 i + 82.5; a delivery
+# cycle (coordinator TO 0) is complete at ~anchor + 101; the responder replies in a new cycle
+# REPLY_US after the delivery anchor. Elsewhere a 25 us grid (standard-like PLCA), kept GUARD_EVT
+# us away from every event anchor; local releases are placed in quiet intervals.
+EVT_FRAME_END = {2: 90.9, 3: 94.1}     # follower PLCA ID -> frame end after its cycle's anchor
+REPLY_US = 110
+GUARD_EVT = 30
+EVT_GAPS_US = (10, 15, 20, 25, 30, 40, 60, 150)
+
+
+def event_plan(G):
+    """Anchors (us within 10 ms, gPTP time) per segment and release offsets (us) per flow."""
+    A = {1: set(), 3: set()}
+    rel = {}
+    def chain_req_resp(seg_c, seg_s, t0, id_c, id_s):
+        """client on seg_c (PLCA id id_c) sends at anchor t0; server on seg_s (id_s) replies."""
+        A[seg_c].add(t0)
+        d1 = round(t0 + EVT_FRAME_END[id_c] + G)          # far coordinator delivers the request
+        A[seg_s].add(d1)
+        r1 = d1 + REPLY_US                                 # server's reply cycle
+        A[seg_s].add(r1)
+        d2 = round(r1 + EVT_FRAME_END[id_s] + G)          # client's coordinator delivers the reply
+        A[seg_c].add(d2)
+        return t0 - GUARD_US
+    def one_way(seg_a, seg_b, t0, id_a):
+        A[seg_a].add(t0)
+        A[seg_b].add(round(t0 + EVT_FRAME_END[id_a] + G))
+        return t0 - GUARD_US
+    rel["PT02"] = chain_req_resp(1, 3, 0, 2, 3)            # ECM (Z1, id 2) -> APP (Z3, id 3), ms 0
+    rel["PT01"] = chain_req_resp(3, 1, 400, 2, 2)          # TCU (Z3, id 2) -> ECM (Z1, id 2), ms 0
+    rel["PT03"] = one_way(1, 3, 3000, 2)                   # ECM -> TCU, ms 3
+    rel["PT04"] = one_way(3, 1, 6000, 2)                   # TCU -> ECM, ms 6
+    # local and 10 ms flows: quiet intervals of every ms (Z1: 100-355 and 850-975; Z3 likewise)
+    rel.update({"PT05": 845, "PT06": 120, "PT07": 120, "PT08": 5120, "PT09": 2120, "PT10": 4120})
+    for k in rel:
+        rel[k] %= 10000
+    out = {}
+    for z in (1, 3):
+        ev = sorted(A[z])
+        grid = set()
+        for t in range(0, 10000, FINE_FILL_US):
+            # no fine cycle may start after the planned frame has reached the coordinator (e - G)
+            # minus one empty cycle, or during the anchored cycle itself
+            if all(not (e - G - GUARD_EVT < t <= e) and not (e < t < e + 100) for e in ev + [e + 10000 for e in ev] + [e - 10000 for e in ev]):
+                grid.add(t)
+        out[z] = sorted(grid | set(ev))
+    return out, rel
+
+
+def event_lines(G, col, gptp=True):
+    anchors, rel = event_plan(G)
+    L = ['**.plca.typename = "PrioPlca"', '**.plca.mode = "anchored"']
+    for z, sw in COORD.items():
+        L += [f"{sw}.plca.anchorPeriod = 10ms", f'{sw}.plca.anchorOffsets = "{" ".join(str(t) for t in anchors[z])}"',
+              f"{sw}.plca.max_bc = 1"]
+        if gptp:
+            L.append(f'{sw}.plca.anchorClockModule = "^.^.clock"')
+    sender, _ = app_index()
+    for f in FLOWS:
+        n, k = sender[f[0]]
+        L.append(f"*.{n}.app[{k}].source.initialProductionOffset = {rel[f[0]]}us")
+    return L
 
 
 def ini_same():
