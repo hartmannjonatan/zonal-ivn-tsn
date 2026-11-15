@@ -222,6 +222,21 @@ Server processing up to at least 50 µs is absorbed by the round structure, beca
 Stress baselines, 10 seeds: random PT02 RTT max 1207 µs (1988 samples > 1 ms); ideal-clock schedule worst variation 308 µs; gPTP 567 µs.
 At 2 and 1 ms, PT04 (TCU→ECM, 10 ms) slips by about 68 µs in some seeds, one frame slot of the Z1 delivery round. This is still below the ideal-clock schedule (106 µs) and leaves no sample above 1 ms.
 
+### 6.10 Ablations (nominal, 3 seeds × 30 s)
+
+| variant | PT01 RTT mean / max (variation) | PT02 RTT mean / max (variation) | samples > 1 ms (PT01 + PT02) |
+|---|---|---|---|
+| TA-PLCA, final | 835 / 835 (0.08) | 903 / 903 (0.15) | 0 |
+| **T2: TA-PLCA without the TAS gate** | 933 / 1069 (234) | 933 / 1335 (716) | 6799 of 18 030 |
+| S3: TA-PLCA, processing 0 µs | 835 / 835 (0.04) | 903 / 903 (0.10) | 0 |
+| S3: TA-PLCA, processing 403 µs | 1038 / 1038 (87) | 1335 / 1335 (0.13) | all |
+| S3: gPTP schedule, processing 0 µs | 463 / 746 (325) | 451 / 847 (502) | 0 |
+| S3: gPTP schedule, processing 403 µs | 1051 / 1118 (382) | 1031 / 1060 (199) | all |
+
+- **The gate is necessary.** Without it, window frames lengthen the critical rounds, the cross-bus frames miss their anchors, and TA-PLCA loses both its determinism and the 1 ms bound.
+- With the 403 µs P99 of the vehicle middleware as processing time, **neither** configuration meets 1 ms. TA-PLCA stays deterministic for PT02 (it waits two more rounds, but always the same two), while the gPTP schedule keeps a 200–380 µs variation.
+  The non-real-time path is therefore incompatible with a 1 ms cross-bus loop on this network, whatever the schedule, and the real-time gateway is required.
+
 ## 7. Next steps
 
 1. Reduce the plan 2 RTTs (one round each is lost against the analytic estimate) and give the window more gate time without touching the critical rounds. A small search over (φ, round per flow) with a bus-timing model would do this, and it is the D2 per-flow offsets folded into TA-PLCA.
