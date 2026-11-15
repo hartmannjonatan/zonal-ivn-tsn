@@ -68,6 +68,7 @@ PLAN2 = {"PT01": (1, 0), "PT02": (3, -1), "PT03": (1, 3), "PT04": (3, 6), "PT05"
 SWEEP_PLAN2_PHI_US = (10, 20, 30, 40)
 LOAD_SWEEP_MS = (5, 2)
 FINE_FILL_US = 25
+TIME_ERROR_US = (-50, -20, -10, -5, 5, 10, 20, 50)
 
 
 def release_us(fid, period_us):
@@ -132,7 +133,7 @@ def fine_offset_lines(col, ta):
     return L
 
 
-def gate_lines(nominal, crit_ms=None):
+def gate_lines(nominal, crit_ms=None, time_error_us=None):
     """TC3 (window) gate on the coordinator ports, in the coordinator clock. Closed except
     during the first WINDOW_OPEN_US of the segment's window rounds; NOMINAL: 10 ms period,
     that pattern in ms 0 only and open in ms 1-9."""
@@ -153,7 +154,7 @@ def gate_lines(nominal, crit_ms=None):
         for a_, b_ in opens:
             durs += [a_ - t, b_ - a_]
             t = b_
-        start, init = PHASE[z], "false"
+        start, init = PHASE[z] + (time_error_us or {}).get(z, 0), "false"
         if t < period:   # trailing closed part: start the schedule there and merge it with the leading one
             c = period - t
             durs[0] += c
@@ -174,7 +175,7 @@ def plca_lines(ta_us, gptp, max_bc):
     return L
 
 
-def fine_plca_lines(crit_ms, gptp, max_bc, fine_us=FINE_FILL_US):
+def fine_plca_lines(crit_ms, gptp, max_bc, fine_us=FINE_FILL_US, time_error_us=None):
     """Anchor only where needed: 250 us rounds in the critical ms and in the last round before
     each of them, a fine grid (standard-like PLCA with catch-up) everywhere else. 10 ms period."""
     L = ['**.plca.typename = "PrioPlca"', '**.plca.mode = "anchored"']
@@ -189,6 +190,8 @@ def fine_plca_lines(crit_ms, gptp, max_bc, fine_us=FINE_FILL_US):
             for r in range(4):
                 if r * TA_US >= coarse_from:
                     offs.add((base + r * TA_US) % 10000)
+        err = (time_error_us or {}).get(z, 0)
+        offs = {(o + err) % 10000 for o in offs}
         L += [f"{sw}.plca.anchorPeriod = 10ms", f'{sw}.plca.anchorOffsets = "{" ".join(str(o) for o in sorted(offs))}"',
               f"{sw}.plca.max_bc = {max_bc}"]
         if gptp:
@@ -335,6 +338,17 @@ def ini():
                      f"TA-PLCA plan 2 (phi 40 us), anchored rounds only in critical ms, {FINE_FILL_US} us grid elsewhere, gPTP, PT01/PT02 every {per} ms",
                      f"{tag}_TAPLCA250_P2_PHI40_FINE_30s", body)
         PLAN.clear(); PLAN.update(saved); PHASE[3] = PHI_Z3_US
+    # S2: coordinator time error. The Z3 coordinator's anchors and gate schedule are shifted by e us against the
+    # gPTP time that the sources (and the Z1 coordinator) use; final configuration, nominal.
+    saved = dict(PLAN); PLAN.update(PLAN2); PHASE[3] = 40
+    crit = sorted(set(range(0, 10, 10)) | {3, 6} | {9})
+    for e in TIME_ERROR_US:
+        body = (processing_lines() + fine_plca_lines(crit, True, 1, time_error_us={3: e}) + gate_lines(True, crit, time_error_us={3: e})
+                + ["**.transmissionGate[3].enableImplicitGuardBand = false"] + offset_lines(col))
+        tag = f"TA_NOMINAL_TAPLCA250_P2_PHI40_FINE_TE{'m' if e < 0 else 'p'}{abs(e)}"
+        L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
+                     f"Final TA-PLCA, nominal, Z3 coordinator anchors shifted by {e} us (time error)", f"{tag}_30s", body)
+    PLAN.clear(); PLAN.update(saved); PHASE[3] = PHI_Z3_US
     # Robustness of the final configuration: clock quality and server processing time
     base = "TA_NOMINAL_TAPLCA250_P2_PHI40_FINE_30s"
     _, server = app_index()
