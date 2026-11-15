@@ -359,7 +359,23 @@ def ini():
                     + ["**.transmissionGate[3].enableImplicitGuardBand = false"])
             L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s" if gptp else "T1S_PT_NOMINAL_SYNCTAS4_30s",
                          f"TA-PLCA v2: event anchors, gap {G} us, {'gPTP' if gptp else 'ideal'} clocks, nominal", f"{tag}_30s", body)
+    # calibrated timing (measured): a follower's frame ends ~62.4 us after its TO starts
+    # (anchor + 2 + 3.2 id); the reply cycle offset is swept
+    for G in (15, 25, 35):
+        for ru in (130, 150, 180, 220):
+            for gptp in (True, False):
+                tag = f"TA_NOMINAL_EVC_G{G}_R{ru}" + ("" if gptp else "_IDEAL")
+                body = (processing_lines() + event_lines(G, col, gptp, ru, EVT_FRAME_END_CAL)
+                        + gate_lines(True, [0, 3, 6, 9]) + ["**.transmissionGate[3].enableImplicitGuardBand = false"])
+                L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s" if gptp else "T1S_PT_NOMINAL_SYNCTAS4_30s",
+                             f"TA-PLCA v2, calibrated event anchors, gap {G} us, reply cycle +{ru} us, {'gPTP' if gptp else 'ideal'}",
+                             f"{tag}_30s", body)
     _, server_ = app_index()
+    for tag, val in (("PROC403", "403us"), ("PROC0", "0us")):
+        L += [f"[Config TA_NOMINAL_EVC_G35_R150_{tag}_30s]", "extends = TA_NOMINAL_EVC_G35_R150_30s",
+              f'description = "TA-PLCA v2 (calibrated event anchors), server processing {val}"',
+              f"result-dir = results/t1s/taplca/TA_NOMINAL_EVC_G35_R150_{tag}_30s"] + \
+             [f"*.{n}.app[{k}].processingTime = {val}" for n, k in server_.values()] + [""]
     L += ["[Config TA_NOMINAL_EVT_G15_PROC403_30s]", "extends = TA_NOMINAL_EVT_G15_30s",
           'description = "TA-PLCA v2 (event anchors, gap 15 us), server processing 403 us"',
           "result-dir = results/t1s/taplca/TA_NOMINAL_EVT_G15_PROC403_30s"] + \
@@ -403,27 +419,30 @@ def ini():
 # us away from every event anchor; local releases are placed in quiet intervals.
 EVT_FRAME_END = {2: 90.9, 3: 94.1}     # follower PLCA ID -> frame end after its cycle's anchor
 REPLY_US = 110
+EVT_FRAME_END_CAL = {2: 2 + 6.4 + 62.4, 3: 2 + 9.6 + 62.4}
 GUARD_EVT = 30
 EVT_GAPS_US = (10, 15, 20, 25, 30, 40, 60, 150)
 
 
-def event_plan(G):
+def event_plan(G, reply_us=None, frame_end=None):
     """Anchors (us within 10 ms, gPTP time) per segment and release offsets (us) per flow."""
     A = {1: set(), 3: set()}
     rel = {}
+    FE = frame_end or EVT_FRAME_END
+    RU = reply_us or REPLY_US
     def chain_req_resp(seg_c, seg_s, t0, id_c, id_s):
         """client on seg_c (PLCA id id_c) sends at anchor t0; server on seg_s (id_s) replies."""
         A[seg_c].add(t0)
-        d1 = round(t0 + EVT_FRAME_END[id_c] + G)          # far coordinator delivers the request
+        d1 = round(t0 + FE[id_c] + G)          # far coordinator delivers the request
         A[seg_s].add(d1)
-        r1 = d1 + REPLY_US                                 # server's reply cycle
+        r1 = d1 + RU                                 # server's reply cycle
         A[seg_s].add(r1)
-        d2 = round(r1 + EVT_FRAME_END[id_s] + G)          # client's coordinator delivers the reply
+        d2 = round(r1 + FE[id_s] + G)          # client's coordinator delivers the reply
         A[seg_c].add(d2)
         return t0 - GUARD_US
     def one_way(seg_a, seg_b, t0, id_a):
         A[seg_a].add(t0)
-        A[seg_b].add(round(t0 + EVT_FRAME_END[id_a] + G))
+        A[seg_b].add(round(t0 + FE[id_a] + G))
         return t0 - GUARD_US
     rel["PT02"] = chain_req_resp(1, 3, 0, 2, 3)            # ECM (Z1, id 2) -> APP (Z3, id 3), ms 0
     rel["PT01"] = chain_req_resp(3, 1, 400, 2, 2)          # TCU (Z3, id 2) -> ECM (Z1, id 2), ms 0
@@ -446,8 +465,8 @@ def event_plan(G):
     return out, rel
 
 
-def event_lines(G, col, gptp=True):
-    anchors, rel = event_plan(G)
+def event_lines(G, col, gptp=True, reply_us=None, frame_end=None):
+    anchors, rel = event_plan(G, reply_us, frame_end)
     L = ['**.plca.typename = "PrioPlca"', '**.plca.mode = "anchored"']
     for z, sw in COORD.items():
         L += [f"{sw}.plca.anchorPeriod = 10ms", f'{sw}.plca.anchorOffsets = "{" ".join(str(t) for t in anchors[z])}"',
