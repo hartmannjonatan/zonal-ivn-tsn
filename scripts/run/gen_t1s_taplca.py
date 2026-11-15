@@ -342,10 +342,19 @@ def ini():
             ("D100", "gPTP clocks with drift U(-100, 100) ppm", ["**.clock.oscillator.driftRate = uniform(-100ppm, 100ppm)"]),
             ("SYNC31", "gPTP Sync every 31.25 ms", ["**.gptp.syncInterval = 31.25ms"]),
             ("PROC20", "server processing 20 us", [f"*.{n}.app[{k}].processingTime = 20us" for n, k in server.values()]),
-            ("PROC50", "server processing 50 us", [f"*.{n}.app[{k}].processingTime = 50us" for n, k in server.values()])):
+            ("PROC50", "server processing 50 us", [f"*.{n}.app[{k}].processingTime = 50us" for n, k in server.values()]),
+            ("PROC0", "server processing 0 us", [f"*.{n}.app[{k}].processingTime = 0us" for n, k in server.values()]),
+            ("PROC403", "server processing 403 us (vehicle middleware P99)", [f"*.{n}.app[{k}].processingTime = 403us" for n, k in server.values()]),
+            ("NOGATE", "ablation T2: no TAS gate on the coordinators (TC3 always open)",
+             [f"{sw}.queue.transmissionGate[3].initiallyOpen = true" for sw in COORD.values()]
+             + [f"{sw}.queue.transmissionGate[3].durations = []" for sw in COORD.values()])):
         L += [f"[Config {base[:-4]}_{tag}_30s]", f"extends = {base}",
               f'description = "Final TA-PLCA configuration, nominal, {desc}"',
               f"result-dir = results/t1s/taplca/{base[:-4]}_{tag}_30s"] + lines + [""]
+    for tag, val in (("PROC0", "0us"), ("PROC403", "403us")):
+        L += [f"[Config TA_NOMINAL_GPTP_{tag}_30s]", "extends = TA_NOMINAL_GPTP_30s",
+              f'description = "Baseline gPTP schedule, nominal, server processing {val}"',
+              f"result-dir = results/t1s/taplca/TA_NOMINAL_GPTP_{tag}_30s"] + [f"*.{n}.app[{k}].processingTime = {val}" for n, k in server.values()] + [""]
     (SIM / "zonal/configs/t1s_taplca.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_taplca.ini").write_text(
         "# Entry point for the TA-PLCA campaign (needs ../prioplca).\n"
