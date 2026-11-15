@@ -237,6 +237,26 @@ At 2 and 1 ms, PT04 (TCU→ECM, 10 ms) slips by about 68 µs in some seeds, one 
 - With the 403 µs P99 of the vehicle middleware as processing time, **neither** configuration meets 1 ms. TA-PLCA stays deterministic for PT02 (it waits two more rounds, but always the same two), while the gPTP schedule keeps a 200–380 µs variation.
   The non-real-time path is therefore incompatible with a 1 ms cross-bus loop on this network, whatever the schedule, and the real-time gateway is required.
 
+### 6.11 S2: coordinator time error (nominal, 3 seeds × 30 s)
+
+The Z3 coordinator's anchors and its gate schedule are shifted by e against the gPTP time used by the sources and by the Z1 coordinator.
+
+| e (µs) | PT01 RTT mean / max (variation) | PT02 RTT (variation) | PT03 / PT04 variation | samples > 1 ms |
+|---|---|---|---|---|
+| −50 | 1230 / 1353 (578) | 902 (318) | 0.09 / 201 µs | 9002 |
+| −20 | 813 / 815 (260) | 903 (0.10) | 0.09 / 0.09 µs | 0 |
+| −10 | 825 / 825 (0.04) | 903 (0.10) | 0.09 / 0.09 µs | 0 |
+| −5 | 830 / 830 (0.04) | 903 (0.10) | 0.09 / 0.09 µs | 0 |
+| 0 | 835 / 835 (0.08) | 903 (0.15) | 0.11 / 0.11 µs | 0 |
+| +5 | 840 / 840 (0.04) | 903 (0.10) | 0.09 / 0.09 µs | 0 |
+| +10 | 845 / 845 (0.04) | 903 (0.10) | 0.09 / 0.09 µs | 0 |
+| +20 | 1335 / 1347 (289) | 835 (250) | 0.09 / 189 µs | 9028 |
+| +50 | 1020 / 1100 (115) | 1085 (250) | 260 / 168 µs | 18 016 |
+
+TA-PLCA tolerates a coordinator time error of **±10 µs** with full determinism; the error only shifts the affected RTT by e.
+Between 10 and 20 µs, the 15 µs release lead and the anchor margins are used up: frames miss their rounds and the bound is lost.
+Hardware-timestamped PTP (< 50 ns on the bench) is three orders of magnitude inside this window. Software-only synchronization (200–500 µs on the Jetson) is far outside it.
+
 ## 7. Next steps
 
 1. Reduce the plan 2 RTTs (one round each is lost against the analytic estimate) and give the window more gate time without touching the critical rounds. A small search over (φ, round per flow) with a bus-timing model would do this, and it is the D2 per-flow offsets folded into TA-PLCA.
