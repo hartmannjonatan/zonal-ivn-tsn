@@ -211,6 +211,17 @@ Figures fig15–fig17 use this configuration.
 Clock quality does not matter: doubling the drift or syncing 4× more often changes nothing beyond 0.05 µs.
 Server processing up to at least 50 µs is absorbed by the round structure, because the response waits for its planned round anyway. The RTT does not change, and with a constant processing time the variation halves.
 
+### 6.9 Load sweep and stress with 10 seeds × 30 s (all points)
+
+| load | TA-PLCA PT01 / PT02 RTT (variation) | TA-PLCA PT03 / PT04 variation | gPTP schedule worst variation | window lost, TA-PLCA |
+|---|---|---|---|---|
+| 5 ms (anchoring only in critical ms) | 835.01 (0.08) / 903.01 (0.15) | 0.11 / 0.11 µs | 567 µs | 9.0 % |
+| 2 ms | 835.01 (0.08) / 903.01 (0.16) | 0.11 / **68.1** µs | 571 µs | 86 % |
+| 1 ms (stress) | 835.01 (0.08) / 903.01 (0.16) | 0.11 / **68.1** µs | 567 µs | 90 % |
+
+Stress baselines, 10 seeds: random PT02 RTT max 1207 µs (1988 samples > 1 ms); ideal-clock schedule worst variation 308 µs; gPTP 567 µs.
+At 2 and 1 ms, PT04 (TCU→ECM, 10 ms) slips by about 68 µs in some seeds, one frame slot of the Z1 delivery round. This is still below the ideal-clock schedule (106 µs) and leaves no sample above 1 ms.
+
 ## 7. Next steps
 
 1. Reduce the plan 2 RTTs (one round each is lost against the analytic estimate) and give the window more gate time without touching the critical rounds. A small search over (φ, round per flow) with a bus-timing model would do this, and it is the D2 per-flow offsets folded into TA-PLCA.
