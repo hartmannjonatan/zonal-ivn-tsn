@@ -32,7 +32,7 @@ plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["DejaVu Sa
 CFGS = [("TA_NOMINAL_RANDOM_30s", "unscheduled", "#2a78d6", ""),
         ("TA_NOMINAL_IDEAL_30s", "schedule, ideal clocks", "#eb6834", "//"),
         ("TA_NOMINAL_GPTP_30s", "schedule, gPTP", "#1baf7a", ".."),
-        ("TA_NOMINAL_TAPLCA250_P2_PHI40_FINE_30s", "TA-PLCA (gPTP)", "#eda100", "xx")]
+        ("TA_NOMINAL_EVC_G35_R150_30s", "TA-PLCA (gPTP)", "#eda100", "xx")]
 FLOWS = [("PT01", "PT01 RTT"), ("PT02", "PT02 RTT"), ("PT03", "PT03 one-way"), ("PT04", "PT04 one-way")]
 
 

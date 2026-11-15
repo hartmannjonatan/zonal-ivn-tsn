@@ -270,6 +270,25 @@ Bus A on Z1 eth5, bus B on Z1 eth9 (no window node on bus B); the same round pla
 The plan transfers unchanged to the other topology. A phase tuned for speed (575 µs) is again fragile at the 0.15 % level, the same trade-off between margin and latency as in section 6.2b.
 Note: the report keys the hold statistics by zone, so the "hold" column of `taplca.csv` sums both coordinators here (54 % for the two together).
 
+## 6.13 TA-PLCA v2: event anchors (final, 2026-11-15)
+
+The uniform grid (sections 3–6.12) is deterministic, but every hop waits for the next far round: RTT 835 / 903 µs, the BEACON held 30–38 % of the time.
+v2 lets each coordinator's anchor list be any set of instants. A far anchor is placed G after the modelled arrival of each cross-bus frame, the server replies in a cycle anchored R after the delivery, and a 25 µs grid runs elsewhere. No grid anchor may fall within G + 30 µs before an event anchor or within one cycle after it.
+Timing model, measured (debug runs with queue and txCmd vectors): BEACON 2 µs, empty TO 3.2 µs, follower i's frame ends 2 + 3.2 i + 62.4 µs after its anchor; the coordinator's burst wait adds 12.8 µs after a delivery.
+Sweep (ideal 3 s; gPTP 10 s × 2 seeds): G25/R150 is deterministic with ideal clocks, but with gPTP G25 slips occasionally; **G35/R150 is deterministic with gPTP**. Configs `TA_NOMINAL_EVC_G<G>_R<R>*` (generator: `event_plan`, `EVT_FRAME_END_CAL`).
+
+| config (nominal) | seeds × 30 s | PT01 RTT (variation) | PT02 RTT (variation) | PT03 / PT04 (variation) | window lost | BEACON hold Z1 / Z3 |
+|---|---|---|---|---|---|---|
+| **TA-PLCA v2, gPTP** | 10 | **437.41 (0.04)** | **440.41 (0.11)** | 181.41 (0.10) / 181.41 (0.12) | 0 | 6.6 % / 9.5 % |
+| TA-PLCA v2, ideal clocks | 3 | 437.41 (0.00) | 440.41 (0.00) | 181.41 / 181.41 (0.00) | 0 | 6.6 % / 9.6 % |
+| TA-PLCA v2, processing 0 µs | 3 | 437.41 (0.03) | 440.41 (0.09) | (0.08 / 0.09) | 0 | |
+| TA-PLCA v2, processing 403 µs | 3 | 963.9 / max 964.2 (239) | 909.8 / max 910.1 (179) | (0.08 / 0.09) | 0 | |
+| gPTP schedule, processing 403 µs | 3 | 1051 / max 1118 | 1031 / max 1060 | | 0 | |
+
+With 403 µs of processing, the reply misses its planned cycle (R = 150 µs assumes a real-time server), so it varies, but it **stays below 1 ms**, while the gPTP schedule does not.
+A plan with R ≥ 403 + 150 µs would make that case deterministic as well.
+Not yet repeated with v2: load sweep, robustness, S2, H, T2 (all done with the uniform grid, sections 6.6–6.12).
+
 ## 7. Next steps
 
 1. Reduce the plan 2 RTTs (one round each is lost against the analytic estimate) and give the window more gate time without touching the critical rounds. A small search over (φ, round per flow) with a bus-timing model would do this, and it is the D2 per-flow offsets folded into TA-PLCA.

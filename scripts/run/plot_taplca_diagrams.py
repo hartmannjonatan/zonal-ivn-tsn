@@ -69,47 +69,38 @@ def scenario():
 
 
 def rounds():
+    """Event anchors: each far anchor follows the planned arrival of a cross-bus frame by a gap G;
+    a fine 25 us grid elsewhere (thin ticks), kept away from the event anchors."""
     fig, ax = plt.subplots(figsize=(W, 1.9))
-    TA, PHI, T0, T1 = 250, 40, 0, 1100
-    rows = {"bus A": 1.55, "bus B": 0.45}
-    ph = {"bus A": 0, "bus B": PHI}
-    for name, y in rows.items():
-        ax.plot([T0, T1], [y, y], color=GRID, lw=0.8)
-        ax.text(T0 - 15, y, name, ha="right", va="center", fontsize=9)
-        k = 0
-        while ph[name] + k * TA <= T1:
-            t = ph[name] + k * TA
-            ax.plot([t, t], [y - 0.32, y + 0.32], color=INK, lw=1.0)
-            ax.add_patch(Rectangle((t, y - 0.12), 4, 0.24, fc=INK, ec=INK))   # BEACON
-            k += 1
-    # one cycle per round: coordinator TO, then followers; idle (BEACON held) shaded
-    def frame(t, y, w, col, txt=""):
+    G, R, FE_A, FE_B, T1 = 35, 150, 70.8, 74.0, 520
+    yA, yB = 1.55, 0.45
+    evA = [0, round(0 + FE_A + G + R + FE_B + G)]          # Q sent, R delivered
+    evB = [round(FE_A + G), round(FE_A + G + R)]           # Q delivered, R sent
+    for name, y, ev in (("bus A", yA, evA), ("bus B", yB, evB)):
+        ax.plot([0, T1], [y, y], color=GRID, lw=0.8)
+        ax.text(-15, y, name, ha="right", va="center", fontsize=9)
+        for t in range(-25, T1, 25):
+            if t >= 0 and all(not (e - G - 30 < t <= e) and not (e < t < e + 100) for e in ev):
+                ax.plot([t, t], [y - 0.12, y + 0.12], color=MUTED, lw=0.5)
+        for e in ev:
+            ax.plot([e, e], [y - 0.34, y + 0.34], color=INK, lw=1.2)
+            ax.add_patch(Rectangle((e, y - 0.12), 4, 0.24, fc=INK, ec=INK))
+    def frame(t, y, w, col, txt):
         ax.add_patch(Rectangle((t, y - 0.17), w, 0.34, fc=col, ec="white", lw=0.5))
-        if txt:
-            ax.text(t + w / 2, y, txt, ha="center", va="center", fontsize=7, color="white", fontweight="bold")
-    def idle(t0, t1, y):
-        ax.add_patch(Rectangle((t0, y - 0.17), t1 - t0, 0.34, fc="none", ec=MUTED, hatch="////", lw=0))
-    yA, yB = rows["bus A"], rows["bus B"]
-    # request: sender on bus A in round 0, delivered in bus B round 1
-    frame(12, yA, 75, BLUE, "Q")
-    idle(100, 250, yA)
-    frame(PHI + TA + 6, yB, 75, BLUE, "Q")      # coordinator TO 0 on bus B
-    frame(PHI + TA + 90, yB, 75, ORANGE, "R")  # responder, same round
-    idle(PHI + TA + 175, PHI + 2 * TA, yB)
-    frame(2 * TA + 6 + 250, yA, 75, ORANGE, "R")   # coordinator TO 0 on bus A, a later round
-    ax.annotate("", xy=(PHI + TA + 6, yB + 0.17), xytext=(87, yA - 0.17),
+        ax.text(t + w / 2, y, txt, ha="center", va="center", fontsize=7, color="white", fontweight="bold")
+    frame(evA[0] + 8.4, yA, 62, BLUE, "Q")
+    frame(evB[0] + 2, yB, 62, BLUE, "Q")
+    frame(evB[1] + 11.6, yB, 62, ORANGE, "R")
+    frame(evA[1] + 2, yA, 62, ORANGE, "R")
+    ax.annotate("", xy=(evB[0], yB + 0.2), xytext=(evA[0] + 70.4, yA - 0.17),
                 arrowprops=dict(arrowstyle="->", lw=0.9, color=BLUE))
-    ax.annotate("", xy=(2 * TA + 256, yA - 0.17), xytext=(PHI + TA + 165, yB + 0.17),
+    ax.annotate("", xy=(evA[1], yA - 0.2), xytext=(evB[1] + 73.6, yB + 0.17),
                 arrowprops=dict(arrowstyle="->", lw=0.9, color=ORANGE))
-    ax.plot([0, 0], [yB - 0.32, yB + 0.32], color=MUTED, lw=0.6, ls=":")
-    ax.text(PHI / 2, yB - 0.38, r"$\varphi$", fontsize=9, ha="center", va="top")
-    ax.annotate("", xy=(TA, yA + 0.5), xytext=(0, yA + 0.5), arrowprops=dict(arrowstyle="<->", lw=0.7))
-    ax.text(TA / 2, yA + 0.55, r"$T_A$", fontsize=9, ha="center", va="bottom")
-    ax.text(175, yA, "held", fontsize=7, ha="center", va="center", color=INK,
-            bbox=dict(fc="white", ec="none", pad=0.5))
-    ax.text(1100, 2.35, "Q request, R response\n▮ BEACON at an anchor", fontsize=7, ha="right", va="top", color=INK)
-    ax.set_xlim(-130, T1); ax.set_ylim(-0.25, 2.35)
-    ax.set_yticks([]); ax.set_xticks([0, 250, 500, 750, 1000])
+    ax.annotate("", xy=(evB[0], yB - 0.42), xytext=(evA[0] + 70.8, yB - 0.42), arrowprops=dict(arrowstyle="<->", lw=0.7))
+    ax.text((evB[0] + 70.8) / 2, yB - 0.48, "G", fontsize=8, ha="center", va="top")
+    ax.text(T1, 2.35, "Q request, R response\n▮ event anchor (BEACON), | 25 µs grid", fontsize=7, ha="right", va="top", color=INK)
+    ax.set_xlim(-110, T1); ax.set_ylim(-0.3, 2.35)
+    ax.set_yticks([]); ax.set_xticks([0, 100, 200, 300, 400, 500])
     ax.set_xlabel("time (µs)", fontsize=9); ax.tick_params(labelsize=8)
     for sp in ("top", "right", "left"):
         ax.spines[sp].set_visible(False)
