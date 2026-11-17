@@ -370,6 +370,13 @@ def ini():
                 L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s" if gptp else "T1S_PT_NOMINAL_SYNCTAS4_30s",
                              f"TA-PLCA v2, calibrated event anchors, gap {G} us, reply cycle +{ru} us, {'gPTP' if gptp else 'ideal'}",
                              f"{tag}_30s", body)
+    # v2 load sweep (chains every per ms) with the generic event planner and gate
+    for per in LOAD2_MS:
+        for gptp in (True, False):
+            tag = f"TA_LOAD{per}_EVC2" + ("" if gptp else "_IDEAL")
+            L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s" if gptp else "T1S_PT_NOMINAL_SYNCTAS4_30s",
+                         f"TA-PLCA v2 load plan, PT01/PT02 every {per} ms, {'gPTP' if gptp else 'ideal'} clocks",
+                         f"{tag}_30s", load_lines(per, col, gptp))
     # v2 (G35/R150) robustness, ablation and time-error configs
     _, server_ = app_index()
     v2 = "TA_NOMINAL_EVC_G35_R150"
@@ -500,6 +507,87 @@ def event_lines(G, col, gptp=True, reply_us=None, frame_end=None, ids=None, shif
     for f in FLOWS:
         n, k = sender[f[0]]
         L.append(f"*.{n}.app[{k}].source.initialProductionOffset = {rel[f[0]]}us")
+    return L
+
+
+# ---------------------------------------------------------------------------------------------
+# TA-PLCA v2 under load: the request/response chains repeat every `per` ms (10 = nominal,
+# 1 = stress). Every planned cycle is an event anchor with a modelled length; the TC3 (window)
+# gate is open only where a window cycle (~100 us) cannot delay a planned cycle.
+LOAD2_MS = (10, 5, 2, 1)
+CYCLE_US, LOCALS_US, GATE_LEAD_US = 100, 230, 110
+
+
+def load_plan(per, G=35, R=150):
+    FE = EVT_FRAME_END_CAL
+    ev = {1: [], 3: []}                      # (anchor, modelled cycle length)
+    rel = {}
+    for m in range(0, 10, per):
+        b = m * 1000
+        # PT02: ECM (Z1, id 2) -> APP (Z3, id 3) -> ECM
+        d1 = round(b + FE[2] + G); r1 = d1 + R; d2 = round(r1 + FE[3] + G)
+        ev[1] += [(b, CYCLE_US), (d2, CYCLE_US)]; ev[3] += [(d1, CYCLE_US), (r1, CYCLE_US)]
+        # PT01: TCU (Z3, id 2) -> ECM (Z1, id 2) -> TCU
+        t = b + 400; d1 = round(t + FE[2] + G); r1 = d1 + R; d2 = round(r1 + FE[2] + G)
+        ev[3] += [(t, CYCLE_US), (d2, CYCLE_US)]; ev[1] += [(d1, CYCLE_US), (r1, CYCLE_US)]
+    rel["PT02"], rel["PT01"] = -GUARD_US, 400 - GUARD_US
+    for m in range(10):                      # Z1 local 1 ms loop: PT05, PT06, PT07 in one cycle
+        ev[1].append((m * 1000 + 100, LOCALS_US))
+    rel["PT05"] = rel["PT06"] = rel["PT07"] = 100 - GUARD_US
+    t = 3770; ev[1].append((t, CYCLE_US)); ev[3].append((round(t + FE[2] + G), CYCLE_US)); rel["PT03"] = t - GUARD_US
+    t = 6650; ev[3].append((t, CYCLE_US)); ev[1].append((round(t + FE[2] + G), CYCLE_US)); rel["PT04"] = t - GUARD_US
+    for fid, z, t in (("PT08", 1, 5760), ("PT09", 3, 2520), ("PT10", 3, 4520)):
+        ev[z].append((t, CYCLE_US)); rel[fid] = t - GUARD_US
+    anchors, gates = {}, {}
+    for z in (1, 3):
+        E = sorted(set(ev[z]))
+        wrap = E + [(e + 10000, l) for e, l in E] + [(e - 10000, l) for e, l in E]
+        grid = {t for t in range(0, 10000, FINE_FILL_US)
+                if all(not (e - G - GUARD_EVT < t <= e) and not (e < t < e + l) for e, l in wrap)}
+        anchors[z] = sorted(grid | {e % 10000 for e, _ in E})
+        closed = sorted((max(e - GATE_LEAD_US, -10000), e + l) for e, l in wrap)
+        open_iv, cur = [], 0
+        for a, b_ in closed:
+            if b_ <= cur:
+                continue
+            if a > cur:
+                open_iv.append((cur, min(a, 10000)))
+            cur = max(cur, b_)
+            if cur >= 10000:
+                break
+        if cur < 10000:
+            open_iv.append((cur, 10000))
+        gates[z] = [(a, b_) for a, b_ in open_iv if b_ - a >= 5]
+    return anchors, {k: v % (10000 if k not in ("PT01", "PT02", "PT05", "PT06", "PT07") else 1000) for k, v in rel.items()}, gates
+
+
+def load_lines(per, col, gptp=True):
+    anchors, rel, gates = load_plan(per)
+    sender, _ = app_index()
+    L = processing_lines() + ['**.plca.typename = "PrioPlca"', '**.plca.mode = "anchored"']
+    for z, sw in COORD.items():
+        L += [f"{sw}.plca.anchorPeriod = 10ms", f'{sw}.plca.anchorOffsets = "{" ".join(str(t) for t in anchors[z])}"',
+              f"{sw}.plca.max_bc = 1"]
+        if gptp:
+            L.append(f'{sw}.plca.anchorClockModule = "^.^.clock"')
+        durs, t = [], 0                       # schedule starts closed at 0
+        for a, b_ in gates[z]:
+            durs += [a - t, b_ - a]; t = b_
+        if t < 10000:
+            durs[0] += 10000 - t; off = (10000 - t)       # merge the trailing closed part into the first one
+        else:
+            off = 0
+        L += [f"{sw}.queue.transmissionGate[3].initiallyOpen = false",
+              f"{sw}.queue.transmissionGate[3].durations = [{', '.join(f'{d}us' for d in durs)}]",
+              f"{sw}.queue.transmissionGate[3].offset = {off}us"]
+    L.append("**.transmissionGate[3].enableImplicitGuardBand = false")
+    for f in FLOWS:
+        n, k = sender[f[0]]
+        if f[0] in ("PT01", "PT02"):
+            L.append(f"*.{n}.app[{k}].source.productionInterval = {per}ms")
+            L.append(f"*.{n}.app[{k}].source.initialProductionOffset = {rel[f[0]] % (per * 1000)}us")
+        else:
+            L.append(f"*.{n}.app[{k}].source.initialProductionOffset = {rel[f[0]]}us")
     return L
 
 
