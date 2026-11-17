@@ -515,7 +515,7 @@ def event_lines(G, col, gptp=True, reply_us=None, frame_end=None, ids=None, shif
 # 1 = stress). Every planned cycle is an event anchor with a modelled length; the TC3 (window)
 # gate is open only where a window cycle (~100 us) cannot delay a planned cycle.
 LOAD2_MS = (10, 5, 2, 1)
-CYCLE_US, LOCALS_US, GATE_LEAD_US = 100, 230, 110
+CYCLE_US, LOCALS_US, GATE_LEAD_US = 100, 230, 105   # lead: window cycle + margin (+ G + GUARD_EVT)
 
 
 def load_plan(per, G=35, R=150):
@@ -545,7 +545,13 @@ def load_plan(per, G=35, R=150):
         grid = {t for t in range(0, 10000, FINE_FILL_US)
                 if all(not (e - G - GUARD_EVT < t <= e) and not (e < t < e + l) for e, l in wrap)}
         anchors[z] = sorted(grid | {e % 10000 for e, _ in E})
-        closed = sorted((max(e - GATE_LEAD_US, -10000), e + l) for e, l in wrap)
+        # A window frame dequeued just before the gate closes keeps its cycle busy for ~CYCLE_US. That
+        # cycle must end before the exclusion zone (e - G - GUARD_EVT, e] of the next planned anchor: a
+        # cycle ending inside it finds the passed grid anchors and the catch-up BEACON goes out at once,
+        # so the planned frame (already at the coordinator, or just released) leaves in an unplanned
+        # cycle and the latency depends on the window backlog (PT01 RTT 409 vs 437 us, PT03 +134 us).
+        lead = GATE_LEAD_US + G + GUARD_EVT
+        closed = sorted((max(e - lead, -10000), e + l) for e, l in wrap)
         open_iv, cur = [], 0
         for a, b_ in closed:
             if b_ <= cur:
@@ -558,7 +564,10 @@ def load_plan(per, G=35, R=150):
         if cur < 10000:
             open_iv.append((cur, 10000))
         gates[z] = [(a, b_) for a, b_ in open_iv if b_ - a >= 5]
-    return anchors, {k: v % (10000 if k not in ("PT01", "PT02", "PT05", "PT06", "PT07") else 1000) for k, v in rel.items()}, gates
+    # PT01/PT02 repeat every `per` ms and PT05-07 every 1 ms: load_lines reduces those modulo their
+    # own period (reducing PT02's -GUARD modulo 1 ms here put its 10 ms release at 985 us, after its anchor)
+    return anchors, {k: v if k in ("PT01", "PT02") else v % (1000 if k in ("PT05", "PT06", "PT07") else 10000)
+                     for k, v in rel.items()}, gates
 
 
 def load_lines(per, col, gptp=True):
