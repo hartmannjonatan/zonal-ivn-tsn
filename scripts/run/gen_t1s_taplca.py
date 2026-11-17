@@ -370,7 +370,27 @@ def ini():
                 L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s" if gptp else "T1S_PT_NOMINAL_SYNCTAS4_30s",
                              f"TA-PLCA v2, calibrated event anchors, gap {G} us, reply cycle +{ru} us, {'gPTP' if gptp else 'ideal'}",
                              f"{tag}_30s", body)
+    # v2 (G35/R150) robustness, ablation and time-error configs
     _, server_ = app_index()
+    v2 = "TA_NOMINAL_EVC_G35_R150"
+    for tag, desc, lines in (
+            ("D100", "drift U(-100, 100) ppm", ["**.clock.oscillator.driftRate = uniform(-100ppm, 100ppm)"]),
+            ("SYNC31", "Sync every 31.25 ms", ["**.gptp.syncInterval = 31.25ms"]),
+            ("PROC20", "processing 20 us", [f"*.{n}.app[{k}].processingTime = 20us" for n, k in server_.values()]),
+            ("PROC50", "processing 50 us", [f"*.{n}.app[{k}].processingTime = 50us" for n, k in server_.values()]),
+            ("NOGATE", "ablation T2: no TAS gate",
+             [f"{sw}.queue.transmissionGate[3].initiallyOpen = true" for sw in COORD.values()]
+             + [f"{sw}.queue.transmissionGate[3].durations = []" for sw in COORD.values()])):
+        L += [f"[Config {v2}_{tag}_30s]", f"extends = {v2}_30s", f'description = "TA-PLCA v2 (G35/R150), nominal, {desc}"',
+              f"result-dir = results/t1s/taplca/{v2}_{tag}_30s"] + lines + [""]
+    saved_phase = PHASE[3]; PHASE[3] = 0
+    for e in TIME_ERROR_US:
+        tag = f"{v2}_TE{'m' if e < 0 else 'p'}{abs(e)}"
+        body = (processing_lines() + event_lines(35, col, True, 150, EVT_FRAME_END_CAL, shift={3: e})
+                + gate_lines(True, [0, 3, 6, 9], time_error_us={3: e}) + ["**.transmissionGate[3].enableImplicitGuardBand = false"])
+        L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
+                     f"TA-PLCA v2 (G35/R150), Z3 coordinator anchors and gate shifted by {e} us", f"{tag}_30s", body)
+    PHASE[3] = saved_phase
     for tag, val in (("PROC403", "403us"), ("PROC0", "0us")):
         L += [f"[Config TA_NOMINAL_EVC_G35_R150_{tag}_30s]", "extends = TA_NOMINAL_EVC_G35_R150_30s",
               f'description = "TA-PLCA v2 (calibrated event anchors), server processing {val}"',
@@ -419,17 +439,19 @@ def ini():
 # us away from every event anchor; local releases are placed in quiet intervals.
 EVT_FRAME_END = {2: 90.9, 3: 94.1}     # follower PLCA ID -> frame end after its cycle's anchor
 REPLY_US = 110
-EVT_FRAME_END_CAL = {2: 2 + 6.4 + 62.4, 3: 2 + 9.6 + 62.4}
+EVT_FRAME_END_CAL = {i: 2 + 3.2 * i + 62.4 for i in range(1, 8)}
 GUARD_EVT = 30
 EVT_GAPS_US = (10, 15, 20, 25, 30, 40, 60, 150)
 
 
-def event_plan(G, reply_us=None, frame_end=None):
+def event_plan(G, reply_us=None, frame_end=None, ids=None, shift=None):
     """Anchors (us within 10 ms, gPTP time) per segment and release offsets (us) per flow."""
     A = {1: set(), 3: set()}
     rel = {}
     FE = frame_end or EVT_FRAME_END
     RU = reply_us or REPLY_US
+    ID = {"ECM": 2, "APP": 3, "TCU": 2}
+    ID.update(ids or {})
     def chain_req_resp(seg_c, seg_s, t0, id_c, id_s):
         """client on seg_c (PLCA id id_c) sends at anchor t0; server on seg_s (id_s) replies."""
         A[seg_c].add(t0)
@@ -444,10 +466,10 @@ def event_plan(G, reply_us=None, frame_end=None):
         A[seg_a].add(t0)
         A[seg_b].add(round(t0 + FE[id_a] + G))
         return t0 - GUARD_US
-    rel["PT02"] = chain_req_resp(1, 3, 0, 2, 3)            # ECM (Z1, id 2) -> APP (Z3, id 3), ms 0
-    rel["PT01"] = chain_req_resp(3, 1, 400, 2, 2)          # TCU (Z3, id 2) -> ECM (Z1, id 2), ms 0
-    rel["PT03"] = one_way(1, 3, 3000, 2)                   # ECM -> TCU, ms 3
-    rel["PT04"] = one_way(3, 1, 6000, 2)                   # TCU -> ECM, ms 6
+    rel["PT02"] = chain_req_resp(1, 3, 0, ID["ECM"], ID["APP"])    # ECM (Z1) -> APP (Z3), ms 0
+    rel["PT01"] = chain_req_resp(3, 1, 400, ID["TCU"], ID["ECM"])  # TCU (Z3) -> ECM (Z1), ms 0
+    rel["PT03"] = one_way(1, 3, 3000, ID["ECM"])                   # ECM -> TCU, ms 3
+    rel["PT04"] = one_way(3, 1, 6000, ID["TCU"])                   # TCU -> ECM, ms 6
     # local and 10 ms flows: quiet intervals of every ms (Z1: 100-355 and 850-975; Z3 likewise)
     rel.update({"PT05": 845, "PT06": 120, "PT07": 120, "PT08": 5120, "PT09": 2120, "PT10": 4120})
     for k in rel:
@@ -461,12 +483,13 @@ def event_plan(G, reply_us=None, frame_end=None):
             # minus one empty cycle, or during the anchored cycle itself
             if all(not (e - G - GUARD_EVT < t <= e) and not (e < t < e + 100) for e in ev + [e + 10000 for e in ev] + [e - 10000 for e in ev]):
                 grid.add(t)
-        out[z] = sorted(grid | set(ev))
+        sh = (shift or {}).get(z, 0)          # S2: this coordinator's clock is off by sh
+        out[z] = sorted({(t + sh) % 10000 for t in grid | set(ev)})
     return out, rel
 
 
-def event_lines(G, col, gptp=True, reply_us=None, frame_end=None):
-    anchors, rel = event_plan(G, reply_us, frame_end)
+def event_lines(G, col, gptp=True, reply_us=None, frame_end=None, ids=None, shift=None):
+    anchors, rel = event_plan(G, reply_us, frame_end, ids, shift)
     L = ['**.plca.typename = "PrioPlca"', '**.plca.mode = "anchored"']
     for z, sw in COORD.items():
         L += [f"{sw}.plca.anchorPeriod = 10ms", f'{sw}.plca.anchorOffsets = "{" ".join(str(t) for t in anchors[z])}"',
@@ -501,6 +524,13 @@ def ini_same():
                      f"Same switch: final TA-PLCA (plan 2 rounds, anchoring only critical ms), bus B phase {phi} us, gPTP, nominal",
                      f"TA_PTS_NOMINAL_FINE_PHI{phi}_30s", body)
     PLAN.clear(); PLAN.update(saved); PHASE[3] = PHI_Z3_US
+    # v2 event anchors on the same switch (bus B ids: TCU 1, APP 2, no window node)
+    PHASE[3] = 0
+    body = (processing_lines() + event_lines(35, col, True, 150, EVT_FRAME_END_CAL, ids={"TCU": 1, "APP": 2})
+            + gate_lines(True, [0, 3, 6, 9]) + ["**.transmissionGate[3].enableImplicitGuardBand = false"])
+    L += section("TA_PTS_NOMINAL_EVC_G35_R150_30s", "T1S_PTS_NOMINAL_SYNCTAS4_GPTP_30s",
+                 "Same switch: TA-PLCA v2 (event anchors G35/R150), gPTP, nominal", "TA_PTS_NOMINAL_EVC_G35_R150_30s", body)
+    PHASE[3] = PHI_Z3_US
     COORD = saved_coord
     (SIM / "zonal/configs/t1s_taplca_same.ini").write_text("\n".join(L))
     (SIM / "zonal_t1s_taplca_same.ini").write_text(
