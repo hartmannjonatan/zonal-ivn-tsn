@@ -308,7 +308,92 @@ After the fix (3 s, run 0; RTT / one-way in µs, variation in brackets):
 | 1 ms | ideal | 437.41 (0.00) | 440.41 (0.00) | 181.41 / 181.41 (0.00) | 75.1 % | 29 % / 30 % |
 | 10 / 5 / 2 / 1 ms | gPTP | 437.41 (≤ 0.01) | 440.41 (≤ 0.03) | 181.41 (≤ 0.07) | same as ideal | same |
 
-Compared with the uniform grid (section 6.6: window lost 10 / 41 / 86 / 91 %), the v2 planner keeps the PCP 7 flows exact and loses far less of the window. The 10-seed × 30 s campaign is in section 6.16.
+Compared with the uniform grid (section 6.6: window lost 10 / 41 / 86 / 91 %), the v2 planner keeps the PCP 7 flows exact and loses far less of the window. The 10-seed × 30 s campaign is in section 6.15.
+
+## 6.15 TA-PLCA v2 campaign, 30 s runs (VECTOR, 2026-11-17)
+
+RTT / one-way in µs: mean (variation = max − min), pooled over seeds. Window = F15 + F17 frames lost. Report: `t1s_taplca_report.py`.
+
+**Load sweep with the generic planner (10 seeds, gPTP), `TA_LOAD{p}_EVC2_30s`:**
+
+| PT01/PT02 period | PT01 RTT | PT02 RTT | PT03 / PT04 | window lost | BEACON hold Z1 / Z3 |
+|---|---|---|---|---|---|
+| 10 ms | 437.41 (0.04) | 440.41 (0.11) | 181.41 (0.10 / 0.10) | 0 % | 15 % / 8 % |
+| 5 ms | 437.41 (0.04) | 440.41 (0.11) | 181.41 (0.10 / 0.10) | 0 % | 15 % / 10 % |
+| 2 ms | 437.41 (0.04) | 440.41 (0.12) | 181.41 (0.10 / 0.10) | 8.1 % | 20 % / 17 % |
+| 1 ms (stress) | 437.41 (0.04) | 440.41 (0.12) | 181.41 (0.10 / 0.10) | 70.3 % | 29 % / 30 % |
+
+Baseline gPTP schedule at the same loads (10 seeds): worst variation 503 µs (nominal), 567 / 571 / 567 µs (5 / 2 / 1 ms), no window loss. With the uniform grid (6.6) the window lost 10 / 41 / 86 / 91 %.
+
+**Robustness, ablation and processing (10 seeds unless noted):**
+
+| config | PT01 RTT | PT02 RTT | PT03 / PT04 | note |
+|---|---|---|---|---|
+| nominal (`TA_NOMINAL_EVC_G35_R150_30s`) | 437.41 (0.04) | 440.41 (0.11) | 181.41 (0.10 / 0.12) | reference, window lost 0 |
+| D100 | 437.41 (0.08) | 440.41 (0.15) | 181.41 (0.12 / 0.11) | deterministic |
+| SYNC31 | 437.41 (0.04) | 440.41 (0.12) | 181.41 (0.11 / 0.11) | deterministic |
+| processing 20 µs | 437.41 (0.04) | **649.41 (0.13)** | 181.41 | deterministic, PT02 one slot later (see below) |
+| processing 50 µs | 437.41 (0.04) | **649.41 (0.13)** | 181.41 | same as 20 µs |
+| processing 403 µs (runs 3–9) | 963.9, max 964.2 (239) | 909.7, max 935.0 (204) | 181.41 | 0 samples > 1 ms |
+| gPTP schedule, processing 403 µs (runs 3–9) | 1051, max 1129 | 1031, max 1068 | 235 / 232 | 100 % of the RTT samples > 1 ms |
+| **no window gate (NOGATE)** | 689 (551) | 737 (715), 3131 samples > 1 ms | 348 (285) / 274 (319) | the gate is required |
+
+With 20–50 µs of server processing, PT02 stays deterministic but at 649.41 µs: the APP reply no longer makes the planned cycle and leaves one planned slot later (+209 µs). PT01 (server ECM) is not affected. A plan with R chosen for the server time (R ≥ processing + one cycle) would bring it back to 440 µs. Not tuned yet.
+
+**S2, coordinator time error (Z3 coordinator clock offset, 5 seeds):**
+
+| error | PT01 RTT | PT02 RTT | PT03 | PT04 |
+|---|---|---|---|---|
+| −5 µs | 585 (188) | 440.41 (0.11) | 176.41 (0.09) | 299 (129) |
+| +5 µs | 547 (123) | 619 (209) | 296 (129) | 181.41 (0.12) |
+| −10 µs | 457 (213) | 565 (151) | 171.41 (0.09) | 306 (129) |
+| +10 µs | 568 (123) | 636 (209) | 311 (129) | 181.41 (0.12) |
+| −20 µs | 426 (213) | 588 (369) | 162 (129) | 310 (129) |
+| +20 µs | 889 (337) | 589 (301) | 329 (129) | 300.41 (0.12) |
+| −50 µs | 575 (25) | 741.00 (0.12) | 261 (25) | 300.41 (0.12) |
+| +50 µs | 915 (414), 3 samples > 1 ms | 609 (218) | 168 (210) | 396 (98) |
+
+**v2 is much more sensitive to time error than the uniform grid, which tolerated ±10 µs (6.11).** v2 already loses determinism at ±5 µs. The event anchors leave only G = 35 µs (minus about 30 µs of guard) between the modelled frame arrival and the far anchor, so an error of 5 µs is already enough to miss some anchors. Flows whose hop moves the "right" way stay exact (for example PT02 at −5 µs, PT04 at +5 / +10 µs). With gPTP the residual error is well below 1 µs (section 6.13; hardware PTP < 50 ns on the bench), so this matters only for a failed or degraded time sync, or for software-only synchronization. Making v2 robust would need G above the worst time error, at the cost of a longer RTT.
+
+**H, both buses on the same zonal switch (10 seeds TA-PLCA v2; gPTP schedule runs 3–9):**
+
+| config | PT01 RTT | PT02 RTT | PT03 / PT04 |
+|---|---|---|---|
+| TA-PLCA v2 (`TA_PTS_NOMINAL_EVC_G35_R150_30s`) | 550.41 (0.05) | 806.01 (0.13) | 310.01 (0.03 / 0.04) |
+| gPTP schedule (`TA_PTS_NOMINAL_GPTP_30s`) | 445 (261) | 446 (121) | 286 (171) / 226 (111) |
+
+Deterministic also with both buses on one switch. The same-switch plan was not re-tuned for v2, so the RTTs are longer than with two zonal switches.
+
+## 6.16 Heavier T1S buses (3 seeds × 30 s, gPTP)
+
+Variants (generator `HEAVY`, configs `TA_HEAVY_<v>_{GPTP,EVC2}_30s`): **W2** = window F15/F17 at twice the rate (period 100 µs, catalog `catalog_window2x.xml`), **L1** = the 10 ms local flows PT08 (Z1) and PT09 + PT10 (Z3) every 1 ms (one more 1 ms PCP 7 local cycle per bus), **W2L1** = both. For TA-PLCA, `load_plan(..., locals1ms=True)` places the new local cycles at the first offset that is free in every ms (`free_offset`; PT08 at 765 µs, PT09/PT10 at 870 µs), and PT03/PT04 move to 3500 / 6500 µs.
+
+| variant | scheme | PT01 RTT | PT02 RTT | PT03 / PT04 | window lost | BEACON hold Z1 / Z3 |
+|---|---|---|---|---|---|---|
+| W2 | gPTP schedule | 609 (150) | 499 (32) | 330 (87) / 277 (99) | 33.1 % | |
+| W2 | TA-PLCA v2 | 437.41 (0.03) | 440.41 (0.08) | 181.41 (0.10 / 0.09) | 15.0 % | 13 % / 6 % |
+| L1 | gPTP schedule | 579 (267) | 489 (107) | 320 (157) / 271 (172) | 1.8 % | |
+| L1 | TA-PLCA v2 | 437.41 (0.03) | 440.41 (0.09) | 181.41 (0.09 / 0.09) | 10.1 % | 22 % / 15 % |
+| W2L1 | gPTP schedule | 597 (167) | 488 (82) | 321 (65) / 268 (98) | 46.2 % | |
+| W2L1 | TA-PLCA v2 | 437.41 (0.03) | 440.41 (0.08) | 181.41 (0.09 / 0.09) | 41.1 % | 22 % / 14 % |
+
+On heavier buses the gPTP schedule degrades: mean RTT +100–170 µs and variation up to 267 µs. TA-PLCA v2 keeps every PCP 7 cross-bus flow exact. With the doubled window it also loses **fewer** window frames than the schedule (15 % vs 33 %; 41 % vs 46 % with both). Only with the extra 1 ms locals alone does it cost more window (10 % vs 2 %), because the extra planned cycles close more gate time.
+
+## 6.17 Baselines rerun on VECTOR (10 seeds × 30 s)
+
+The notebook baselines were not available here, so they were rerun with the current code:
+
+| config | PT01 RTT | PT02 RTT | PT03 | PT04 |
+|---|---|---|---|---|
+| random phases (`TA_NOMINAL_RANDOM_30s`) | 462 (442) | 449 (394) | 187 (190) | 211 (300) |
+| ideal-clock schedule (`TA_NOMINAL_IDEAL_30s`) | 439 (192) | 438 (122) | 284 (102) | 227 (105) |
+| gPTP schedule (`TA_NOMINAL_GPTP_30s`) | 465 (325) | 451 (503) | 297 (197) | 236 (242) |
+| gPTP schedule, PT01/PT02 5 ms | 398 (443) | 385 (567) | 289 (193) | 236 (226) |
+| gPTP schedule, 2 ms | 367 (443) | 358 (571) | 292 (187) | 235 (240) |
+| gPTP schedule, stress 1 ms | 352 (443) | 341 (567) | 298 (196) | 236 (241) |
+| **TA-PLCA v2 (`TA_NOMINAL_EVC_G35_R150_30s`)** | **437.41 (0.04)** | **440.41 (0.11)** | **181.41 (0.10)** | **181.41 (0.12)** |
+
+None of the baselines loses window frames at these loads. TA-PLCA v2 has a mean RTT close to the schedules' mean (437–440 vs 438–465 µs) but a variation 3–4 orders of magnitude smaller, and a lower one-way latency for PT03/PT04 (181 vs 227–297 µs).
 
 ## 7. Next steps
 
