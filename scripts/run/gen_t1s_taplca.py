@@ -35,6 +35,7 @@ Raspberry Pi 5 real-time gateway), so all four configurations are comparable.
 Writes simulations/zonal/configs/t1s_taplca.ini and simulations/zonal_t1s_taplca.ini.
 """
 import sys
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -377,6 +378,20 @@ def ini():
             L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s" if gptp else "T1S_PT_NOMINAL_SYNCTAS4_30s",
                          f"TA-PLCA v2 load plan, PT01/PT02 every {per} ms, {'gPTP' if gptp else 'ideal'} clocks",
                          f"{tag}_30s", load_lines(per, col, gptp))
+    # Heavier T1S buses: window (F15/F17) at 2x rate and/or the 10 ms local flows PT08-PT10 every 1 ms;
+    # gPTP schedule baseline vs TA-PLCA v2 (generic event planner + window gate), 3 seeds.
+    write_window_catalog()
+    sender, _ = app_index()
+    for v, (w2, l1) in HEAVY.items():
+        extra = ([f'*.trafficPlan.catalog = xmldoc("../traffic/{WINDOW2X_CATALOG}")'] if w2 else [])
+        what = " + ".join(x for x, on in (("window 2x", w2), ("PT08-PT10 every 1 ms", l1)) if on)
+        per1 = [f"*.{sender[f][0]}.app[{sender[f][1]}].source.productionInterval = 1ms" for f in HEAVY_LOCALS] if l1 else []
+        L += section(f"TA_HEAVY_{v}_GPTP_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
+                     f"Baseline gPTP schedule + TAS 400 us, heavier buses ({what})",
+                     f"TA_HEAVY_{v}_GPTP_30s", processing_lines() + extra + per1)
+        L += section(f"TA_HEAVY_{v}_EVC2_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
+                     f"TA-PLCA v2 load plan (10 ms chains), gPTP, heavier buses ({what})",
+                     f"TA_HEAVY_{v}_EVC2_30s", load_lines(10, col, True, l1) + extra)
     # v2 (G35/R150) robustness, ablation and time-error configs
     _, server_ = app_index()
     v2 = "TA_NOMINAL_EVC_G35_R150"
@@ -515,10 +530,11 @@ def event_lines(G, col, gptp=True, reply_us=None, frame_end=None, ids=None, shif
 # 1 = stress). Every planned cycle is an event anchor with a modelled length; the TC3 (window)
 # gate is open only where a window cycle (~100 us) cannot delay a planned cycle.
 LOAD2_MS = (10, 5, 2, 1)
+LOCALS2_US, EVT_CLEAR_US = 170, 20   # two-frame local cycle; clearance around a planned cycle
 CYCLE_US, LOCALS_US, GATE_LEAD_US = 100, 230, 105   # lead: window cycle + margin (+ G + GUARD_EVT)
 
 
-def load_plan(per, G=35, R=150):
+def load_plan(per, G=35, R=150, locals1ms=False):
     FE = EVT_FRAME_END_CAL
     ev = {1: [], 3: []}                      # (anchor, modelled cycle length)
     rel = {}
@@ -534,10 +550,21 @@ def load_plan(per, G=35, R=150):
     for m in range(10):                      # Z1 local 1 ms loop: PT05, PT06, PT07 in one cycle
         ev[1].append((m * 1000 + 100, LOCALS_US))
     rel["PT05"] = rel["PT06"] = rel["PT07"] = 100 - GUARD_US
-    t = 3770; ev[1].append((t, CYCLE_US)); ev[3].append((round(t + FE[2] + G), CYCLE_US)); rel["PT03"] = t - GUARD_US
-    t = 6650; ev[3].append((t, CYCLE_US)); ev[1].append((round(t + FE[2] + G), CYCLE_US)); rel["PT04"] = t - GUARD_US
-    for fid, z, t in (("PT08", 1, 5760), ("PT09", 3, 2520), ("PT10", 3, 4520)):
-        ev[z].append((t, CYCLE_US)); rel[fid] = t - GUARD_US
+    # heavy buses: PT03/PT04 move earlier in their ms so the end of each ms is free for the 1 ms locals
+    t = 3500 if locals1ms else 3770
+    ev[1].append((t, CYCLE_US)); ev[3].append((round(t + FE[2] + G), CYCLE_US)); rel["PT03"] = t - GUARD_US
+    t = 6500 if locals1ms else 6650
+    ev[3].append((t, CYCLE_US)); ev[1].append((round(t + FE[2] + G), CYCLE_US)); rel["PT04"] = t - GUARD_US
+    if not locals1ms:
+        for fid, z, t in (("PT08", 1, 5760), ("PT09", 3, 2520), ("PT10", 3, 4520)):
+            ev[z].append((t, CYCLE_US)); rel[fid] = t - GUARD_US
+    else:   # heavy buses: PT08 (Z1) and PT09 + PT10 (Z3, one cycle) every 1 ms, at a free offset
+        for fids, z, l in ((("PT08",), 1, CYCLE_US), (("PT09", "PT10"), 3, LOCALS2_US)):
+            o = free_offset(ev[z], l)
+            for m in range(10):
+                ev[z].append((m * 1000 + o, l))
+            for fid in fids:
+                rel[fid] = o - GUARD_US
     anchors, gates = {}, {}
     for z in (1, 3):
         E = sorted(set(ev[z]))
@@ -566,12 +593,27 @@ def load_plan(per, G=35, R=150):
         gates[z] = [(a, b_) for a, b_ in open_iv if b_ - a >= 5]
     # PT01/PT02 repeat every `per` ms and PT05-07 every 1 ms: load_lines reduces those modulo their
     # own period (reducing PT02's -GUARD modulo 1 ms here put its 10 ms release at 985 us, after its anchor)
-    return anchors, {k: v if k in ("PT01", "PT02") else v % (1000 if k in ("PT05", "PT06", "PT07") else 10000)
+    ms1 = ("PT05", "PT06", "PT07") + (("PT08", "PT09", "PT10") if locals1ms else ())
+    return anchors, {k: v if k in ("PT01", "PT02") else v % (1000 if k in ms1 else 10000)
                      for k, v in rel.items()}, gates
 
 
-def load_lines(per, col, gptp=True):
-    anchors, rel, gates = load_plan(per)
+def free_offset(events, l, step=5):
+    """First offset o within 1 ms such that a cycle [o, o + l) in every ms clears all planned cycles:
+    it ends EVT_CLEAR_US before each planned anchor (a frame released GUARD_US before that anchor must
+    not leave in it; a frame arriving from the other bus waits anyway, since the coordinator sends only in
+    TO 0 and no grid anchor lies in the exclusion zone) and starts EVT_CLEAR_US after each planned cycle
+    ends (its own releases at o - GUARD_US must not be picked up by that cycle)."""
+    wrap = [(e + k * 10000, le) for e, le in events for k in (-1, 0, 1)]
+    for o in range(0, 1000, step):
+        if all(m * 1000 + o + l <= e - EVT_CLEAR_US or m * 1000 + o - EVT_CLEAR_US >= e + le
+               for m in range(10) for e, le in wrap):
+            return o
+    raise ValueError(f"no free 1 ms offset for a {l} us cycle")
+
+
+def load_lines(per, col, gptp=True, locals1ms=False):
+    anchors, rel, gates = load_plan(per, locals1ms=locals1ms)
     sender, _ = app_index()
     L = processing_lines() + ['**.plca.typename = "PrioPlca"', '**.plca.mode = "anchored"']
     for z, sw in COORD.items():
@@ -595,9 +637,26 @@ def load_lines(per, col, gptp=True):
         if f[0] in ("PT01", "PT02"):
             L.append(f"*.{n}.app[{k}].source.productionInterval = {per}ms")
             L.append(f"*.{n}.app[{k}].source.initialProductionOffset = {rel[f[0]] % (per * 1000)}us")
+        elif locals1ms and f[0] in HEAVY_LOCALS:
+            L.append(f"*.{n}.app[{k}].source.productionInterval = 1ms")
+            L.append(f"*.{n}.app[{k}].source.initialProductionOffset = {rel[f[0]]}us")
         else:
             L.append(f"*.{n}.app[{k}].source.initialProductionOffset = {rel[f[0]]}us")
     return L
+
+
+HEAVY = {"W2": (True, False), "L1": (False, True), "W2L1": (True, True)}
+HEAVY_LOCALS = ("PT08", "PT09", "PT10")
+WINDOW2X_CATALOG = "catalog_window2x.xml"
+
+
+def write_window_catalog():
+    """Catalog variant with the T1S window flows F15/F17 at twice the rate (period 200 -> 100 us)."""
+    text = (SIM / "zonal/traffic/catalog.xml").read_text()
+    for fid in (15, 17):
+        text, n = re.subn(rf'(<flow id="{fid}" name="F{fid}"[^>]*?) period="0.0002"', r'\1 period="0.0001"', text)
+        assert n == 1, fid
+    (SIM / "zonal/traffic" / WINDOW2X_CATALOG).write_text(text)
 
 
 def ini_same():
