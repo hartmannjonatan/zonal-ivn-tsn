@@ -289,6 +289,27 @@ With 403 µs of processing, the reply misses its planned cycle (R = 150 µs assu
 A plan with R ≥ 403 + 150 µs would make that case deterministic as well.
 Not yet repeated with v2: load sweep, robustness, S2, H, T2 (all done with the uniform grid, sections 6.6–6.12).
 
+## 6.14 TA-PLCA v2 under load: generic event planner (2026-11-16)
+
+`load_plan` (generator) places every planned cycle as an event anchor with a modelled length (frame cycle 100 µs, Z1 local cycle PT05–PT07 230 µs), chains PT01/PT02 every 10 / 5 / 2 / 1 ms, and opens the TC3 (window) gate only where a window cycle cannot disturb a planned cycle. Configs `TA_LOAD{10,5,2,1}_EVC2[_IDEAL]_30s`.
+
+The first version (878ec24) was not deterministic (ideal clocks, 3 s): PT01 RTT 409 or 437 µs (variation 28 µs), PT03 +134 µs in some periods, PT02 wrong at 10 ms. Two bugs, both fixed:
+
+1. **PT02 release.** Its offset −15 µs was reduced modulo 1 ms before the per-period reduction, so at 10 / 5 / 2 ms PT02 was released at 985 µs instead of 9985 / 4985 / 1985 µs (after its anchor).
+2. **Window gate lead.** The gate closed 110 µs before each planned anchor. A window frame dequeued just before that keeps the cycle busy for about 100 µs, so the cycle ended inside the exclusion zone (e − G − 30 µs, e]. Grid anchors had passed meanwhile, so the catch-up BEACON went out at once, and that unplanned cycle carried the planned frame (already at the coordinator) early. Trace (Z3, 10.5–10.8 ms): F17 frames at 500 / 570 / 638 µs, PT01 reply delivered at ~728 µs instead of the 762 µs anchor; with a shorter window backlog it waited for 762. So the RTT depended on the window backlog. The gate now closes 100 + 5 + G + 30 µs before each planned anchor.
+
+After the fix (3 s, run 0; RTT / one-way in µs, variation in brackets):
+
+| PT01/PT02 period | clocks | PT01 RTT | PT02 RTT | PT03 / PT04 | window lost | BEACON hold Z1 / Z3 |
+|---|---|---|---|---|---|---|
+| 10 ms | ideal | 437.41 (0.00) | 440.41 (0.00) | 181.41 / 181.41 (0.00) | 0.0 % | 15 % / 7 % |
+| 5 ms | ideal | 437.41 (0.00) | 440.41 (0.00) | 181.41 / 181.41 (0.00) | 0.0 % | 16 % / 10 % |
+| 2 ms | ideal | 437.41 (0.00) | 440.41 (0.00) | 181.41 / 181.41 (0.00) | 10.5 % | 20 % / 17 % |
+| 1 ms | ideal | 437.41 (0.00) | 440.41 (0.00) | 181.41 / 181.41 (0.00) | 75.1 % | 29 % / 30 % |
+| 10 / 5 / 2 / 1 ms | gPTP | 437.41 (≤ 0.01) | 440.41 (≤ 0.03) | 181.41 (≤ 0.07) | same as ideal | same |
+
+Compared with the uniform grid (section 6.6: window lost 10 / 41 / 86 / 91 %), the v2 planner keeps the PCP 7 flows exact and loses far less of the window. The 10-seed × 30 s campaign is in section 6.16.
+
 ## 7. Next steps
 
 1. Reduce the plan 2 RTTs (one round each is lost against the analytic estimate) and give the window more gate time without touching the critical rounds. A small search over (φ, round per flow) with a bus-timing model would do this, and it is the D2 per-flow offsets folded into TA-PLCA.
