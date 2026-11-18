@@ -1,0 +1,21 @@
+config,ini_config,load,alignment,seeds,benchmark,reference_802_1dg,other_misses,other_lost,radar_max_us,radar_misses,radar_lost,brake_max_us,brake_misses,brake_lost,window_max_us,window_misses,window_lost,camera_max_us,camera_misses,camera_lost
+C0 (100 Mb/s),C0_LOADS,L2,A0,3,pass,pass,0,0,30.492,0,0,31.365,0,0,45.596,0,0,622.7,0,0
+C0 (100 Mb/s),C0_LOADS,L3,A0,3,pass,pass,0,0,33.188,0,0,31.416,0,0,56.644,0,0,832.412,0,0
+C0 (100 Mb/s),C0_LOADS,L2,A1,3,pass,pass,0,0,42.204,0,0,31.481,0,0,57.964,0,0,2141.5,0,0
+C0 (100 Mb/s),C0_LOADS,L3,A1,3,fail,fail,0,0,42.204,0,0,31.615,0,0,71.188,0,0,2902.268,0,3876
+T1S standard,T1S_C0_LOADS,L2,A0,3,pass,pass,0,0,94.78,0,0,31.365,0,0,110.218,0,0,622.7,0,0
+T1S standard,T1S_C0_LOADS,L3,A0,3,fail,pass,0,0,155.508,11694,0,31.416,0,0,159.016,0,0,832.412,0,0
+T1S standard,T1S_C0_LOADS,L2,A1,3,pass,pass,0,0,90.924,0,0,31.481,0,0,119.263,0,0,2141.5,0,0
+T1S standard,T1S_C0_LOADS,L3,A1,3,fail,fail,0,0,156.572,12024,0,31.615,0,0,159.041,0,0,2902.268,0,3876
+T1S + TAS gate,T1S_C0_TAS_L2,L2,A0,3,pass,pass,0,0,94.78,0,0,31.365,0,0,110.218,0,0,622.7,0,0
+T1S + TAS gate,T1S_C0_TAS_L2,L2,A1,3,pass,pass,0,0,90.924,0,0,31.481,0,0,119.263,0,0,2141.5,0,0
+T1S + TAS gate,T1S_C0_TAS_L3,L3,A0,3,fail,pass,0,0,103.884,6,0,31.416,0,0,905.316,0,0,832.412,0,0
+T1S + TAS gate,T1S_C0_TAS_L3,L3,A1,3,fail,fail,0,0,103.708,2,0,31.615,0,0,905.316,0,0,2902.268,0,3876
+T1S + PrioPlca priorityTo,T1S_C0_PrioTo_LOADS,L2,A0,3,pass,pass,0,0,91.34,0,0,31.365,0,0,110.216,0,0,622.7,0,0
+T1S + PrioPlca priorityTo,T1S_C0_PrioTo_LOADS,L3,A0,3,fail,pass,0,0,155.508,11324,0,31.416,0,0,160.141,0,0,832.412,0,0
+T1S + PrioPlca priorityTo,T1S_C0_PrioTo_LOADS,L2,A1,3,pass,pass,0,0,93.388,0,0,31.481,0,0,118.019,0,0,2141.5,0,0
+T1S + PrioPlca priorityTo,T1S_C0_PrioTo_LOADS,L3,A1,3,fail,fail,0,0,155.508,11624,0,31.615,0,0,160.213,0,0,2902.268,0,3876
+"Hybrid, 8 nodes/segment",T1S_HYBRID_B6_LOADS,L2,A0,3,pass,pass,0,0,30.492,0,0,31.365,0,0,222.984,0,0,622.7,0,0
+"Hybrid, 8 nodes/segment",T1S_HYBRID_B6_LOADS,L3,A0,3,pass,pass,0,0,33.188,0,0,31.416,0,0,222.93,0,0,832.412,0,0
+"Hybrid, 8 nodes/segment",T1S_HYBRID_B6_LOADS,L2,A1,3,pass,pass,0,0,42.204,0,0,31.481,0,0,222.984,0,0,2141.5,0,0
+"Hybrid, 8 nodes/segment",T1S_HYBRID_B6_LOADS,L3,A1,3,fail,fail,0,0,42.204,0,0,31.615,0,0,222.93,0,0,2902.268,0,3876

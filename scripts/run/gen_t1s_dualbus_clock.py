@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+"""Real clocks for the step-2 schedule (synchronized releases + TC3 gate 400 us).
+
+Every clock is an OscillatorBasedClock with a ConstantDriftOscillator whose drift
+is drawn per node and seed from U(-50, +50) ppm (as in the official C4 campaign).
+The TC3 gates of the two T1S coordinator ports run on their zonal switch clock,
+and the periodic sources of the T1S nodes (sensors, ECM, TCU, ...) run on the
+clock of their own zonal switch. This assumes an ideal time distribution inside
+each T1S segment (INET's gPTP needs point-to-point links, so 802.1AS cannot run
+over the PLCA multidrop segment); the error left is the error between zones.
+
+  _GPTP : gPTP as in C4 (HPC grandmaster, CSW bridge, ZSW slaves; Sync 125 ms,
+          Pdelay 1 s) keeps the zonal clocks aligned.
+  _FREE : the same drifting clocks without gPTP (free-running zones).
+
+Writes simulations/zonal/configs/t1s_dualbus_clock.ini and the entry point
+simulations/zonal_t1s_dualbus_clock.ini (needs ../prioplca like the final runs).
+"""
+import re
+from pathlib import Path
+
+SIM = Path(__file__).resolve().parents[2] / "simulations"
+BASES = {"T1S_DUAL_1ms_S3_SYNCTAS4": {"S1[*]": 1, "S3[*]": 3},
+         "T1S_PT_NOMINAL_SYNCTAS4": None, "T1S_PT_STRESS_SYNCTAS4": None,
+         "T1S_EV_NOMINAL_SYNCTAS4": None, "T1S_EV_STRESS_SYNCTAS4": None}
+EV_NODES = {"VCU": 1, "INVF": 1, "DCDC": 1, "TMS": 1, "BMS": 3, "INVR": 3, "OBC": 3, "USS": 3}
+# gPTP sensitivity (powertrain, sync + TAS 400 us + gPTP): faster Sync, smaller / larger drift.
+SENS = {"_SYNC31": ("Sync every 31.25 ms", ["**.gptp.syncInterval = 31.25ms"]),
+        "_D10": ("drift U(-10, 10) ppm", ["**.clock.oscillator.driftRate = uniform(-10ppm, 10ppm)"]),
+        "_D100": ("drift U(-100, 100) ppm", ["**.clock.oscillator.driftRate = uniform(-100ppm, 100ppm)"])}
+PT_NODES = {"ECM": 1, "ETC": 1, "MAP": 1, "LAMBDA": 1, "TCU": 3, "APP": 3, "GEAR": 3, "OSS": 3}
+
+cb = (SIM / "zonal/configs/catalog-bindings.ini").read_text()
+hpc = re.search(r"^\*\.HPC\.bridging\.streamIdentifier\.identifier\.mapping = \[(.*)\]$", cb, re.M).group(1)
+hpc = hpc.replace("expr(udp.", "expr(has(udp) && udp.")
+
+COMMON = ["**.clock.oscillator.typename = \"ConstantDriftOscillator\"",
+          "**.clock.oscillator.nominalTickLength = 10ns",
+          "**.clock.oscillator.driftRate = uniform(-50ppm, 50ppm)",
+          "**.clock.emitClockTimeInterval = 1ms",
+          "**.clock.timeChanged.result-recording-modes = vector",
+          "**.clock.timeChanged:vector.vector-recording = true",
+          "*.Z1.ZSW.eth[5].queue.transmissionGate[3].clockModule = \"^.^.^.clock\"",
+          "*.Z3.ZSW.eth[6].queue.transmissionGate[3].clockModule = \"^.^.^.clock\""]
+GPTP = ["*.HPC.hasTimeSynchronization = true", "*.CSW.hasTimeSynchronization = true",
+        "*.Z*.ZSW.hasTimeSynchronization = true",
+        "**.gptp.syncInterval = 125ms", "**.gptp.pdelayInterval = 1s",
+        "# As in C4: with streaming PHYs on the synchronized nodes, every receiver must be a",
+        "# DestreamingReceiver; otherwise packets pile up (~45 000/s) and the run runs out of memory.",
+        '**.transmitter.typename = "StreamingTransmitter"', '**.receiver.typename = "DestreamingReceiver"',
+        '*.HPC.gptp.gptpNodeType = "MASTER_NODE"', '*.HPC.gptp.masterPorts = ["eth0"]', '*.HPC.gptp.slavePort = ""',
+        '*.CSW.gptp.gptpNodeType = "BRIDGE_NODE"', '*.CSW.gptp.slavePort = "eth0"',
+        '*.CSW.gptp.masterPorts = ["eth1", "eth2", "eth3"]',
+        '*.Z*.ZSW.gptp.gptpNodeType = "SLAVE_NODE"', '*.Z*.ZSW.gptp.slavePort = "eth0"', "*.Z*.ZSW.gptp.masterPorts = []",
+        "*.HPC.eth[*].macLayer.queue.classifier.defaultGateIndex = 7",
+        "*.CSW.eth[*].macLayer.queue.classifier.defaultGateIndex = 7",
+        "*.Z*.ZSW.eth[*].macLayer.queue.classifier.defaultGateIndex = 7",
+        "# gPTP packets are not UDP: guard the HPC catalog stream filters.",
+        f"*.HPC.bridging.streamIdentifier.identifier.mapping = [{hpc}]"]
+FREE = ['*.HPC.clock.typename = "OscillatorBasedClock"', '*.CSW.clock.typename = "OscillatorBasedClock"',
+        '*.Z*.ZSW.clock.typename = "OscillatorBasedClock"']
+
+
+def source_clock_lines(base):
+    if base.startswith("T1S_DUAL"):
+        return [f'*.S{z}[*].app[*].source.clockModule = "^.^.^.Z{z}.ZSW.clock"' for z in (1, 3)]
+    nodes = EV_NODES if base.startswith("T1S_EV") else PT_NODES
+    return [f'*.{n}.app[*].source.clockModule = "^.^.^.Z{z}.ZSW.clock"' for n, z in nodes.items()]
+
+
+def final_30s(cfg, desc=None):
+    return [f"[Config {cfg}_30s]", f"extends = {cfg}",
+            f'description = "{desc or cfg}, 1 s warm-up + 30 s measurement, seeds 1001-1010"',
+            f"result-dir = results/t1s/final/{cfg}_30s",
+            "seed-set = ${finalSeed=1001..1010}", "constraint = $seed == 1001",
+            "sim-time-limit = 31.05s", "warmup-period = 1s",
+            "*.trafficPlan.warmup = 1s", "*.trafficPlan.measurement = 30s", ""]
+
+
+L = ["# GENERATED by scripts/run/gen_t1s_dualbus_clock.py. Do not edit.", ""]
+for b in BASES:
+    for suf, lines, desc in (("_GPTP", GPTP, "gPTP-synchronized drifting zonal clocks"),
+                             ("_FREE", FREE, "free-running drifting zonal clocks (no gPTP)")):
+        L += [f"[Config {b}{suf}]", f"extends = {b}", f'description = "{b} with {desc}, drift U(-50, 50) ppm"']
+        L += COMMON + lines + source_clock_lines(b) + [""]
+        L += [f"[Config {b}{suf}_30s]", f"extends = {b}{suf}",
+              f'description = "{b}{suf}, 1 s warm-up + 30 s measurement, seeds 1001-1010"',
+              f"result-dir = results/t1s/final/{b}{suf}_30s",
+              "seed-set = ${finalSeed=1001..1010}", "constraint = $seed == 1001",
+              "sim-time-limit = 31.05s", "warmup-period = 1s",
+              "*.trafficPlan.warmup = 1s", "*.trafficPlan.measurement = 30s", ""]
+for prof in ("NOMINAL", "STRESS"):
+    b = f"T1S_PT_{prof}_SYNCTAS4_GPTP"
+    for suf, (desc, lines) in SENS.items():
+        L += [f"[Config {b}{suf}]", f"extends = {b}", f'description = "{b} with {desc}"'] + lines + [""]
+        L += final_30s(b + suf)
+    L += final_30s(f"T1S_EV_{prof}", f"T1S_EV_{prof} (random phases)")
+(SIM / "zonal/configs/t1s_dualbus_clock.ini").write_text("\n".join(L))
+(SIM / "zonal_t1s_dualbus_clock.ini").write_text(
+    "# Entry point for the real-clock variants of the dual-bus/powertrain schedule (needs ../prioplca).\n"
+    "include zonal_t1s.ini\ninclude zonal/configs/t1s_dualbus.ini\n"
+    "include zonal/configs/t1s_powertrain.ini\ninclude zonal/configs/t1s_ev.ini\n"
+    "include zonal/configs/t1s_dualbus_clock.ini\n")
+print("written t1s_dualbus_clock.ini, zonal_t1s_dualbus_clock.ini")

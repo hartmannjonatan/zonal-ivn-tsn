@@ -1,0 +1,63 @@
+[1010026.2641 us] armed (tracing PT02-101)
+[1010026.2809 us] enqueue  ECM.eth[0].queue  len=64 B  PCP/TC=-  port queues before=[]
+      bt: inet::queueing::PacketQueue::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::NetworkInterface::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::MessageDispatcher::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket
+[1010026.2809 us] dequeue  ECM.eth[0].queue  port queues (incl. this frame)=[]
+[1010026.2809 us] to-plca  ECM.eth[0].plca  PLCA curID=4 local_nodeID=2
+[1010096.9565 us] rx       WINDOW1.eth[0].plca
+[1010096.9565 us] rx       ETC.eth[0].plca
+[1010096.9565 us] rx       MAP.eth[0].plca
+[1010096.9565 us] rx       LAMBDA.eth[0].plca
+[1010096.9590 us] rx       Z1.ZSW.eth[5].plca
+[1010096.9590 us] ingress  Z1.ZSW.bridging.interfaceRelay.selector  len=42 B
+      bt: inet::RelayInterfaceSelector::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketMultiplexer::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketFlowBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket
+[1010096.9590 us] enqueue  Z1.ZSW.eth[0].macLayer.queue.queue[7]  len=64 B  PCP/TC=7  port queues before=[0, 0, 0, 0, 0, 0, 0, 0]
+      bt: inet::queueing::PacketQueue::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketClassifierBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::CompoundPacketQueueBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket
+[1010096.9590 us] dequeue  Z1.ZSW.eth[0].macLayer.queue.queue[7]  port queues (incl. this frame)=[0, 0, 0, 0, 0, 0, 0, 1]
+[1010097.6350 us] ingress  CSW.bridging.interfaceRelay.selector  len=42 B
+      bt: inet::RelayInterfaceSelector::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketMultiplexer::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketFlowBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket
+[1010097.6350 us] enqueue  CSW.eth[3].macLayer.queue.queue[7]  len=64 B  PCP/TC=7  port queues before=[0, 0, 0, 0, 0, 0, 0, 0]
+      bt: inet::queueing::PacketQueue::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketClassifierBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::CompoundPacketQueueBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket
+[1010097.6350 us] dequeue  CSW.eth[3].macLayer.queue.queue[7]  port queues (incl. this frame)=[0, 0, 0, 0, 0, 0, 0, 1]
+[1010098.3110 us] ingress  Z3.ZSW.bridging.interfaceRelay.selector  len=42 B
+      bt: inet::RelayInterfaceSelector::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketMultiplexer::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketFlowBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket
+[1010098.3110 us] enqueue  Z3.ZSW.eth[6].queue.queue[7]  len=64 B  PCP/TC=7  port queues before=[0, 0, 0, 1, 0, 0, 0, 0]
+      bt: inet::queueing::PacketQueue::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketClassifierBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::CompoundPacketQueueBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket
+[1010108.2100 us] dequeue  Z3.ZSW.eth[6].queue.queue[7]  port queues (incl. this frame)=[0, 0, 0, 1, 0, 0, 0, 1]
+[1010108.2100 us] to-plca  Z3.ZSW.eth[6].plca  PLCA curID=5 local_nodeID=0
+[1010168.6185 us] rx       WINDOW3.eth[0].plca
+[1010168.6185 us] rx       TCU.eth[0].plca
+[1010168.6185 us] rx       APP.eth[0].plca
+[1010168.6185 us] rx       GEAR.eth[0].plca
+[1010168.6185 us] rx       OSS.eth[0].plca
+[1010171.4419 us] enqueue  APP.eth[0].queue  len=64 B  PCP/TC=-  port queues before=[]
+      bt: inet::queueing::PacketQueue::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::NetworkInterface::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::MessageDispatcher::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket
+[1010178.2185 us] dequeue  APP.eth[0].queue  port queues (incl. this frame)=[]
+[1010178.2185 us] to-plca  APP.eth[0].plca  PLCA curID=2 local_nodeID=3
+[1010249.4235 us] to-plca  APP.eth[0].plca  PLCA curID=3 local_nodeID=3
+[1010307.8285 us] rx       WINDOW3.eth[0].plca
+[1010307.8285 us] rx       TCU.eth[0].plca
+[1010307.8285 us] rx       GEAR.eth[0].plca
+[1010307.8285 us] rx       OSS.eth[0].plca
+[1010307.8310 us] rx       Z3.ZSW.eth[6].plca
+[1010307.8310 us] ingress  Z3.ZSW.bridging.interfaceRelay.selector  len=42 B
+      bt: inet::RelayInterfaceSelector::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketMultiplexer::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketFlowBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket
+[1010307.8310 us] enqueue  Z3.ZSW.eth[0].macLayer.queue.queue[7]  len=64 B  PCP/TC=7  port queues before=[0, 0, 0, 0, 0, 0, 0, 0]
+      bt: inet::queueing::PacketQueue::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketClassifierBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::CompoundPacketQueueBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket
+[1010307.8310 us] dequeue  Z3.ZSW.eth[0].macLayer.queue.queue[7]  port queues (incl. this frame)=[0, 0, 0, 0, 0, 0, 0, 1]
+[1010308.5070 us] ingress  CSW.bridging.interfaceRelay.selector  len=42 B
+      bt: inet::RelayInterfaceSelector::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketMultiplexer::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketFlowBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket
+[1010308.5070 us] enqueue  CSW.eth[1].macLayer.queue.queue[7]  len=64 B  PCP/TC=7  port queues before=[0, 0, 0, 0, 0, 0, 0, 0]
+      bt: inet::queueing::PacketQueue::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketClassifierBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::CompoundPacketQueueBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket
+[1010308.5070 us] dequeue  CSW.eth[1].macLayer.queue.queue[7]  port queues (incl. this frame)=[0, 0, 0, 0, 0, 0, 0, 1]
+[1010309.1830 us] ingress  Z1.ZSW.bridging.interfaceRelay.selector  len=42 B
+      bt: inet::RelayInterfaceSelector::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketMultiplexer::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketFlowBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket
+[1010309.1830 us] enqueue  Z1.ZSW.eth[5].queue.queue[7]  len=64 B  PCP/TC=7  port queues before=[0, 0, 0, 2, 0, 0, 0, 0]
+      bt: inet::queueing::PacketQueue::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket <- inet::queueing::PacketClassifierBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::CompoundPacketQueueBase::pushPacket <- inet::queueing::PassivePacketSinkRef::pushPacket <- inet::queueing::PacketProcessorBase::pushOrSendPacket
+[1010317.7760 us] dequeue  Z1.ZSW.eth[5].queue.queue[7]  port queues (incl. this frame)=[0, 0, 0, 2, 0, 0, 0, 1]
+[1010317.7760 us] to-plca  Z1.ZSW.eth[5].plca  PLCA curID=2 local_nodeID=0
+[1010400.5920 us] to-plca  Z1.ZSW.eth[5].plca  PLCA curID=0 local_nodeID=0
+[1010458.9995 us] rx       WINDOW1.eth[0].plca
+[1010458.9995 us] rx       ECM.eth[0].plca
+[1010458.9995 us] rx       ETC.eth[0].plca
+[1010458.9995 us] rx       MAP.eth[0].plca
+[1010458.9995 us] rx       LAMBDA.eth[0].plca

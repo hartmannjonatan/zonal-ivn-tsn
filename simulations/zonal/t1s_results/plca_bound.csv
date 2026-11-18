@@ -1,0 +1,20 @@
+scenario,mode,plca_wait_us,floor_us,bound_us,observed_max_us,within_bound,radar_mac_logical_collisions,radar_packets
+"Phase sweep, 3 nodes (radar offset 45–130 µs)",standard,72.6,126.96,169.37,154.54,True,4101,36000
+"Phase sweep, 3 nodes (radar offset 45–130 µs)",priorityTo,72.6,126.96,169.37,153.156,True,3707,36000
+"Phase sweep, 3 nodes (radar offset 45–130 µs)",multiTo,75.8,126.96,172.57,152.948,True,1708,36000
+"sensor nodes, 5 per segment",standard,207.0,126.96,303.77,224.956,True,2000,12000
+"sensor nodes, 8 per segment",standard,408.6,126.96,505.37,224.956,True,4548,12000
+"sensor nodes, 5 per segment",priorityTo,72.6,126.96,169.37,151.98,True,1312,12000
+"sensor nodes, 8 per segment",priorityTo,72.6,126.96,169.37,146.636,True,268,12000
+"sensor nodes, 5 per segment",multiTo,139.8,126.96,236.57,139.852,True,0,12000
+"sensor nodes, 8 per segment",multiTo,139.8,126.96,236.57,231.668,True,2157,12000
+"heavy nodes, 5 per segment",standard,2539.8,1293.36,2636.57,1382.62,True,5200,12000
+"heavy nodes, 8 per segment",standard,6240.6,1293.36,6337.37,4268.676,True,12004,12000
+"heavy nodes, 5 per segment",priorityTo,1237.4,1293.36,1334.17,1297.932,True,906,12000
+"heavy nodes, 8 per segment",priorityTo,1237.4,1293.36,1334.17,1612.692,False,3379,12000
+"heavy nodes, 5 per segment",multiTo,1306.2,1293.36,1402.97,1321.772,True,1128,12000
+"heavy nodes, 8 per segment",multiTo,1306.2,1293.36,1402.97,2497.284,False,4866,12000
+"heavyfrag nodes, 5 per segment",standard,576.6,311.76,673.37,646.296,True,5815,12000
+"heavyfrag nodes, 8 per segment",standard,1332.6,311.76,1429.37,801.959,True,12000,12000
+"heavyfrag nodes, 5 per segment",priorityTo,255.8,311.76,352.57,333.9,True,370,12000
+"heavyfrag nodes, 8 per segment",priorityTo,255.8,311.76,352.57,337.305,True,573,12000

@@ -1,0 +1,21 @@
+profile,flow,description,metric,path,period_us,samples,min_us,mean_us,max_us,pdv_us,std_us,interarrival_jitter_us,over_ref
+NOMINAL,PT01,TSC1 torque request TCU->ECM + response,round-trip,cross-bus,10000.0,615,277.907,463.342,711.164,433.257,131.106,415.594,0
+NOMINAL,PT02,Pedal position read ECM->APP + response,round-trip,cross-bus,10000.0,615,288.58,444.851,521.406,232.827,37.681,101.646,0
+NOMINAL,PT03,EEC1 engine speed/torque ECM->TCU,one-way,cross-bus,10000.0,615,120.068,167.626,216.904,96.836,22.022,66.326,0
+NOMINAL,PT04,ETC1 transmission status TCU->ECM,one-way,cross-bus,10000.0,615,137.043,242.561,377.07,240.027,68.494,72.422,0
+NOMINAL,PT05,Throttle command ECM->ETC,one-way,same bus,1000.0,6150,58.47,127.628,360.544,302.073,38.064,206.485,0
+NOMINAL,PT06,Throttle position ETC->ECM,one-way,same bus,1000.0,6150,58.409,84.847,205.392,146.983,24.462,136.735,0
+NOMINAL,PT07,Manifold pressure MAP->ECM,one-way,same bus,1000.0,6150,58.407,79.695,268.442,210.036,23.498,130.074,0
+NOMINAL,PT08,Lambda LAMBDA->ECM,one-way,same bus,10000.0,615,59.593,120.59,198.457,138.864,33.181,95.644,0
+NOMINAL,PT09,Gear selector GEAR->TCU,one-way,same bus,10000.0,615,58.412,74.488,117.56,59.148,11.143,37.21,0
+NOMINAL,PT10,Output shaft speed OSS->TCU,one-way,same bus,10000.0,615,58.442,92.465,143.858,85.417,24.341,81.592,0
+STRESS,PT01,TSC1 torque request TCU->ECM + response,round-trip,cross-bus,1000.0,6151,277.014,426.264,624.632,347.619,70.618,286.872,0
+STRESS,PT02,Pedal position read ECM->APP + response,round-trip,cross-bus,1000.0,6150,278.681,470.827,796.376,517.695,81.456,427.735,0
+STRESS,PT03,EEC1 engine speed/torque ECM->TCU,one-way,cross-bus,10000.0,615,127.547,341.982,452.795,325.249,64.277,207.78,0
+STRESS,PT04,ETC1 transmission status TCU->ECM,one-way,cross-bus,10000.0,615,133.062,266.266,353.01,219.949,36.767,139.994,0
+STRESS,PT05,Throttle command ECM->ETC,one-way,same bus,1000.0,6150,58.409,138.834,233.73,175.32,33.559,151.918,0
+STRESS,PT06,Throttle position ETC->ECM,one-way,same bus,1000.0,6150,58.443,126.858,241.746,183.303,43.579,145.7,0
+STRESS,PT07,Manifold pressure MAP->ECM,one-way,same bus,1000.0,6150,58.405,105.976,275.938,217.533,56.631,209.293,0
+STRESS,PT08,Lambda LAMBDA->ECM,one-way,same bus,10000.0,615,59.082,136.711,204.341,145.259,30.952,103.929,0
+STRESS,PT09,Gear selector GEAR->TCU,one-way,same bus,10000.0,615,58.594,102.525,175.375,116.781,37.088,113.452,0
+STRESS,PT10,Output shaft speed OSS->TCU,one-way,same bus,10000.0,615,58.829,133.411,204.806,145.976,35.893,132.955,0

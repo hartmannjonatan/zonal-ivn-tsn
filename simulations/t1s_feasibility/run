@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+: "${INET_ROOT:?Set INET_ROOT to the INET directory}"
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+exec ../../src/zonal-ivn-tsn -n "..:../../src:../../tests:$INET_ROOT/src" -f omnetpp.ini "$@"

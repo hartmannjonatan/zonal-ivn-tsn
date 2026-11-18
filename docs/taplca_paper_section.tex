@@ -1,0 +1,106 @@
+% TA-PLCA: draft text for the IV 2027 paper (paste into Overleaf; numbers from docs/taplca.md).
+% Figures: simulations/zonal/t1s_results/figures/fig15_taplca_variation.pdf, fig16_taplca_rtt_ecdf.pdf,
+% fig17_taplca_load.pdf (load sweep, pending). Items marked \todo still need a decision or data.
+
+\subsection{Time-Anchored PLCA}
+In standard PLCA, the coordinator emits a BEACON as soon as the last transmit
+opportunity (TO) of a cycle ends. The cycle phase therefore drifts with the traffic,
+and the time a frame waits for its TO is not known in advance, even when the
+release times are synchronized by gPTP. TA-PLCA changes only the coordinator: at the
+end of a cycle it holds the BEACON until the next anchor instant
+$t_k = k\,T_A + \varphi_z$ of its gPTP-synchronized clock. Every cycle, and with it
+every TO, then starts at a known time, and the PCP~7 release offsets are chosen so
+that each frame is queued just before the cycle it is planned for. Followers run
+standard PLCA. While they wait for the BEACON they keep counting TOs, and with
+$T_A = 250\,\mu$s the hold stays below the 255-TO limit of the LAN865x
+($\approx 816\,\mu$s). If a cycle overruns its anchor, the coordinator sends the
+BEACON at once and rejoins the grid at the next anchor (catch-up).
+
+\paragraph{Both directions of a request/response}
+A request from segment A to segment B is delivered in the TO~0 of B's coordinator,
+and its response in the TO~0 of A's. With a common anchor phase, one of the two
+directions would wait up to a full $T_A$. TA-PLCA therefore uses a per-segment
+anchor phase $\varphi_z$ and plans, for every cross-segment frame, the round in
+which it is sent on its own segment and the round of the far segment in which it is
+delivered. The plan keeps at least $\sim$50\,$\mu$s between the arrival of each
+cross-segment frame at the far coordinator and the next far anchor, which absorbs the
+non-preemptive blocking in the backbone. The lower-priority (TC3) gate on the coordinator
+port opens only at the start of non-critical rounds, for one frame, so no cycle
+overruns into a critical round. With $T_A = 250\,\mu$s, $\varphi_{Z1}=0$ and
+$\varphi_{Z3} = 40\,\mu$s, both request/response pairs of the powertrain scenario
+are served in fixed rounds. Anchoring is only needed where critical traffic is
+planned. In the other milliseconds the anchor list becomes a 25\,$\mu$s grid, so the
+coordinator behaves almost like standard PLCA and gives the lower classes the
+idle time back.
+
+\paragraph{Choice of $T_A$}
+$T_A$ is bounded from above by the busiest node, which gets one TO per cycle. With
+$T_A = 500$ or $1000\,\mu$s, the ECM ($\approx$3 frames/ms in stress) builds an
+unbounded queue. It is bounded from below by the cycle length: a 64-B frame TO takes
+$\approx$80\,$\mu$s, so a $250\,\mu$s round carries at most two frames, or three if the
+following round is not critical. A fine grid ($T_A = 25$--$100\,\mu$s) only re-anchors the
+idle phase and gave no improvement over the gPTP schedule. The jitter comes from which
+frames share a cycle, which is exactly what the round plan fixes.
+
+\subsection{Evaluation}
+All configurations use the dual-bus powertrain scenario with the server processing time measured on
+the Raspberry Pi~5 real-time gateway (truncated normal, 2.9\,$\mu$s mean,
+$\approx$4.0\,$\mu$s P99), which is included in every round-trip time. We compare:
+unscheduled releases (random phases); the step-2 schedule with TAS (TC3 closed
+400\,$\mu$s per ms) under ideal clocks and under gPTP-synchronized drifting clocks
+(U($-$50,\,50)\,ppm, Sync 125\,ms); and TA-PLCA on the same gPTP clocks.
+Each configuration is run with 10 seeds $\times$ 30\,s (1\,s warm-up).
+
+\paragraph{Delay variation (H-a)}
+Fig.~\ref{fig:taplca-var} shows the delay variation (max$-$min) of the four cross-bus
+PCP~7 flows. TA-PLCA reduces it to 0.08--0.15\,$\mu$s, against 102--192\,$\mu$s for the
+ideal-clock schedule and 197--503\,$\mu$s for the gPTP schedule. That is three orders of
+magnitude, and it holds with drifting gPTP clocks. With ideal clocks TA-PLCA is
+exactly periodic (0.00\,$\mu$s), so the residual comes from the clock error and the random
+processing time. (H-a) holds for all four flows.
+
+\paragraph{Bound (H-b)}
+TA-PLCA trades mean latency for a known bound (Fig.~\ref{fig:taplca-ecdf}). The
+round-trip times are fixed at 835\,$\mu$s (PT01) and 903\,$\mu$s (PT02), processing
+included, so (H-b) holds with no sample above 1\,ms in $3\times 10^5$. The schedules
+have lower means (439--465\,$\mu$s) and tails up to 848\,$\mu$s, so they leave more mean
+slack but no guaranteed slack. With TA-PLCA, the software budget left is known exactly
+(97--165\,$\mu$s) and, in this plan, smaller than the 403\,$\mu$s P99 of the vehicle
+middleware path. A plan with one round less per direction (PT01 585\,$\mu$s, PT02
+643\,$\mu$s) exists, but it has thinner anchor margins and slips by one round in about 1\,\% of the
+cycles. \todo{choose which plan the paper reports, or report both.}
+
+\paragraph{Cost (H-c)}
+With anchoring restricted to the critical milliseconds, the coordinators hold the BEACON
+30\,\% (Z1) and 38\,\% (Z3) of the time at nominal load, and the TC3 (window) traffic loses
+no frames ($10\times 30$\,s), as with the schedules. Anchoring every cycle instead costs
+10\,\% of the TC3 frames. Under stress, where the Z1 bus is about 86\,\% busy with 64-B
+frames, the PCP~7 flows stay deterministic (variation $\le 0.11\,\mu$s, RTT 835/903\,$\mu$s),
+but TC3 loses about 91\,\% of its frames. The load sweep (Fig.~\ref{fig:taplca-load}; PT01/PT02 every 10, 5, 2 and 1\,ms, 3 seeds $\times$ 30\,s at 5 and 2\,ms)
+shows that the PCP~7 determinism does not depend on load (worst variation 0.10--0.15\,$\mu$s at every point,
+against 503--571\,$\mu$s for the gPTP schedule), while the TC3 loss grows with the share of critical rounds:
+0\,\%, 9\,\%, 86\,\% and 91\,\%. At 2 and 1\,ms every millisecond carries critical traffic, so there is
+no idle time left to give back.
+TA-PLCA is therefore a mechanism for segments with idle capacity, and the claim is bounded
+by load.
+
+\paragraph{Limitations}
+TA-PLCA assumes that time inside each segment is the coordinator's time. The round plan
+was found by a sweep over $\varphi_{Z3}$ and the round of each flow, not by a solver.
+The window sources run on simulation time, so a guard round before each critical ms is
+needed against their phase drift. Compatibility with standard followers that wait for a
+deferred BEACON must still be confirmed against the published Clause~148 text and on a
+LAN865x.
+
+% \begin{figure}[t]\centering
+% \includegraphics[width=\columnwidth]{fig15_taplca_variation.pdf}
+% \caption{Delay variation (max$-$min) of the cross-bus PCP~7 flows, nominal load, 10 seeds $\times$ 30\,s (log scale).}
+% \label{fig:taplca-var}\end{figure}
+% \begin{figure}[t]\centering
+% \includegraphics[width=\columnwidth]{fig17_taplca_load.pdf}
+% \caption{Load sweep: worst delay variation of the cross-bus PCP~7 flows (left, log scale) and TC3 frame loss (right).}
+% \label{fig:taplca-load}\end{figure}
+% \begin{figure}[t]\centering
+% \includegraphics[width=\columnwidth]{fig16_taplca_rtt_ecdf.pdf}
+% \caption{ECDF of the request/response round-trip times, processing included.}
+% \label{fig:taplca-ecdf}\end{figure}
