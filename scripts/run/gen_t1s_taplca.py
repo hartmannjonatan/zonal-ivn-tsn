@@ -392,6 +392,15 @@ def ini():
         L += section(f"TA_HEAVY_{v}_EVC2_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s",
                      f"TA-PLCA v2 load plan (10 ms chains), gPTP, heavier buses ({what})",
                      f"TA_HEAVY_{v}_EVC2_30s", load_lines(10, col, True, l1) + extra)
+    # Slow server (403 us, P99 of the vehicle middleware path): the reply cycle R must cover the processing,
+    # R = 403 + 150 us; PT01 starts at 300 us so that its reply cycle (t01 + 106 + R) ends before the Z1 locals.
+    _, srv = app_index()
+    proc = [f"*.{n}.app[{k}].processingTime = 403us" for n, k in srv.values()]
+    for gptp in (True, False):
+        tag = "TA_NOMINAL_EVC2_R553_PROC403" + ("" if gptp else "_IDEAL")
+        L += section(f"{tag}_30s", "T1S_PT_NOMINAL_SYNCTAS4_GPTP_30s" if gptp else "T1S_PT_NOMINAL_SYNCTAS4_30s",
+                     f"TA-PLCA v2 load plan, R = 553 us for a 403 us server, {'gPTP' if gptp else 'ideal'} clocks",
+                     f"{tag}_30s", proc + load_lines(10, col, gptp, R=553, t01=300))   # first match wins: proc first
     # v2 (G35/R150) robustness, ablation and time-error configs
     _, server_ = app_index()
     v2 = "TA_NOMINAL_EVC_G35_R150"
@@ -534,19 +543,20 @@ LOCALS2_US, EVT_CLEAR_US = 170, 20   # two-frame local cycle; clearance around a
 CYCLE_US, LOCALS_US, GATE_LEAD_US = 100, 230, 105   # lead: window cycle + margin (+ G + GUARD_EVT)
 
 
-def load_plan(per, G=35, R=150, locals1ms=False):
+def load_plan(per, G=35, R=150, locals1ms=False, t01=400):
     FE = EVT_FRAME_END_CAL
     ev = {1: [], 3: []}                      # (anchor, modelled cycle length)
+    hold = {1: [], 3: []}                    # (from, to): no grid anchor, so the server's reply waits for r1
     rel = {}
     for m in range(0, 10, per):
         b = m * 1000
         # PT02: ECM (Z1, id 2) -> APP (Z3, id 3) -> ECM
         d1 = round(b + FE[2] + G); r1 = d1 + R; d2 = round(r1 + FE[3] + G)
-        ev[1] += [(b, CYCLE_US), (d2, CYCLE_US)]; ev[3] += [(d1, CYCLE_US), (r1, CYCLE_US)]
+        ev[1] += [(b, CYCLE_US), (d2, CYCLE_US)]; ev[3] += [(d1, CYCLE_US), (r1, CYCLE_US)]; hold[3].append((d1, r1))
         # PT01: TCU (Z3, id 2) -> ECM (Z1, id 2) -> TCU
-        t = b + 400; d1 = round(t + FE[2] + G); r1 = d1 + R; d2 = round(r1 + FE[2] + G)
-        ev[3] += [(t, CYCLE_US), (d2, CYCLE_US)]; ev[1] += [(d1, CYCLE_US), (r1, CYCLE_US)]
-    rel["PT02"], rel["PT01"] = -GUARD_US, 400 - GUARD_US
+        t = b + t01; d1 = round(t + FE[2] + G); r1 = d1 + R; d2 = round(r1 + FE[2] + G)
+        ev[3] += [(t, CYCLE_US), (d2, CYCLE_US)]; ev[1] += [(d1, CYCLE_US), (r1, CYCLE_US)]; hold[1].append((d1, r1))
+    rel["PT02"], rel["PT01"] = -GUARD_US, t01 - GUARD_US
     for m in range(10):                      # Z1 local 1 ms loop: PT05, PT06, PT07 in one cycle
         ev[1].append((m * 1000 + 100, LOCALS_US))
     rel["PT05"] = rel["PT06"] = rel["PT07"] = 100 - GUARD_US
@@ -569,8 +579,12 @@ def load_plan(per, G=35, R=150, locals1ms=False):
     for z in (1, 3):
         E = sorted(set(ev[z]))
         wrap = E + [(e + 10000, l) for e, l in E] + [(e - 10000, l) for e, l in E]
+        # no grid anchor between a delivery and the server's reply cycle either: with a slow server (R > 150 us)
+        # a grid cycle would otherwise carry the reply as soon as it is ready (exact only for a constant time)
+        hw = [(a + k, b_ + k) for a, b_ in hold[z] for k in (-10000, 0, 10000)]
         grid = {t for t in range(0, 10000, FINE_FILL_US)
-                if all(not (e - G - GUARD_EVT < t <= e) and not (e < t < e + l) for e, l in wrap)}
+                if all(not (e - G - GUARD_EVT < t <= e) and not (e < t < e + l) for e, l in wrap)
+                and all(not (a < t < b_) for a, b_ in hw)}
         anchors[z] = sorted(grid | {e % 10000 for e, _ in E})
         # A window frame dequeued just before the gate closes keeps its cycle busy for ~CYCLE_US. That
         # cycle must end before the exclusion zone (e - G - GUARD_EVT, e] of the next planned anchor: a
@@ -578,7 +592,10 @@ def load_plan(per, G=35, R=150, locals1ms=False):
         # so the planned frame (already at the coordinator, or just released) leaves in an unplanned
         # cycle and the latency depends on the window backlog (PT01 RTT 409 vs 437 us, PT03 +134 us).
         lead = GATE_LEAD_US + G + GUARD_EVT
-        closed = sorted((max(e - lead, -10000), e + l) for e, l in wrap)
+        # and closed while the BEACON is held between a delivery and the reply cycle: a window frame
+        # dequeued there waits for the next cycle, which is the planned one (it took the TO 0 of the
+        # R = 553 us reply cycle and pushed the reply one cycle later)
+        closed = sorted([(max(e - lead, -10000), e + l) for e, l in wrap] + [(max(a, -10000), b_) for a, b_ in hw])
         open_iv, cur = [], 0
         for a, b_ in closed:
             if b_ <= cur:
@@ -612,8 +629,8 @@ def free_offset(events, l, step=5):
     raise ValueError(f"no free 1 ms offset for a {l} us cycle")
 
 
-def load_lines(per, col, gptp=True, locals1ms=False):
-    anchors, rel, gates = load_plan(per, locals1ms=locals1ms)
+def load_lines(per, col, gptp=True, locals1ms=False, R=150, t01=400):
+    anchors, rel, gates = load_plan(per, R=R, locals1ms=locals1ms, t01=t01)
     sender, _ = app_index()
     L = processing_lines() + ['**.plca.typename = "PrioPlca"', '**.plca.mode = "anchored"']
     for z, sw in COORD.items():
