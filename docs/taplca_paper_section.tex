@@ -61,10 +61,11 @@ processing included (Fig.~\ref{fig:taplca-ecdf}). These are close to the schedul
 (438--465\,$\mu$s), whose tails reach 848\,$\mu$s, so the bound comes at no cost in mean
 latency. The one-way flows PT03/PT04 take 181.41\,$\mu$s, against 227--297\,$\mu$s on
 average with the schedules. With the 403\,$\mu$s P99 of the vehicle middleware path as
-server time, the plan's reply cycle ($R = 150\,\mu$s) is missed, so the RTT is no longer
-constant, but it stays below 1\,ms (max 964\,$\mu$s PT01, 935\,$\mu$s PT02). With the gPTP
-schedule, every RTT sample in this case exceeds 1\,ms (max 1129\,$\mu$s). A plan with
-$R \geq 403 + 150\,\mu$s would make this case deterministic as well. \todo{run it, or state it as future work.}
+server time, the gPTP schedule exceeds 1\,ms on every RTT sample (max 1129\,$\mu$s). TA-PLCA
+with the same plan ($R = 150\,\mu$s) misses the reply cycle but stays below 1\,ms (max
+964\,$\mu$s). With the reply cycle sized for the server ($R = 553\,\mu$s), the round trips are
+constant again at 840.41 and 843.41\,$\mu$s (variation $\leq 0.14\,\mu$s), leaving 157\,$\mu$s
+below 1\,ms, at the cost of a longer BEACON hold (17\,\% on Z1).
 
 \paragraph{Cost (H-c)}
 At nominal load the coordinators hold the BEACON 7\,\% (Z1) and 10\,\% (Z3) of the time,

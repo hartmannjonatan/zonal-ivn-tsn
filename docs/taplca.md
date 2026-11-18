@@ -338,7 +338,7 @@ Baseline gPTP schedule at the same loads (10 seeds): worst variation 503 µs (no
 | gPTP schedule, processing 403 µs (runs 3–9) | 1051, max 1129 | 1031, max 1068 | 235 / 232 | 100 % of the RTT samples > 1 ms |
 | **no window gate (NOGATE)** | 689 (551) | 737 (715), 3131 samples > 1 ms | 348 (285) / 274 (319) | the gate is required |
 
-With 20–50 µs of server processing, PT02 stays deterministic but at 649.41 µs: the APP reply no longer makes the planned cycle and leaves one planned slot later (+209 µs). PT01 (server ECM) is not affected. A plan with R chosen for the server time (R ≥ processing + one cycle) would bring it back to 440 µs. Not tuned yet.
+With 20–50 µs of server processing, PT02 stays deterministic but at 649.41 µs: the APP reply no longer makes the planned cycle and leaves one planned slot later (+209 µs). PT01 (server ECM) is not affected. A plan with R chosen for the server time (R ≥ processing + one cycle) would bring it back to 440 µs; section 6.18 does this for the 403 µs server.
 
 **S2, coordinator time error (Z3 coordinator clock offset, 5 seeds):**
 
@@ -394,6 +394,23 @@ The notebook baselines were not available here, so they were rerun with the curr
 | **TA-PLCA v2 (`TA_NOMINAL_EVC_G35_R150_30s`)** | **437.41 (0.04)** | **440.41 (0.11)** | **181.41 (0.10)** | **181.41 (0.12)** |
 
 None of the baselines loses window frames at these loads. TA-PLCA v2 has a mean RTT close to the schedules' mean (437–440 vs 438–465 µs) but a variation 3–4 orders of magnitude smaller, and a lower one-way latency for PT03/PT04 (181 vs 227–297 µs).
+
+## 6.18 Slow server: R = 553 µs for the 403 µs middleware path (2026-11-18)
+
+Config `TA_NOMINAL_EVC2_R553_PROC403[_IDEAL]_30s` (`load_plan(10, R=553, t01=300)`, server processing 403 µs constant). R = 403 + 150 µs; PT01 starts at 300 µs so that its reply cycle (t01 + 106 + R = 959 µs) ends before the Z1 local cycle at 1100 µs.
+
+Two planner rules were needed (found with gdb on the Z3 bus):
+1. **No grid anchor between a delivery and its reply cycle.** Otherwise a grid cycle carries the reply as soon as it is ready (737 / 745 µs, exact only because the processing time is constant).
+2. **Window gate closed in that interval too.** During the long BEACON hold there is no cycle, so a window frame dequeued while the gate was open waited at the coordinator and took the TO 0 of the planned reply cycle, which pushed the reply one cycle later (PT01 1018 µs). Both rules are no-ops for R = 150 µs (all earlier configs unchanged).
+
+| config | seeds × 30 s | PT01 RTT | PT02 RTT | PT03 / PT04 | window lost | BEACON hold Z1 / Z3 |
+|---|---|---|---|---|---|---|
+| TA-PLCA v2, R = 553, gPTP | 10 | **840.41 (0.08)** | **843.41 (0.14)** | 181.41 (0.10 / 0.10) | 0 | 17 % / 10 % |
+| TA-PLCA v2, R = 553, ideal clocks | 3 | 840.41 (0.00) | 843.41 (0.00) | 181.41 (0.00) | 0 | 17 % / 10 % |
+| TA-PLCA v2, R = 150 (6.15) | 7 | 963.9, max 964.2 (239) | 909.7, max 935.0 (204) | 181.41 | 0 | |
+| gPTP schedule (6.15) | 7 | 1051, max 1129 | 1031, max 1068 | 235 / 232 | 0 | |
+
+With R sized for the server, the 403 µs case is deterministic again and leaves ~157 µs below 1 ms. The cost is BEACON hold (17 % vs 7 % on Z1), because the coordinator idles while the server works.
 
 ## 7. Next steps
 
