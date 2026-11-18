@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-"""Paper figures (TA-PLCA = plan 2, phi 40 us, anchored rounds only in the critical ms; at 2 and 1 ms every ms
-is critical, so the plain plan-2 configs are used there)
+"""Paper figures (TA-PLCA = v2 event anchors, G = 35 us, R = 150 us; load sweep with the generic planner)
 
 Paper figures for TA-PLCA (10 pt sans-serif, PDF + PNG) from results/t1s/taplca/.
 
 fig15_taplca_variation : delay variation (max - min) of the four cross-bus PCP 7 flows,
-                         NOMINAL 10 seeds x 30 s, random / ideal-clock / gPTP schedule / TA-PLCA plan 2
+                         NOMINAL 10 seeds x 30 s, random / ideal-clock / gPTP schedule / TA-PLCA v2
 fig16_taplca_rtt_ecdf  : ECDF of the PT01 and PT02 round-trip times (processing included), same configs
 fig17_taplca_load      : load sweep (PT01/PT02 period 10/5/2/1 ms): max-min variation and window loss,
-                         gPTP schedule vs TA-PLCA plan 2 (written only when the load-sweep results exist)
+                         gPTP schedule vs TA-PLCA v2 (written only when the load-sweep results exist)
 
 Output: simulations/zonal/t1s_results/figures/.
 """
@@ -97,10 +96,11 @@ def main():
     plt.close(fig)
 
     # fig17: load sweep
-    loads = [(10, "TA_NOMINAL_GPTP_30s", "TA_NOMINAL_TAPLCA250_P2_PHI40_FINE_30s"),
-             (5, "TA_LOAD5_GPTP_30s", "TA_LOAD5_TAPLCA250_P2_PHI40_FINE_30s"),
-             (2, "TA_LOAD2_GPTP_30s", "TA_LOAD2_TAPLCA250_P2_PHI40_30s"),
-             (1, "TA_STRESS_GPTP_30s", "TA_STRESS_TAPLCA250_P2_PHI40_30s")]
+    # TA-PLCA v2: generic event planner (load_plan) at every load point
+    loads = [(10, "TA_NOMINAL_GPTP_30s", "TA_LOAD10_EVC2_30s"),
+             (5, "TA_LOAD5_GPTP_30s", "TA_LOAD5_EVC2_30s"),
+             (2, "TA_LOAD2_GPTP_30s", "TA_LOAD2_EVC2_30s"),
+             (1, "TA_STRESS_GPTP_30s", "TA_LOAD1_EVC2_30s")]
     if not all((RES / c).exists() and list((RES / c).glob("*.sca")) for _, a, b in loads for c in (a, b)):
         print("load sweep incomplete: fig17 skipped")
         return
